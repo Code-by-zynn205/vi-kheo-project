@@ -1,6 +1,6 @@
 # 01. Project Intake & Cơ cấu Nhóm Scrum
 
-> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Trạng thái:** ✅ · **Phụ trách:** Dương Văn Hoan (PO), Trần Ninh Nhật Tân (SM) · **Cập nhật:** 14/11/2026
+> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Trạng thái:** Xong · **Phụ trách:** Dương Văn Hoan (PO), Trần Ninh Nhật Tân (SM) · **Cập nhật:** 14/11/2026
 
 ## 1. Thông tin chung
 
@@ -45,11 +45,13 @@
 
 PO phụ trách skill `product-discovery`; SM phụ trách skill `scrum-sprint`.
 
+*Lưu ý cách gọi tên:* hai persona trùng tên với thành viên (Minh, Vy). Trong tài liệu luôn viết **"Persona Minh"**, **"Persona Vy"** khi nói về nhân vật đại diện.
+
 ## 4. Công cụ
 
 | Việc | Công cụ |
 | :--- | :--- |
-| Quản lý Sprint | Trello (cột: Backlog · Sprint · Đang làm · Review · Done) |
+| Quản lý Sprint | Trello – chia theo Sprint, mỗi thẻ có checklist Definition of Done |
 | Tài liệu, Skill AI, mã nguồn | GitHub |
 | Khảo sát | Google Form + Google Sheets |
 | Giao diện | AI sinh trực tiếp từ `skills/design-system` – **không dùng Figma** |

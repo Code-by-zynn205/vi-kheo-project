@@ -9,10 +9,10 @@ description: Hệ thống thiết kế (màu, chữ, khoảng cách, component) 
 
 | Giai đoạn | Việc chính | Trạng thái |
 | :--- | :--- | :---: |
-| **GĐ1 – Sprint 0** | Chốt nguyên tắc, token, component, đặc tả 4 màn hình | ✅ |
-| **GĐ2 – Sprint 1** | Sinh bản HTML `HomeScreen` để test giả định A3 · `AddExpenseScreen` cho US01 | 🔄 |
-| **GĐ2 – Sprint 2** | `BudgetScreen` · trạng thái màu của `DailyAllowanceCard` | ⬜ |
-| **GĐ2 – Sprint 3** | `ReportScreen` · sửa/xoá giao dịch | ⬜ |
+| **GĐ1 – Sprint 0** (07/11 – 14/11) | Chốt nguyên tắc, token, component, đặc tả 4 màn hình | Xong |
+| **GĐ2 – Sprint 1** (15/11 – 23/11) | Sinh bản HTML `HomeScreen` để test giả định A3 · `AddExpenseScreen` cho US01 | Đang làm |
+| **GĐ2 – Sprint 2** (24/11 – 03/12) | `BudgetScreen` · trạng thái màu của `DailyAllowanceCard` | Chưa làm |
+| **GĐ2 – Sprint 3** (04/12 – 12/12) | `ReportScreen` · sửa/xoá giao dịch | Chưa làm |
 
 - **Phụ trách chính:** Lê Thị Nhật Vy, Phạm Viết Hưng
 - **Review:** Lê Thị Phát, Nguyễn Đức Minh Nghĩa (người code giao diện)
@@ -24,7 +24,7 @@ description: Hệ thống thiết kế (màu, chữ, khoảng cách, component) 
 **Không dùng khi:** viết logic tính tiền, lưu dữ liệu (→ `budget-logic`).
 
 ## 3. Đầu vào
-- `docs/discovery/03-personas.md` (Minh, Vy – dùng một tay, ngại thao tác nhiều)
+- `docs/discovery/03-personas.md` (Persona Minh, Persona Vy – dùng một tay, ngại thao tác nhiều)
 - `docs/discovery/06-journey-features.md` (User Story + tiêu chí chấp nhận)
 
 ## 4. Nguyên tắc thiết kế
@@ -34,6 +34,7 @@ description: Hệ thống thiết kế (màu, chữ, khoảng cách, component) 
 | **Ghi nhanh** | Từ màn hình chính đến lúc lưu: tối đa **3 thao tác** (bấm `+ Ghi khoản chi` → gõ số tiền → bấm `Lưu`; danh mục mặc định `Ăn uống`). Mục tiêu < 5 giây. | HMW1, P2 |
 | **Một con số** | Màn hình chính chỉ có 1 số to: *Hôm nay còn được tiêu*. Không biểu đồ trên màn hình chính. | HMW2, P3 |
 | **Một tay** | Nút chính, bàn phím số ở nửa dưới màn hình. Vùng chạm tối thiểu **48 × 48 px**. | Persona Minh |
+| **Không dùng emoji/icon màu trong nội dung chữ** | Trạng thái thể hiện bằng màu token và chữ, không dùng emoji. | Đồng bộ toàn dự án |
 | **Không quảng cáo, không đăng nhập** | Mở app là dùng được ngay. | P2, khảo sát lý do bỏ app |
 
 ## 5. Design Tokens

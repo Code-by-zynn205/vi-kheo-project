@@ -11,20 +11,20 @@ Nhóm **Messi** – 10 thành viên: PO Dương Văn Hoan · SM Trần Ninh Nh�
 
 | Giai đoạn | Sprint | Thời gian | Mục tiêu | Trạng thái |
 | :--- | :--- | :--- | :--- | :---: |
-| **GĐ1 – Discovery** | Sprint 0 | 07/11 – 14/11/2026 | Vấn đề, người dùng, thị trường, tầm nhìn, Backlog, bộ Skill AI | ✅ Xong (còn mục 🟡) |
-| **GĐ2 – Xây dựng MVP** | Sprint 1 | 14/11 – 23/11/2026 | US01: ghi khoản chi + 6 danh mục + lưu trên máy | 🔄 Bắt đầu |
-| | Sprint 2 | 24/11 – 03/12/2026 | US02, US03, US07: ngân sách tháng, khoản thu, "Hôm nay còn được tiêu" | ⬜ |
-| | Sprint 3 | 04/12 – 12/12/2026 | US04, US05, US06: báo cáo, nhắc nhở, sửa/xoá | ⬜ |
-| **GĐ3 – Kiểm chứng & Demo** | Cuối Sprint 3 | → 13/12/2026 | 5–20 SV dùng thử, đo giả định A4, báo cáo tổng kết | ⬜ |
+| **GĐ1 – Discovery** | Sprint 0 | 07/11 – 14/11/2026 | Vấn đề, người dùng, thị trường, tầm nhìn, Backlog, bộ Skill AI | Xong (còn mục Cần bổ sung) |
+| **GĐ2 – Xây dựng MVP** | Sprint 1 | 15/11 – 23/11/2026 | US01: ghi khoản chi + 6 danh mục + lưu trên máy | Đang làm |
+| | Sprint 2 | 24/11 – 03/12/2026 | US02, US03, US07: ngân sách tháng, khoản thu, "Hôm nay còn được tiêu"; bản build dùng thử | Chưa làm |
+| | Sprint 3 | 04/12 – 12/12/2026 | US04, US05, US06: báo cáo, nhắc nhở, sửa/xoá | Chưa làm |
+| **GĐ3 – Kiểm chứng & Demo** | Trong Sprint 3 | 04/12 – 13/12/2026 | SV dùng thử 7 ngày (04/12 – 10/12), đo giả định A4, demo, báo cáo tổng kết | Chưa làm |
 
-**Ký hiệu dùng trong toàn bộ tài liệu**
+**Quy ước dùng trong toàn bộ tài liệu**
 
 | Trạng thái | Ý nghĩa | | Nguồn dữ liệu | Ý nghĩa |
-| :---: | :--- | :-: | :--- | :--- |
-| ✅ | Đã xong, có bằng chứng | | `[SƠ CẤP]` | Nhóm tự thu thập (Google Form, phỏng vấn, nhật ký) |
-| 🔄 | Đang làm | | `[THỨ CẤP]` | Tài liệu đã công bố, có trích dẫn và link |
-| ⬜ | Chưa làm | | `[NHẬN ĐỊNH]` | Ý kiến/giả thuyết của nhóm, **chưa** là số liệu |
-| 🟡 | Cần đối chiếu hoặc bổ sung bằng chứng | | | |
+| :--- | :--- | :-: | :--- | :--- |
+| Xong | Đã xong, có bằng chứng | | `[SƠ CẤP]` | Nhóm tự thu thập (Google Form, phỏng vấn, nhật ký) |
+| Đang làm | Đang thực hiện | | `[THỨ CẤP]` | Tài liệu đã công bố, có trích dẫn và link |
+| Chưa làm | Chưa bắt đầu | | `[NHẬN ĐỊNH]` | Ý kiến/giả thuyết của nhóm, **chưa** là số liệu |
+| Cần bổ sung | Cần đối chiếu hoặc bổ sung bằng chứng | | | |
 
 ---
 

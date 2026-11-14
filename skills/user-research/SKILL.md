@@ -9,9 +9,10 @@ description: Tổng hợp dữ liệu nghiên cứu người dùng của Ví Kh�
 
 | Giai đoạn | Việc chính |
 | :--- | :--- |
-| **GĐ1 – Sprint 0** (07/11 – 14/11) | Khảo sát n = 50 ✅ · Phỏng vấn sâu 5–8 SV 🔄 · Nhật ký chi tiêu 7 ngày 🟡 |
-| **GĐ2 – Sprint 1** (14/11 – 23/11) | Test con số "Hôm nay còn được tiêu" với 5 SV bằng bản HTML (giả định A3) |
-| **GĐ3 – cuối Sprint 3** (→ 12/12) | Cho 5–20 SV dùng MVP 7 ngày, đo giả định A4 và tỷ lệ giữ chân |
+| **GĐ1 – Sprint 0** (07/11 – 14/11) | Khảo sát n = 50 (Xong) · Phỏng vấn sâu 5–8 SV (Đang làm) · Nhật ký chi tiêu 7 ngày (Cần bổ sung) |
+| **GĐ2 – Sprint 1** (15/11 – 23/11) | Test con số "Hôm nay còn được tiêu" với 5 SV bằng bản HTML (giả định A3) |
+| **GĐ2 – Sprint 2** (24/11 – 03/12) | Tuyển 20 SV (tối thiểu 5) cho buổi dùng thử, chuẩn bị hướng dẫn cài |
+| **GĐ3 – Sprint 3** (04/12 – 12/12) | Cho SV dùng bản build Sprint 2 trong 7 ngày (04/12 – 10/12), đo giả định A4 |
 
 - **Phụ trách chính:** Nguyễn Thị Thương, Nguyễn Tuấn Kiệt
 - **Review:** Dương Văn Hoan (PO)
@@ -26,10 +27,10 @@ description: Tổng hợp dữ liệu nghiên cứu người dùng của Ví Kh�
 
 | Dữ liệu | Vị trí | Bắt buộc |
 | :--- | :--- | :---: |
-| Bảng trả lời khảo sát (xuất `.csv` từ Google Sheets) | `docs/evidence/survey/` | ✅ |
-| Bộ câu hỏi khảo sát | `docs/evidence/survey/questions.md` | ✅ |
+| Bảng trả lời khảo sát (xuất `.csv` từ Google Sheets) | `docs/evidence/survey/` | Có |
+| Bộ câu hỏi khảo sát | `docs/evidence/survey/questions.md` | Có |
 | Biên bản phỏng vấn | `docs/evidence/interviews/PV-xx.md` | Khi có |
-| Nhật ký đóng góp nghiên cứu | `docs/discovery/00-research-log.md` | ✅ |
+| Nhật ký đóng góp nghiên cứu | `docs/discovery/00-research-log.md` | Có |
 
 ## 4. Quy trình
 
@@ -37,7 +38,7 @@ description: Tổng hợp dữ liệu nghiên cứu người dùng của Ví Kh�
 1. Đọc file `.csv`, đếm **số phản hồi hợp lệ** (bỏ trùng, bỏ người không phải sinh viên).
 2. Với mỗi câu hỏi cần dùng, ghi **cả tử số và mẫu số**: `34/50 (68%)`. Không ghi tỷ lệ đơn lẻ.
 3. Với câu hỏi chỉ hỏi một nhóm con (ví dụ "lý do bỏ app" chỉ hỏi người từng bỏ app), mẫu số là **nhóm con đó**, phải ghi rõ: `18/29 người từng bỏ app (62%)`.
-4. Kiểm tra số học: tỷ lệ × mẫu số phải ra số nguyên. Nếu không ra → đánh dấu 🟡 và báo người phụ trách.
+4. Kiểm tra số học: tỷ lệ × mẫu số phải ra số nguyên. Nếu không ra → ghi "Cần kiểm lại" và báo người phụ trách.
 5. Câu hỏi chọn nhiều đáp án: ghi rõ *"câu chọn nhiều, tổng có thể > 100%"*.
 
 ### Bước 2 – Phỏng vấn sâu `[Sprint 0]`
@@ -67,8 +68,8 @@ Mỗi buổi 15–20 phút, tạo một file `docs/evidence/interviews/PV-xx.md`
 ### Bước 4 – Test con số "Hôm nay còn được tiêu" (giả định A3) `[Sprint 1]`
 Cho 5 SV xem bản HTML `HomeScreen` (sinh từ `design-system`) trong 5 giây, rồi hỏi: *"Con số to nhất trên màn hình nghĩa là gì?"*. Ghi đúng/sai từng người. Đạt khi ≥ 4/5 trả lời đúng.
 
-### Bước 5 – Dùng thử MVP (giả định A4) `[Sprint 3]`
-Cài MVP cho 5–20 SV, sau 7 ngày đếm số người còn ghi chép. Đạt khi ≥ 50% còn ghi chép ngày thứ 7.
+### Bước 5 – Dùng thử MVP (giả định A4) `[Sprint 2 chuẩn bị · Sprint 3 chạy]`
+Cuối Sprint 2: tuyển 20 SV (tối thiểu 5). Ngày 04/12: cài bản build Sprint 2. Đến 10/12: đếm số người **còn ghi ít nhất 1 khoản vào ngày thứ 7**. Đạt khi ≥ 50%. Nếu có cập nhật tính năng giữa chừng (ví dụ US05 nhắc nhở), ghi lại ngày cập nhật.
 
 ### Bước 6 – Cập nhật tài liệu `[mọi Sprint]`
 Mỗi con số mới → ghi một dòng vào `00-research-log.md` → mới được dùng trong các file `02`, `03`, `05`.
@@ -84,9 +85,9 @@ Mỗi con số mới → ghi một dòng vào `00-research-log.md` → mới đ�
 | Nhật ký nguồn | `docs/discovery/00-research-log.md` |
 
 ## 6. Quy tắc bắt buộc (chống AI Slop)
-1. **Không bịa số, không bịa trích dẫn.** Không có trong `.csv` hoặc biên bản → không viết. Chưa có thì ghi `🟡 đang thu thập (hiện có n = ...)`.
+1. **Không bịa số, không bịa trích dẫn.** Không có trong `.csv` hoặc biên bản → không viết. Chưa có thì ghi `Đang thu thập (hiện có n = ...)`.
 2. Không làm tròn đẹp: `34/50 = 68%` giữ nguyên, không viết "gần 70%".
-3. Trích dẫn trong Persona phải ghi mã nguồn: `(PV-02)` hoặc `(Khảo sát, câu 9)`.
+3. Trích dẫn trong Persona phải ghi mã nguồn: `(PV-02)` hoặc `(Khảo sát, câu 9)`. Ý nào khảo sát không hỏi trực tiếp thì gắn `[NHẬN ĐỊNH]`, không gắn `[SƠ CẤP]`.
 4. Không ghi thông tin cá nhân (họ tên, SĐT, MSSV) của người được khảo sát/phỏng vấn.
 5. Tách rõ `[SƠ CẤP]` (nhóm tự thu) với `[THỨ CẤP]` (bài báo, Google Play) và `[NHẬN ĐỊNH]` (ý kiến nhóm).
 

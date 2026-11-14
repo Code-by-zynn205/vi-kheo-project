@@ -9,9 +9,9 @@ description: Quy trình lập trình giao diện Ví Khéo theo từng User Stor
 
 | Giai đoạn | Việc chính | User Story | Trạng thái |
 | :--- | :--- | :--- | :---: |
-| **GĐ2 – Sprint 1** (14/11 – 23/11) | Chốt công nghệ, dựng dự án, `HomeScreen` khung, `AddExpenseScreen` | US01 | 🔄 |
-| **GĐ2 – Sprint 2** (24/11 – 03/12) | `BudgetScreen`, `DailyAllowanceCard` có màu trạng thái, ghi khoản thu | US02, US03, US07 | ⬜ |
-| **GĐ2 – Sprint 3** (04/12 – 12/12) | `ReportScreen`, nhắc nhở 21:00, sửa/xoá giao dịch, bản cài cho SV dùng thử | US04, US05, US06 | ⬜ |
+| **GĐ2 – Sprint 1** (15/11 – 23/11) | Chốt công nghệ, dựng dự án, `HomeScreen` khung, `AddExpenseScreen` | US01 | Đang làm |
+| **GĐ2 – Sprint 2** (24/11 – 03/12) | `BudgetScreen`, `DailyAllowanceCard` có màu trạng thái, ghi khoản thu · **đóng gói bản build dùng thử trước 03/12** | US02, US03, US07 | Chưa làm |
+| **GĐ2 – Sprint 3** (04/12 – 12/12) | `ReportScreen`, nhắc nhở 21:00, sửa/xoá giao dịch · cập nhật bản dùng thử khi xong tính năng | US04, US05, US06 | Chưa làm |
 
 - **Phụ trách chính:** Lê Thị Phát, Nguyễn Đức Minh Nghĩa
 - **Review:** Lê Thị Nhật Vy, Phạm Viết Hưng (soát giao diện đúng design-system)
@@ -27,7 +27,7 @@ description: Quy trình lập trình giao diện Ví Khéo theo từng User Stor
 
 ## 4. Quyết định công nghệ `[Sprint 1 – chốt tại Sprint Planning]`
 
-🟡 **Chưa chốt.** Nhóm chọn 1 trong các phương án dưới, ghi kết quả vào bảng "Đã chốt" và commit.
+**Trạng thái: Chưa chốt.** Nhóm chọn 1 trong các phương án dưới, ghi kết quả vào bảng "Đã chốt" và commit.
 
 | Phương án | Ưu | Nhược |
 | :--- | :--- | :--- |

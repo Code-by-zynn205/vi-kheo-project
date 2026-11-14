@@ -1,20 +1,25 @@
 # 02. Problem Statement & Bằng chứng
 
-> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Trạng thái:** ✅ (còn mục 🟡) · **Phụ trách:** Dương Văn Hoan (PO), Nguyễn Thị Thương, Nguyễn Tuấn Kiệt · **Cập nhật:** 14/11/2026
+> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Trạng thái:** Xong (còn mục Cần bổ sung) · **Phụ trách:** Dương Văn Hoan (PO), Nguyễn Thị Thương, Nguyễn Tuấn Kiệt · **Cập nhật:** 14/11/2026
 
 ## 1. Problem Statement
 
 > **Sinh viên đại học 18–22 tuổi sống xa nhà, lần đầu tự quản lý một khoản tiền cố định mỗi tháng, thường không biết tiền đã đi đâu và bỏ cuộc với các ứng dụng ghi chép vì thao tác rườm rà – dẫn đến hết tiền trước cuối tháng, phải vay mượn và căng thẳng ảnh hưởng việc học.**
 
+Phần "hết tiền trước cuối tháng" đã có số liệu khảo sát. Phần "vay mượn, căng thẳng ảnh hưởng việc học" vẫn là **giả thuyết**, đang kiểm chứng qua phỏng vấn.
+
 ## 2. Phân tích vấn đề
 
 | Thành phần | Nội dung | Nguồn |
 | :--- | :--- | :--- |
-| **Ai** | Sinh viên 18–22 tuổi, ở trọ/KTX/xa nhà, nhận tiền gia đình hoặc lương làm thêm theo tháng (khảo sát chủ yếu SV năm 1–3, chi 2–5 triệu/tháng) | `[SƠ CẤP]` S1 |
-| **Bối cảnh** | Chi nhiều khoản nhỏ trong ngày (ăn sáng, gửi xe, cà phê, tài liệu), trả bằng cả tiền mặt và quét QR → khó nhớ tổng | `[SƠ CẤP]` S1, S2 |
+| **Ai** | Sinh viên 18–22 tuổi, ở trọ/KTX/xa nhà, nhận tiền gia đình hoặc lương làm thêm theo tháng (mẫu khảo sát chủ yếu SV năm 1–3, chi 2–5 triệu/tháng) | `[SƠ CẤP]` S1 |
+| **Bối cảnh** | Chi nhiều khoản nhỏ trong ngày (ăn sáng, gửi xe, cà phê, tài liệu), trả bằng cả tiền mặt và quét QR → khó nhớ tổng | `[NHẬN ĐỊNH]` – chờ phỏng vấn xác nhận |
 | **Nguyên nhân 1** | Thiếu kỹ năng lập kế hoạch chi tiêu | `[THỨ CẤP]` T1 |
-| **Nguyên nhân 2** | Các app hiện có nhiều bước nhập, nhiều tính năng, có quảng cáo → bỏ sau vài ngày | `[SƠ CẤP]` S1 · `[THỨ CẤP]` T3 |
-| **Hậu quả** | Hết tiền tuần 3–4, ăn uống kham khổ, vay bạn bè, xin thêm gia đình, căng thẳng | `[SƠ CẤP]` S1, S2 |
+| **Nguyên nhân 2** | Các app hiện có nhiều bước nhập, nhiều tính năng, có quảng cáo → bỏ sau vài ngày | `[SƠ CẤP]` S1 (lý do bỏ app) · `[THỨ CẤP]` T3 |
+| **Hậu quả 1** | Hết tiền trước cuối tháng | `[SƠ CẤP]` S1 – 34/50 |
+| **Hậu quả 2** | Vay bạn bè, xin thêm gia đình, căng thẳng ảnh hưởng việc học | `[NHẬN ĐỊNH]` N5 – chờ phỏng vấn xác nhận |
+
+*Khi có biên bản phỏng vấn (`PV-xx`) hoặc câu khảo sát tương ứng, đổi nhãn `[NHẬN ĐỊNH]` thành `[SƠ CẤP]` kèm mã nguồn.*
 
 ## 3. Bằng chứng thứ cấp – nhóm tìm kiếm `[THỨ CẤP]`
 
@@ -30,15 +35,15 @@ Nguồn: Nguyễn Thị Hoài Lê (2023), *Kiến thức tài chính của sinh 
 
 ## 4. Bằng chứng sơ cấp – nhóm tự thu thập `[SƠ CẤP]`
 
-Khảo sát Google Form, **50 phản hồi hợp lệ** (chi tiết và trạng thái đối chiếu: [00-research-log.md](00-research-log.md)).
+Khảo sát Google Form, **50 phản hồi hợp lệ** (chi tiết: [00-research-log.md](00-research-log.md)).
 
 | Chỉ số | Kết quả |
 | :--- | :--- |
 | Từng hết tiền trước cuối tháng | **34/50 (68%)** |
 | Đang ghi chép chi tiêu hằng ngày | **12/50 (24%)** |
 | Từng tải app quản lý chi tiêu rồi xoá/bỏ | **29/50 (58%)** |
-| Lý do bỏ app #1: ngại nhập, thao tác rườm rà | **~64%** người từng bỏ app 🟡 *kiểm lại mẫu số* |
-| Lý do bỏ app #2: giao diện rối, nhiều tính năng, quảng cáo | **~42%** người từng bỏ app 🟡 *kiểm lại mẫu số* |
+| Lý do bỏ app #1: ngại nhập, thao tác rườm rà | **~64%** người từng bỏ app – *cần kiểm lại mẫu số* |
+| Lý do bỏ app #2: giao diện rối, nhiều tính năng, quảng cáo | **~42%** người từng bỏ app – *cần kiểm lại mẫu số* |
 | Muốn ghi một khoản chi trong dưới 10 giây | **41/50 (82%)** |
 
 ## 5. Kết luận

@@ -1,6 +1,6 @@
 # 05. Product Vision Board & Giả định cần Kiểm chứng
 
-> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Trạng thái:** ✅ · **Phụ trách:** Dương Văn Hoan (PO) · **Cập nhật:** 14/11/2026
+> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Trạng thái:** Xong · **Phụ trách:** Dương Văn Hoan (PO) · **Cập nhật:** 14/11/2026
 
 ## 1. Product Vision Board (khung Roman Pichler)
 
@@ -8,7 +8,7 @@
 
 | Nhóm mục tiêu | Nhu cầu | Sản phẩm | Mục tiêu dự án |
 | :--- | :--- | :--- | :--- |
-| Sinh viên 18–22 tuổi, sống xa nhà, nhận tiền gia đình hoặc làm thêm theo tháng | Biết tiền đi đâu · Không hết tiền trước cuối tháng · Ghi chép nhanh, không phiền | App di động tối giản: ghi nhanh · ngân sách tháng · "Hôm nay còn được tiêu" · báo cáo theo danh mục | MVP chạy được sau 3 Sprint (trước 13/12/2026) · **20** SV dùng thử · **≥ 50%** vẫn ghi chép sau 7 ngày |
+| Sinh viên 18–22 tuổi, sống xa nhà, nhận tiền gia đình hoặc làm thêm theo tháng | **N-a.** Biết tiền đi đâu · **N-b.** Không hết tiền trước cuối tháng · **N-c.** Ghi chép nhanh, không phiền | App di động tối giản: ghi nhanh · ngân sách tháng · "Hôm nay còn được tiêu" · báo cáo theo danh mục | MVP chạy được sau 3 Sprint (trước 13/12/2026) · **20 SV dùng thử** (tối thiểu 5) · **≥ 50%** vẫn ghi chép vào ngày thứ 7 |
 
 *Con số 20 SV và 50% là mục tiêu nhóm tự đặt, có thể điều chỉnh theo góp ý của giảng viên.*
 
@@ -25,10 +25,15 @@ Mọi điều trên vẫn là **giả định**. Nhóm kiểm chứng bằng d�
 
 | # | Giả định | Cách kiểm chứng | Coi là đúng khi | Khi nào | Trạng thái |
 | :-: | :--- | :--- | :--- | :--- | :--- |
-| A1 | Nhiều SV thật sự hết tiền trước cuối tháng | Khảo sát online ≥ 50 SV | ≥ 60% xác nhận | Sprint 0 | ✅ **Đạt** – 34/50 (68%) |
-| A2 | SV thích app đơn giản, không quảng cáo hơn app nhiều tính năng | Khảo sát (lý do bỏ app) + phỏng vấn sâu 5–8 SV | Đa số nêu rườm rà/quảng cáo là lý do bỏ app | Sprint 0 | 🔄 **Khảo sát ủng hộ** (lý do #1, #2 đều là rườm rà/quảng cáo); chờ đủ phỏng vấn |
-| A3 | Con số "Hôm nay còn được tiêu" dễ hiểu hơn biểu đồ | Cho 5 SV xem bản HTML `HomeScreen` trong 5 giây | ≥ 4/5 hiểu đúng ngay | **Sprint 1** | ⬜ Chuyển từ Sprint 0 (nhóm không dùng Figma, test bằng bản HTML do AI sinh) |
-| A4 | SV chịu ghi chép hằng ngày nếu thao tác đủ nhanh | Nhật ký 7 ngày (Sprint 0) + cho SV dùng MVP 7 ngày (Sprint 3) | ≥ 3/5 ghi đủ 7 ngày | Sprint 3 | ⬜ |
+| A1 | Nhiều SV thật sự hết tiền trước cuối tháng | Khảo sát online ≥ 50 SV | ≥ 60% xác nhận | Sprint 0 | **Đạt** – 34/50 (68%) |
+| A2 | SV thích app đơn giản, không quảng cáo hơn app nhiều tính năng | Khảo sát (lý do bỏ app) + phỏng vấn sâu 5–8 SV | Đa số nêu rườm rà/quảng cáo là lý do bỏ app | Sprint 0 → 1 | **Đang kiểm chứng** – khảo sát ủng hộ (lý do #1, #2 đều là rườm rà/quảng cáo), nhưng 2 tỷ lệ này đang chờ kiểm lại mẫu số; chờ đủ phỏng vấn |
+| A3 | Con số "Hôm nay còn được tiêu" dễ hiểu hơn biểu đồ | Cho 5 SV xem bản HTML màn hình chính trong 5 giây | ≥ 4/5 hiểu đúng ngay | Sprint 1 | **Chưa làm** – chuyển từ Sprint 0 vì nhóm không dùng Figma, test bằng bản HTML do AI sinh |
+| A4 | SV chịu ghi chép hằng ngày nếu thao tác đủ nhanh | Cho SV dùng thử MVP 7 ngày, từ 04/12 đến 10/12, bằng bản build cuối Sprint 2 | **≥ 50% người dùng thử còn ghi ít nhất 1 khoản vào ngày thứ 7** | Sprint 3 | **Chưa làm** – *PO chốt cách đo* |
+
+**Ghi chú về A4**
+- Muốn đủ 7 ngày trước khi kết thúc Sprint 3 (12/12), buổi dùng thử phải bắt đầu ngay đầu Sprint 3 (04/12) bằng bản build cuối Sprint 2 (có US01, US02, US03, US07).
+- Bản đó **chưa có nhắc nhở (US05)**. Nếu US05 xong giữa Sprint 3, cập nhật cho người dùng thử và ghi lại ngày cập nhật để phân tích riêng.
+- Nhật ký chi tiêu 7 ngày ở Sprint 0 (S3) dùng làm mốc so sánh: ghi bằng tay/Sheets thì bao nhiêu người duy trì được.
 
 **Nếu A3 sai** (ít hơn 4/5 hiểu) → đổi nhãn/cách hiển thị con số trước khi làm US03 ở Sprint 2.
 **Nếu A4 sai** → ưu tiên nhắc nhở (US05) và rút ngắn thao tác ghi hơn nữa trước khi thêm tính năng mới.

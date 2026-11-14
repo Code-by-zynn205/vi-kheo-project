@@ -9,8 +9,8 @@ description: Quy trình Product Discovery của Ví Khéo – từ bằng chứn
 
 | Giai đoạn | Việc chính | Trạng thái |
 | :--- | :--- | :---: |
-| **GĐ1 – Sprint 0** (07/11 – 14/11) | Viết bộ 8 tài liệu `docs/discovery/00 → 07` | ✅ (còn mục 🟡) |
-| **GĐ2 – đầu mỗi Sprint** | PO cập nhật Backlog, thêm/chỉnh User Story theo phản hồi | 🔄 |
+| **GĐ1 – Sprint 0** (07/11 – 14/11) | Viết bộ 8 tài liệu `docs/discovery/00 → 07` | Xong (còn mục Cần bổ sung) |
+| **GĐ2 – đầu mỗi Sprint** | PO cập nhật Backlog, thêm/chỉnh User Story theo phản hồi | Đang làm |
 
 - **Phụ trách chính:** Dương Văn Hoan (PO) – quyết định thứ tự Backlog
 - **Đóng góp:** cả nhóm (mỗi cặp góp dữ liệu phần mình) · **Review:** Trần Ninh Nhật Tân (SM)
@@ -59,20 +59,23 @@ Bằng chứng (00) → Vấn đề (02) → Persona & điểm đau (03) → Th�
 8 file `docs/discovery/00 → 07`, mỗi file mở đầu bằng dòng trạng thái:
 
 ```markdown
-> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Trạng thái:** ✅ · **Phụ trách:** <tên> · **Cập nhật:** <dd/mm/yyyy>
+> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Trạng thái:** Xong | Đang làm | Chưa làm | Cần bổ sung · **Phụ trách:** <tên> · **Cập nhật:** <dd/mm/yyyy>
 ```
+
+Trạng thái ghi bằng chữ, **không dùng emoji/icon màu**.
 
 ## 6. Quy tắc bắt buộc (chống AI Slop)
 1. **Evidence-first:** mỗi điểm đau, mỗi con số phải có nhãn `[SƠ CẤP]` / `[THỨ CẤP]` / `[NHẬN ĐỊNH]`. Số không có trong `00-research-log.md` → không dùng.
-2. **Truy vết 2 chiều:** mỗi User Story ghi HMW nguồn; mỗi HMW phải có ít nhất 1 Must hoặc Should.
+2. **Truy vết 2 chiều:** mỗi User Story ghi nguồn là HMW, hoặc điểm đau + nhu cầu trong Vision Board nếu không có HMW phù hợp; mỗi HMW phải có ít nhất 1 Must hoặc Should.
 3. **Giữ phạm vi:** không thêm liên kết ngân hàng, AI/OCR, đầu tư, đăng nhập tài khoản vào MVP. Muốn thêm → PO quyết, ghi lý do vào Backlog.
 4. Giả thuyết chưa kiểm chứng phải ghi là giả thuyết, không viết như kết luận.
 5. Không dùng ký hiệu LaTeX (`$\ge$`, `$\rightarrow$`) – GitHub và Word hiển thị lỗi. Dùng `≥`, `→`.
-6. Persona là nhân vật đại diện, không phải một người thật; phải ghi rõ điều này.
+6. Persona là nhân vật đại diện, không phải một người thật; phải ghi rõ điều này. Luôn viết "Persona Minh", "Persona Vy" để không nhầm với thành viên nhóm.
+7. Ý nào khảo sát không hỏi trực tiếp thì gắn `[NHẬN ĐỊNH]`, kể cả khi nghe hợp lý.
 
 ## 7. Checklist tự kiểm
 - [ ] Mọi con số có trong `00-research-log.md`
-- [ ] Mỗi User Story có HMW nguồn, AC dạng Given/When/Then, Story Point
+- [ ] Mỗi User Story có nguồn (HMW hoặc điểm đau), AC dạng Given/When/Then, Story Point
 - [ ] Mỗi tính năng Won't có lý do
 - [ ] Ngày Sprint khớp `07-roadmap.md` và slide báo cáo
 - [ ] Dòng trạng thái đầu file đã cập nhật ngày

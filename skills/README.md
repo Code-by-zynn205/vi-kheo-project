@@ -6,7 +6,7 @@ Skill là một file hướng dẫn (`SKILL.md`) để AI Agent (Claude Code, Co
 
 | # | Skill | Giai đoạn | AI dùng Skill này để… | Phụ trách chính | Review chéo |
 | :-: | :--- | :--- | :--- | :--- | :--- |
-| 1 | [user-research](user-research/SKILL.md) | GĐ1 – Sprint 0 (và Sprint 3 khi cho SV dùng thử) | Tổng hợp khảo sát, phỏng vấn, nhật ký chi tiêu thành bằng chứng có nguồn | Nguyễn Thị Thương, Nguyễn Tuấn Kiệt | Dương Văn Hoan (PO) |
+| 1 | [user-research](user-research/SKILL.md) | GĐ1 – Sprint 0 (và Sprint 1–3 khi test A3, dùng thử A4) | Tổng hợp khảo sát, phỏng vấn, nhật ký chi tiêu thành bằng chứng có nguồn | Nguyễn Thị Thương, Nguyễn Tuấn Kiệt | Dương Văn Hoan (PO) |
 | 2 | [product-discovery](product-discovery/SKILL.md) | GĐ1 – Sprint 0 | Viết Problem, Persona, Market, Vision, HMW, **Generate Features**, Backlog | Dương Văn Hoan (PO) | Trần Ninh Nhật Tân (SM) |
 | 3 | [design-system](design-system/SKILL.md) | GĐ2 – Sprint 1 → 3 | Sinh giao diện đúng màu, chữ, component, 4 màn hình (không qua Figma) | Lê Thị Nhật Vy, Phạm Viết Hưng | Lê Thị Phát, Nguyễn Đức Minh Nghĩa |
 | 4 | [frontend-ui](frontend-ui/SKILL.md) | GĐ2 – Sprint 1 → 3 | Lập trình màn hình theo User Story và tiêu chí chấp nhận | Lê Thị Phát, Nguyễn Đức Minh Nghĩa | Lê Thị Nhật Vy, Phạm Viết Hưng |

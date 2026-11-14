@@ -10,10 +10,10 @@ description: Quy trình vận hành Scrum của nhóm Messi cho dự án Ví Kh�
 
 | Sprint | Thời gian | Báo cáo |
 | :--- | :--- | :--- |
-| Sprint 0 – Discovery | 07/11 – 14/11/2026 | `docs/sprints/sprint-0-review.md` ✅ |
-| Sprint 1 – Ghi chi tiêu | 14/11 – 23/11/2026 | `docs/sprints/sprint-1-review.md` ⬜ |
-| Sprint 2 – Ngân sách | 24/11 – 03/12/2026 | `docs/sprints/sprint-2-review.md` ⬜ |
-| Sprint 3 – Báo cáo & demo | 04/12 – 12/12/2026 | `docs/sprints/sprint-3-review.md` ⬜ |
+| Sprint 0 – Discovery | 07/11 – 14/11/2026 | `docs/sprints/sprint-0-review.md` (Xong) |
+| Sprint 1 – Ghi chi tiêu | 15/11 – 23/11/2026 | `docs/sprints/sprint-1-review.md` (Chưa làm) |
+| Sprint 2 – Ngân sách | 24/11 – 03/12/2026 | `docs/sprints/sprint-2-review.md` (Chưa làm) |
+| Sprint 3 – Báo cáo & demo | 04/12 – 12/12/2026 | `docs/sprints/sprint-3-review.md` (Chưa làm) |
 
 - **Phụ trách chính:** Trần Ninh Nhật Tân (SM)
 - **Review:** Dương Văn Hoan (PO)
@@ -60,14 +60,14 @@ description: Quy trình vận hành Scrum của nhóm Messi cho dự án Ví Kh�
 ```
 
 ## 6. Quy tắc bắt buộc (chống AI Slop)
-1. Cột "Việc đã làm" chỉ ghi việc có bằng chứng (thẻ Trello Done, commit, file, biên bản). Không có bằng chứng → ghi 🟡.
+1. Cột "Việc đã làm" chỉ ghi việc có bằng chứng (thẻ Trello Done, commit, file, biên bản). Không có bằng chứng → ghi "Cần bổ sung".
 2. Không viết chung chung kiểu "cả nhóm cùng làm" – ghi tên từng người.
 3. Story chưa đạt DoD thì ghi "Chưa xong", không ghi "Gần xong".
 4. Ngày tháng phải khớp `07-roadmap.md`.
 
 ## 7. Checklist cuối Sprint
 - [ ] Đủ 10 thành viên trong bảng "Ai làm gì"
-- [ ] Mỗi dòng có bằng chứng hoặc đánh dấu 🟡
+- [ ] Mỗi dòng có bằng chứng hoặc ghi "Cần bổ sung"
 - [ ] Story Point cam kết/hoàn thành đã ghi
 - [ ] Retro có ít nhất 1 hành động cải tiến có người phụ trách
 - [ ] Slide báo cáo (Canva) khớp số liệu trong báo cáo

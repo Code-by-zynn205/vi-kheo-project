@@ -9,9 +9,9 @@ description: Mô hình dữ liệu, lưu trữ cục bộ và thuật toán củ
 
 | Giai đoạn | Việc chính | User Story | Trạng thái |
 | :--- | :--- | :--- | :---: |
-| **GĐ2 – Sprint 1** (14/11 – 23/11) | Mô hình dữ liệu, lưu/đọc giao dịch trên máy | US01 | 🔄 |
-| **GĐ2 – Sprint 2** (24/11 – 03/12) | Ngân sách tháng, khoản thu, công thức hạn mức ngày, trạng thái màu | US02, US03, US07 | ⬜ |
-| **GĐ2 – Sprint 3** (04/12 – 12/12) | Thống kê theo danh mục, sửa/xoá giao dịch | US04, US06 | ⬜ |
+| **GĐ2 – Sprint 1** (15/11 – 23/11) | Mô hình dữ liệu, lưu/đọc giao dịch trên máy | US01 | Đang làm |
+| **GĐ2 – Sprint 2** (24/11 – 03/12) | Ngân sách tháng, khoản thu, công thức hạn mức ngày, trạng thái màu | US02, US03, US07 | Chưa làm |
+| **GĐ2 – Sprint 3** (04/12 – 12/12) | Thống kê theo danh mục, sửa/xoá giao dịch | US04, US06 | Chưa làm |
 
 - **Phụ trách chính:** Nguyễn Thị Bình Minh, Nguyễn Diên Tiến
 - **Review:** Nguyễn Đức Minh Nghĩa (người gọi các hàm này từ giao diện)
@@ -86,8 +86,8 @@ tỷ lệ > 1                               → OVER        (hiển thị "Đã 
 ```
 
 **Quy tắc đi kèm**
-- Khoản thu (US07) cộng vào quỹ của tháng nó được ghi. *(Đề xuất của cặp dữ liệu – 🟡 PO chốt.)*
-- Sang tháng mới mà chưa đặt ngân sách → `NO_BUDGET`; `BudgetScreen` gợi ý sẵn số tiền tháng trước, người dùng bấm xác nhận. *(🟡 PO chốt.)*
+- Khoản thu (US07) cộng vào quỹ của tháng nó được ghi. *(Đề xuất của cặp dữ liệu – chờ PO chốt.)*
+- Sang tháng mới mà chưa đặt ngân sách → `NO_BUDGET`; `BudgetScreen` gợi ý sẵn số tiền tháng trước, người dùng bấm xác nhận. *(Chờ PO chốt.)*
 - **Không lưu số dư.** Mọi con số luôn tính lại từ danh sách giao dịch, để sửa/xoá một khoản cũ là kết quả tự đúng.
 - Chỉ dùng số nguyên VND, không dùng số thực cho tiền.
 
