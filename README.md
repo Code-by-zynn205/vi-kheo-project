@@ -5,6 +5,8 @@ Dự án môn **Chuyên đề 3 (IT): Quản lý dự án với Agile/Scrum**
 **Nhóm thực hiện:** Nhóm Messi (10 thành viên: PO Dương Văn Hoan, SM Trần Ninh Nhật Tân, 8 Developers)
 
 ## Cấu trúc thư mục dự án (Chuẩn hóa cho AI Agent)
-- `skills/product-discovery/SKILL.md`: Quy trình thực thi Product Discovery dựa trên bằng chứng thực tế (chống AI Slop).
-- `skills/design-system/SKILL.md`: Hệ thống thiết kế giao diện (Design System) & PRD UI Spec để AI sinh trực tiếp mã nguồn UI không qua Figma.
-- `docs/discovery/`: Bộ 7 tài liệu nghiên cứu và khám phá sản phẩm (`.md`) đã hoàn thiện đầy đủ dữ liệu thực tế từ khảo sát và nghiên cứu thứ cấp.
+- `CLAUDE.md`: Hướng dẫn ngắn cho AI Agent, gồm nơi đọc tài liệu và các quy tắc bắt buộc.
+- `.claude/skills/product-discovery/SKILL.md`: Quy trình soát, cập nhật và mở rộng tài liệu Product Discovery dựa trên bằng chứng thực tế (chống AI Slop).
+- `.claude/skills/design-system/SKILL.md`: Hệ thống thiết kế giao diện (Design System) & UI Spec để AI sinh trực tiếp mã nguồn UI không qua Figma.
+- `docs/discovery/`: Bộ 7 tài liệu nghiên cứu và khám phá sản phẩm (`.md`) dựa trên dữ liệu khảo sát và nghiên cứu thứ cấp.
+- `docs/research/survey-n50.md`: Dữ liệu khảo sát gốc (n = 50), là nguồn chuẩn cho mọi số liệu.

@@ -5,7 +5,11 @@
 - **Học phần:** Chuyên đề 3 (IT): Quản lý dự án với Agile/Scrum.
 - **Giảng viên hướng dẫn:** Nguyễn Thanh Yên Tùng.
 - **Nhóm thực hiện:** Nhóm Messi (10 thành viên).
-- **Thời gian thực hiện:** 4 tuần (1 Sprint = 1 tuần, bắt đầu thứ Hai và kết thúc Chủ nhật), gồm `Sprint 0` (Discovery) và `3 Sprint` phát triển sản phẩm (MVP ra mắt trước 13/12/2026).
+- **Thời gian thực hiện:** 4 Sprint (1 Sprint = 1 tuần, bắt đầu thứ Hai và kết thúc Chủ nhật):
+  - `Sprint 0` – Discovery: 09/11 – 15/11/2026.
+  - `Sprint 1` – `Sprint 3` – Phát triển sản phẩm: 16/11 – 06/12/2026.
+  - Tuần chốt MVP (ngoài 4 Sprint): 07/12 – 13/12/2026, để tổng hợp kết quả dùng thử, sửa lỗi và làm báo cáo.
+- **Hạn ra mắt MVP:** 13/12/2026.
 
 ## 2. Cơ cấu tổ chức Scrum
 - **Product Owner (PO):** Dương Văn Hoan (`23IT.B061`) – Quản lý Product Backlog, làm việc với giảng viên và người dùng mục tiêu.
@@ -20,4 +24,4 @@
 - **Quản lý tiến độ:** Trello (chia theo Sprint và danh sách công việc kèm Definition of Done).
 - **Lưu trữ tài liệu & Mã nguồn:** GitHub (quản lý các file Markdown Discovery, Skill AI và Source Code).
 - **Thu thập dữ liệu:** Google Form & Google Sheets (`n = 50` mẫu khảo sát sinh viên).
-- **AI Agent Workflow:** Sử dụng bộ `SKILL.md` (`product-discovery` và `design-system`) để AI kiểm chứng dữ liệu và generate trực tiếp mã nguồn giao diện mà không phụ thuộc vào thiết kế thủ công trên Figma.
+- **AI Agent Workflow:** Sử dụng 2 skill trong `.claude/skills/` (`product-discovery` và `design-system`) để AI kiểm chứng dữ liệu và generate trực tiếp mã nguồn giao diện mà không phụ thuộc vào thiết kế thủ công trên Figma.

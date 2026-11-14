@@ -16,6 +16,6 @@
 Ngay trong phần mô tả ứng dụng trên Google Play, **Sổ Thu Chi MISA** cũng thừa nhận: *"...rào cản lớn nhất của người dùng khi quản lý tài chính cá nhân là ngại ghi chép."*
 
 Từ phân tích trên, nhóm xác định **3 khoảng trống cơ hội rõ rệt cho Ví Khéo**:
-1. **Chuyển từ "Ghi chép kế toán" sang "Định hướng hành động":** Thay vì bắt sinh viên nhìn biểu đồ phức tạp, Ví Khéo tính sẵn duy nhất một con số: **"Hôm nay còn được tiêu bao nhiêu"**.
-2. **Tối ưu tốc độ nhập liệu (< 5 giây):** Cắt bỏ toàn bộ các bước chọn ví, chọn sự kiện, chụp hóa đơn. Chỉ cần **Nhập số tiền $ightarrow$ Chọn 1 trong 6 danh mục sinh viên $ightarrow$ Xong**.
-3. **Danh mục "may đo" cho sinh viên:** Tích hợp sẵn các danh mục đặc thù (Tiền trọ, Ăn uống, Xăng xe/Gửi xe, Tài liệu học tập) thay vì các danh mục chung chung của người đi làm.
+1. **Chuyển từ "Ghi chép kế toán" sang "Định hướng hành động"** (PP-03, PP-04, PP-05): Thay vì bắt sinh viên nhìn biểu đồ phức tạp, Ví Khéo tính sẵn duy nhất một con số: **"Hôm nay còn được tiêu bao nhiêu"**.
+2. **Tối ưu tốc độ nhập liệu (< 5 giây)** (PP-02): Cắt bỏ toàn bộ các bước chọn ví, chọn sự kiện, chụp hóa đơn. Chỉ cần **Nhập số tiền → Chọn 1 trong 6 danh mục sinh viên → Lưu**.
+3. **Danh mục "may đo" cho sinh viên** (PP-01): Tích hợp sẵn 6 danh mục đặc thù (Ăn uống, Di chuyển, Nhà trọ & Điện nước, Học tập, Mua sắm & Sinh hoạt, Khác) thay vì các danh mục chung chung của người đi làm.

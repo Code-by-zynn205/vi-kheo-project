@@ -23,5 +23,6 @@ Nhóm đã triển khai khảo sát trực tuyến qua Google Form thu về **50
 - **68% (34/50 sinh viên)** xác nhận đã từng rơi vào tình trạng **hết tiền trước cuối tháng** (thường xuyên hoặc thỉnh thoảng).
 - **Chỉ 24% (12/50 sinh viên)** hiện đang duy trì thói quen ghi chép chi tiêu hằng ngày; 76% còn lại không ghi chép hoặc chỉ ước lượng trong đầu.
 - **58% (29/50 sinh viên)** cho biết đã **từng tải app quản lý chi tiêu nhưng sau đó xóa hoặc bỏ dở**.
-- **Lý do bỏ app đứng #1 (chiếm 64% người từng bỏ app):** *"Ngại nhập liệu mất thời gian / Hay quên ghi vì thao tác rườm rà"*, xếp thứ hai là *"Giao diện rối, nhiều tính năng không dùng tới và có quảng cáo"* (42%).
-- **Thời gian nhập liệu kỳ vọng:** **82% sinh viên** mong muốn việc ghi lại một khoản chi chỉ mất **dưới 10 giây** và cần một con số rõ ràng cho biết *hôm nay còn được tiêu bao nhiêu*.
+- **Lý do bỏ app đứng #1 (64%):** *"Ngại nhập liệu mất thời gian / Hay quên ghi vì thao tác rườm rà"*, xếp thứ hai là *"Giao diện rối, nhiều tính năng không dùng tới và có quảng cáo"* (42%).
+  > `[CẦN ĐỐI CHIẾU]` Chưa rõ mẫu số của 64% và 42%. Nếu mẫu số là 29 người từng bỏ app thì 64% ứng với 18,56 người và 42% ứng với 12,18 người (không hợp lệ). Nếu mẫu số là 50 người thì ứng với 32/50 và 21/50. Nhóm User Research cần đối chiếu Google Sheet, rồi ghi lại dạng `x/n` tại đây và trong `docs/research/survey-n50.md`.
+- **Thời gian nhập liệu kỳ vọng:** **82% (41/50 sinh viên)** mong muốn việc ghi lại một khoản chi chỉ mất **dưới 10 giây** và cần một con số rõ ràng cho biết *hôm nay còn được tiêu bao nhiêu*. Dựa trên số liệu này, nhóm đặt mục tiêu thiết kế chặt hơn: **dưới 5 giây** (xem `05 §1`).
