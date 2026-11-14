@@ -1,29 +1,34 @@
-# 05. Product Vision Board, Blueprint & Giả định Kiểm chứng
+# 05. Product Vision Board & Giả định cần Kiểm chứng
 
-## 1. Product Vision Board (Theo khung Roman Pichler)
-- **Tầm nhìn (Vision):** Giúp sinh viên Việt Nam tự tin làm chủ đồng tiền và hình thành thói quen chi tiêu lành mạnh ngay từ những năm đầu đại học.
-- **Nhóm mục tiêu (Target Group):** Sinh viên đại học 18–22 tuổi sống xa nhà, ở trọ, tự quản lý khoản tiền cố định hằng tháng.
-- **Nhu cầu cốt lõi (Needs):**
-  - Biết rõ tiền đã đi đâu trong tháng.
-  - Không bị hết tiền trước cuối tháng.
-  - Ghi chép chi tiêu cực nhanh, không gây phiền toái hay áp lực.
-- **Sản phẩm (Product):** Ứng dụng di động tối giản **Ví Khéo** tập trung vào 4 chức năng lõi: *Ghi chi tiêu dưới 5 giây, Đặt ngân sách tháng, Hiển thị "Tiền được tiêu hôm nay", và Báo cáo theo danh mục*.
-- **Mục tiêu dự án (Business/Project Goals):**
-  - Hoàn thiện bản MVP chạy ổn định sau 3 Sprint (trước ngày 13/12/2026).
-  - Đạt tối thiểu **20 sinh viên** cài đặt dùng thử thực tế.
-  - Đạt tỷ lệ giữ chân **$\ge 50\%$** người dùng vẫn duy trì ghi chép sau 7 ngày.
+> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Trạng thái:** ✅ · **Phụ trách:** Dương Văn Hoan (PO) · **Cập nhật:** 14/11/2026
 
-## 2. Mô hình Vận hành & Hệ sinh thái (Solution Blueprint)
-- **Giai đoạn MVP (Hiện tại – 4 tuần):** Ứng dụng hoạt động độc lập (Offline-first / Local Storage trên thiết bị), không yêu cầu đăng nhập phức tạp, miễn phí 100% và không quảng cáo để tối đa hóa trải nghiệm người dùng đầu tiên.
-- **Hướng mở rộng tương lai (Post-MVP):**
-  - Tích hợp gợi ý voucher/ưu đãi ăn uống, nhà sách dành riêng cho sinh viên quanh khu vực trường đại học.
-  - Xuất báo cáo chi tiêu định kỳ và tính năng chia tiền phòng trọ cho nhóm sinh viên ở ghép.
+## 1. Product Vision Board (khung Roman Pichler)
 
-## 3. Bảng Giả định Cần Kiểm chứng (Assumptions & Validation)
+> **Tầm nhìn:** Giúp sinh viên tự tin làm chủ đồng tiền ngay từ những năm đầu đại học.
 
-| Giả định (Assumption) | Phương pháp kiểm chứng | Tiêu chí thành công (Success Metric) | Trạng thái hiện tại |
+| Nhóm mục tiêu | Nhu cầu | Sản phẩm | Mục tiêu dự án |
 | :--- | :--- | :--- | :--- |
-| **A1:** Nhiều sinh viên thật sự bị hết tiền trước cuối tháng. | Khảo sát online Google Form (`n = 50` SV). | $\ge 60\%$ sinh viên xác nhận. | **Đã đạt (68% xác nhận)** |
-| **A2:** Sinh viên thích app tối giản, không quảng cáo hơn app nhiều tính năng. | Khảo sát & Phỏng vấn sâu 5–8 sinh viên. | Đa số nêu quảng cáo/rườm rà là lý do bỏ app cũ. | **Đã đạt (64% nêu lý do ngại nhập/rườm rà)** |
-| **A3:** Con số *"Tiền được tiêu hôm nay"* dễ hiểu và hữu ích hơn biểu đồ. | Test giao diện mẫu với 5 sinh viên. | $\ge 4/5$ sinh viên hiểu ngay ý nghĩa trong 5 giây. | Đang triển khai cuối Sprint 0 |
-| **A4:** Sinh viên chịu ghi chép hằng ngày nếu thao tác dưới 5 giây. | Nhật ký chi tiêu thực tế 7 ngày trên bản MVP. | $\ge 3/5$ sinh viên ghi chép đủ 7 ngày liên tục. | Kiểm chứng ở Sprint 3 |
+| Sinh viên 18–22 tuổi, sống xa nhà, nhận tiền gia đình hoặc làm thêm theo tháng | Biết tiền đi đâu · Không hết tiền trước cuối tháng · Ghi chép nhanh, không phiền | App di động tối giản: ghi nhanh · ngân sách tháng · "Hôm nay còn được tiêu" · báo cáo theo danh mục | MVP chạy được sau 3 Sprint (trước 13/12/2026) · **20** SV dùng thử · **≥ 50%** vẫn ghi chép sau 7 ngày |
+
+*Con số 20 SV và 50% là mục tiêu nhóm tự đặt, có thể điều chỉnh theo góp ý của giảng viên.*
+
+## 2. Mô hình vận hành
+
+| Giai đoạn | Mô hình |
+| :--- | :--- |
+| **MVP (Sprint 1–3)** | App chạy độc lập trên máy, lưu dữ liệu cục bộ, không đăng nhập, miễn phí, không quảng cáo |
+| **Sau MVP (ngoài phạm vi môn học)** | Chia tiền phòng trọ, chuỗi ngày ghi chép, xuất báo cáo, gợi ý ưu đãi quanh trường |
+
+## 3. Giả định cần kiểm chứng
+
+Mọi điều trên vẫn là **giả định**. Nhóm kiểm chứng bằng dữ liệu thật trước khi đầu tư nhiều công sức lập trình; giả định nào sai → điều chỉnh hướng sản phẩm sớm.
+
+| # | Giả định | Cách kiểm chứng | Coi là đúng khi | Khi nào | Trạng thái |
+| :-: | :--- | :--- | :--- | :--- | :--- |
+| A1 | Nhiều SV thật sự hết tiền trước cuối tháng | Khảo sát online ≥ 50 SV | ≥ 60% xác nhận | Sprint 0 | ✅ **Đạt** – 34/50 (68%) |
+| A2 | SV thích app đơn giản, không quảng cáo hơn app nhiều tính năng | Khảo sát (lý do bỏ app) + phỏng vấn sâu 5–8 SV | Đa số nêu rườm rà/quảng cáo là lý do bỏ app | Sprint 0 | 🔄 **Khảo sát ủng hộ** (lý do #1, #2 đều là rườm rà/quảng cáo); chờ đủ phỏng vấn |
+| A3 | Con số "Hôm nay còn được tiêu" dễ hiểu hơn biểu đồ | Cho 5 SV xem bản HTML `HomeScreen` trong 5 giây | ≥ 4/5 hiểu đúng ngay | **Sprint 1** | ⬜ Chuyển từ Sprint 0 (nhóm không dùng Figma, test bằng bản HTML do AI sinh) |
+| A4 | SV chịu ghi chép hằng ngày nếu thao tác đủ nhanh | Nhật ký 7 ngày (Sprint 0) + cho SV dùng MVP 7 ngày (Sprint 3) | ≥ 3/5 ghi đủ 7 ngày | Sprint 3 | ⬜ |
+
+**Nếu A3 sai** (ít hơn 4/5 hiểu) → đổi nhãn/cách hiển thị con số trước khi làm US03 ở Sprint 2.
+**Nếu A4 sai** → ưu tiên nhắc nhở (US05) và rút ngắn thao tác ghi hơn nữa trước khi thêm tính năng mới.

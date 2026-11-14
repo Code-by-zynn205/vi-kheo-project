@@ -1,81 +1,143 @@
 ---
-name: design-system-vi-kheo
-description: Hệ thống thiết kế giao diện (Design System) và đặc tả màn hình (UI Spec) cho ứng dụng Ví Khéo, giúp AI Agent generate trực tiếp source code giao diện mobile-first mà không cần qua Figma.
+name: design-system
+description: Hệ thống thiết kế (màu, chữ, khoảng cách, component) và đặc tả 4 màn hình cốt lõi của Ví Khéo để AI sinh giao diện mobile-first trực tiếp thành code, không qua Figma. Dùng khi tạo hoặc sửa bất kỳ màn hình, component, màu sắc nào; khi làm bản HTML để test với sinh viên; khi review giao diện trước khi merge.
 ---
 
 # Skill: Design System & UI Spec – Ví Khéo
 
-## 1. Triết lý thiết kế (Design Principles)
-- **Tốc độ dưới 5 giây:** Mọi thao tác ghi khoản chi mới phải hoàn tất trong tối đa 2 lần chạm (nhập số tiền -> chọn danh mục -> tự động/bấm lưu).
-- **Zero Clutter (Không gây ngợp):** Màn hình chính loại bỏ hoàn toàn các biểu đồ rối mắt, chỉ hiển thị duy nhất con số định hướng hành động: **"Hôm nay còn được tiêu"**.
-- **Mobile-First & Thumb-Friendly:** Các nút bấm quan trọng và bàn phím số được đặt ở nửa dưới màn hình, tối ưu cho thao tác một tay.
+## 1. Giai đoạn & phụ trách
 
-## 2. Design Tokens (Hệ thống màu sắc, chữ & khoảng cách)
+| Giai đoạn | Việc chính | Trạng thái |
+| :--- | :--- | :---: |
+| **GĐ1 – Sprint 0** | Chốt nguyên tắc, token, component, đặc tả 4 màn hình | ✅ |
+| **GĐ2 – Sprint 1** | Sinh bản HTML `HomeScreen` để test giả định A3 · `AddExpenseScreen` cho US01 | 🔄 |
+| **GĐ2 – Sprint 2** | `BudgetScreen` · trạng thái màu của `DailyAllowanceCard` | ⬜ |
+| **GĐ2 – Sprint 3** | `ReportScreen` · sửa/xoá giao dịch | ⬜ |
 
-### Bảng màu (Color Palette)
-- `--color-primary`: `#4F46E5` (Indigo 600 – Nút hành động chính `+ Ghi khoản chi`, tab đang chọn).
-- `--color-primary-light`: `#EEF2FF` (Indigo 50 – Nền highlight thẻ ngân sách).
-- `--color-success`: `#10B981` (Emerald 500 – Trạng thái an toàn, đã tiêu < 70% ngân sách).
-- `--color-warning`: `#F59E0B` (Amber 500 – Cảnh báo sắp chạm hạn mức, 70% – 90%).
-- `--color-danger`: `#EF4444` (Red 500 – Vượt hạn mức ngày hoặc số tiền chi tiêu `-`).
-- `--color-bg-page`: `#F9FAFB` (Gray 50 – Nền tổng thể ứng dụng).
-- `--color-bg-card`: `#FFFFFF` (White – Nền các thẻ Card và Bottom Sheet).
-- `--color-text-primary`: `#111827` (Gray 900 – Tiêu đề, số tiền chính).
-- `--color-text-secondary`: `#6B7280` (Gray 500 – Nhãn mô tả, ngày giờ).
-- `--color-border`: `#E5E7EB` (Gray 200 – Đường viền phân cách mảnh).
+- **Phụ trách chính:** Lê Thị Nhật Vy, Phạm Viết Hưng
+- **Review:** Lê Thị Phát, Nguyễn Đức Minh Nghĩa (người code giao diện)
 
-### Typography (Kiểu chữ)
-- **Font Family:** `'Inter', 'Roboto', sans-serif` (Hỗ trợ đầy đủ dấu tiếng Việt).
-- **Hero Metric (Số tiền được tiêu hôm nay):** `36px` (`2.25rem`), `font-weight: 700`, `line-height: 1.1`.
-- **Screen Title (Tiêu đề màn hình):** `20px` (`1.25rem`), `font-weight: 600`.
-- **Section Heading:** `16px` (`1rem`), `font-weight: 600`.
-- **Body Text:** `14px` (`0.875rem`), `font-weight: 400`.
-- **Caption / Subtext:** `12px` (`0.75rem`), `font-weight: 400`.
+> Nhóm **không dùng Figma**. Skill này là nguồn thiết kế duy nhất; AI đọc skill rồi sinh code giao diện. Cặp UI/UX soát giao diện thật trên điện thoại thay vì soát bản vẽ.
 
-### Spacing & Border Radius
-- **Page Padding:** `16px` trái/phải.
-- **Card Padding:** `16px`.
-- **Card Border Radius:** `16px`.
-- **Button & Input Border Radius:** `12px`.
-- **Shadow:** `0 1px 3px rgba(0, 0, 0, 0.08)` (Đổ bóng nhẹ, phẳng hiện đại).
+## 2. Khi nào dùng / không dùng
+**Dùng khi:** tạo/sửa màn hình hoặc component · chọn màu, cỡ chữ · làm bản HTML để test với SV · review giao diện trong Pull Request.
+**Không dùng khi:** viết logic tính tiền, lưu dữ liệu (→ `budget-logic`).
 
-## 3. Thư viện Component chuẩn
-1. `DailyAllowanceCard`: Thẻ hiển thị số tiền còn được tiêu hôm nay, màu chữ tự đổi theo tỷ lệ ngân sách còn lại (`--color-success` / `--color-warning` / `--color-danger`), kèm thanh `ProgressBar` ngân sách tháng.
-2. `QuickCategoryChip`: Nút chọn danh mục dạng lưới (Grid 3 cột x 2 hàng) gồm Icon + Tên ngắn gọn:
-   - `Ăn uống` (icon bát cơm/dao nĩa)
-   - `Di chuyển` (icon xe máy/xăng)
-   - `Nhà trọ & Điện nước` (icon ngôi nhà)
-   - `Học tập & Tài liệu` (icon quyển sách)
-   - `Mua sắm & Sinh hoạt` (icon giỏ hàng)
-   - `Khác` (icon dấu ba chấm)
-3. `TransactionItem`: Hàng hiển thị 1 giao dịch gồm: Icon danh mục (bên trái), Tên ghi chú + Giờ (ở giữa), Số tiền `-XX.000đ` màu `--color-danger` (bên phải).
-4. `NumericKeypad`: Bàn phím số tích hợp sẵn trên màn hình nhập liệu (các phím `0-9`, `000`, nút xóa lùi), chiều cao tối thiểu mỗi phím `48px`.
+## 3. Đầu vào
+- `docs/discovery/03-personas.md` (Minh, Vy – dùng một tay, ngại thao tác nhiều)
+- `docs/discovery/06-journey-features.md` (User Story + tiêu chí chấp nhận)
 
-## 4. Đặc tả 4 Màn hình Cốt lõi (Screen Specs cho AI Gen Code)
+## 4. Nguyên tắc thiết kế
 
-### Screen 1: `HomeScreen` (Màn hình chính – "Hôm nay còn được tiêu")
-- **Top Bar:** Lời chào ngắn ("Chào Minh 👋") + Nút icon cài đặt ngân sách ở góc phải.
-- **Hero Section:** Component `DailyAllowanceCard` hiển thị:
-  - Nhãn: `Hôm nay còn được tiêu`
-  - Số tiền lớn: `86.000₫`
-  - Thanh tiến trình: `Ngân sách tháng đã dùng: 62% (1.860.000đ / 3.000.000đ)`
-- **Recent Transactions Section:** Tiêu đề `Chi tiêu hôm nay` + danh sách các `TransactionItem` (ví dụ: Cơm trưa `-30.000₫`, Gửi xe `-5.000₫`, Tài liệu `-12.000₫`).
-- **Bottom Navigation / CTA:** Thanh điều hướng dưới cùng gồm 3 tab (`Trang chủ`, `Ngân sách`, `Báo cáo`) và nút Floating Action Button (FAB) màu `--color-primary` nổi bật: **`+ Ghi khoản chi`**.
+| Nguyên tắc | Quy định đo được | Truy về |
+| :--- | :--- | :--- |
+| **Ghi nhanh** | Từ màn hình chính đến lúc lưu: tối đa **3 thao tác** (bấm `+ Ghi khoản chi` → gõ số tiền → bấm `Lưu`; danh mục mặc định `Ăn uống`). Mục tiêu < 5 giây. | HMW1, P2 |
+| **Một con số** | Màn hình chính chỉ có 1 số to: *Hôm nay còn được tiêu*. Không biểu đồ trên màn hình chính. | HMW2, P3 |
+| **Một tay** | Nút chính, bàn phím số ở nửa dưới màn hình. Vùng chạm tối thiểu **48 × 48 px**. | Persona Minh |
+| **Không quảng cáo, không đăng nhập** | Mở app là dùng được ngay. | P2, khảo sát lý do bỏ app |
 
-### Screen 2: `AddExpenseScreen` (Màn hình Ghi khoản chi siêu tốc)
-- **Layout:** Dạng Bottom Sheet toàn màn hình hoặc trang riêng có nút đóng `X` ở góc trên.
-- **Amount Input:** Ô nhập số tiền căn giữa, tự động focus khi mở màn hình, hiển thị định dạng phân tách hàng nghìn (ví dụ: `35.000 đ`).
-- **Category Selector:** Lưới 6 `QuickCategoryChip` (mặc định chọn sẵn `Ăn uống` vì tần suất cao nhất ở sinh viên).
-- **Optional Note:** 1 ô input nhỏ placeholder `"Ghi chú nhanh (không bắt buộc)..."`.
-- **Primary Action:** Nút **`Lưu khoản chi`** rộng 100% chiều ngang, màu `--color-primary`, đặt ngay phía trên `NumericKeypad`.
+## 5. Design Tokens
 
-### Screen 3: `BudgetScreen` (Màn hình Đặt ngân sách tháng)
-- **Monthly Limit Input:** Thẻ nhập tổng ngân sách tháng hiện tại (ví dụ: `3.000.000 đ`).
-- **Auto-Calculation Preview:** Khung thông báo tự động tính toán: *"Với ngân sách này, trung bình mỗi ngày còn lại bạn được tiêu **100.000đ/ngày**."*
-- **Category Allocation (Tùy chọn):** Thanh trượt phân bổ nhanh cho các nhóm cố định (Tiền trọ) và chi tiêu biến đổi (Ăn uống, Đi lại).
-- **Save Button:** Nút **`Cập nhật ngân sách`**.
+### Màu
+```css
+:root {
+  --color-primary:        #4F46E5; /* Nút chính, tab đang chọn */
+  --color-primary-light:  #EEF2FF; /* Nền thẻ ngân sách */
+  --color-success:        #10B981; /* Nền/thanh: an toàn */
+  --color-warning:        #F59E0B; /* Nền/thanh: sắp chạm hạn mức */
+  --color-danger:         #EF4444; /* Nền/thanh: vượt hạn mức */
+  /* Màu CHỮ trạng thái – đậm hơn để đọc được trên nền trắng (tương phản ≥ 4.5:1) */
+  --color-success-text:   #047857;
+  --color-warning-text:   #B45309;
+  --color-danger-text:    #DC2626;
+  --color-bg-page:        #F9FAFB;
+  --color-bg-card:        #FFFFFF;
+  --color-text-primary:   #111827;
+  --color-text-secondary: #6B7280;
+  --color-border:         #E5E7EB;
+}
+```
+> Không dùng `--color-warning` (#F59E0B) làm màu chữ trên nền trắng: tương phản chỉ khoảng 2:1, khó đọc. Chữ trạng thái luôn dùng biến `*-text`.
 
-### Screen 4: `ReportScreen` (Màn hình Báo cáo theo danh mục)
-- **Filter Tabs:** Bộ chuyển đổi thời gian `Tuần này` | `Tháng này`.
-- **Visualization:** Biểu đồ tròn rỗng giữa (`DonutChart`) hiển thị tổng chi ở tâm biểu đồ và tỷ lệ % từng danh mục bằng màu sắc phân biệt rõ ràng.
-- **Breakdown List:** Danh sách xếp hạng các danh mục từ chi nhiều nhất đến ít nhất, mỗi dòng gồm: Tên danh mục + Thanh % nhỏ + Tổng tiền đã chi.
+### Chữ
+| Vai trò | Cỡ | Độ đậm |
+| :--- | :--- | :--- |
+| Số tiền lớn (Hero) | 36px | 700 |
+| Tiêu đề màn hình | 20px | 600 |
+| Tiêu đề mục | 16px | 600 |
+| Nội dung | 14px | 400 |
+| Chú thích | 12px | 400 |
+
+Font: `'Inter', 'Roboto', sans-serif` (đủ dấu tiếng Việt).
+
+### Khoảng cách & bo góc
+Lề trang 16px · Padding thẻ 16px · Bo góc thẻ 16px · Bo góc nút/ô nhập 12px · Đổ bóng `0 1px 3px rgba(0,0,0,0.08)`.
+
+### Định dạng tiền
+`35.000đ` – dấu chấm phân cách hàng nghìn, chữ `đ` liền sau, không có số lẻ. Khoản chi hiển thị `−35.000đ` màu `--color-danger-text`; khoản thu `+35.000đ` màu `--color-success-text`.
+
+## 6. Component
+
+| Component | Mô tả | Dùng ở |
+| :--- | :--- | :--- |
+| `DailyAllowanceCard` | Nhãn "Hôm nay còn được tiêu" + số Hero + thanh tiến độ ngân sách tháng. Màu theo trạng thái (bảng dưới). | Home |
+| `QuickCategoryChip` | Lưới 3 cột × 2 hàng: Ăn uống · Di chuyển · Nhà trọ & Điện nước · Học tập & Tài liệu · Mua sắm & Sinh hoạt · Khác. Icon + tên ngắn. | AddExpense |
+| `TransactionItem` | Icon danh mục (trái) · ghi chú + giờ (giữa) · số tiền (phải). Vuốt hoặc bấm giữ để sửa/xoá (Sprint 3). | Home, lịch sử |
+| `NumericKeypad` | Phím 0–9, `000`, xoá lùi; mỗi phím cao ≥ 48px. | AddExpense, Budget |
+| `ProgressBar` | Thanh % ngân sách tháng đã dùng. | Home, Budget |
+| `EmptyState` | Màn hình trống có 1 câu hướng dẫn + 1 nút hành động. | Mọi màn hình |
+
+**Trạng thái màu của `DailyAllowanceCard`** (quy tắc tính ở `skills/budget-logic`):
+
+| Trạng thái | Điều kiện | Màu chữ số Hero | Dòng phụ |
+| :--- | :--- | :--- | :--- |
+| An toàn | đã tiêu hôm nay < 70% hạn mức ngày | `--color-success-text` | — |
+| Sắp chạm | 70% – 100% | `--color-warning-text` | "Sắp chạm hạn mức hôm nay" |
+| Vượt | > 100% | `--color-danger-text` | "Đã vượt 15.000đ" |
+| Hết ngân sách tháng | ngân sách còn lại ≤ 0 | `--color-danger-text` | "Đã dùng hết ngân sách tháng" |
+| Chưa đặt ngân sách | chưa có ngân sách tháng này | — | Nút "Đặt ngân sách tháng" |
+
+## 7. Đặc tả 4 màn hình
+
+> Số liệu trong đặc tả chỉ là dữ liệu minh hoạ để AI dựng giao diện, không phải số liệu thật.
+
+### Màn hình 1 – `HomeScreen` `[Sprint 1 khung · Sprint 2 hoàn thiện]`
+- Thanh trên: lời chào ngắn + icon cài đặt ngân sách (phải).
+- `DailyAllowanceCard`: "Hôm nay còn được tiêu" · `86.000đ` · "Ngân sách tháng đã dùng 62% (1.860.000đ / 3.000.000đ)".
+- Mục "Chi tiêu hôm nay": danh sách `TransactionItem` (Cơm trưa −30.000đ, Gửi xe −5.000đ, Tài liệu −12.000đ). Chưa có giao dịch → `EmptyState` "Chưa có khoản chi nào hôm nay".
+- Thanh điều hướng dưới: `Trang chủ` · `Ngân sách` · `Báo cáo` + nút nổi `+ Ghi khoản chi` màu `--color-primary`.
+
+### Màn hình 2 – `AddExpenseScreen` `[Sprint 1 – US01]`
+- Mở dạng bottom sheet toàn màn hình, nút `X` đóng.
+- Công tắc nhỏ `Chi | Thu` ở trên cùng, mặc định `Chi` (`Thu` dùng từ Sprint 2 – US07).
+- Ô số tiền căn giữa, tự focus, hiển thị `35.000đ` khi gõ.
+- Lưới 6 `QuickCategoryChip`, mặc định chọn `Ăn uống`.
+- Ô ghi chú tuỳ chọn: placeholder "Ghi chú nhanh (không bắt buộc)…".
+- Nút `Lưu khoản chi` rộng 100%, ngay trên `NumericKeypad`. Số tiền = 0 → nút bị vô hiệu.
+- Lưu xong: đóng sheet, quay về Home, khoản mới nằm đầu danh sách, hiện thông báo nhỏ "Đã lưu".
+
+### Màn hình 3 – `BudgetScreen` `[Sprint 2 – US02]`
+- Ô nhập ngân sách tháng (ví dụ `3.000.000đ`).
+- Khung xem trước: "Với ngân sách này, mỗi ngày còn lại bạn được tiêu khoảng **100.000đ**."
+- Nút `Cập nhật ngân sách`.
+- *(Không làm trong MVP: thanh trượt phân bổ theo danh mục – xếp vào Could-have.)*
+
+### Màn hình 4 – `ReportScreen` `[Sprint 3 – US04]`
+- Bộ lọc `Tuần này | Tháng này`.
+- Biểu đồ tròn rỗng giữa (`DonutChart`), tổng chi ở tâm.
+- Danh sách danh mục xếp từ chi nhiều đến ít: tên + thanh % + số tiền.
+- Chưa có dữ liệu → `EmptyState`.
+
+## 8. Quy tắc bắt buộc (chống AI Slop)
+1. Chỉ dùng biến màu trong mục 5; không tự thêm màu, font, gradient, hiệu ứng.
+2. Không thêm màn hình, tab, tính năng ngoài 4 màn hình trên nếu không có User Story.
+3. Không đặt biểu đồ trên `HomeScreen`.
+4. Mọi chữ trên giao diện bằng tiếng Việt có dấu.
+5. Mọi vùng bấm ≥ 48 × 48 px.
+
+## 9. Checklist review giao diện (trước khi merge)
+- [ ] Màu, cỡ chữ, bo góc đúng token
+- [ ] Ghi một khoản chi ≤ 3 thao tác, thử bấm giờ < 5 giây
+- [ ] Chạy trên điện thoại thật (không chỉ trình giả lập), màn hình rộng 360px không vỡ
+- [ ] Có trạng thái trống và trạng thái lỗi
+- [ ] Số tiền đúng định dạng `35.000đ`
