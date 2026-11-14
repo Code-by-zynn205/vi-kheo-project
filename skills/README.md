@@ -32,9 +32,27 @@ Mọi `SKILL.md` trong dự án đều có đủ 8 thành phần theo cùng th�
 
 ## 3. Cách dùng với AI Agent
 
-```
-Đọc skills/product-discovery/SKILL.md rồi cập nhật docs/discovery/03-personas.md
-theo biên bản phỏng vấn mới trong docs/evidence/interviews/PV-03.md
+Skill của nhóm được chép sang thư mục mà từng agent tự đọc:
+
+| Agent | Thư mục skill | File hướng dẫn |
+| :--- | :--- | :--- |
+| Codex | `.agents/skills/` | `AGENTS.md` |
+| Gemini CLI | `.agents/skills/` | `GEMINI.md` |
+| Claude Code | `.claude/skills/` | `CLAUDE.md` |
+
+Ngoài 6 skill của nhóm, repo có thêm 12 skill quy trình từ bộ **superpowers** (brainstorming, lập plan, TDD, debug, review…) – xem [third_party/superpowers/README.md](../third_party/superpowers/README.md).
+
+**Sau khi sửa một skill trong `skills/`, chạy:**
+
+```bash
+bash scripts/sync-agent-skills.sh
 ```
 
-Với Claude Code, có thể chép (hoặc tạo symlink) thư mục `skills/<tên>` vào `.claude/skills/<tên>` để AI tự nhận skill.
+rồi commit cả `skills/`, `.agents/skills/`, `.claude/skills/`.
+
+Ví dụ yêu cầu cho AI:
+
+```
+Dùng skill product-discovery, cập nhật docs/discovery/03-personas.md
+theo biên bản phỏng vấn mới trong docs/evidence/interviews/PV-03.md
+```

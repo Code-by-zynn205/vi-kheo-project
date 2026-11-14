@@ -1,0 +1,10 @@
+# Script shell phải giữ LF, nếu không bash trên Windows sẽ lỗi
+*.sh text eol=lf
+.agents/skills/**/scripts/* text eol=lf
+.claude/skills/**/scripts/* text eol=lf
+*.cjs text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
+
+*.png binary
+*.jpg binary

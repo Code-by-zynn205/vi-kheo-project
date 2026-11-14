@@ -34,7 +34,13 @@ Nhóm **Messi** – 10 thành viên: PO Dương Văn Hoan · SM Trần Ninh Nh�
 vi-kheo-project/
 ├── README.md                    ← bạn đang đọc
 ├── CONTRIBUTING.md              ← quy trình nhánh, commit, review
-├── skills/                      ← 6 Skill cho AI Agent (xem skills/README.md)
+├── AGENTS.md                    ← hướng dẫn chung cho AI (Codex đọc trực tiếp)
+├── CLAUDE.md, GEMINI.md         ← trỏ về AGENTS.md cho Claude Code, Gemini CLI
+├── .agents/skills/              ← skill cho Codex + Gemini CLI (skill nhóm + superpowers)
+├── .claude/skills/              ← bản sao cho Claude Code (sinh bằng script, không sửa tay)
+├── scripts/sync-agent-skills.sh ← đồng bộ skill sang 2 thư mục trên
+├── third_party/superpowers/     ← giấy phép, nguồn gốc bộ skill superpowers
+├── skills/                      ← 6 Skill của nhóm – nguồn gốc (xem skills/README.md)
 │   ├── user-research/           GĐ1 · Cặp Nghiên cứu người dùng
 │   ├── product-discovery/       GĐ1 · PO + cả nhóm
 │   ├── design-system/           GĐ2 · Cặp UI/UX

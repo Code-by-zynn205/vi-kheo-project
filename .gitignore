@@ -1,0 +1,9 @@
+# Thư mục làm việc tạm của skill superpowers
+.superpowers/
+.worktrees/
+
+# Cài đặt cá nhân của AI agent (không dùng chung)
+.claude/settings.local.json
+
+node_modules/
+.DS_Store
