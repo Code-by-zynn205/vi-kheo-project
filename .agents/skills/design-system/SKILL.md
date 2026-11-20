@@ -69,6 +69,14 @@ Gợi ý nào muốn dùng → sửa skill này qua Pull Request (cặp UI/UX du
   --color-text-primary:   #111827;
   --color-text-secondary: #6B7280;
   --color-border:         #E5E7EB;
+  /* Màu danh mục – chỉ dùng trong DonutChart và chấm màu cạnh tên danh mục,
+     luôn đi kèm tên + số, không dùng màu làm cách duy nhất để phân biệt */
+  --color-cat-an-uong:    #F97316;
+  --color-cat-di-chuyen:  #0EA5E9;
+  --color-cat-nha-tro:    #8B5CF6;
+  --color-cat-hoc-tap:    #14B8A6;
+  --color-cat-mua-sam:    #EC4899;
+  --color-cat-khac:       #94A3B8;
 }
 ```
 
@@ -96,6 +104,11 @@ Font: `'Inter', 'Roboto', sans-serif` (đủ dấu tiếng Việt). Lề trang 1
 | `NumericKeypad` | Phím 0–9, `000`, xoá lùi; mỗi phím cao ≥ 48px. | AddExpense, Budget |
 | `ProgressBar` | Thanh % ngân sách tháng đã dùng. | Home, Budget |
 | `EmptyState` | 1 câu hướng dẫn + 1 nút hành động. | Mọi màn hình |
+| `Snackbar` | Thông báo ngắn ở đáy màn hình, tự ẩn sau **8 giây**; tối đa 1 nút hành động (ví dụ "Hoàn tác"). Không che nút chính. *(Thêm 20/11 – chờ cặp UI/UX duyệt)* | Sau khi lưu, xoá |
+| `ConfirmDialog` | Hộp xác nhận **chỉ** cho thao tác không hoàn tác được. Nút ghi đúng hành động ("Xoá khoản này" / "Giữ lại"), không dùng "Có/Không"; không chọn sẵn nút xoá. *(Thêm 20/11)* | Hiện chưa có màn nào cần |
+| `DonutChart` | Biểu đồ tròn rỗng giữa; mỗi danh mục một màu `--color-cat-*`; tổng chi ở tâm (cỡ tiêu đề mục); luôn đi kèm danh sách tên + % + số tiền bên dưới. *(Thêm 20/11)* | Report |
+| `DateNavigator` | Hàng `‹  Thứ Năm, 19/11  ›`: mũi tên lùi/tiến 1 ngày, bấm vào chữ để mở lịch chọn ngày; không tiến quá hôm nay. *(Thêm 20/11)* | History |
+| `ToggleRow` | Một hàng cài đặt: nhãn + dòng mô tả + công tắc; bấm cả hàng là bật/tắt; cao ≥ 56px. *(Thêm 20/11)* | Settings |
 
 Trạng thái màu của `DailyAllowanceCard` (điều kiện tính ở `budget-logic` mục 4.2):
 

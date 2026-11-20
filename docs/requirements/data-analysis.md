@@ -497,7 +497,7 @@ Mã: BR-0x tiền và thời gian · BR-1x giao dịch · BR-2x ngân sách · B
 
 | Mã | Quy tắc | Lớp |
 | :--- | :--- | :-: |
-| BR-90 | Xoá giao dịch: xác nhận 1 lần; đặt `deletedAt` (xoá mềm, Q6); có "Hoàn tác" 5 giây | R1 |
+| BR-90 | Xoá giao dịch: đặt `deletedAt` (xoá mềm, Q6); `Snackbar` "Hoàn tác" 8 giây; có hay không hộp xác nhận: Q15 | R1 |
 | BR-91 | Bản ghi xoá mềm không tính vào mọi con số; dọn hẳn sau 30 ngày nếu chưa có đồng bộ (R1, R2) | R1 |
 | BR-92 | Xuất CSV chỉ gồm giao dịch chưa xoá; xuất JSON đầy đủ kèm `schemaVersion` | R2 |
 | BR-93 | Nhập JSON: `schemaVersion` cũ hơn → nâng cấp; mới hơn → từ chối; trùng `id` → giữ bản `updatedAt` mới hơn | R2 |
@@ -546,7 +546,7 @@ stateDiagram-v2
   [*] --> Active: tạo
   Active --> Active: sửa
   Active --> Deleted: xoá (deletedAt)
-  Deleted --> Active: hoàn tác (≤ 5 giây) / khôi phục
+  Deleted --> Active: hoàn tác (≤ 8 giây)
   Deleted --> [*]: dọn hẳn sau 30 ngày (R1, R2) / sau khi đồng bộ (R3)
 ```
 
@@ -700,6 +700,8 @@ Chữ thông báo là đề xuất; câu chính thức do cặp UI/UX chốt tro
 
 ## 13. Câu hỏi mở
 
+Đề xuất trả lời có nguồn cho Q1–Q3, Q5–Q8, Q15, Q16: [`po-decision-proposals.md`](po-decision-proposals.md).
+
 | # | Câu hỏi | Người trả lời | Chặn | Đề xuất của cặp dữ liệu |
 | :-: | :--- | :--- | :--- | :--- |
 | Q1 | Khoản thu cộng vào quỹ tháng theo `date` (BR-21)? | PO | PRD US03, US07 | Có |
@@ -715,6 +717,8 @@ Chữ thông báo là đề xuất; câu chính thức do cặp UI/UX chốt tro
 | Q11 | Chia tiền nhóm: phần dư cho người trả (BR-80)? | PO | User Story R2 | Có |
 | Q12 | Giữ giới hạn 60 ngày cho ghi khoản quá khứ (BR-12)? | PO | User Story R2 | Có |
 | Q13 | Trang quản trị cần những chức năng nào trước? | PO | R3 | Thống kê gộp, góp ý, thông báo |
+| Q15 | Xoá: hộp xác nhận hay Hoàn tác? | PO | PRD US06 | Hoàn tác 8 giây, bỏ hộp xác nhận |
+| Q16 | Nhắc 21:00 chính xác tới đâu? | PO | PRD US05 | Khoảng 21:00 – 22:00 (giới hạn Android) |
 | Q14 | Thời hạn xoá hẳn dữ liệu khi người dùng yêu cầu; căn cứ pháp lý về dữ liệu cá nhân tại Việt Nam | PO + giảng viên | R3 | `Cần kiểm chứng` – chưa đọc văn bản pháp luật |
 
 ---
@@ -734,7 +738,7 @@ Chữ thông báo là đề xuất; câu chính thức do cặp UI/UX chốt tro
 | EC-09 | Dán ghi chú > 100 ký tự | Chặn ở 100 | R1 |
 | EC-10 | Gỡ app, cài lại | **Mất dữ liệu** ở R1 – báo trước với người dùng thử; R2 có sao lưu | R1 |
 | EC-11 | Bấm Lưu hai lần liên tiếp | Chỉ tạo 1 giao dịch | R1 |
-| EC-12 | Xoá rồi bấm Hoàn tác sau 6 giây | Không hoàn tác được; khôi phục qua "Đã xoá gần đây" (nếu PO chọn) | R1 |
+| EC-12 | Xoá rồi bấm Hoàn tác sau 9 giây | Không hoàn tác được (Snackbar đã ẩn); MVP không có thùng rác | R1 |
 | EC-13 | Máy hết pin khi đang lưu | Hoặc lưu đủ, hoặc không lưu – không có bản ghi dở | R1 |
 | EC-14 | Định kỳ ngày 31, tháng 2 | Sinh ngày 28/29 (BR-50) | R2 |
 | EC-15 | Không mở app 2 tháng, có định kỳ hằng ngày | Sinh tối đa 31 lần, các lần cũ hơn đánh dấu bỏ qua (BR-51) | R2 |
@@ -799,7 +803,7 @@ Chữ thông báo là đề xuất; câu chính thức do cặp UI/UX chốt tro
 | :--- | :--- | :--- | :--- |
 | `budget-logic` mục 4.1 | Thêm trường chung (`updatedAt`, `deletedAt`), `Settings`, `AppMeta`, enum viết hoa theo mục 7 | Cặp dữ liệu (Pull Request sửa skill) | Sau khi PO duyệt mục 4 |
 | `budget-logic` mục 4.2, 4.4 | Chỉ khi PO duyệt Q9: thêm công thức 10.2 và test case mới | Cặp dữ liệu | R2 |
-| `06-journey-features.md` | AC US01 (giới hạn số tiền, ghi chú), US05 (Q8), US06 (Q7, Hoàn tác); thêm ý tưởng F16+ cho các tính năng "Mới" ở mục 16 để PO xét MoSCoW | PO, PA | Trước PRD |
+| `06-journey-features.md` | AC US01 (giới hạn số tiền, ghi chú), US05 (Q8), US06 (Q7, Hoàn tác); thêm ý tưởng F16+ cho các tính năng "Mới" ở mục 16 để PO xét MoSCoW | PO, PA | **Đã làm 20/11** – chờ PO duyệt (06 mục 3.1, 4, 5, 6) |
 | PRD US01–US08 | Mục "Dữ liệu" dẫn tới mục 4, 11; trường hợp biên lấy từ mục 14; mã lỗi từ mục 12 | PA | Khi viết PRD |
 | ADR-02 (lưu trữ) | Tiêu chí: ràng buộc duy nhất, ghi nhiều bản ghi nguyên tử, truy vấn theo khoảng ngày (mục 11); đường lên R3 (mục 6, 8.11) | Kiến trúc sư | Song song |
 | `00-research-log.md` | Thêm nguồn R-01 → R-05 vào mục nghiên cứu thứ cấp | Cặp nghiên cứu | Khi duyệt file này |

@@ -10,7 +10,14 @@ Nhóm không dùng Figma. Thiết kế gồm 3 phần:
 
 | Màn hình | User Story | Sprint | Trạng thái |
 | :--- | :--- | :--- | :--- |
-| [HomeScreen](screens/HomeScreen.md) | US01, US03 | 1 – 2 | Cần bổ sung |
-| [AddExpenseScreen](screens/AddExpenseScreen.md) | US01, US07 | 1 | Cần bổ sung |
-| [BudgetScreen](screens/BudgetScreen.md) | US02 | 2 | Cần bổ sung |
-| [ReportScreen](screens/ReportScreen.md) | US04 | 3 | Cần bổ sung |
+| [HomeScreen](screens/HomeScreen.md) | US01, US03 | 1 – 2 | Đang làm – chờ UI/UX duyệt |
+| [AddExpenseScreen](screens/AddExpenseScreen.md) | US01, US07 | 1 – 2 | Đang làm – chờ UI/UX duyệt |
+| [BudgetScreen](screens/BudgetScreen.md) | US02 | 2 | Đang làm – chờ UI/UX duyệt, PO Q2, Q3 |
+| [ReportScreen](screens/ReportScreen.md) | US04 | 3 | Đang làm – chờ UI/UX duyệt |
+| [EditTransactionSheet](screens/EditTransactionSheet.md) | US06 | 3 | Đang làm – chờ UI/UX duyệt, PO Q6, Q7, Q15 |
+| [SettingsScreen](screens/SettingsScreen.md) | US05 | 3 | Đang làm – chờ UI/UX duyệt, PO Q5, Q8 |
+| [HistoryScreen](screens/HistoryScreen.md) | US08 | 3 – nếu kịp | Đang làm – chờ UI/UX duyệt |
+
+| Prototype | Dùng để | Trạng thái |
+| :--- | :--- | :--- |
+| [prototype/home.html](prototype/home.html) | Test giả định A3 – hướng dẫn: [a3-test-guide.md](../evidence/prototype-tests/a3-test-guide.md). Đổi trạng thái bằng `#warning`, `#over`, `#out`, `#nobudget`, `#empty` | Xong – chờ chạy test |
