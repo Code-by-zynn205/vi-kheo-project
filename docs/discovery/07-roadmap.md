@@ -20,7 +20,7 @@
 Khảo sát 50 SV · phỏng vấn (đang tiếp tục) · 8 tài liệu `docs/discovery` · 6 Skill AI · slide báo cáo. Báo cáo: [sprint-0-review.md](../sprints/sprint-0-review.md).
 
 **Sprint 1 – Ghi chi tiêu (15/11 – 23/11)**
-- Chốt công nghệ ([frontend-ui](../../skills/frontend-ui/SKILL.md) mục 4), dựng dự án, token màu/chữ.
+- Chốt công nghệ ([frontend-ui](../../.agents/skills/frontend-ui/SKILL.md) mục 4.1), dựng dự án, token màu/chữ.
 - US01: `HomeScreen` khung + `AddExpenseScreen` + 6 danh mục + lưu trên máy.
 - Test giả định A3 với 5 SV bằng bản HTML `HomeScreen`.
 - Hoàn tất phỏng vấn, thay trích dẫn thật vào Persona.
@@ -50,7 +50,7 @@ Một User Story chỉ được coi là **Done** khi đủ cả 5 điều:
 
 1. **Đạt tiêu chí chấp nhận** – mọi AC trong [06-journey-features.md](06-journey-features.md) mục 5 đều qua.
 2. **Chạy trên điện thoại thật** – không chỉ trên trình giả lập.
-3. **Đúng design system** – màu, chữ, component theo [skills/design-system](../../skills/design-system/SKILL.md).
+3. **Đúng design system** – màu, chữ, component theo [design-system](../../.agents/skills/design-system/SKILL.md).
 4. **Code đã review** – qua Pull Request, ít nhất 1 người ở cặp khác duyệt; phần tính tiền có unit test.
 5. **Trello cập nhật** – thẻ đã sang cột Done.
 

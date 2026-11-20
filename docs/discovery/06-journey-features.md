@@ -88,7 +88,7 @@ Từ các HMW và điểm đau, nhóm liệt kê **15 ý tưởng tính năng** 
 - Sang tháng mới chưa đặt ngân sách → màn hình chính hiện nút "Đặt ngân sách tháng".
 
 **US03 – Hôm nay còn được tiêu** (Sprint 2)
-- Con số tính đúng theo công thức và **qua đủ test case** trong `skills/budget-logic/SKILL.md` mục 7.
+- Con số tính đúng theo công thức và **qua đủ test case** trong skill `budget-logic` mục 4.4 (`.agents/skills/budget-logic/SKILL.md`).
 - Ghi thêm một khoản chi 30.000đ → con số giảm đúng 30.000đ.
 - Màu đổi đúng 4 trạng thái: an toàn / sắp chạm / vượt / hết ngân sách tháng.
 

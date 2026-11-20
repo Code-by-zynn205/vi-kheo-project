@@ -55,9 +55,9 @@ If your harness appears here, read its reference file for special instructions:
 
 - Claude Code: `references/claude-code-tools.md`
 - Codex: `references/codex-tools.md`
-- Gemini CLI: `references/gemini-tools.md`
+- Antigravity: `references/antigravity-tools.md`
 
-In this project, skills are installed per repository, not as a plugin: a reference written as `superpowers:<name>` means the skill `<name>` in `.agents/skills/` (Codex, Gemini CLI) or `.claude/skills/` (Claude Code).
+In this project, skills are installed per repository, not as a plugin: a reference written as `superpowers:<name>` means the skill `<name>` in `.agents/skills/` (Codex, Antigravity) or `.claude/skills/` (Claude Code).
 
 ## User Instructions
 

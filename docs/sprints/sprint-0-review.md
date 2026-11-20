@@ -14,7 +14,7 @@
 | 5 | Problem Statement, Persona, Vision Board, giả định A1–A4 | [02](../discovery/02-problem.md) · [03](../discovery/03-personas.md) · [05](../discovery/05-vision.md) | Xong |
 | 6 | Customer Journey → 3 HMW → **Generate Features (15 ý tưởng, MoSCoW)** → 8 User Story có AC | [06-journey-features.md](../discovery/06-journey-features.md) | Xong |
 | 7 | Lộ trình 3 Sprint + Definition of Done | [07-roadmap.md](../discovery/07-roadmap.md) | Xong |
-| 8 | **6 Skill AI**, mỗi skill có người phụ trách và người review | [skills/README.md](../../skills/README.md) | Xong |
+| 8 | **6 Skill AI**, mỗi skill có người phụ trách và người review | `skills/` (đã gộp vào `.agents/skills/` ngày 20/11/2026, xem [skill-standard.md](../skill-standard.md)) | Xong |
 | 9 | Slide báo cáo Research & Discovery (17 trang) | Canva | Xong – cần sửa theo mục 4 |
 
 **Giả định đã kiểm chứng:** A1 đạt (34/50 = 68% ≥ 60%). A2 đang kiểm chứng – khảo sát ủng hộ, chờ kiểm lại mẫu số và đủ phỏng vấn.

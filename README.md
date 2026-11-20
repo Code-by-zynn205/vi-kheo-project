@@ -5,76 +5,78 @@ Nhóm **Messi** – 10 thành viên: PO Dương Văn Hoan · SM Trần Ninh Nh�
 
 > **Sản phẩm trong một câu:** Ghi một khoản chi trong dưới 5 giây và luôn biết *"Hôm nay còn được tiêu bao nhiêu"*.
 
----
+## 1. Năm giai đoạn
 
-## 1. Các giai đoạn dự án
+| # | Giai đoạn                            | Đầu ra                                                           | Skill AI                                                     | Trạng thái                   |
+| :-: | :------------------------------------- | :----------------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------- |
+| 1 | Research & Discovery                   | [docs/discovery/](docs/discovery/), [docs/evidence/](docs/evidence/) | `user-research`, `product-discovery`                     | Xong (còn mục Cần bổ sung) |
+| 2 | Design System & Prototype              | [docs/design/](docs/design/)                                        | `design-system` (+ `frontend-design`, `ui-ux-pro-max`) | Đang làm                     |
+| 3 | Product Requirements (PRD, User Story) | [docs/requirements/](docs/requirements/)                            | `product-requirements`                                     | Chưa làm                     |
+| 4 | Vibe Code                              | [docs/plans/](docs/plans/), `src/`                                | `frontend-ui`, `budget-logic` + superpowers              | Chưa làm                     |
+| 5 | Present full product                   | [docs/present/](docs/present/)                                      | `demo-present`                                             | Chưa làm                     |
+| — | Mỗi Sprint                            | [docs/sprints/](docs/sprints/)                                      | `scrum-sprint`                                             | Đang làm                     |
 
-| Giai đoạn | Sprint | Thời gian | Mục tiêu | Trạng thái |
-| :--- | :--- | :--- | :--- | :---: |
-| **GĐ1 – Discovery** | Sprint 0 | 07/11 – 14/11/2026 | Vấn đề, người dùng, thị trường, tầm nhìn, Backlog, bộ Skill AI | Xong (còn mục Cần bổ sung) |
-| **GĐ2 – Xây dựng MVP** | Sprint 1 | 15/11 – 23/11/2026 | US01: ghi khoản chi + 6 danh mục + lưu trên máy | Đang làm |
-| | Sprint 2 | 24/11 – 03/12/2026 | US02, US03, US07: ngân sách tháng, khoản thu, "Hôm nay còn được tiêu"; bản build dùng thử | Chưa làm |
-| | Sprint 3 | 04/12 – 12/12/2026 | US04, US05, US06: báo cáo, nhắc nhở, sửa/xoá | Chưa làm |
-| **GĐ3 – Kiểm chứng & Demo** | Trong Sprint 3 | 04/12 – 13/12/2026 | SV dùng thử 7 ngày (04/12 – 10/12), đo giả định A4, demo, báo cáo tổng kết | Chưa làm |
-
-**Quy ước dùng trong toàn bộ tài liệu**
-
-| Trạng thái | Ý nghĩa | | Nguồn dữ liệu | Ý nghĩa |
-| :--- | :--- | :-: | :--- | :--- |
-| Xong | Đã xong, có bằng chứng | | `[SƠ CẤP]` | Nhóm tự thu thập (Google Form, phỏng vấn, nhật ký) |
-| Đang làm | Đang thực hiện | | `[THỨ CẤP]` | Tài liệu đã công bố, có trích dẫn và link |
-| Chưa làm | Chưa bắt đầu | | `[NHẬN ĐỊNH]` | Ý kiến/giả thuyết của nhóm, **chưa** là số liệu |
-| Cần bổ sung | Cần đối chiếu hoặc bổ sung bằng chứng | | | |
-
----
+Mỗi User Story đi qua: **đặc tả màn hình → PRD (PO duyệt) → spec + plan → code → Pull Request**. Lịch Sprint: [docs/discovery/07-roadmap.md](docs/discovery/07-roadmap.md).
 
 ## 2. Cấu trúc thư mục
 
 ```
 vi-kheo-project/
-├── README.md                    ← bạn đang đọc
-├── CONTRIBUTING.md              ← quy trình nhánh, commit, review
-├── AGENTS.md                    ← hướng dẫn chung cho AI (Codex đọc trực tiếp)
-├── CLAUDE.md, GEMINI.md         ← trỏ về AGENTS.md cho Claude Code, Gemini CLI
-├── .agents/skills/              ← skill cho Codex + Gemini CLI (skill nhóm + superpowers)
-├── .claude/skills/              ← bản sao cho Claude Code (sinh bằng script, không sửa tay)
-├── scripts/sync-agent-skills.sh ← đồng bộ skill sang 2 thư mục trên
-├── third_party/superpowers/     ← giấy phép, nguồn gốc bộ skill superpowers
-├── skills/                      ← 6 Skill của nhóm – nguồn gốc (xem skills/README.md)
-│   ├── user-research/           GĐ1 · Cặp Nghiên cứu người dùng
-│   ├── product-discovery/       GĐ1 · PO + cả nhóm
-│   ├── design-system/           GĐ2 · Cặp UI/UX
-│   ├── frontend-ui/             GĐ2 · Cặp Lập trình giao diện
-│   ├── budget-logic/            GĐ2 · Cặp Lập trình dữ liệu
-│   └── scrum-sprint/            Xuyên suốt · Scrum Master
+├── AGENTS.md              hướng dẫn và QUY TẮC BẮT BUỘC cho AI (Codex, Antigravity đọc trực tiếp)
+├── CLAUDE.md              trỏ về AGENTS.md cho Claude Code
+├── CONTRIBUTING.md        nhánh, commit, Pull Request
+├── .agents/skills/        NGUỒN GỐC của mọi skill (Codex, Antigravity) – sửa ở đây
+├── .claude/skills/        bản sao cho Claude Code – sinh bằng script, không sửa tay
+├── scripts/sync-skills.sh kiểm tra skill + chép sang .claude/skills
+├── third_party/           nguồn, phiên bản, giấy phép của skill bên ngoài
 └── docs/
-    ├── discovery/               ← 8 tài liệu Discovery (00 → 07)
-    ├── sprints/                 ← báo cáo từng Sprint (làm được gì, ai làm)
-    └── evidence/                ← ảnh chụp/link bằng chứng gốc
+    ├── skill-standard.md  chuẩn viết skill của nhóm + ai phụ trách skill nào
+    ├── discovery/         1 – vấn đề, persona, thị trường, tầm nhìn, Backlog, lộ trình
+    ├── evidence/          1 – khảo sát, phỏng vấn, test prototype (không có dữ liệu cá nhân)
+    ├── design/            2 – đặc tả màn hình, prototype HTML
+    ├── requirements/      3 – PRD từng User Story
+    ├── plans/             4 – spec và plan khi code
+    ├── present/           5 – kịch bản demo, báo cáo tổng kết
+    └── sprints/           planning và review từng Sprint
 ```
 
----
+## 3. Skill AI
 
-## 3. Tra cứu nhanh
+| Loại                               | Skill                                                                                                                                                                                                                                                                                                                                                                        |
+| :---------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Của nhóm (8)                      | `user-research` · `product-discovery` · `design-system` · `product-requirements` · `frontend-ui` · `budget-logic` · `scrum-sprint` · `demo-present` – chuẩn và người phụ trách: [docs/skill-standard.md](docs/skill-standard.md)                                                                                                                |
+| Thiết kế (2)                      | `frontend-design` (Anthropic) · `ui-ux-pro-max` (Next Level Builder)                                                                                                                                                                                                                                                                                                    |
+| Quy trình code – superpowers (13) | `using-superpowers` · `brainstorming` · `writing-plans` · `executing-plans` · `subagent-driven-development` · `using-git-worktrees` · `test-driven-development` · `systematic-debugging` · `verification-before-completion` · `requesting-code-review` · `receiving-code-review` · `finishing-a-development-branch` · `writing-skills` |
 
-| Cần xem | Mở file |
-| :--- | :--- |
-| Nhóm đã nghiên cứu gì, dữ liệu lấy từ đâu (tự thu thập hay tài liệu công bố) | [docs/discovery/00-research-log.md](docs/discovery/00-research-log.md) |
-| Tuần này nhóm đã làm được gì | [docs/sprints/sprint-0-review.md](docs/sprints/sprint-0-review.md) |
-| Có những Skill nào, mỗi Skill gồm thành phần gì, ai phụ trách | [skills/README.md](skills/README.md) |
-| Problem Statement (vấn đề) | [docs/discovery/02-problem.md](docs/discovery/02-problem.md) |
-| Persona (chân dung người dùng) | [docs/discovery/03-personas.md](docs/discovery/03-personas.md) |
-| Generate Features (sinh tính năng từ vấn đề) và Product Backlog | [docs/discovery/06-journey-features.md](docs/discovery/06-journey-features.md) |
-| Lộ trình và Definition of Done | [docs/discovery/07-roadmap.md](docs/discovery/07-roadmap.md) |
+Nguồn và giấy phép skill bên ngoài: [third_party/README.md](third_party/README.md).
 
----
+Ví dụ yêu cầu cho AI:
+
+```
+Dùng skill product-requirements, viết PRD cho US01 từ docs/discovery/06-journey-features.md
+và docs/design/screens/AddExpenseScreen.md.
+```
+
+```
+Dùng skill frontend-ui. Làm US01 theo PRD docs/requirements/US01-ghi-khoan-chi.md:
+brainstorming trước, rồi writing-plans.
+```
 
 ## 4. Công cụ
 
-| Việc | Công cụ |
-| :--- | :--- |
-| Quản lý Sprint, thẻ công việc | Trello |
-| Tài liệu, Skill AI, mã nguồn | GitHub (repo này) |
-| Khảo sát | Google Form + Google Sheets |
-| Thiết kế giao diện | **Không dùng Figma** – AI sinh giao diện trực tiếp từ `skills/design-system` |
-| Slide báo cáo | Canva |
+| Việc                              | Công cụ                                                                            |
+| :--------------------------------- | :----------------------------------------------------------------------------------- |
+| Quản lý Sprint, thẻ công việc | Trello                                                                               |
+| Tài liệu, skill AI, mã nguồn   | GitHub (repo này)                                                                   |
+| AI agent                           | Codex · Antigravity · Claude Code                                                  |
+| Khảo sát                         | Google Form + Google Sheets                                                          |
+| Thiết kế giao diện              | Không dùng Figma – đặc tả `.md` + prototype HTML từ skill `design-system` |
+| Slide báo cáo                    | Canva                                                                                |
+
+## 5. Quy ước
+
+| Trạng thái                                      |  | Nguồn dữ liệu   | Ý nghĩa                                             |
+| :------------------------------------------------ | :-: | :----------------- | :---------------------------------------------------- |
+| Xong · Đang làm · Chưa làm · Cần bổ sung |  | `[SƠ CẤP]`     | Nhóm tự thu thập                                   |
+| (PRD) Nháp · Chờ duyệt · Đã duyệt         |  | `[THỨ CẤP]`    | Tài liệu đã công bố, có trích dẫn            |
+|                                                   |  | `[NHẬN ĐỊNH]` | Ý kiến/giả thuyết của nhóm, chưa là số liệu |

@@ -54,5 +54,5 @@ PO phụ trách skill `product-discovery`; SM phụ trách skill `scrum-sprint`.
 | Quản lý Sprint | Trello – chia theo Sprint, mỗi thẻ có checklist Definition of Done |
 | Tài liệu, Skill AI, mã nguồn | GitHub |
 | Khảo sát | Google Form + Google Sheets |
-| Giao diện | AI sinh trực tiếp từ `skills/design-system` – **không dùng Figma** |
+| Giao diện | Skill `design-system` + đặc tả `docs/design/screens/` + prototype HTML – **không dùng Figma** |
 | Slide báo cáo | Canva |
