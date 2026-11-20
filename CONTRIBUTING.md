@@ -6,9 +6,11 @@ Mục tiêu: **mỗi thành viên tự commit phần việc của mình bằng t
 
 | Loại | Tên nhánh | Ví dụ |
 | :--- | :--- | :--- |
-| Tài liệu, đặc tả màn hình, PRD, skill | `docs/<nội-dung>` | `docs/US01-prd` |
-| Tính năng | `feature/USxx-<mô-tả>` | `feature/US01-add-expense` |
-| Sửa lỗi | `fix/<mô-tả>` | `fix/daily-allowance-rounding` |
+| Tài liệu, đặc tả màn hình, PRD, skill | `docs/<topic>` | `docs/US01-prd` |
+| Tính năng | `feature/USxx-<english-slug>` | `feature/US01-add-expense` |
+| Sửa lỗi | `fix/<english-slug>` | `fix/daily-allowance-rounding` |
+
+Tên nhánh và tên file luôn bằng tiếng Anh, chữ thường nối `-` (màn hình, component dùng PascalCase).
 
 Không commit thẳng vào `main`. Mọi thay đổi vào `main` qua Pull Request. Nhánh `feature/USxx-*` chỉ được tạo khi PRD của USxx đã `Đã duyệt`.
 

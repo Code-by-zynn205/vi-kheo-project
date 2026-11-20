@@ -6,7 +6,7 @@ Tạo bằng skill `tech-decision`. Chưa có ADR nền tảng `Đã chấp nh�
 
 | File | Mẫu |
 | :--- | :--- |
-| `ADR-xx-<mô-tả>.md` – mỗi quyết định một file | `.agents/skills/tech-decision/templates/adr.md` |
+| `ADR-xx-<english-slug>.md` – mỗi quyết định một file | `.agents/skills/tech-decision/templates/adr.md` |
 | `technical-design.md` – công nghệ, thư mục, dữ liệu, lệnh | `.agents/skills/tech-decision/templates/technical-design.md` |
 
 ## Danh sách ADR

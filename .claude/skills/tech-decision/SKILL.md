@@ -48,8 +48,8 @@ description: Chọn công nghệ và viết tài liệu thiết kế kỹ thuậ
 4. **Chấm điểm** các phương án còn lại theo nhóm B: điểm 1–5 × trọng số. Mỗi điểm có 1 câu lý do và nguồn.
 5. **Kiểm chứng thông tin kỹ thuật** (ví dụ "PWA trên iPhone có nhận thông báo không?") bằng tài liệu chính thức: ghi link, ngày đọc, nhãn `[THỨ CẤP]`. Không tìm được nguồn → ghi `Cần kiểm chứng`, không đoán.
 6. **Ghi quyết định và hệ quả:** được gì, mất gì, rủi ro, cách giảm rủi ro, điều kiện để xem lại quyết định.
-7. **Tạo file** `docs/architecture/ADR-<số 2 chữ số>-<mô-tả>.md` từ `templates/adr.md`, thêm 1 dòng vào `docs/architecture/README.md`.
-8. **Duyệt:** mở Pull Request nhánh `docs/adr-<số>-<mô-tả>`; Developers thống nhất tại Sprint Planning hoặc trong PR → trạng thái `Đã chấp nhận`.
+7. **Tạo file** `docs/architecture/ADR-<số 2 chữ số>-<english-slug>.md` từ `templates/adr.md`, thêm 1 dòng vào `docs/architecture/README.md`.
+8. **Duyệt:** mở Pull Request nhánh `docs/adr-<số>-<english-slug>`; Developers thống nhất tại Sprint Planning hoặc trong PR → trạng thái `Đã chấp nhận`.
 9. **Đổi quyết định:** không sửa ADR cũ. Viết ADR mới, ghi "Thay thế ADR-xx"; ADR cũ đổi trạng thái `Đã thay thế bởi ADR-yy`.
 
 ### 4.2 Tiêu chí của Ví Khéo
@@ -92,7 +92,7 @@ Sau khi ADR-01 (nền tảng) và ADR-02 (lưu trữ) được chấp nhận:
 
 | File | Mẫu | Duyệt |
 | :--- | :--- | :--- |
-| `docs/architecture/ADR-xx-<mô-tả>.md` | `templates/adr.md` | 8 Developers, SM ghi nhận |
+| `docs/architecture/ADR-xx-<english-slug>.md` | `templates/adr.md` | 8 Developers, SM ghi nhận |
 | `docs/architecture/technical-design.md` | `templates/technical-design.md` | 1 người cặp giao diện + 1 người cặp dữ liệu |
 | Dòng mới trong `docs/architecture/README.md` | — | — |
 

@@ -109,7 +109,7 @@ Trạng thái màu của `DailyAllowanceCard` (điều kiện tính ở `budget-
 
 ### 4.4 Viết đặc tả màn hình
 
-1. Mỗi màn hình một file `docs/design/screens/<TênMàn hình>.md` từ mẫu `templates/screen-spec.md`.
+1. Mỗi màn hình một file `docs/design/screens/<ScreenName>.md` từ mẫu `templates/screen-spec.md`.
 2. Liệt kê bố cục từ trên xuống, chỉ dùng component ở mục 4.3. Cần component mới → thêm vào mục 4.3 trước.
 3. Ghi đủ các trạng thái: có dữ liệu · trống · lỗi · (nếu có) theo `SAFE/WARNING/...`.
 4. Số liệu trong đặc tả là dữ liệu minh hoạ, ghi rõ điều này.
@@ -117,7 +117,7 @@ Trạng thái màu của `DailyAllowanceCard` (điều kiện tính ở `budget-
 
 ### 4.5 Làm prototype HTML
 
-1. Một file HTML tĩnh `docs/design/prototype/<tên>.html`, nhúng sẵn token ở mục 4.2, chạy được khi mở trực tiếp trên điện thoại.
+1. Một file HTML tĩnh `docs/design/prototype/<english-name>.html`, nhúng sẵn token ở mục 4.2, chạy được khi mở trực tiếp trên điện thoại.
 2. Rộng 360px không vỡ, không cần mạng (không tải font/thư viện ngoài; thiếu Inter thì dùng Roboto/sans-serif của máy).
 3. Ghi đường dẫn prototype vào đặc tả màn hình. Kết quả test với SV ghi bằng skill `user-research`.
 
@@ -125,8 +125,8 @@ Trạng thái màu của `DailyAllowanceCard` (điều kiện tính ở `budget-
 
 | File | Mẫu | Duyệt |
 | :--- | :--- | :--- |
-| `docs/design/screens/<TênMàn hình>.md` | `templates/screen-spec.md` | Cặp UI/UX + 1 người cặp giao diện |
-| `docs/design/prototype/<tên>.html` | — | Cặp UI/UX |
+| `docs/design/screens/<ScreenName>.md` | `templates/screen-spec.md` | Cặp UI/UX + 1 người cặp giao diện |
+| `docs/design/prototype/<english-name>.html` | — | Cặp UI/UX |
 | Nhận xét review giao diện trong Pull Request | `templates/ui-review.md` | — |
 
 ## 6. Khi viết plan

@@ -4,7 +4,7 @@
 
 ## 1. Thiết lập
 
-- Prototype: `docs/design/prototype/<tên>.html` (commit `<mã commit>`)
+- Prototype: `docs/design/prototype/<english-name>.html` (commit `<mã commit>`)
 - Thiết bị: <điện thoại / màn hình rộng ...px>
 - Câu hỏi: "<câu hỏi đúng nguyên văn>"
 - Ngưỡng đạt: <≥ 4/5 trả lời đúng>

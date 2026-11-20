@@ -34,7 +34,7 @@ Thiếu đặc tả màn hình → dừng, báo cặp UI/UX. Không tự thiết
 ## 4. Quy trình
 
 1. **Kiểm tra INVEST.** User Story phải Độc lập · Thương lượng được · Có giá trị · Ước lượng được · Nhỏ (≤ 5 Story Point) · Kiểm thử được. Không đạt "Nhỏ" → đề xuất tách cho PO, mỗi phần một PRD.
-2. **Tạo file** `docs/requirements/USxx-<mô-tả-không-dấu>.md` từ `templates/prd.md`.
+2. **Tạo file** `docs/requirements/USxx-<english-slug>.md` từ `templates/prd.md`.
 3. **Viết mục 1–3** (bối cảnh, người dùng, luồng) bằng câu ngắn, ngôn ngữ ai cũng hiểu. Mọi con số dẫn từ `00-research-log.md`.
 4. **Viết AC dạng Given/When/Then.** Mỗi AC gốc trong `06` thành ít nhất 1 AC; thêm AC cho trạng thái trống, lỗi, giới hạn nhập. Mỗi AC phải kiểm được bằng mắt trên điện thoại hoặc bằng unit test.
 5. **Viết test case có số cụ thể.** Phần tính tiền: dẫn số thứ tự test case trong `budget-logic` mục 4.4, không chép lại bảng. Phần giao diện: bước bấm + kết quả nhìn thấy.
@@ -48,7 +48,7 @@ Thiếu đặc tả màn hình → dừng, báo cặp UI/UX. Không tự thiết
 
 | File | Mẫu | Duyệt |
 | :--- | :--- | :--- |
-| `docs/requirements/USxx-<mô-tả>.md` | `templates/prd.md` | PO |
+| `docs/requirements/USxx-<english-slug>.md` | `templates/prd.md` | PO |
 | `docs/requirements/README.md` (bảng mục lục, thêm 1 dòng mỗi PRD) | `templates/requirements-index.md` | — |
 
 PRD đã duyệt là đầu vào bắt buộc của `brainstorming` → `writing-plans` (xem `AGENTS.md` mục 3).

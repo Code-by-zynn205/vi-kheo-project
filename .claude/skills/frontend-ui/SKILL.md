@@ -57,9 +57,9 @@ Màn hình chỉ gọi `logic/` và `storage/`, không tự tính tiền.
 | Bước | Việc | Skill | File sinh ra |
 | :-: | :--- | :--- | :--- |
 | 1 | Kiểm tra PRD có trạng thái `Đã duyệt`, không còn câu hỏi mở; đã có ADR nền tảng `Đã chấp nhận` và `technical-design.md` | `tech-decision` (nếu chưa có) | — |
-| 2 | Tạo nhánh `feature/USxx-<mô-tả>` | `using-git-worktrees` (tuỳ chọn) | — |
-| 3 | Làm rõ cách làm với AI, chốt thiết kế kỹ thuật | `brainstorming` | `docs/plans/specs/YYYY-MM-DD-USxx-<mô-tả>-design.md` |
-| 4 | Viết plan: phần đầu có PRD và skill áp dụng; Global Constraints chép mục 6 của từng skill nhóm liên quan; task giao diện theo `templates/screen-task.md`, task tính tiền theo `budget-logic/templates/logic-task.md` | `writing-plans` | `docs/plans/YYYY-MM-DD-USxx-<mô-tả>.md` |
+| 2 | Tạo nhánh `feature/USxx-<english-slug>` | `using-git-worktrees` (tuỳ chọn) | — |
+| 3 | Làm rõ cách làm với AI, chốt thiết kế kỹ thuật | `brainstorming` | `docs/plans/specs/YYYY-MM-DD-USxx-<english-slug>-design.md` |
+| 4 | Viết plan: phần đầu có PRD và skill áp dụng; Global Constraints chép mục 6 của từng skill nhóm liên quan; task giao diện theo `templates/screen-task.md`, task tính tiền theo `budget-logic/templates/logic-task.md` | `writing-plans` | `docs/plans/YYYY-MM-DD-USxx-<english-slug>.md` |
 | 5 | Làm theo plan, mỗi task một commit | `executing-plans` | code trong `src/` |
 | 6 | Chạy trên **điện thoại thật**, đi lần lượt từng AC | `verification-before-completion` | — |
 | 7 | Mở Pull Request theo `templates/pr-description.md` | `requesting-code-review` | — |
@@ -69,7 +69,7 @@ Màn hình chỉ gọi `logic/` và `storage/`, không tự tính tiền.
 Mẫu yêu cầu cho AI ở bước 3–4:
 
 ```
-Dùng skill frontend-ui. Làm US01 theo PRD docs/requirements/US01-ghi-khoan-chi.md.
+Dùng skill frontend-ui. Làm US01 theo PRD docs/requirements/US01-add-expense.md.
 Brainstorming trước, rồi writing-plans. Plan phải có phần đầu và Global Constraints
 theo AGENTS.md mục 3.
 ```
@@ -78,8 +78,8 @@ theo AGENTS.md mục 3.
 
 | File | Mẫu | Duyệt |
 | :--- | :--- | :--- |
-| `docs/plans/specs/YYYY-MM-DD-USxx-<mô-tả>-design.md` | theo `brainstorming` | Người làm + 1 người cùng cặp |
-| `docs/plans/YYYY-MM-DD-USxx-<mô-tả>.md` | theo `writing-plans` + `templates/screen-task.md` | Người làm + 1 người cùng cặp |
+| `docs/plans/specs/YYYY-MM-DD-USxx-<english-slug>-design.md` | theo `brainstorming` | Người làm + 1 người cùng cặp |
+| `docs/plans/YYYY-MM-DD-USxx-<english-slug>.md` | theo `writing-plans` + `templates/screen-task.md` | Người làm + 1 người cùng cặp |
 | Code trong `src/` | — | Review chéo (mục 4.3 bước 8) |
 | Mô tả Pull Request | `templates/pr-description.md` | — |
 

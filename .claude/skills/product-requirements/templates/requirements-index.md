@@ -6,4 +6,4 @@ Mỗi User Story đã được PO duyệt có một PRD. Chưa có PRD `Đã duy
 
 | User Story | PRD | Sprint | Trạng thái | Plan |
 | :--- | :--- | :--- | :--- | :--- |
-| US<xx> – <tên> | [US<xx>-<mô-tả>.md](US<xx>-<mô-tả>.md) | <x> | <Nháp / Chờ duyệt / Đã duyệt> | <đường dẫn plan hoặc "Chưa có"> |
+| US<xx> – <tên> | [US<xx>-<english-slug>.md](US<xx>-<english-slug>.md) | <x> | <Nháp / Chờ duyệt / Đã duyệt> | <đường dẫn plan hoặc "Chưa có"> |

@@ -5,8 +5,8 @@ Nhóm không dùng Figma. Thiết kế gồm 3 phần:
 | Phần | Vị trí | Skill |
 | :--- | :--- | :--- |
 | Token, component, nguyên tắc | `.agents/skills/design-system/SKILL.md` | `design-system` |
-| Đặc tả từng màn hình | `screens/<TênMànHình>.md` (mẫu `.agents/skills/design-system/templates/screen-spec.md`) | `design-system` |
-| Prototype HTML để test với sinh viên | `prototype/<tên>.html` | `design-system` (gợi ý thêm từ `frontend-design`) |
+| Đặc tả từng màn hình | `screens/<ScreenName>.md` (mẫu `.agents/skills/design-system/templates/screen-spec.md`) | `design-system` |
+| Prototype HTML để test với sinh viên | `prototype/<english-name>.html` | `design-system` (gợi ý thêm từ `frontend-design`) |
 
 | Màn hình | User Story | Sprint | Trạng thái |
 | :--- | :--- | :--- | :--- |

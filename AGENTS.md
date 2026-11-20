@@ -23,8 +23,8 @@ Dự án đi theo 5 giai đoạn trong bảng đánh giá của giảng viên. M
 | # | Giai đoạn | Skill của nhóm | Skill hỗ trợ | Đầu ra (file .md) |
 | :-: | :--- | :--- | :--- | :--- |
 | 1 | Research & Discovery | `user-research`, `product-discovery` | — | `docs/discovery/`, `docs/evidence/` |
-| 2 | Design System & Prototype | `design-system` | `frontend-design`, `ui-ux-pro-max` | `docs/design/screens/<Màn hình>.md`, `docs/design/prototype/*.html` |
-| 3 | Product Requirements (PRD, User Story) | `product-requirements` | — | `docs/requirements/USxx-<mô-tả>.md` |
+| 2 | Design System & Prototype | `design-system` | `frontend-design`, `ui-ux-pro-max` | `docs/design/screens/<ScreenName>.md`, `docs/design/prototype/*.html` |
+| 3 | Product Requirements (PRD, User Story) | `product-requirements` | — | `docs/requirements/USxx-<english-slug>.md` |
 | 4 | Vibe Code | `tech-decision` (một lần, trước US đầu tiên), `frontend-ui`, `budget-logic` | superpowers (mục 3) | `docs/architecture/ADR-xx-*.md`, `docs/architecture/technical-design.md`, `docs/plans/specs/…-design.md`, `docs/plans/…md`, code trong `src/` |
 | 5 | Present full product | `demo-present` | — | `docs/present/` |
 | — | Xuyên suốt mỗi Sprint | `scrum-sprint` | — | `docs/sprints/sprint-N-*.md` |
@@ -50,12 +50,12 @@ Thứ tự ưu tiên: **file này** → **skill của nhóm** (làm cái gì: n�
 
 ### Vị trí file và phần đầu plan (ghi đè mặc định của superpowers)
 
-- Spec của `brainstorming`: `docs/plans/specs/YYYY-MM-DD-USxx-<mô-tả>-design.md`
-- Plan của `writing-plans`: `docs/plans/YYYY-MM-DD-USxx-<mô-tả>.md`
+- Spec của `brainstorming`: `docs/plans/specs/YYYY-MM-DD-USxx-<english-slug>-design.md`
+- Plan của `writing-plans`: `docs/plans/YYYY-MM-DD-USxx-<english-slug>.md`
 - Phần đầu plan, ngay sau dòng `**Spec:**`, thêm 2 dòng bắt buộc:
 
 ```markdown
-**PRD:** docs/requirements/USxx-<mô-tả>.md
+**PRD:** docs/requirements/USxx-<english-slug>.md
 **Skill nhóm áp dụng:** <tên skill> (mục <số>), <tên skill> (mục <số>)
 ```
 
@@ -70,7 +70,7 @@ Thứ tự ưu tiên: **file này** → **skill của nhóm** (làm cái gì: n�
 1. **Đi đúng thứ tự giai đoạn.** Không viết code cho User Story chưa có PRD được PO duyệt (`docs/requirements/USxx-*.md`, trạng thái `Đã duyệt`). Không viết PRD cho màn hình chưa có đặc tả trong `docs/design/screens/`. Không viết plan code khi chưa có ADR nền tảng `Đã chấp nhận` và `docs/architecture/technical-design.md`.
 2. **Không bịa số liệu, trích dẫn.** Con số phải có trong `00-research-log.md`, gắn nhãn `[SƠ CẤP]` / `[THỨ CẤP]` / `[NHẬN ĐỊNH]`. Chưa có dữ liệu thì ghi `Cần bổ sung`.
 3. **Giữ phạm vi MVP.** Không thêm liên kết ngân hàng, OCR/AI, đầu tư, đăng nhập. Tính năng mới phải có User Story do PO duyệt.
-4. **Tài liệu và giao diện viết tiếng Việt có dấu.** Trạng thái ghi bằng chữ (`Xong` / `Đang làm` / `Chưa làm` / `Cần bổ sung`), không dùng emoji. Không dùng LaTeX – dùng `≥`, `→`.
+4. **Tên file, thư mục, nhánh luôn bằng tiếng Anh**, không dấu: chữ thường nối `-` (`US01-add-expense.md`, `ADR-01-app-platform.md`, `00-master-plan.md`); màn hình và component dùng PascalCase (`HomeScreen.md`). **Nội dung tài liệu và giao diện viết tiếng Việt có dấu.** Trạng thái ghi bằng chữ (`Xong` / `Đang làm` / `Chưa làm` / `Cần bổ sung`), không dùng emoji. Không dùng LaTeX – dùng `≥`, `→`.
 5. **Tiền là số nguyên VND**, hiển thị `35.000đ`. Công thức và test case theo `budget-logic`.
 6. **Không dùng Figma.** Thiết kế = đặc tả màn hình `.md` + prototype HTML sinh từ `design-system`.
 
@@ -81,7 +81,7 @@ Thứ tự ưu tiên: **file này** → **skill của nhóm** (làm cái gì: n�
 ### Code và Git
 
 8. **Definition of Done:** đạt mọi AC trong PRD · chạy trên điện thoại thật · đúng design system · review qua Pull Request (phần tính tiền có unit test) · thẻ Trello sang Done.
-9. **Không commit thẳng vào `main`.** Nhánh `feature/USxx-<mô-tả>`, `docs/<nội-dung>`, `fix/<mô-tả>`. Commit `<loại>(<phạm vi>): <mô tả>` (xem `CONTRIBUTING.md`).
+9. **Không commit thẳng vào `main`.** Nhánh `feature/USxx-<english-slug>`, `docs/<topic>`, `fix/<english-slug>`. Commit `<loại>(<phạm vi>): <mô tả>` (xem `CONTRIBUTING.md`).
 10. **Pull Request ghi rõ:** User Story, link PRD và plan, AI agent đã dùng (Codex / Antigravity / Claude Code), skill đã dùng, ảnh chụp trên điện thoại thật nếu là giao diện.
 11. **Người commit chịu trách nhiệm** đọc lại và chạy thử mọi dòng code, mọi con số AI sinh ra. Không dán code chưa chạy.
 

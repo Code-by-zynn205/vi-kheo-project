@@ -16,7 +16,7 @@ Nhóm **Messi** – 10 thành viên: PO Dương Văn Hoan · SM Trần Ninh Nh�
 | 5 | Present full product                   | [docs/present/](docs/present/)                                      | `demo-present`                                             | Chưa làm                     |
 | — | Mỗi Sprint                            | [docs/sprints/](docs/sprints/)                                      | `scrum-sprint`                                             | Đang làm                     |
 
-Trước User Story đầu tiên: **chọn công nghệ (ADR) → thiết kế kỹ thuật**. Mỗi User Story đi qua: **đặc tả màn hình → PRD (PO duyệt) → spec + plan → code → Pull Request**. Lịch Sprint: [docs/discovery/07-roadmap.md](docs/discovery/07-roadmap.md).
+Trước User Story đầu tiên: **chọn công nghệ (ADR) → thiết kế kỹ thuật**. Mỗi User Story đi qua: **đặc tả màn hình → PRD (PO duyệt) → spec + plan → code → Pull Request**. Lịch Sprint: [docs/discovery/07-roadmap.md](docs/discovery/07-roadmap.md). Thứ tự công việc, việc nào chờ việc nào, lệnh cho AI: [docs/plans/00-master-plan.md](docs/plans/00-master-plan.md).
 
 ## 2. Cấu trúc thư mục
 
@@ -59,7 +59,7 @@ và docs/design/screens/AddExpenseScreen.md.
 ```
 
 ```
-Dùng skill frontend-ui. Làm US01 theo PRD docs/requirements/US01-ghi-khoan-chi.md:
+Dùng skill frontend-ui. Làm US01 theo PRD docs/requirements/US01-add-expense.md:
 brainstorming trước, rồi writing-plans.
 ```
 

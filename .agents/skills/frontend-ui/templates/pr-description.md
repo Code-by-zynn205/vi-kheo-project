@@ -1,7 +1,7 @@
 ## USxx – <tên ngắn>
 
-- **PRD:** `docs/requirements/USxx-<mô-tả>.md`
-- **Plan:** `docs/plans/YYYY-MM-DD-USxx-<mô-tả>.md`
+- **PRD:** `docs/requirements/USxx-<english-slug>.md`
+- **Plan:** `docs/plans/YYYY-MM-DD-USxx-<english-slug>.md`
 - **AI agent đã dùng:** <Codex / Antigravity / Claude Code>
 - **Skill đã dùng:** <frontend-ui, design-system, budget-logic, brainstorming, writing-plans, ...>
 - **Thẻ Trello:** <link>

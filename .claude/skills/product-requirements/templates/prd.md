@@ -7,7 +7,7 @@
 | User Story | Là sinh viên, tôi muốn <...>, để <...>. |
 | Nguồn | <HMWx / Px> – `docs/discovery/06-journey-features.md` |
 | Ưu tiên · Story Point · Sprint | <Must> · <3> · <Sprint x> |
-| Màn hình | `docs/design/screens/<TênMànHình>.md` |
+| Màn hình | `docs/design/screens/<ScreenName>.md` |
 | Phụ thuộc | <US khác phải xong trước, hoặc "Không"> |
 
 ## 1. Bối cảnh

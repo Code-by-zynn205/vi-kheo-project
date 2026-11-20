@@ -6,4 +6,4 @@
 
 | F<x> | <tên tính năng> | <HMWx · Px> | <Must / Should / Could / Won't> | <lý do> | US<xx> |
 
-<!-- Bước tiếp theo: PO duyệt → tạo docs/requirements/US<xx>-<mô-tả>.md bằng skill product-requirements. -->
+<!-- Bước tiếp theo: PO duyệt → tạo docs/requirements/US<xx>-<english-slug>.md bằng skill product-requirements. -->

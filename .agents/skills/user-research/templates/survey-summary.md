@@ -4,7 +4,7 @@
 
 ## 1. Thông tin chung
 
-- File dữ liệu: `docs/evidence/survey/<tên-file>.csv`
+- File dữ liệu: `docs/evidence/survey/<file-name>.csv`
 - Thời gian thu: <dd/mm> – <dd/mm/yyyy>
 - Phản hồi nhận được: <n> · Hợp lệ: <n> · Loại bỏ: <n> (lý do: <trùng / không phải SV>)
 

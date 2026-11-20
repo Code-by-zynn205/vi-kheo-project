@@ -53,4 +53,4 @@ Mục vị trí plan/spec của superpowers được ghi đè bằng `AGENTS.md`
 1. Chép lại thư mục skill từ repo gốc vào `.agents/skills/` (ghi đè).
 2. Làm lại các thay đổi ở mục 3.
 3. Cập nhật cột "Phiên bản" ở mục 1.
-4. Chạy `bash scripts/sync-skills.sh`, commit trên nhánh `docs/update-<tên-skill>`.
+4. Chạy `bash scripts/sync-skills.sh`, commit trên nhánh `docs/update-<skill-name>`.

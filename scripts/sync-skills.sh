@@ -53,6 +53,11 @@ for name in $team_skills; do
   done
 done
 
+# 3. Tên file, thư mục trong repo phải là tiếng Anh (chỉ ký tự ASCII) – AGENTS.md quy tắc 4
+while IFS= read -r path; do
+  fail "tên file không phải tiếng Anh/ASCII: $path"
+done < <(git -c core.quotepath=off ls-files --cached --others --exclude-standard | LC_ALL=C grep '[^ -~]' || true)
+
 if [ "$errors" -gt 0 ]; then
   echo "Có $errors lỗi. Sửa trong .agents/skills/ rồi chạy lại."
   exit 1

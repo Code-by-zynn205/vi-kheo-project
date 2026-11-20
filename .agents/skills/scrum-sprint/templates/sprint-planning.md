@@ -8,7 +8,7 @@
 
 | Story | Story Point | Đặc tả màn hình (hạn) | PRD (hạn) | Người code | Người review |
 | :--- | :-: | :--- | :--- | :--- | :--- |
-| US<xx> | <x> | `<TênMànHình>.md` (<dd/mm>) | `US<xx>-<mô-tả>.md` (<dd/mm>) | <tên> | <tên – cặp khác> |
+| US<xx> | <x> | `<ScreenName>.md` (<dd/mm>) | `US<xx>-<english-slug>.md` (<dd/mm>) | <tên> | <tên – cặp khác> |
 
 **Tổng Story Point cam kết:** <x>
 

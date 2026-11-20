@@ -62,7 +62,7 @@ Mỗi con số mới → thêm một dòng vào `00-research-log.md` → mới �
 | :--- | :--- | :--- |
 | `docs/evidence/survey/summary.md` | `templates/survey-summary.md` | PO |
 | `docs/evidence/interviews/PV-xx.md` | `templates/interview.md` | PO |
-| `docs/evidence/prototype-tests/A3-<dd-mm>.md` | `templates/prototype-test.md` | PO |
+| `docs/evidence/prototype-tests/A3-<yyyy-mm-dd>.md` | `templates/prototype-test.md` | PO |
 | Dòng mới trong `docs/discovery/00-research-log.md` | — | PO |
 
 ## 6. Khi viết plan

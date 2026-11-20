@@ -1,10 +1,10 @@
-# Màn hình `<TênMànHình>`
+# Màn hình `<ScreenName>`
 
 > **Giai đoạn:** 2 – Design System & Prototype · **Trạng thái:** Đang làm · **Phụ trách:** <tên> · **Cập nhật:** <dd/mm/yyyy>
 
 - **User Story:** <US01, US07>
 - **Sprint:** <số>
-- **Prototype:** `docs/design/prototype/<tên>.html` <hoặc "Chưa có">
+- **Prototype:** `docs/design/prototype/<english-name>.html` <hoặc "Chưa có">
 - **Mở từ:** <màn hình / nút nào dẫn tới đây>
 
 > Số liệu trong file là dữ liệu minh hoạ để dựng giao diện, không phải số liệu thật.

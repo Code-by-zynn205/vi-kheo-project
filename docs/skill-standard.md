@@ -5,13 +5,13 @@ Skill là thư mục `.agents/skills/<tên>/` chứa file `SKILL.md` (và thư m
 ## 1. Cấu trúc thư mục
 
 ```
-.agents/skills/<tên-skill>/
+.agents/skills/<skill-name>/
 ├── SKILL.md          bắt buộc
 └── templates/        bắt buộc – mẫu cho MỌI file .md mà skill sinh ra
-    └── <tên-mẫu>.md
+    └── <template-name>.md
 ```
 
-Tên skill: chữ thường, nối bằng `-`, trùng tên thư mục.
+Tên skill: tiếng Anh, chữ thường, nối bằng `-`, trùng tên thư mục. Mọi file mẫu và mọi đường dẫn file mà skill bảo AI tạo ra cũng phải là tên tiếng Anh (dùng chỗ trống `<english-slug>`, không dùng `<mô-tả>`).
 
 ## 2. Các mục bắt buộc trong `SKILL.md` (đúng thứ tự)
 

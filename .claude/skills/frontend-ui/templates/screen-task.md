@@ -1,13 +1,13 @@
-<!-- Mẫu một task giao diện trong plan docs/plans/YYYY-MM-DD-USxx-<mô-tả>.md. Chép, điền <...>, xoá các dòng chú thích. -->
+<!-- Mẫu một task giao diện trong plan docs/plans/YYYY-MM-DD-USxx-<english-slug>.md. Chép, điền <...>, xoá các dòng chú thích. -->
 
-### Task <n>: <TênMànHình hoặc Component> [frontend-ui §4.2 · design-system §4.2, §4.3]
+### Task <n>: <ScreenName or ComponentName> [frontend-ui §4.2 · design-system §4.2, §4.3]
 
-**AC trong PRD:** AC<x>, AC<y> (`docs/requirements/USxx-<mô-tả>.md`)
-**Đặc tả:** `docs/design/screens/<TênMànHình>.md` mục <1–4>
+**AC trong PRD:** AC<x>, AC<y> (`docs/requirements/USxx-<english-slug>.md`)
+**Đặc tả:** `docs/design/screens/<ScreenName>.md` mục <1–4>
 **Hàm logic gọi tới:** `<tên hàm>` (`budget-logic` §4.<x>) <hoặc "Không">
 
 **Files:**
-- Tạo/Sửa: `src/screens/<TênMànHình>.<ext>` hoặc `src/components/<Tên>.<ext>`
+- Tạo/Sửa: `src/screens/<ScreenName>.<ext>` hoặc `src/components/<ComponentName>.<ext>`
 - Test: `<file test nếu có>`
 
 - [ ] **Bước 1: Viết test hoặc kịch bản kiểm**
@@ -27,11 +27,11 @@
 
 Chạy: `<lệnh test>` → PASS
 Kiểm tay trên điện thoại (rộng 360px): <trạng thái có dữ liệu · trống · lỗi> đúng đặc tả mục 2.
-Không còn mã màu viết cứng: `grep -nE "#[0-9A-Fa-f]{6}" src/screens/<TênMànHình>.<ext>` → không có kết quả.
+Không còn mã màu viết cứng: `grep -nE "#[0-9A-Fa-f]{6}" src/screens/<ScreenName>.<ext>` → không có kết quả.
 
 - [ ] **Bước 5: Commit**
 
 ```bash
-git add src/screens/<TênMànHình>.* src/components/<...>
-git commit -m "feat(USxx): <TênMànHình> theo đặc tả"
+git add src/screens/<ScreenName>.* src/components/<...>
+git commit -m "feat(USxx): <ScreenName> theo đặc tả"
 ```
