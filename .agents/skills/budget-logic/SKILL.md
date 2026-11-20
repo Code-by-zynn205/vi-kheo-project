@@ -150,7 +150,7 @@ Test nhập liệu và sửa/xoá:
 - Task có sửa/xoá giao dịch phải có TC16.
 
 **Lệnh kiểm tra:**
-- Lệnh chạy unit test của dự án (ghi ở `frontend-ui` mục 4.1 sau khi chốt công nghệ) → mọi `TC` liên quan đều pass.
+- Lệnh chạy unit test của dự án (`docs/architecture/technical-design.md` mục 4) → mọi `TC` liên quan đều pass.
 
 ## 7. Quy tắc bắt buộc
 

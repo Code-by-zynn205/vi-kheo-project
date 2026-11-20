@@ -25,7 +25,7 @@ Dự án đi theo 5 giai đoạn trong bảng đánh giá của giảng viên. M
 | 1 | Research & Discovery | `user-research`, `product-discovery` | — | `docs/discovery/`, `docs/evidence/` |
 | 2 | Design System & Prototype | `design-system` | `frontend-design`, `ui-ux-pro-max` | `docs/design/screens/<Màn hình>.md`, `docs/design/prototype/*.html` |
 | 3 | Product Requirements (PRD, User Story) | `product-requirements` | — | `docs/requirements/USxx-<mô-tả>.md` |
-| 4 | Vibe Code | `frontend-ui`, `budget-logic` | superpowers (mục 3) | `docs/plans/specs/…-design.md`, `docs/plans/…md`, code trong `src/` |
+| 4 | Vibe Code | `tech-decision` (một lần, trước US đầu tiên), `frontend-ui`, `budget-logic` | superpowers (mục 3) | `docs/architecture/ADR-xx-*.md`, `docs/architecture/technical-design.md`, `docs/plans/specs/…-design.md`, `docs/plans/…md`, code trong `src/` |
 | 5 | Present full product | `demo-present` | — | `docs/present/` |
 | — | Xuyên suốt mỗi Sprint | `scrum-sprint` | — | `docs/sprints/sprint-N-*.md` |
 
@@ -60,13 +60,14 @@ Thứ tự ưu tiên: **file này** → **skill của nhóm** (làm cái gì: n�
 ```
 
 - Mỗi task trong plan ghi skill nó dựa vào, ví dụ `### Task 2: Hàm tính hạn mức ngày [budget-logic §5, §7]`.
-- Mục **Global Constraints** của plan phải chép nguyên văn mục "Khi viết plan" của từng skill nhóm được áp dụng.
+- Mục **Global Constraints** của plan phải chép nguyên văn mục "Khi viết plan" của từng skill nhóm được áp dụng, luôn gồm `tech-decision`.
+- **Tech Stack**, đường dẫn file và lệnh kiểm tra của plan lấy từ `docs/architecture/technical-design.md`.
 
 ## 4. Quy tắc bắt buộc
 
 ### Nội dung và số liệu
 
-1. **Đi đúng thứ tự giai đoạn.** Không viết code cho User Story chưa có PRD được PO duyệt (`docs/requirements/USxx-*.md`, trạng thái `Đã duyệt`). Không viết PRD cho màn hình chưa có đặc tả trong `docs/design/screens/`.
+1. **Đi đúng thứ tự giai đoạn.** Không viết code cho User Story chưa có PRD được PO duyệt (`docs/requirements/USxx-*.md`, trạng thái `Đã duyệt`). Không viết PRD cho màn hình chưa có đặc tả trong `docs/design/screens/`. Không viết plan code khi chưa có ADR nền tảng `Đã chấp nhận` và `docs/architecture/technical-design.md`.
 2. **Không bịa số liệu, trích dẫn.** Con số phải có trong `00-research-log.md`, gắn nhãn `[SƠ CẤP]` / `[THỨ CẤP]` / `[NHẬN ĐỊNH]`. Chưa có dữ liệu thì ghi `Cần bổ sung`.
 3. **Giữ phạm vi MVP.** Không thêm liên kết ngân hàng, OCR/AI, đầu tư, đăng nhập. Tính năng mới phải có User Story do PO duyệt.
 4. **Tài liệu và giao diện viết tiếng Việt có dấu.** Trạng thái ghi bằng chữ (`Xong` / `Đang làm` / `Chưa làm` / `Cần bổ sung`), không dùng emoji. Không dùng LaTeX – dùng `≥`, `→`.

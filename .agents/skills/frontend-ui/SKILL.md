@@ -25,24 +25,18 @@ description: Quy trình lập trình giao diện Ví Khéo theo từng User Stor
 ## 3. Đầu vào (đọc đủ trước khi code)
 
 1. `docs/requirements/USxx-*.md` – PRD **đã duyệt**: AC, test case, ngoài phạm vi, skill áp dụng
-2. `docs/design/screens/*.md` – đặc tả màn hình trong PRD
-3. `.agents/skills/design-system/SKILL.md` mục 4.2, 4.3 – token, component
-4. `.agents/skills/budget-logic/SKILL.md` mục 4 – kiểu dữ liệu và hàm cần gọi
+2. `docs/architecture/technical-design.md` – công nghệ, đường dẫn file, lệnh chạy/test/build
+3. `docs/design/screens/*.md` – đặc tả màn hình trong PRD
+4. `.agents/skills/design-system/SKILL.md` mục 4.2, 4.3 – token, component
+5. `.agents/skills/budget-logic/SKILL.md` mục 4 – kiểu dữ liệu và hàm cần gọi
 
 ## 4. Quy trình
 
-### 4.1 Quyết định công nghệ `[Sprint 1 – chốt tại Sprint Planning]`
+### 4.1 Công nghệ
 
-**Trạng thái: Cần bổ sung.** Nhóm chọn 1 phương án, điền dòng "Đã chốt" và commit.
+Công nghệ do skill `tech-decision` quyết định (ADR trong `docs/architecture/`). Lệnh chạy app, chạy unit test, build và cấu trúc thư mục cụ thể ghi ở `docs/architecture/technical-design.md`.
 
-| Phương án | Ưu | Nhược |
-| :--- | :--- | :--- |
-| Web app chạy trên điện thoại (PWA: React + Vite) | Dễ nhất, AI sinh code tốt, prototype HTML dùng lại được, lưu `localStorage` | Nhắc 21:00 (US05) trên iPhone bị hạn chế |
-| React Native (Expo) | App thật, thông báo cục bộ dễ, cài qua Expo Go | Cần cài môi trường |
-| Flutter | App thật, giao diện mượt | Dart, ít thành viên quen |
-
-**Đã chốt:** `<công nghệ>` – ngày `<dd/mm>` – lý do: `<...>`
-**Lệnh chạy app:** `<...>` · **Lệnh chạy unit test:** `<...>` · **Lệnh build:** `<...>`
+**Đã chốt:** Cần bổ sung – ghi `<công nghệ> (ADR-01)` khi ADR-01 được chấp nhận.
 
 ### 4.2 Cấu trúc thư mục
 
@@ -62,7 +56,7 @@ Màn hình chỉ gọi `logic/` và `storage/`, không tự tính tiền.
 
 | Bước | Việc | Skill | File sinh ra |
 | :-: | :--- | :--- | :--- |
-| 1 | Kiểm tra PRD có trạng thái `Đã duyệt`, không còn câu hỏi mở | — | — |
+| 1 | Kiểm tra PRD có trạng thái `Đã duyệt`, không còn câu hỏi mở; đã có ADR nền tảng `Đã chấp nhận` và `technical-design.md` | `tech-decision` (nếu chưa có) | — |
 | 2 | Tạo nhánh `feature/USxx-<mô-tả>` | `using-git-worktrees` (tuỳ chọn) | — |
 | 3 | Làm rõ cách làm với AI, chốt thiết kế kỹ thuật | `brainstorming` | `docs/plans/specs/YYYY-MM-DD-USxx-<mô-tả>-design.md` |
 | 4 | Viết plan: phần đầu có PRD và skill áp dụng; Global Constraints chép mục 6 của từng skill nhóm liên quan; task giao diện theo `templates/screen-task.md`, task tính tiền theo `budget-logic/templates/logic-task.md` | `writing-plans` | `docs/plans/YYYY-MM-DD-USxx-<mô-tả>.md` |
@@ -102,8 +96,8 @@ theo AGENTS.md mục 3.
 - Task cuối: chạy trên điện thoại thật, đi từng AC của PRD, ghi kết quả vào mô tả Pull Request.
 
 **Lệnh kiểm tra:**
-- Lệnh chạy unit test (mục 4.1) → pass.
-- Lệnh build (mục 4.1) → không lỗi.
+- Lệnh chạy unit test (`technical-design.md` mục 4) → pass.
+- Lệnh build (`technical-design.md` mục 4) → không lỗi.
 
 ## 7. Quy tắc bắt buộc
 

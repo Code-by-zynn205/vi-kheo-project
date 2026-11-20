@@ -12,11 +12,11 @@ Nhóm **Messi** – 10 thành viên: PO Dương Văn Hoan · SM Trần Ninh Nh�
 | 1 | Research & Discovery                   | [docs/discovery/](docs/discovery/), [docs/evidence/](docs/evidence/) | `user-research`, `product-discovery`                     | Xong (còn mục Cần bổ sung) |
 | 2 | Design System & Prototype              | [docs/design/](docs/design/)                                        | `design-system` (+ `frontend-design`, `ui-ux-pro-max`) | Đang làm                     |
 | 3 | Product Requirements (PRD, User Story) | [docs/requirements/](docs/requirements/)                            | `product-requirements`                                     | Chưa làm                     |
-| 4 | Vibe Code                              | [docs/plans/](docs/plans/), `src/`                                | `frontend-ui`, `budget-logic` + superpowers              | Chưa làm                     |
+| 4 | Vibe Code                              | [docs/architecture/](docs/architecture/), [docs/plans/](docs/plans/), `src/` | `tech-decision`, `frontend-ui`, `budget-logic` + superpowers | Chưa làm                     |
 | 5 | Present full product                   | [docs/present/](docs/present/)                                      | `demo-present`                                             | Chưa làm                     |
 | — | Mỗi Sprint                            | [docs/sprints/](docs/sprints/)                                      | `scrum-sprint`                                             | Đang làm                     |
 
-Mỗi User Story đi qua: **đặc tả màn hình → PRD (PO duyệt) → spec + plan → code → Pull Request**. Lịch Sprint: [docs/discovery/07-roadmap.md](docs/discovery/07-roadmap.md).
+Trước User Story đầu tiên: **chọn công nghệ (ADR) → thiết kế kỹ thuật**. Mỗi User Story đi qua: **đặc tả màn hình → PRD (PO duyệt) → spec + plan → code → Pull Request**. Lịch Sprint: [docs/discovery/07-roadmap.md](docs/discovery/07-roadmap.md).
 
 ## 2. Cấu trúc thư mục
 
@@ -35,6 +35,7 @@ vi-kheo-project/
     ├── evidence/          1 – khảo sát, phỏng vấn, test prototype (không có dữ liệu cá nhân)
     ├── design/            2 – đặc tả màn hình, prototype HTML
     ├── requirements/      3 – PRD từng User Story
+    ├── architecture/      4 – ADR chọn công nghệ, thiết kế kỹ thuật
     ├── plans/             4 – spec và plan khi code
     ├── present/           5 – kịch bản demo, báo cáo tổng kết
     └── sprints/           planning và review từng Sprint
@@ -44,7 +45,7 @@ vi-kheo-project/
 
 | Loại                               | Skill                                                                                                                                                                                                                                                                                                                                                                        |
 | :---------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Của nhóm (8)                      | `user-research` · `product-discovery` · `design-system` · `product-requirements` · `frontend-ui` · `budget-logic` · `scrum-sprint` · `demo-present` – chuẩn và người phụ trách: [docs/skill-standard.md](docs/skill-standard.md)                                                                                                                |
+| Của nhóm (9)                      | `user-research` · `product-discovery` · `design-system` · `product-requirements` · `tech-decision` · `frontend-ui` · `budget-logic` · `scrum-sprint` · `demo-present` – chuẩn và người phụ trách: [docs/skill-standard.md](docs/skill-standard.md)                                                                                                                |
 | Thiết kế (2)                      | `frontend-design` (Anthropic) · `ui-ux-pro-max` (Next Level Builder)                                                                                                                                                                                                                                                                                                    |
 | Quy trình code – superpowers (13) | `using-superpowers` · `brainstorming` · `writing-plans` · `executing-plans` · `subagent-driven-development` · `using-git-worktrees` · `test-driven-development` · `systematic-debugging` · `verification-before-completion` · `requesting-code-review` · `receiving-code-review` · `finishing-a-development-branch` · `writing-skills` |
 

@@ -11,7 +11,7 @@ root="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$root"
 
 # Skill của nhóm phải theo docs/skill-standard.md
-team_skills="user-research product-discovery design-system product-requirements frontend-ui budget-logic scrum-sprint demo-present"
+team_skills="user-research product-discovery design-system product-requirements tech-decision frontend-ui budget-logic scrum-sprint demo-present"
 required_sections=(
   "## 1. Giai đoạn & phụ trách"
   "## 2. Khi nào dùng / không dùng"

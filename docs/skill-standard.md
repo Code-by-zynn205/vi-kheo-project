@@ -63,6 +63,7 @@ Mục này được chép **nguyên văn** vào phần *Global Constraints* củ
 | 1 | Research & Discovery | `product-discovery` | Dương Văn Hoan (PO) | Trần Ninh Nhật Tân (SM) |
 | 2 | Design System & Prototype | `design-system` | Lê Thị Nhật Vy, Phạm Viết Hưng | Lê Thị Phát, Nguyễn Đức Minh Nghĩa |
 | 3 | Product Requirements | `product-requirements` | PA (Product Analyst) – `Cần bổ sung` tên | Dương Văn Hoan (PO) |
+| 4 | Vibe Code (chuẩn bị) | `tech-decision` | Lê Thị Phát, Nguyễn Đức Minh Nghĩa, Nguyễn Thị Bình Minh, Nguyễn Diên Tiến | 8 Developers tại Sprint Planning, SM ghi nhận |
 | 4 | Vibe Code | `frontend-ui` | Lê Thị Phát, Nguyễn Đức Minh Nghĩa | Lê Thị Nhật Vy, Phạm Viết Hưng |
 | 4 | Vibe Code | `budget-logic` | Nguyễn Thị Bình Minh, Nguyễn Diên Tiến | Nguyễn Đức Minh Nghĩa |
 | 5 | Present full product | `demo-present` | Trần Ninh Nhật Tân (SM) | Dương Văn Hoan (PO) |
