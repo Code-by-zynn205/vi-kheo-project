@@ -119,6 +119,8 @@ Cột "Dữ liệu" và "Quy tắc" dẫn tới `docs/requirements/data-analysis
 | P17 | Đăng nhập → đồng bộ → xung đột | 4 |
 | P18 | Quản trị: đăng nhập 2 lớp → bảng điều khiển → xử lý góp ý | 4 |
 
+**Tình trạng 21/11/2026: đã nối đủ 18 luồng** trên trang `Prototype` (90 khung bản sao, 88 điểm bấm, 18 điểm bắt đầu luồng – chọn luồng ở chế độ Present). 5 bước chuyển dùng bấm cả khung vì khung không có nút tương ứng: P1 Splash → Onboarding, P4 `BudgetScreen / Set` → tháng mới, P7 lịch → lịch sử, P10 chuyển tiền xong → chi tiết ví, P14 trả một phần → quá hạn. Bộ 3 luồng cũ đã được thay bằng bộ mới.
+
 Trang `Prototype` giữ các khung là bản sao cấp trang (Figma chỉ nối được tới khung nằm thẳng trên trang). Mỗi đợt dựng xong thì nối luồng của đợt đó.
 
 ---
