@@ -129,6 +129,35 @@ Font: `'Inter', 'Roboto', sans-serif` (đủ dấu tiếng Việt). Lề trang 1
 | `BottomSheet` | Khung nền màn nhập, sửa; vuốt xuống để đóng. *(Thêm 21/11)* | AddExpense, Edit |
 | `Icon` | Bộ icon nét 2px, 24 × 24: 6 danh mục + settings, back, close, plus, chevron trái/phải, backspace. Không emoji. *(Thêm 21/11)* | Mọi màn hình |
 
+Component thêm khi dựng 161 khung (21/11/2026, bản AI dựng trên Figma, **chờ cặp UI/UX duyệt**). Danh sách khung dùng chúng: `docs/design/screen-inventory.md`.
+
+| Component | Mô tả | Dùng ở | Lớp |
+| :--- | :--- | :--- | :-: |
+| `TextField` | Nhãn + ô nhập + dòng gợi ý; trạng thái default / focus (viền `--color-primary`) / error (viền và chữ gợi ý `--color-danger-text`). Ô cao ≥ 48px | Mọi form | R1 |
+| `ListRow` | Một hàng danh sách: nhãn + chevron phải; cả hàng là vùng bấm, cao ≥ 48px | Settings, danh sách chọn | R1 |
+| `ProgressDots` | Chấm chỉ bước onboarding; chấm hiện tại màu `--color-primary` | Onboarding | R1 |
+| `CalendarSheet` | Sheet lịch tháng để chọn ngày; ngày tương lai bị mờ, không chọn được | History, ghi chi ngày khác | R1 |
+| `NotificationCard` | Mô phỏng thông báo hệ điều hành: tên app + tiêu đề + nội dung | Nhắc ghi chép 21:00 | R1 |
+| `Badge` | Nhãn nhỏ góc trên phải khung: "Sau MVP", "R3 · Sau MVP" – chỉ dùng trên Figma để phân lớp, **không** đưa vào app | Khung R2, R3 | — |
+| `WalletIcon`, `WalletCard`, `WalletTypeChip` | Icon, thẻ số dư và chip chọn loại ví (tiền mặt, ngân hàng, ví điện tử); chip cao theo nội dung, chữ xuống dòng | Ví & chuyển tiền | R2 |
+| `RecurringItem` | Khoản định kỳ: tên + chu kỳ + ngày tới hạn + số tiền; tên và dòng phụ cắt "…" sau 1 dòng | Định kỳ | R2 |
+| `CategoryBudgetRow` | Danh mục + thanh % hạn mức danh mục + số còn lại; màu theo trạng thái như `DailyAllowanceCard` | Hạn mức danh mục | R2 |
+| `AmountSplitRow` | Một phần khi chia một khoản ra nhiều danh mục hoặc nhiều người: tên + ô số tiền | Ghi chi nâng cao, chia tiền | R2 |
+| `FrequencyPicker` | Chọn chu kỳ: hằng ngày / hằng tuần / hằng tháng | Định kỳ | R2 |
+| `StatusChip` | Chip trạng thái chữ + nền nhạt (đang chạy, đạt, quá hạn…); không dùng màu làm tín hiệu duy nhất | Mục tiêu, vay nợ | R2 |
+| `MemberAvatar` | Vòng tròn chữ cái đầu tên; xếp chồng tối đa 2, lệch −12px | Chia tiền nhóm, sổ chung | R2, R3 |
+| `GoalCard` | Tên mục tiêu + thanh tiến độ + số đã góp / mục tiêu + hạn | Mục tiêu tiết kiệm | R2 |
+| `DebtCard` | Người + "Mình nợ" / "Nợ mình" + số còn lại + hạn; không làm đổi hạn mức ngày (BR-72, BR-73) | Vay mượn | R2 |
+| `BalanceRow` | Số dư giữa 2 người trong nhóm, kèm nút "Thanh toán" cao 48px | Chia tiền nhóm | R2 |
+| `TagChip` | Nhãn tự đặt dạng `#tên`, bấm để lọc | Nhãn | R2 |
+| `StreakCard` | Số ngày ghi chép liên tiếp, tính tới hôm qua nếu hôm nay chưa ghi (BR-125) | Chuỗi ngày | R2 |
+| `AdminNavItem` | Mục điều hướng trang quản trị: icon 20px + nhãn, cao 44px; `state=default` / `active` (nền `--color-primary-light`, chữ và nét icon `--color-primary`); icon đổi bằng `AdminIcon/*` | Trang quản trị web | R3 |
+| `AdminSidebar` | Thanh bên rộng 256px: logo, 9 `AdminNavItem` (Tổng quan, Người dùng, Góp ý, Thông báo, Danh mục hệ thống, Cấu hình app, Yêu cầu dữ liệu, Nhật ký kiểm toán, Phân quyền), ô quản trị viên đang đăng nhập ở đáy | Trang quản trị web | R3 |
+| `AdminTopBar` | Thanh trên cao 72px: tiêu đề + đường dẫn; nhãn "R3 · Sau MVP", nút tìm kiếm và thông báo 48 × 48 | Trang quản trị web | R3 |
+| `MetricCard` | Thẻ chỉ số gộp: nhãn + số + dòng ghi chú. Chỉ hiện chỉ số của nhóm ≥ 10 thiết bị (BR-115, BR-130); số trên Figma là minh hoạ | Bảng điều khiển quản trị | R3 |
+
+Bảng dữ liệu trang quản trị (`DataTable`) hiện dựng bằng auto layout trong từng khung, chưa tách component: hàng cao 52px, cột cố định, chữ cắt "…" sau 1 dòng, cột trạng thái dùng chip chữ + nền nhạt. Tách thành component khi PO nâng US18.
+
 Trạng thái màu của `DailyAllowanceCard` (điều kiện tính ở `budget-logic` mục 4.2):
 
 | Trạng thái | Mã | Màu số Hero | Dòng phụ |
