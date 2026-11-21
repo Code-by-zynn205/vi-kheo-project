@@ -1,47 +1,49 @@
 ---
 name: figma-code-workflows
-description: Import or upload local HTML or project files into Figma, choose editable Design frames, runnable Code Layers or standalone Code (also known as Make), and repair imported previews. Use only when the user explicitly names editable Design layers, a runnable Code Layer, or a standalone Code/Make file, or supplies a Figma file key/link as the import destination. Generic code or code-component requests need output clarification before using this workflow.
+description: Import hoặc tải lên HTML cục bộ hay các file dự án vào Figma, lựa chọn giữa các Design frame chỉnh sửa được, Code Layer chạy được hoặc Code độc lập (còn gọi là Make), và sửa chữa các bản xem trước đã import. Chỉ sử dụng khi người dùng nêu rõ tên các Design layer chỉnh sửa được, một Code Layer chạy được, hoặc một file Code/Make độc lập, hoặc cung cấp Figma file key/link làm đích import. Các yêu cầu tạo code hoặc code-component chung chung cần làm rõ định dạng đầu ra trước khi dùng quy trình này.
 disable-model-invocation: false
 ---
 
-# Import a project into Figma
+# Import một dự án vào Figma
 
-Only use this workflow for an explicitly requested Figma output (standalone Code/Make, runnable Code Layer, or editable Design layers), or a Figma file key/link given as its destination. Generic “make a code project” or “create a code component” requests, and Figma Code/Make names alone, do not specify that output. If output intent is unclear, ask whether the user wants local code or a Figma output, then wait before starting this workflow.
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [figma/mcp-server-guide](https://github.com/figma/mcp-server-guide/blob/main/skills/figma-code-workflows/SKILL.md) (Figma chính thức).
 
-Preserve the user's project. Use each tool's current description and schema for prerequisites and parameters.
+Chỉ sử dụng quy trình này cho một đầu ra Figma được yêu cầu rõ ràng (Code/Make độc lập, Code Layer chạy được, hoặc các Design layer chỉnh sửa được), hoặc khi có một Figma file key/link được cung cấp làm đích đến. Các yêu cầu chung chung như “tạo một dự án code” hoặc “tạo một code component”, hay chỉ nhắc riêng tên Figma Code/Make, không xác định cụ thể đầu ra đó. Nếu ý định về đầu ra chưa rõ ràng, hãy hỏi xem người dùng muốn mã nguồn cục bộ hay một đầu ra trên Figma, rồi chờ câu trả lời trước khi bắt đầu quy trình này.
 
-Keep the user updated at the main stages: preparing and validating the project, uploading the archive, and completing the import in Figma. Report pending imports, recovery work and blockers as they occur; do not describe an unconfirmed stage as complete.
+Bảo toàn nguyên vẹn dự án của người dùng. Sử dụng mô tả và schema hiện tại của từng tool để biết điều kiện tiên quyết và tham số.
 
-## 1. Choose the output and destination
+Cập nhật cho người dùng ở các giai đoạn chính: chuẩn bị và kiểm chứng dự án, tải gói nén (archive) lên, và hoàn tất quá trình import trong Figma. Báo cáo các lượt import đang chờ, công việc khôi phục và các điểm tắc nghẽn ngay khi chúng xảy ra; không mô tả một giai đoạn chưa được xác nhận là đã hoàn thành.
 
-Identify the user's intended output, then load the appropriate skill according to the table below. If the output is unclear, ask the user before proceeding.
+## 1. Chọn đầu ra và đích đến
 
-| Input | User's requested output | Next action |
+Xác định đầu ra dự định của người dùng, sau đó nạp skill phù hợp theo bảng dưới đây. Nếu đầu ra chưa rõ ràng, hãy hỏi người dùng trước khi tiếp tục.
+
+| Đầu vào | Đầu ra người dùng yêu cầu | Hành động tiếp theo |
 | --- | --- | --- |
-| Running app or static HTML | Unspecified — just put/import it in Figma | Ask **"Editable design layers or a code layer?" and end your turn.** Wait for the answer. |
-| Running app | Editable Design layers | Load `figma-generate-design`, then call `generate_figma_design` in a Design file. |
-| Static HTML | Editable Design layers | Call `html_to_figma` in a Design file. |
-| Running app | Runnable Code Layer or standalone Code/Make | Continue with this skill and call `send_code_to_figma`. |
-| Static HTML | Runnable Code Layer or standalone Code/Make | Continue with this skill and call `send_code_to_figma`. |
+| Ứng dụng đang chạy hoặc HTML tĩnh | Chưa chỉ định — chỉ bảo đưa/import vào Figma | Hỏi **"Editable design layers or a code layer?" và kết thúc lượt trả lời của bạn.** Chờ câu trả lời. |
+| Ứng dụng đang chạy | Các Design layer chỉnh sửa được | Nạp `figma-generate-design`, sau đó gọi `generate_figma_design` vào một file Design. |
+| HTML tĩnh | Các Design layer chỉnh sửa được | Gọi `html_to_figma` vào một file Design. |
+| Ứng dụng đang chạy | Code Layer chạy được hoặc Code/Make độc lập | Tiếp tục với skill này và gọi `send_code_to_figma`. |
+| HTML tĩnh | Code Layer chạy được hoặc Code/Make độc lập | Tiếp tục với skill này và gọi `send_code_to_figma`. |
 
-An HTML project with working buttons is still ambiguous when the user has not chosen the output. A Design link only chooses the destination, not the output.
+Một dự án HTML có các nút bấm hoạt động vẫn còn mơ hồ khi người dùng chưa chọn loại đầu ra. Một liên kết Design chỉ xác định đích đến, không xác định loại đầu ra.
 
-Before choosing a runnable destination, call `whoami`. Only choose or import a Design Code Layer when `whoami.code_layers_enabled` is true; otherwise use standalone Code/Make, or explain the limitation and ask before changing an explicitly supplied Design destination.
+Trước khi chọn đích đến có thể chạy được (runnable destination), hãy gọi `whoami`. Chỉ chọn hoặc import vào một Design Code Layer khi `whoami.code_layers_enabled` là `true`; nếu không, hãy dùng Code/Make độc lập, hoặc giải thích giới hạn đó và hỏi trước khi đổi một đích Design đã được cung cấp tường minh.
 
-Honor an explicit code-layer or standalone request before applying the screen-count heuristic. For runnable code with a Design link, use a Code Layer. For a standalone Code link, use standalone. With no destination or explicit code-layer/standalone choice, estimate screens: fewer than 10 or unknown → Code Layer; 10 or more → standalone. Never ask Code Layer versus standalone or ask the user to count screens. Explicit destinations and links take precedence after the output choice.
+Tôn trọng yêu cầu code-layer hoặc standalone tường minh trước khi áp dụng quy tắc ước lượng theo số lượng màn hình. Đối với mã nguồn chạy được kèm một liên kết Design, dùng Code Layer. Đối với liên kết Code độc lập, dùng standalone. Khi không có đích đến hoặc chưa có lựa chọn code-layer/standalone tường minh, hãy ước lượng số màn hình: ít hơn 10 hoặc không rõ → Code Layer; từ 10 trở lên → standalone. Tuyệt đối không hỏi người dùng chọn giữa Code Layer hay standalone, hoặc yêu cầu người dùng tự đếm màn hình. Các đích đến và liên kết tường minh được ưu tiên áp dụng sau khi đã chọn loại đầu ra.
 
-Use the supplied file URL. If a new file is needed, use `create_new_file` with the selected destination type and the user's chosen plan.
+Sử dụng URL file được cung cấp. Nếu cần tạo file mới, dùng `create_new_file` với loại đích đã chọn và gói (plan) mà người dùng chọn.
 
-Create a Design file for a requested code layer when no destination is provided.
+Tạo một file Design khi có yêu cầu code layer mà chưa có đích đến nào được cung cấp.
 
-Keep the confirmed output choice fixed; do not ask the user to choose again after creating the file.
+Giữ cố định lựa chọn đầu ra đã được xác nhận; không hỏi lại người dùng sau khi đã tạo file.
 
-For editable Design layers, follow the selected tool's instructions: `generate_figma_design` captures the running app's rendered page; `html_to_figma` converts a self-contained static HTML document. Inspect the resulting layers and share the Design link. Continue below only for runnable code output.
+Đối với các Design layer chỉnh sửa được, tuân thủ hướng dẫn của tool đã chọn: `generate_figma_design` chụp lại trang đang được kết xuất của ứng dụng đang chạy; `html_to_figma` chuyển đổi một tài liệu HTML tĩnh tự chứa (self-contained). Kiểm tra các layer kết quả và chia sẻ liên kết Design. Chỉ tiếp tục các bước bên dưới đối với đầu ra mã nguồn chạy được (runnable code).
 
-## 2. Follow the import response
+## 2. Tuân thủ phản hồi import
 
-Call `send_code_to_figma` with the selected local source and destination using its current schema. Follow the returned preparation and archive instructions; preserve the app and validate locally before uploading when instructed.
+Gọi `send_code_to_figma` với nguồn cục bộ và đích đến đã chọn theo schema hiện tại của tool. Làm theo đúng hướng dẫn chuẩn bị và đóng gói archive được trả về; bảo toàn ứng dụng và kiểm chứng cục bộ trước khi tải lên khi được yêu cầu.
 
-Follow each response's instructions and returned `nextStep` exactly for preparation, validation, upload, pending imports and setup recovery. Complete the returned prerequisites before advancing and pass complete continuation arguments unchanged. Do not invent a missing recovery step. When no `nextStep` is present, follow the response's instructions and the tool's current description.
+Làm theo chính xác hướng dẫn và giá trị `nextStep` trả về trong từng phản hồi cho các bước chuẩn bị, kiểm chứng, tải lên, các lượt import đang chờ và khôi phục thiết lập. Hoàn tất các điều kiện tiên quyết được trả về trước khi đi tiếp và truyền nguyên vẹn đầy đủ các tham số tiếp nối. Không tự bịa ra một bước khôi phục còn thiếu. Khi không có `nextStep`, hãy làm theo hướng dẫn trong phản hồi và mô tả hiện tại của tool.
 
-Finish with the returned file/layer link and report only the import and preview outcomes established by the result.
+Kết thúc bằng liên kết file/layer trả về và chỉ báo cáo các kết quả import và xem trước đã được xác nhận bởi kết quả thực tế.

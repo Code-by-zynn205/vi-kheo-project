@@ -1,51 +1,53 @@
 ---
 name: figma-user-flow-planner
-description: "Plan user flows and screen states for a Figma design before any designing starts. Use when asked to plan a user flow, map out screens for a feature, define screen states, plan a Figma file structure, or work out what needs to be designed before opening Figma. Produces a complete flow map with all screens, states, entry/exit points, and a suggested Figma page structure."
+description: "Lập kế hoạch luồng người dùng (user flows) và các trạng thái màn hình (screen states) cho thiết kế Figma trước khi bắt đầu vẽ bất kỳ thứ gì. Sử dụng khi được yêu cầu lập kế hoạch user flow, lên bản đồ màn hình cho tính năng, định nghĩa các trạng thái màn hình, tổ chức cấu trúc file Figma hoặc xác định những gì cần thiết kế trước khi mở Figma. Tạo ra bản đồ luồng hoàn chỉnh với toàn bộ màn hình, trạng thái, điểm vào/thoát và cấu trúc trang Figma gợi ý."
 ---
 
-# Figma User Flow Planner Skill
+# Skill: Lập kế hoạch Luồng Người dùng Figma (Figma User Flow Planner)
 
-Plans what needs to be designed before a pixel is touched — mapping all screens, states, entry points, and edge cases so designers do not discover missing states mid-build.
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [mohitagw15856/pm-claude-skills](https://github.com/mohitagw15856/pm-claude-skills/blob/main/skills/figma-user-flow-planner/SKILL.md) (mohitagw15856).
 
-## Required Inputs
+Lên kế hoạch những gì cần thiết kế trước khi chạm vào một pixel nào — lập bản đồ toàn bộ màn hình, trạng thái, điểm vào và trường hợp biên để designer không bị phát hiện thiếu trạng thái giữa chừng khi đang dựng.
 
-- **Feature or task being designed**
-- **User type** (who performs this flow?)
-- **Platform** (iOS / Android / Web / Multi-platform)
-- **Starting point** (where does the user begin?)
-- **Known edge cases** (optional)
+## Đầu vào Bắt buộc
 
-## Output Structure
+- **Tính năng hoặc tác vụ đang được thiết kế**
+- **Loại người dùng** (ai là người thực hiện luồng này?)
+- **Nền tảng** (iOS / Android / Web / Đa nền tảng)
+- **Điểm bắt đầu** (người dùng xuất phát từ đâu?)
+- **Các trường hợp biên đã biết** (tùy chọn)
 
-### 1. Flow Overview
-Feature, user, goal, entry points, success exit, failure exits.
+## Cấu trúc Đầu ra
 
-### 2. Screen Map
+### 1. Tổng quan Luồng (Flow Overview)
+Tính năng, người dùng, mục tiêu, điểm vào, điểm thoát thành công, các điểm thoát thất bại.
 
-| # | Screen name | Type | Triggered by | Notes |
+### 2. Bản đồ Màn hình (Screen Map)
+
+| # | Tên màn hình | Loại | Kích hoạt bởi (Triggered by) | Ghi chú |
 |---|---|---|---|---|
-| 1 | [Screen] | New/Modal/Drawer/Toast | [What triggers] | [Considerations] |
+| 1 | [Màn hình] | New/Modal/Drawer/Toast | [Yếu tố kích hoạt] | [Điểm cần cân nhắc] |
 
-Screen types to cover: entry, happy path, loading, success, error (network/validation/permission), empty, first-time/onboarding, edge cases.
+Các loại màn hình cần bao phủ: điểm vào (entry), luồng thuận lợi (happy path), đang tải (loading), thành công (success), lỗi (mạng/kiểm tra dữ liệu/phân quyền), trống (empty), lần đầu sử dụng/hướng dẫn (first-time/onboarding), các trường hợp biên (edge cases).
 
-### 3. State Matrix
+### 3. Ma trận Trạng thái (State Matrix)
 
-**[Screen name]**
+**[Tên màn hình]**
 
-| State | Trigger | Visual change | Action available |
+| Trạng thái | Tác nhân kích hoạt | Thay đổi trực quan | Hành động khả dụng |
 |---|---|---|---|
-| Default | Page load | [Description] | [What user can do] |
-| Loading | User taps action | Skeleton/spinner | None |
-| Error | API failure | Error message | Retry/Go back |
-| Empty | No data | Empty state | [CTA] |
+| Default | Tải trang (Page load) | [Mô tả] | [Người dùng làm được gì] |
+| Loading | Người dùng bấm hành động | Skeleton/spinner | Không có |
+| Error | Lỗi API | Thông báo lỗi | Thử lại/Quay lại (Retry/Go back) |
+| Empty | Không có dữ liệu | Trạng thái trống | [CTA] |
 
-### 4. Decision Points
+### 4. Các Điểm Rẽ nhánh Quyết định (Decision Points)
 
-**Decision: [Name]**
-- If yes: [Screen N]
-- If no: [Screen X]
+**Quyết định: [Tên]**
+- Nếu Có (Yes): [Màn hình N]
+- Nếu Không (No): [Màn hình X]
 
-### 5. Suggested Figma File Structure
+### 5. Cấu trúc File Figma Gợi ý (Suggested Figma File Structure)
 
 ```
 Feature name/
@@ -58,29 +60,29 @@ Feature name/
 - Handoff
 ```
 
-### 6. What Not to Design Yet
-[Explicit out-of-scope items — prevents scope creep]
+### 6. Những Gì Chưa Thiết kế Ngay (What Not to Design Yet)
+[Các hạng mục rõ ràng nằm ngoài phạm vi — ngăn ngừa phình phạm vi (scope creep)]
 
-## Quality Checks
-- [ ] All three state types covered: loading, error, empty
-- [ ] All decision points mapped with both branches
-- [ ] Entry points include all realistic user paths
-- [ ] Out-of-scope section is explicit
-- [ ] Figma file structure matches screen map
+## Kiểm tra Chất lượng (Quality Checks)
+- [ ] Bao phủ đủ cả 3 loại trạng thái: loading, error, empty
+- [ ] Mọi điểm rẽ nhánh quyết định đều đã vẽ đủ cả hai nhánh
+- [ ] Các điểm vào bao gồm toàn bộ các đường đi thực tế của người dùng
+- [ ] Mục ngoài phạm vi (out-of-scope) được ghi rõ ràng
+- [ ] Cấu trúc file Figma khớp với bản đồ màn hình
 
-## Anti-Patterns
+## Các Lỗi Cần Tránh (Anti-Patterns)
 
-- [ ] Do not plan only the happy path — all error states, empty states, and edge cases must be mapped before designing starts
-- [ ] Do not produce a flow map that doesn't match the Figma file structure — the page structure must reflect the flow map
-- [ ] Do not define screens without specifying all required states — a screen without its variants is an incomplete design scope
-- [ ] Do not start designing before entry and exit points are fully documented — unclear boundaries cause scope creep
-- [ ] Do not plan user flows without tying each step back to a user goal — every screen must justify its existence
+- [ ] Không chỉ lập kế hoạch cho mỗi luồng thuận lợi (happy path) — toàn bộ trạng thái lỗi, trạng thái trống và trường hợp biên đều phải được lập bản đồ trước khi bắt đầu thiết kế
+- [ ] Không tạo bản đồ luồng không khớp với cấu trúc file Figma — cấu trúc trang (page structure) phải phản ánh đúng bản đồ luồng
+- [ ] Không định nghĩa màn hình mà thiếu chỉ rõ các trạng thái bắt buộc — một màn hình không có các biến thể trạng thái là một phạm vi thiết kế chưa hoàn chỉnh
+- [ ] Không bắt đầu thiết kế trước khi các điểm vào và điểm thoát được tài liệu hóa đầy đủ — ranh giới mập mờ sẽ gây phình phạm vi
+- [ ] Không lên kế hoạch luồng người dùng mà không gắn từng bước về mục tiêu của người dùng — mọi màn hình đều phải chứng minh được lý do tồn tại của nó
 
-## Example Trigger Phrases
+## Ví dụ Câu lệnh Kích hoạt (Trigger Phrases)
 - "Plan the user flow for [feature] in Figma"
 - "What screens do I need to design for [feature]?"
 - "Map out the states for [feature] before we start designing"
 - "Help me structure my Figma file for [feature]"
 - "What do we need to design before handing this to the developer?"
 
-Run this skill in your browser: https://mohitagw15856.github.io/pm-claude-skills/skill/figma-user-flow-planner.html
+Chạy skill này trực tiếp trên trình duyệt: https://mohitagw15856.github.io/pm-claude-skills/skill/figma-user-flow-planner.html

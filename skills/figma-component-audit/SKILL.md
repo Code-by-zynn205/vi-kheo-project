@@ -1,84 +1,86 @@
 ---
 name: figma-component-audit
-description: "Audit a Figma component library for consistency, coverage gaps, and naming issues. Use when asked to audit components, review a design system, check component consistency, identify missing components, or assess Figma library health. Produces a structured audit report with issues prioritised by impact, naming recommendations, and a fix plan."
+description: "Kiểm toán (audit) thư viện component Figma về tính nhất quán, khoảng trống độ phủ và lỗi đặt tên. Sử dụng khi được yêu cầu kiểm toán component, đánh giá design system, kiểm tra tính nhất quán của component, xác định component còn thiếu hoặc đánh giá sức khỏe thư viện Figma. Tạo ra báo cáo kiểm toán có cấu trúc với các vấn đề được xếp hạng ưu tiên theo mức độ tác động, đề xuất quy chuẩn đặt tên và kế hoạch khắc phục."
 ---
 
-# Figma Component Audit Skill
+# Skill: Kiểm toán Component Figma (Figma Component Audit)
 
-Produces a structured audit of a Figma component library — identifying inconsistencies, naming problems, coverage gaps, and prioritised recommendations.
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [mohitagw15856/pm-claude-skills](https://github.com/mohitagw15856/pm-claude-skills/blob/main/skills/figma-component-audit/SKILL.md) (mohitagw15856).
 
-## Required Inputs
+Tạo báo cáo kiểm toán (audit) có cấu trúc cho thư viện component Figma — chỉ ra các điểm thiếu nhất quán, vấn đề đặt tên, khoảng trống độ phủ và các đề xuất ưu tiên.
 
-- **Component list or description** (paste component names or describe what exists)
-- **Product type** (mobile app / web app / desktop / multi-platform)
-- **Design system maturity** (new / growing / mature / legacy)
-- **Primary concern** (optional)
+## Đầu vào Bắt buộc
 
-## Output Structure
+- **Danh sách hoặc mô tả component** (dán tên các component hoặc mô tả những gì đang có)
+- **Loại sản phẩm** (ứng dụng di động / ứng dụng web / desktop / đa nền tảng)
+- **Mức độ trưởng thành của Design system** (mới khởi tạo / đang phát triển / trưởng thành / kế thừa cũ - legacy)
+- **Mối quan tâm chính** (tùy chọn)
 
-### 1. Audit Summary
+## Cấu trúc Đầu ra
 
-| Dimension | Status | Score |
+### 1. Tóm tắt Kiểm toán (Audit Summary)
+
+| Tiêu chí | Trạng thái | Điểm |
 |---|---|---|
-| Naming consistency | Red/Amber/Green | /10 |
-| Component coverage | | /10 |
-| Variant completeness | | /10 |
-| Documentation | | /10 |
-| Overall health | | /10 |
+| Tính nhất quán đặt tên (Naming consistency) | Đỏ/Vàng/Xanh (Red/Amber/Green) | /10 |
+| Độ phủ component (Component coverage) | | /10 |
+| Độ đầy đủ biến thể (Variant completeness) | | /10 |
+| Tài liệu hóa (Documentation) | | /10 |
+| Sức khỏe tổng thể (Overall health) | | /10 |
 
-**Verdict:** What is the state of this library and the single most important thing to fix?
+**Kết luận (Verdict):** Tình trạng hiện tại của thư viện này ra sao và một việc quan trọng nhất cần sửa ngay là gì?
 
-### 2. Naming Issues
+### 2. Vấn đề Đặt tên (Naming Issues)
 
-For each problem:
-**Issue: [Problem type]**
-- What is happening: [Specific examples]
-- Why it matters: [Impact on designers and developers]
-- Fix: [Exact naming convention to adopt]
-- Examples: Before / After
+Với mỗi vấn đề:
+**Vấn đề: [Loại vấn đề]**
+- Thực trạng đang xảy ra: [Ví dụ cụ thể]
+- Tại sao điều này quan trọng: [Tác động đến designer và lập trình viên]
+- Cách sửa: [Quy ước đặt tên chính xác cần áp dụng]
+- Ví dụ: Trước / Sau (Before / After)
 
-Naming convention to enforce:
-- Components: PascalCase (NavigationBar)
-- Variants: Lowercase with slashes (size/large, state/hover)
-- Pages: All caps (COMPONENTS, FOUNDATIONS)
+Quy ước đặt tên cần áp dụng nhất quán:
+- Components: PascalCase (`NavigationBar`)
+- Variants: Chữ thường kèm dấu gạch chéo (`size/large`, `state/hover`)
+- Pages: Viết hoa toàn bộ (`COMPONENTS`, `FOUNDATIONS`)
 
-### 3. Coverage Gaps
+### 3. Khoảng trống Độ phủ (Coverage Gaps)
 
-| Missing Component | Priority | Why Needed |
+| Component còn thiếu | Mức ưu tiên | Lý do cần thiết |
 |---|---|---|
-| [Component] | High/Medium/Low | [Use case] |
+| [Component] | Cao/Trung bình/Thấp (High/Medium/Low) | [Trường hợp sử dụng] |
 
-### 4. Variant Completeness Check
+### 4. Kiểm tra Độ đầy đủ Biến thể (Variant Completeness Check)
 
-| Component | Default | Hover | Active | Disabled | Error | Missing |
+| Component | Default | Hover | Active | Disabled | Error | Còn thiếu |
 |---|---|---|---|---|---|---|
-| [Button] | Yes | Yes | No | Yes | No | Active, Error |
+| [Button] | Có | Có | Không | Có | Không | Active, Error |
 
-### 5. Prioritised Fix Plan
+### 5. Kế hoạch Khắc phục Theo Mức ưu tiên (Prioritised Fix Plan)
 
-| # | Fix | Effort | Impact | Do First? |
+| # | Hạng mục sửa | Công sức (Effort) | Tác động (Impact) | Làm trước tiên? |
 |---|---|---|---|---|
-| 1 | [Fix] | Low/Med/High | High | Yes |
+| 1 | [Hạng mục sửa] | Thấp/TB/Cao (Low/Med/High) | Cao (High) | Có (Yes) |
 
-## Quality Checks
-- [ ] Naming recommendations have before/after examples
-- [ ] Coverage gaps are relevant to the product type
-- [ ] Fix plan is ordered by impact-to-effort ratio
-- [ ] Variant completeness covers all interactive states
+## Kiểm tra Chất lượng (Quality Checks)
+- [ ] Các đề xuất đặt tên đều có ví dụ trước/sau (before/after)
+- [ ] Các khoảng trống độ phủ phù hợp với loại sản phẩm
+- [ ] Kế hoạch khắc phục được sắp xếp theo tỷ lệ tác động trên công sức (impact-to-effort ratio)
+- [ ] Độ đầy đủ biến thể bao phủ toàn bộ các trạng thái tương tác
 
-## Anti-Patterns
+## Các Lỗi Cần Tránh (Anti-Patterns)
 
-- [ ] Do not flag naming issues without providing a specific, consistent naming convention to adopt
-- [ ] Do not audit only visual consistency — also check for missing interactive states and accessibility compliance
-- [ ] Do not list all issues at equal priority — group by impact (Critical / Major / Minor) so the fix plan is actionable
-- [ ] Do not omit variant completeness — every interactive component must cover all required states
-- [ ] Do not leave coverage gaps without recommending specific missing components to add
+- [ ] Không báo lỗi đặt tên mà thiếu quy ước đặt tên cụ thể, nhất quán để đội ngũ áp dụng
+- [ ] Không chỉ kiểm toán tính nhất quán trực quan — cần kiểm tra cả các trạng thái tương tác còn thiếu và mức độ tuân thủ khả năng tiếp cận (accessibility)
+- [ ] Không liệt kê mọi vấn đề ở cùng mức ưu tiên — hãy nhóm theo tác động (Critical / Major / Minor) để kế hoạch sửa có thể thực thi
+- [ ] Không bỏ qua độ đầy đủ biến thể — mọi component có tương tác phải bao phủ đầy đủ các trạng thái bắt buộc
+- [ ] Không nêu khoảng trống độ phủ mà không đề xuất cụ thể các component còn thiếu cần bổ sung
 
-## Example Trigger Phrases
+## Ví dụ Câu lệnh Kích hoạt (Trigger Phrases)
 - "Audit my Figma component library"
 - "Review our design system for consistency issues"
 - "What components are we missing in our Figma library?"
 - "Our component naming is a mess — help me fix it"
 - "Do a health check on our Figma components"
 
-Run this skill in your browser: https://mohitagw15856.github.io/pm-claude-skills/skill/figma-component-audit.html
+Chạy skill này trực tiếp trên trình duyệt: https://mohitagw15856.github.io/pm-claude-skills/skill/figma-component-audit.html

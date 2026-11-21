@@ -1,165 +1,167 @@
 ---
 name: fix-design-system-finding
-description: Fix a specific design-system integration finding in a Figma screen or component, including missing shared components, local overrides, and unbound tokens.
+description: Sửa một finding tích hợp design system cụ thể trong màn hình hoặc component Figma, bao gồm thiếu shared component, local override và token chưa được liên kết (unbound tokens).
 ---
 
-# Fix One Design-System Finding
+# Sửa một Design-System Finding
 
-Use this skill after `audit-design-system` has already identified a concrete issue.
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [edenspiekermann/Skills](https://github.com/edenspiekermann/Skills/blob/main/skills/fix-design-system-finding/SKILL.md) (Edenspiekermann).
 
-This skill is intentionally narrow:
-- one finding at a time
-- one offending node or local cluster at a time
-- minimal read scope
-- minimal write scope
+Sử dụng skill này sau khi `audit-design-system` đã xác định được một vấn đề cụ thể.
 
-Load these capabilities first:
-- Figma MCP read access for the normal inspection tools
-- a `figma-use`-style helper before any `use_figma` write call, when your environment requires one
+Skill này được thiết kế với phạm vi hẹp có chủ đích:
+- mỗi lần một finding
+- mỗi lần một node vi phạm hoặc một cụm cục bộ
+- phạm vi đọc tối thiểu
+- phạm vi ghi tối thiểu
 
-Use [apply-design-system](../apply-design-system/SKILL.md) instead when the task is a broader screen-wide reconnect, multiple sections need coordinated changes, or the user explicitly wants a full pass across the frame.
+Nạp các năng lực sau trước tiên:
+- Quyền đọc Figma MCP cho các công cụ kiểm tra thông thường
+- Một helper kiểu `figma-use` trước bất kỳ lời gọi ghi `use_figma` nào, khi môi trường của bạn yêu cầu
 
-## Expected Input
+Hãy sử dụng [apply-design-system](../apply-design-system/SKILL.md) thay thế khi tác vụ là kết nối lại toàn màn hình ở phạm vi rộng hơn, nhiều section cần thay đổi đồng bộ, hoặc người dùng yêu cầu rõ ràng một lượt xử lý toàn bộ frame.
 
-Prefer one of these:
-- a single JSON finding from `audit-design-system`
-- the full review JSON plus the specific finding to address
-- a paraphrased issue plus a Figma URL or `fileKey` and `nodeId`
+## Đầu vào kỳ vọng
 
-If the finding came from `audit-design-system`, extract the target from:
+Ưu tiên một trong các dạng sau:
+- một finding JSON đơn lẻ từ `audit-design-system`
+- toàn bộ JSON rà soát kèm theo finding cụ thể cần xử lý
+- một mô tả vấn đề được diễn giải lại kèm URL Figma hoặc `fileKey` và `nodeId`
+
+Nếu finding xuất phát từ `audit-design-system`, trích xuất mục tiêu từ:
 - `code_location.absolute_file_path = /figma/<fileKey>/nodes/<nodeId>`
 
-Treat the review result as the scope contract. Do not silently widen from one finding into a full cleanup pass.
+Coi kết quả rà soát như một hợp đồng phạm vi (scope contract). Không tự ý mở rộng từ một finding sang một lượt dọn dẹp toàn bộ màn hình.
 
-## Scope Rule
+## Quy tắc phạm vi
 
-Stay pinned to the selected finding until one of these is true:
-- `fixed`: the targeted issue is corrected
-- `blocked`: the fix requires missing library assets, inaccessible components, or broader product decisions
-- `needs-follow-up`: the targeted node is improved, but a separate adjacent issue remains and should be reviewed independently
+Bám sát finding đã chọn cho đến khi đạt một trong các trạng thái sau:
+- `fixed`: vấn đề mục tiêu đã được khắc phục
+- `blocked`: việc sửa đòi hỏi tài nguyên library bị thiếu, các component không thể truy cập hoặc các quyết định sản phẩm rộng hơn
+- `needs-follow-up`: node mục tiêu đã được cải thiện, nhưng vẫn còn một vấn đề riêng biệt liền kề cần được rà soát độc lập
 
-If the user pastes multiple findings, either address the one they selected or pick the highest-priority finding and say that is the one being fixed now.
+Nếu người dùng dán nhiều finding, hãy xử lý finding mà họ đã chọn hoặc chọn finding có mức độ ưu tiên cao nhất và thông báo rõ đó là finding đang được sửa ngay lúc này.
 
-## Required Workflow
+## Workflow bắt buộc
 
-### 1. Normalize the Finding
+### 1. Chuẩn hóa Finding
 
-Extract and restate:
+Trích xuất và phát biểu lại:
 - `fileKey`
-- offending `nodeId`
-- finding title
-- why the reviewer flagged it
+- `nodeId` vi phạm
+- tiêu đề finding
+- lý do người rà soát đã gắn cờ mục này
 
-If the review output does not identify a specific node, stop and ask for either the raw finding JSON or a direct Figma node.
+Nếu kết quả rà soát không xác định được một node cụ thể, hãy dừng lại và yêu cầu cung cấp raw finding JSON hoặc một Figma node trực tiếp.
 
-### 2. Run A Local Compatibility Check When Replacement Choice Is Ambiguous
+### 2. Chạy kiểm tra tương thích cục bộ khi lựa chọn thay thế còn mơ hồ
 
-Before backing anything up or editing the canvas, decide whether a clean fix is actually possible.
+Trước khi sao lưu bất kỳ thứ gì hoặc chỉnh sửa trên canvas, hãy xác định xem một bản sửa gọn sạch có thực sự khả thi hay không.
 
-Run a local compatibility check when:
-- the finding implies a DS swap but does not identify the exact component
-- more than one library component looks plausible
-- override behavior or sizing is unclear
-- the user explicitly wants extra research before writing
+Chạy kiểm tra tương thích cục bộ khi:
+- finding ngụ ý cần swap sang DS nhưng không chỉ rõ component chính xác
+- có nhiều hơn một library component trông có vẻ khả thi
+- hành vi override hoặc kích thước chưa rõ ràng
+- người dùng yêu cầu rõ ràng cần nghiên cứu thêm trước khi ghi dữ liệu
 
-Do not continue into writes until the compatibility check returns one of:
+Không tiếp tục chuyển sang bước ghi cho đến khi kiểm tra tương thích trả về một trong các trạng thái:
 - `safe-to-apply`
 - `blocked`
 - `needs-human-choice`
 
-The compatibility check should answer:
-- which exact component or variant is the leading candidate
-- whether text, icon, state, and size overrides are supported
-- whether the replacement can preserve the node's layout contract
+Bước kiểm tra tương thích phải trả lời được:
+- component hoặc variant chính xác nào là ứng viên hàng đầu
+- các override về text, icon, state và size có được hỗ trợ hay không
+- thành phần thay thế có thể bảo toàn hợp đồng bố cục (layout contract) của node hay không
 
-If the result is `blocked`, stop and report the blocker.
+Nếu kết quả là `blocked`, hãy dừng lại và báo cáo blocker.
 
-If the result is `needs-human-choice`, stop and ask the minimal clarifying question instead of guessing.
+Nếu kết quả là `needs-human-choice`, hãy dừng lại và đặt câu hỏi làm rõ tối thiểu thay vì tự đoán.
 
-### 3. Gather Only the Evidence Needed
+### 3. Chỉ thu thập đúng bằng chứng cần thiết
 
-Before writing, inspect the target with the smallest useful set of reads:
-1. `get_screenshot` for the offending node or closest enclosing section
-2. `get_metadata` for structural context
-3. `get_variable_defs` when the finding mentions tokens, raw values, color, spacing, or typography
-4. `get_code_connect_map` when the finding suggests an existing mapped component
-5. `search_design_system` only if you still need to locate the replacement primitive
+Trước khi ghi, kiểm tra mục tiêu với tập lệnh đọc nhỏ nhất nhưng vẫn đủ hữu ích:
+1. `get_screenshot` cho node vi phạm hoặc section bao quanh gần nhất
+2. `get_metadata` để lấy ngữ cảnh cấu trúc
+3. `get_variable_defs` khi finding đề cập đến token, giá trị thô, màu sắc, khoảng cách hoặc typography
+4. `get_code_connect_map` khi finding gợi ý một component đã được map sẵn
+5. `search_design_system` chỉ khi bạn vẫn cần định vị primitive thay thế
 
-Do not re-review the whole board unless the finding clearly points to a repeated pattern and the repeated pattern is required to choose the fix.
+Không rà soát lại toàn bộ board trừ khi finding chỉ ra rõ ràng một mẫu lặp lại và mẫu lặp lại đó là điều kiện cần để chọn phương án sửa.
 
-### 4. Classify the Fix
+### 4. Phân loại phương án sửa
 
-Choose exactly one remediation mode:
-- `swap-instance`: replace an ad-hoc or wrong instance with the correct library component or variant
-- `compose-from-primitives`: rebuild the local custom wrapper from published library parts
-- `bind-tokens`: replace raw values with variables or styles
-- `align-variant`: move an existing instance to the correct variant or property state
-- `blocked`: no valid library-backed fix is currently possible
+Chọn chính xác một chế độ khắc phục (remediation mode):
+- `swap-instance`: thay thế một ad-hoc instance hoặc instance sai bằng đúng library component hoặc variant
+- `compose-from-primitives`: dựng lại local custom wrapper từ các thành phần library đã publish
+- `bind-tokens`: thay thế các giá trị thô bằng variables hoặc styles
+- `align-variant`: chuyển một instance hiện có sang đúng variant hoặc trạng thái thuộc tính
+- `blocked`: hiện không có phương án sửa dựa trên library nào hợp lệ
 
-If more than one mode seems plausible, prefer the smallest change that satisfies the original finding.
+Nếu có nhiều chế độ đều có vẻ khả thi, hãy ưu tiên thay đổi nhỏ nhất đáp ứng được finding ban đầu.
 
-### 5. Back Up Only the Affected Area
+### 5. Chỉ sao lưu khu vực bị ảnh hưởng
 
-Before destructive edits, duplicate only the offending node or the smallest enclosing local section.
+Trước khi thực hiện các chỉnh sửa mang tính phá hủy, chỉ nhân bản (duplicate) node vi phạm hoặc local section bao quanh nhỏ nhất.
 
-Name the backup clearly, for example:
+Đặt tên bản sao lưu rõ ràng, ví dụ:
 - `Backup - Fix finding 1`
 - `Backup - Custom nav`
 
-Make the backup in its own write call and return the created node ID.
+Thực hiện việc sao lưu trong một lời gọi ghi riêng biệt và trả về node ID đã tạo.
 
-### 6. Apply the Fix Incrementally
+### 6. Áp dụng bản sửa từng bước
 
-Do not rebuild the whole screen.
+Không dựng lại toàn bộ màn hình.
 
-Work in small steps:
-1. inspect current node IDs and component linkage
-2. import or locate the needed library component or variable
-3. replace, compose, or retokenize only the targeted area
-4. return all created and mutated node IDs
+Thực hiện theo các bước nhỏ:
+1. kiểm tra các node ID hiện tại và liên kết component
+2. import hoặc xác định vị trí library component hoặc variable cần thiết
+3. chỉ thay thế, tổng hợp hoặc gắn lại token (retokenize) cho đúng khu vực mục tiêu
+4. trả về toàn bộ các node ID đã tạo mới và thay đổi
 
-Prefer `swapComponent()` when it preserves the node's position and valid overrides.
+Ưu tiên `swapComponent()` khi hàm này bảo toàn được vị trí của node và các override hợp lệ.
 
-Prefer rebuilding beside the original when:
-- the current node is a local wrapper with mixed custom structure
-- the review finding points at a custom composition, not a single primitive
-- you need visual comparison before replacing the original
+Ưu tiên dựng lại bên cạnh bản gốc khi:
+- node hiện tại là một local wrapper có cấu trúc tùy biến hỗn hợp
+- finding rà soát chỉ vào một bố cục tổng hợp tùy biến (custom composition), không phải một primitive đơn lẻ
+- bạn cần đối chiếu trực quan trước khi thay thế bản gốc
 
-If the first validation pass shows that the recommended component regresses layout, text visibility, icon behavior, or width contract, stop. Report `blocked` or `needs-follow-up` instead of continuing to force the same primitive into place.
+Nếu lượt xác thực đầu tiên cho thấy component được khuyến nghị làm hỏng bố cục, khả năng hiển thị text, hành vi icon hoặc hợp đồng chiều rộng (width contract), hãy dừng lại. Báo cáo `blocked` hoặc `needs-follow-up` thay vì tiếp tục ép buộc đưa primitive đó vào vị trí.
 
-### 7. Validate the Finding, Not the Entire Screen
+### 7. Xác thực Finding, không xác thực toàn màn hình
 
-After the write:
-1. screenshot the changed node or its immediate section
-2. confirm the specific review complaint is no longer true
-3. confirm the result is library-backed or token-bound when that was the goal
-4. confirm spacing and text overrides still make sense
+Sau khi ghi:
+1. chụp ảnh screenshot node vừa đổi hoặc section trực tiếp chứa nó
+2. xác nhận khiếu nại cụ thể trong bản rà soát không còn đúng nữa
+3. xác nhận kết quả đã gắn với library hoặc được bind token khi đó là mục tiêu
+4. xác nhận khoảng cách và các text override vẫn hợp lý
 
-Only expand validation beyond the local section if the fix touched a global pattern such as navigation.
+Chỉ mở rộng phạm vi xác thực ra ngoài section cục bộ nếu bản sửa có chạm vào một mẫu toàn cục như thanh điều hướng (navigation).
 
-## Decision Heuristics
+## Heuristic ra quyết định
 
-- If the finding says a primitive was recreated as a frame, bias toward `swap-instance`.
-- If the finding says repeated local wrappers should collapse into a shared pattern, fix one representative node unless the task explicitly asks to roll the fix across all siblings.
-- If the finding is about raw values beside tokenized peers, bias toward `bind-tokens`.
-- If the finding is about a locally edited instance with the wrong size or state, bias toward `align-variant`.
-- If the library lacks the required component family or the import fails, mark it `blocked` instead of improvising a fake connection.
-- If a DS component exists but cannot preserve the node's text/icon/sizing contract, mark it `blocked` or `needs-human-choice` instead of forcing the swap.
+- Nếu finding nói một primitive đã bị tạo lại dưới dạng frame, hãy thiên về `swap-instance`.
+- Nếu finding nói các local wrapper lặp lại nên gộp thành một mẫu dùng chung, hãy sửa một node đại diện trừ khi tác vụ yêu cầu rõ ràng phải áp dụng bản sửa cho toàn bộ các node đồng cấp.
+- Nếu finding nói về các giá trị thô nằm cạnh các thành phần đồng cấp đã gắn token, hãy thiên về `bind-tokens`.
+- Nếu finding nói về một instance bị chỉnh sửa cục bộ có sai kích thước hoặc trạng thái, hãy thiên về `align-variant`.
+- Nếu library thiếu họ component cần thiết hoặc việc import thất bại, hãy đánh dấu `blocked` thay vì tự chế một kết nối giả.
+- Nếu một DS component có tồn tại nhưng không thể bảo toàn hợp đồng text/icon/kích thước của node, hãy đánh dấu `blocked` hoặc `needs-human-choice` thay vì ép swap.
 
-## Writing Rules
+## Quy tắc thực thi & viết báo cáo
 
-- Keep the write scope tightly aligned to the selected finding.
-- No write before a `safe-to-apply` compatibility outcome when replacement choice is ambiguous.
-- Do not claim the whole screen is "on system" after fixing one finding.
-- Prefer exact component keys and variable IDs over names.
-- Do not continue into unrelated cleanup just because you noticed more drift.
-- If a broader refactor is obviously needed, finish the targeted fix or report the blocker, then recommend `apply-design-system` for the next pass.
+- Giữ phạm vi ghi bám chặt vào finding đã chọn.
+- Không ghi dữ liệu trước khi có kết quả kiểm tra tương thích là `safe-to-apply` khi lựa chọn thay thế còn mơ hồ.
+- Không tuyên bố toàn bộ màn hình đã "đạt chuẩn hệ thống" sau khi chỉ sửa một finding.
+- Ưu tiên exact component key và variable ID hơn là tên.
+- Không tiếp tục dọn dẹp các phần không liên quan chỉ vì bạn tình cờ thấy thêm sai lệch.
+- Nếu rõ ràng cần một đợt tái cấu trúc rộng hơn, hãy hoàn thành bản sửa mục tiêu hoặc báo cáo blocker, sau đó khuyến nghị sử dụng `apply-design-system` cho lượt tiếp theo.
 
-## Deliverable Format
+## Định dạng bàn giao
 
-When closing the task, report:
-- `Finding fixed`: what changed and on which node
-- `Validation`: how you confirmed the original issue is resolved
-- `Blocked` or `Follow-up`: only if the finding could not be fully resolved
+Khi kết thúc tác vụ, hãy báo cáo:
+- `Finding fixed`: những gì đã thay đổi và trên node nào
+- `Validation`: cách bạn xác nhận vấn đề ban đầu đã được giải quyết
+- `Blocked` hoặc `Follow-up`: chỉ ghi nếu finding chưa thể giải quyết hoàn toàn
 
-Keep the report tied to the single finding. Avoid screen-wide summaries unless the user asks for them.
+Giữ báo cáo gắn chặt với finding đơn lẻ đó. Tránh đưa ra tóm tắt toàn màn hình trừ khi người dùng yêu cầu.

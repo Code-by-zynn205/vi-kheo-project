@@ -1,130 +1,132 @@
 ---
 name: audit-design-system
-description: Audit a Figma screen or component for design-system integration drift, including missing shared components, local overrides, and unbound tokens.
+description: Kiểm toán (audit) một màn hình hoặc component Figma để phát hiện sai lệch tích hợp design system, bao gồm thiếu shared component, local override và token chưa được liên kết (unbound tokens).
 ---
 
-# Audit Design System
+# Kiểm toán Design System (Audit Design System)
 
-Review a Figma node for evidence that the design is not properly integrated with the design system.
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [edenspiekermann/Skills](https://github.com/edenspiekermann/Skills/blob/main/skills/audit-design-system/SKILL.md) (Edenspiekermann).
 
-This skill is read-only. When the user wants a write action afterward, downstream skills should use `use_figma` through a `figma-use`-style helper when the host environment requires one.
+Rà soát một node Figma để tìm bằng chứng cho thấy thiết kế chưa được tích hợp đúng chuẩn với design system.
 
-## Output Format Selection
+Skill này chỉ đọc (read-only). Khi người dùng muốn thực hiện hành động ghi sau đó, các skill tuyến sau (downstream skills) nên sử dụng `use_figma` thông qua một helper kiểu `figma-use` khi môi trường chạy yêu cầu.
 
-- **Explicit user request wins**:
-  - If the user asks for `--json` or JSON, output raw JSON (no markdown fences, no prose).
-  - If the user asks for `--markdown`, markdown, or a specific human-readable format, output the human-readable markdown report.
-- **Codex Desktop app**: Output raw JSON by default.
-- **Codex CLI and other chat-style environments**: Output the human-readable markdown report by default.
-- **Machine-consumed review surfaces**: Output raw JSON by default.
-- **Ambiguous environment**: If the environment is unclear, output markdown by default.
+## Lựa chọn định dạng đầu ra
+
+- **Yêu cầu tường minh từ người dùng được ưu tiên cao nhất**:
+  - Nếu người dùng yêu cầu `--json` hoặc JSON, xuất JSON thô (không có markdown fence, không có văn bản diễn giải).
+  - Nếu người dùng yêu cầu `--markdown`, markdown hoặc một định dạng dễ đọc cụ thể, xuất báo cáo markdown dễ đọc cho người dùng.
+- **Ứng dụng Codex Desktop**: Mặc định xuất JSON thô.
+- **Codex CLI và các môi trường dạng chat khác**: Mặc định xuất báo cáo markdown dễ đọc cho người dùng.
+- **Các giao diện rà soát tiêu thụ bởi máy (machine-consumed)**: Mặc định xuất JSON thô.
+- **Môi trường không rõ ràng**: Nếu môi trường chưa rõ ràng, mặc định xuất markdown.
 
 ## Workflow
 
-1. Parse the Figma input.
-   Accept a full Figma URL, or a `fileKey` and `nodeId`.
-   Normalize node IDs from `72-293` to `72:293` when needed.
+1. Phân tích dữ liệu đầu vào Figma.
+   Chấp nhận một URL Figma đầy đủ, hoặc một cặp `fileKey` và `nodeId`.
+   Chuẩn hóa node ID từ `72-293` sang `72:293` khi cần thiết.
 
-2. Pull the minimum required evidence with Figma MCP read tools.
-   Call `get_design_context` for the exact node under review.
-   Call `get_screenshot` for visual confirmation.
-   Call `get_variable_defs` to see which variables are actually bound.
-   Call `get_code_connect_map` when relevant.
-   Call `get_metadata` when the reviewed node is large, repeated, or board-like and you need to map nested instances before drilling in.
-   Call `search_design_system` when you have identified a likely non-systemized primitive and there is a realistic chance of suggesting a concrete replacement from the audited design system.
+2. Lấy tối thiểu các bằng chứng cần thiết bằng các công cụ đọc Figma MCP.
+   Gọi `get_design_context` cho đúng node đang được rà soát.
+   Gọi `get_screenshot` để xác nhận trực quan.
+   Gọi `get_variable_defs` để xem những variable nào thực sự đang được bind.
+   Gọi `get_code_connect_map` khi có liên quan.
+   Gọi `get_metadata` khi node được rà soát có kích thước lớn, lặp lại nhiều lần hoặc dạng board và bạn cần lập bản đồ các nested instance trước khi đi sâu vào chi tiết.
+   Gọi `search_design_system` khi bạn đã xác định được một primitive có khả năng chưa được hệ thống hóa và có cơ hội thực tế để đề xuất thành phần thay thế cụ thể từ design system đang kiểm toán.
 
-3. Review for systemization failures, not visual taste.
-   Look for places where the design should probably inherit from the design system but is locally constructed instead.
-   Base every finding on structure visible in Figma: instances, duplicated frames, raw values, variant drift, or missing token bindings.
-   Prefer omissions over weak findings.
+3. Rà soát các lỗi hệ thống hóa, không đánh giá theo gu thẩm mỹ cá nhân.
+   Tìm những chỗ mà thiết kế đáng lẽ phải kế thừa từ design system nhưng lại bị dựng cục bộ (locally constructed).
+   Mọi finding phải dựa trên cấu trúc hiển thị trong Figma: các instance, các frame bị nhân bản thủ công, giá trị thô (raw values), sai lệch variant (variant drift) hoặc thiếu liên kết token.
+   Thà bỏ sót còn hơn đưa ra các finding yếu thiếu cơ sở.
 
-4. When the evidence is strong enough, suggest a replacement candidate.
-   After identifying a likely custom primitive, use `search_design_system` to find the closest matching component family from the audited design system.
-   Include a candidate only when the match is credible from structure and naming, not just screenshot similarity.
-   If search results are noisy or ambiguous, omit the candidate instead of guessing.
+4. Khi bằng chứng đủ mạnh, hãy đề xuất ứng viên thay thế.
+   Sau khi xác định được một custom primitive khả nghi, sử dụng `search_design_system` để tìm họ component (component family) khớp nhất từ design system đang kiểm toán.
+   Chỉ đưa vào một ứng viên khi sự tương đồng đủ đáng tin cậy về mặt cấu trúc và đặt tên, không chỉ dựa vào sự giống nhau trên ảnh chụp màn hình.
+   Nếu kết quả tìm kiếm bị nhiễu hoặc mơ hồ, hãy bỏ qua ứng viên thay vì đoán mò.
 
-5. Present findings in the appropriate format based on the environment.
-   Use JSON for Codex Desktop and machine-consumed review surfaces, markdown for Claude Code CLI and other chat-style environments (see Output Format Selection above).
+5. Trình bày các finding theo định dạng phù hợp dựa trên môi trường.
+   Sử dụng JSON cho Codex Desktop và các giao diện rà soát tiêu thụ bởi máy, sử dụng markdown cho Claude Code CLI và các môi trường dạng chat khác (xem mục Lựa chọn định dạng đầu ra ở trên).
 
-6. When the user wants a fix, route to the right downstream skill.
-   Prefer [fix-design-system-finding](../fix-design-system-finding/SKILL.md) when one specific offending node should be repaired.
-   Prefer [apply-design-system](../apply-design-system/SKILL.md) when the user wants a broader screen-wide pass, multiple sections need coordinated remediation, or the review is being used to define scope before writing.
+6. Khi người dùng muốn sửa lỗi, điều hướng đến đúng skill tuyến sau.
+   Ưu tiên [fix-design-system-finding](../fix-design-system-finding/SKILL.md) khi cần sửa một node vi phạm cụ thể.
+   Ưu tiên [apply-design-system](../apply-design-system/SKILL.md) khi người dùng muốn một lượt xử lý rộng trên toàn màn hình, nhiều section cần khắc phục đồng bộ, hoặc lượt rà soát này đang được dùng để xác định phạm vi trước khi tiến hành ghi sửa đổi.
 
-## What To Flag
+## Những gì cần gắn cờ (Flag)
 
-- Shared UI primitives recreated as ad-hoc frames instead of component instances.
-  Common targets: buttons, icon buttons, cards, alerts, pills, chips, avatars, stat tiles, tab bars, nav bars, FABs, list rows.
+- Các UI primitive dùng chung bị tạo lại dưới dạng ad-hoc frame thay vì component instance.
+  Các đối tượng thường gặp: buttons, icon buttons, cards, alerts, pills, chips, avatars, stat tiles, tab bars, nav bars, FABs, list rows.
 
-- Repeated sibling structures that should clearly collapse into one reusable primitive.
-  Example: three nearly identical stat tiles with different content.
+- Các cấu trúc đồng cấp lặp lại mà lẽ ra phải gộp thành một primitive tái sử dụng.
+  Ví dụ: ba stat tile gần như giống hệt nhau chỉ khác nội dung.
 
-- Hard-coded visual values where the rest of the design system uses variables.
-  Common targets: fills, strokes, text colors, radius, spacing, typography, shadows.
-  Only flag this when the evidence is concrete, such as a raw hex value or bespoke geometry sitting beside tokenized peers.
+- Các giá trị trực quan bị hard-code ở những nơi mà phần còn lại của design system đang dùng variables.
+  Các đối tượng thường gặp: fills, strokes, text colors, radius, spacing, typography, shadows.
+  Chỉ gắn cờ mục này khi có bằng chứng cụ thể, ví dụ như một mã hex thô hoặc thông số hình học tự chế nằm ngay cạnh các thành phần đồng cấp đã được gắn token.
 
-- Global navigation or other high-leverage patterns built from custom frames instead of system components.
-  Flag these aggressively because drift there scales across many screens.
+- Thanh điều hướng toàn cục (global navigation) hoặc các mẫu có sức ảnh hưởng lớn khác được dựng từ custom frame thay vì system component.
+  Hãy gắn cờ quyết liệt các trường hợp này vì sự sai lệch ở đây sẽ lan rộng ra nhiều màn hình.
 
-- Variant drift inside a nominal component.
-  Example: a local edit button with unusual size, stroke width, or radius that does not match the expected icon-button primitive.
+- Sai lệch variant (variant drift) bên trong một component mang tính danh nghĩa.
+  Ví dụ: một nút chỉnh sửa cục bộ có kích thước, độ dày nét (stroke width) hoặc bo góc (radius) bất thường không khớp với icon-button primitive kỳ vọng.
 
-## What Not To Flag
+## Những gì KHÔNG gắn cờ
 
-- Purely aesthetic preferences.
-- Copywriting or product decisions.
-- Layout choices that can reasonably remain screen-specific.
-- One-off compositions when the underlying primitives are already componentized and tokenized.
-- Claims that require undocumented assumptions about a design library.
+- Các sở thích mang tính thẩm mỹ thuần túy.
+- Nội dung văn bản (copywriting) hoặc các quyết định sản phẩm.
+- Các lựa chọn bố cục có lý do chính đáng để giữ riêng cho từng màn hình.
+- Các bố cục tổng hợp dùng một lần (one-off compositions) khi các primitive bên dưới đã được component hóa và gắn token đầy đủ.
+- Các nhận định đòi hỏi phải suy đoán thiếu tài liệu về một design library.
 
-## Evidence Standard
+## Tiêu chuẩn bằng chứng
 
-Every finding must answer both questions:
+Mỗi finding phải trả lời được cả hai câu hỏi:
 
-1. What concrete Figma evidence shows this is not systemized correctly?
-2. Why does that matter for propagation, consistency, theming, or maintenance?
+1. Bằng chứng cụ thể nào trong Figma cho thấy thành phần này chưa được hệ thống hóa đúng cách?
+2. Tại sao điều đó lại quan trọng đối với khả năng lan tỏa cập nhật (propagation), tính nhất quán, theming hoặc bảo trì?
 
-Good evidence includes:
+Bằng chứng tốt bao gồm:
 
-- a node is a plain frame when it should be an instance
-- several siblings duplicate the same structure
-- raw color or geometry values appear where variables or standard primitives should apply
-- a global pattern is custom-built
+- một node đang là plain frame trong khi lẽ ra phải là một instance
+- nhiều node đồng cấp lặp lại cùng một cấu trúc
+- các giá trị màu sắc hoặc hình học thô xuất hiện tại nơi lẽ ra phải áp dụng variables hoặc các primitive chuẩn
+- một mẫu toàn cục bị tự dựng thủ công
 
-Weak evidence includes:
+Bằng chứng yếu bao gồm:
 
-- "this looks custom"
-- "I would normally make this a component"
-- any statement based only on screenshot aesthetics without structural support
+- "cái này trông có vẻ tự chế"
+- "bình thường tôi sẽ biến cái này thành một component"
+- bất kỳ nhận định nào chỉ dựa trên cảm quan thẩm mỹ của ảnh chụp màn hình mà không có cơ sở cấu trúc
 
-## Replacement Suggestion Rule
+## Quy tắc đề xuất thay thế
 
-When a finding is about a missing shared primitive, try to attach one likely replacement suggestion.
+Khi một finding liên quan đến việc thiếu một shared primitive, hãy cố gắng đính kèm một gợi ý thay thế khả dĩ.
 
-Use `search_design_system` after you already know what category of thing is missing, for example:
-- custom avatar cluster
-- bespoke stat tile
-- local alert card
-- hand-built navigation item
+Sử dụng `search_design_system` sau khi bạn đã biết loại thành phần nào đang bị thiếu, ví dụ:
+- cụm avatar tự chế (custom avatar cluster)
+- stat tile thiết kế riêng (bespoke stat tile)
+- thẻ cảnh báo cục bộ (local alert card)
+- mục điều hướng dựng tay (hand-built navigation item)
 
-Only suggest a replacement when:
-- the node's role is clear
-- the search result belongs to the relevant library or audited file context
-- the candidate is structurally plausible for the finding
+Chỉ đề xuất phương án thay thế khi:
+- vai trò của node đã rõ ràng
+- kết quả tìm kiếm thuộc về đúng library liên quan hoặc ngữ cảnh tệp đang kiểm toán
+- ứng viên đó hợp lý về mặt cấu trúc đối với finding
 
-Good suggestion language:
-- `This custom avatar frame could likely be replaced with Avatar from library X.`
-- `These repeated stat tiles appear to map to Metric item from library X.`
+Ngôn ngữ đề xuất tốt:
+- `Custom avatar frame này nhiều khả năng có thể được thay thế bằng Avatar từ library X.`
+- `Các stat tile lặp lại này dường như tương ứng với Metric item từ library X.`
 
-Do not overstate:
-- do not claim the suggested component is definitely correct unless the evidence is explicit
-- do not force a replacement candidate into every finding
-- do not recommend a component from an unrelated library just because search returned it first
+Không phóng đại hoặc khẳng định quá mức:
+- không khẳng định component được đề xuất chắc chắn đúng trừ khi bằng chứng thật sự rõ ràng
+- không ép buộc phải có ứng viên thay thế cho mọi finding
+- không khuyến nghị một component từ library không liên quan chỉ vì công cụ tìm kiếm trả về nó đầu tiên
 
-## Output Format
+## Định dạng đầu ra
 
-### JSON Output
+### Đầu ra JSON
 
-When the selected output format is JSON, return this exact JSON shape with no markdown fences and no extra prose:
+Khi định dạng đầu ra được chọn là JSON, trả về chính xác cấu trúc JSON này, không có markdown fence và không có văn bản thừa bên ngoài:
 
 ```json
 {
@@ -149,87 +151,87 @@ When the selected output format is JSON, return this exact JSON shape with no ma
 }
 ```
 
-Schema notes:
+Ghi chú về schema:
 
-- Use `overall_correctness: "patch is incorrect"` whenever you found one or more design-system integration issues.
-- Use `overall_correctness: "patch is correct"` only when there are no findings.
-- For each finding, set `code_location.absolute_file_path` to `/figma/<fileKey>/nodes/<nodeId>` using the most specific offending node.
-- Always set `line_range.start` and `line_range.end` to `1`.
+- Sử dụng `overall_correctness: "patch is incorrect"` bất cứ khi nào bạn phát hiện một hoặc nhiều vấn đề tích hợp design system.
+- Chỉ sử dụng `overall_correctness: "patch is correct"` khi không có finding nào.
+- Đối với mỗi finding, đặt `code_location.absolute_file_path` thành `/figma/<fileKey>/nodes/<nodeId>` sử dụng node vi phạm cụ thể nhất.
+- Luôn đặt `line_range.start` và `line_range.end` bằng `1`.
 
-### Human-Readable Markdown Report
+### Báo cáo Markdown dễ đọc cho người dùng
 
-When the selected output format is markdown, present a formatted markdown report with:
+Khi định dạng đầu ra được chọn là markdown, hãy trình bày một báo cáo markdown được định dạng gồm:
 
-1. **Header section:**
-   - File name and node being reviewed
-   - Overall verdict: ✅ Passes / ⚠️ Needs Work / ❌ Significant Issues
-   - Confidence percentage
+1. **Phần tiêu đề (Header section):**
+   - Tên tệp và node đang được rà soát
+   - Kết luận tổng thể: ✅ Passes / ⚠️ Needs Work / ❌ Significant Issues
+   - Tỷ lệ phần trăm độ tin cậy
 
-2. **Summary:** 2-3 sentences explaining the overall state
+2. **Tóm tắt (Summary):** 2-3 câu giải thích trạng thái tổng thể
 
-3. **Findings table:** Quick overview with priority indicators
-   - 🔴 Critical (priority 3): severe library-level or navigation-level issues
-   - 🟠 High (priority 2): important reusable primitive or tokenization issues
-   - 🟡 Medium (priority 1): moderate system drift
-   - ⚪ Low (priority 0): nits or low-impact consistency issues
+3. **Bảng các finding (Findings table):** Tổng quan nhanh kèm các chỉ báo mức độ ưu tiên
+   - 🔴 Critical (priority 3): vấn đề nghiêm trọng ở cấp library hoặc cấp điều hướng
+   - 🟠 High (priority 2): vấn đề quan trọng về reusable primitive hoặc token hóa
+   - 🟡 Medium (priority 1): sai lệch hệ thống ở mức vừa phải
+   - ⚪ Low (priority 0): lỗi nhỏ (nits) hoặc vấn đề nhất quán ít tác động
 
-4. **Details section:** Expand each finding with:
-   - What's wrong (concrete evidence from Figma structure)
-   - Why it matters (maintenance, consistency, theming impact)
-   - Likely replacement, when supported by `search_design_system`
-   - Affected node IDs for reference
+4. **Phần chi tiết (Details section):** Mở rộng từng finding với:
+   - Vấn đề là gì (bằng chứng cụ thể từ cấu trúc Figma)
+   - Tại sao điều này quan trọng (tác động tới bảo trì, tính nhất quán, theming)
+   - Thành phần thay thế khả dĩ, khi được `search_design_system` hỗ trợ tìm thấy
+   - Các node ID bị ảnh hưởng để tham chiếu
 
-5. **Recommendations:** Prioritized action items
+5. **Khuyến nghị (Recommendations):** Các hạng mục hành động theo thứ tự ưu tiên
 
-### Output Rules
+### Quy tắc đầu ra
 
-- Keep findings focused on the highest-signal issues. Usually 0-6 findings.
-- Keep titles imperative and under 80 characters.
-- Always anchor each finding to a specific node ID so users can locate it in Figma.
-- For JSON output, do not invent filesystem paths. Use `/figma/<fileKey>/nodes/<nodeId>` exactly.
-- When a replacement suggestion is credible, include it in the finding body.
+- Giữ các finding tập trung vào những vấn đề có tín hiệu cao nhất. Thường từ 0-6 finding.
+- Giữ tiêu đề ở dạng câu mệnh lệnh (imperative) và dưới 80 ký tự.
+- Luôn neo từng finding vào một node ID cụ thể để người dùng có thể định vị nó trong Figma.
+- Đối với đầu ra JSON, không tự bịa ra đường dẫn hệ thống tệp. Sử dụng chính xác `/figma/<fileKey>/nodes/<nodeId>`.
+- Khi có một đề xuất thay thế đáng tin cậy, hãy đưa nó vào phần `body` của finding.
 
-## Review Heuristics
+## Heuristic rà soát
 
-Use `priority` like this:
+Sử dụng `priority` như sau:
 
-- `0`: nit or low-impact consistency issue
-- `1`: moderate system drift
-- `2`: important reusable primitive or tokenization issue
-- `3`: severe library-level or navigation-level issue likely to propagate widely
+- `0`: lỗi nhỏ (nit) hoặc vấn đề nhất quán tác động thấp
+- `1`: sai lệch hệ thống ở mức vừa phải
+- `2`: vấn đề quan trọng về reusable primitive hoặc token hóa
+- `3`: vấn đề nghiêm trọng ở cấp library hoặc cấp điều hướng có khả năng lan rộng
 
-Use `confidence_score` like this:
+Sử dụng `confidence_score` như sau:
 
-- `0.9-1.0`: direct structural evidence
-- `0.7-0.89`: strong inference from repetition and nearby token usage
-- `0.5-0.69`: plausible but incomplete evidence; prefer omitting instead
+- `0.9-1.0`: bằng chứng cấu trúc trực tiếp
+- `0.7-0.89`: suy luận mạnh mẽ từ sự lặp lại và việc sử dụng token ở các thành phần lân cận
+- `0.5-0.69`: có vẻ hợp lý nhưng bằng chứng chưa đầy đủ; ưu tiên bỏ qua thay vì đưa vào
 
-## Board And Screen Scope
+## Phạm vi Board và Screen
 
-For a single screen:
+Đối với một màn hình đơn lẻ:
 
-- inspect the root node
-- drill into repeated or high-leverage children
-- anchor findings to the most specific offending node
+- kiểm tra root node
+- đào sâu vào các node con lặp lại hoặc có sức ảnh hưởng lớn
+- neo các finding vào node vi phạm cụ thể nhất
 
-For a board or larger page:
+Đối với một board hoặc trang lớn hơn:
 
-- use `get_metadata` first to identify candidate screens or repeated modules
-- review only the most relevant nodes instead of trying to audit everything
-- keep findings scoped and evidence-backed
+- sử dụng `get_metadata` trước để xác định các màn hình ứng viên hoặc các module lặp lại
+- chỉ rà soát những node liên quan nhất thay vì cố gắng kiểm toán mọi thứ
+- giữ các finding đúng phạm vi và có bằng chứng hậu thuẫn
 
-## Example Trigger Phrases
+## Ví dụ câu lệnh kích hoạt
 
 - "Review this Figma screen for design-system integration"
 - "Audit this board for missing component usage"
 - "Check whether this design uses tokens correctly"
 - "/audit-design-system https://figma.com/design/..."
-- "/audit-design-system --json https://figma.com/design/..." (for JSON output)
+- "/audit-design-system --json https://figma.com/design/..." (dành cho đầu ra JSON)
 
-## Handoff Guidance
+## Hướng dẫn bàn giao
 
-Use this routing rule after the review:
-- one concrete finding with a narrow write scope: use [fix-design-system-finding](../fix-design-system-finding/SKILL.md)
-- several findings that collapse into a broader screen or section reconciliation pass: use [apply-design-system](../apply-design-system/SKILL.md)
+Sử dụng quy tắc điều hướng này sau khi rà soát:
+- một finding cụ thể với phạm vi ghi hẹp: sử dụng [fix-design-system-finding](../fix-design-system-finding/SKILL.md)
+- nhiều finding có thể gộp thành một lượt đối chiếu trên phạm vi màn hình hoặc section rộng hơn: sử dụng [apply-design-system](../apply-design-system/SKILL.md)
 
-Do not force every review result through the single-finding fix skill. Some reviews are better used as scope discovery for a broader apply pass.
+Không ép mọi kết quả rà soát đều phải đi qua skill sửa một finding đơn lẻ. Một số lượt rà soát phù hợp hơn để làm bước khám phá phạm vi cho một lượt áp dụng (apply pass) rộng hơn.

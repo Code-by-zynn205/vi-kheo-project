@@ -1,25 +1,25 @@
 ---
 name: figma-annotation-guide
-description: "Generate structured developer handoff annotations for a Figma screen or component. Use when asked to write Figma annotations, create dev handoff notes, document a Figma design for developers, or write specs for a screen. Produces a complete annotation set covering interactions, states, spacing, accessibility, and edge cases."
+description: "Tạo bộ chú thích bàn giao cho lập trình viên (developer handoff annotations) có cấu trúc cho một màn hình hoặc component Figma. Sử dụng khi được yêu cầu viết chú thích Figma, tạo ghi chú bàn giao cho dev (dev handoff notes), tài liệu hóa thiết kế Figma cho kỹ sư, hoặc viết đặc tả (specs) cho một màn hình. Tạo ra bộ chú thích đầy đủ bao gồm tương tác, trạng thái, khoảng cách, khả năng tiếp cận (accessibility) và các trường hợp biên (edge cases)."
 ---
 
-# Figma Annotation Guide Skill
+# Skill: Hướng dẫn Chú thích Figma (Figma Annotation Guide)
 
-Produces a complete set of developer handoff annotations for a Figma screen or component — the notes that turn a visual design into a buildable spec.
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [mohitagw15856/pm-claude-skills](https://github.com/mohitagw15856/pm-claude-skills/blob/main/skills/figma-annotation-guide/SKILL.md) (mohitagw15856).
 
-## Required Inputs
+Tạo ra bộ chú thích bàn giao lập trình viên (developer handoff annotations) hoàn chỉnh cho một màn hình hoặc component Figma — những ghi chú biến thiết kế trực quan thành đặc tả có thể triển khai code.
 
-- **Screen or component description** (describe or summarise what was designed)
-- **Platform** (iOS / Android / Web / React Native)
-- **Interaction type** (static / interactive / animated / form)
-- **Developer audience** (mobile / frontend / full-stack)
+## Đầu vào Bắt buộc
+
+- **Mô tả màn hình hoặc component** (mô tả hoặc tóm tắt những gì đã được thiết kế)
+- **Nền tảng** (iOS / Android / Web / React Native)
+- **Loại tương tác** (tĩnh / có tương tác / có hiệu ứng chuyển động / biểu mẫu)
+- **Đối tượng lập trình viên tiếp nhận** (mobile / frontend / full-stack)
 
 
-## Programmatic Helper
+## Công cụ Hỗ trợ Tự động (Programmatic Helper)
 
-Contrast ratios cannot be eyeballed. The AA line sits at 4.5:1, and `#777777`
-on white is 4.478 (fails) while `#767676` is 4.54 (passes) — no amount of
-looking at a screenshot separates those. Compute them:
+Độ tương phản (contrast ratio) không thể ước lượng bằng mắt thường. Ngưỡng chuẩn AA nằm ở mức 4.5:1, và màu `#777777` trên nền trắng đạt 4.478 (không đạt) trong khi `#767676` đạt 4.54 (đạt) — nhìn ảnh chụp màn hình không thể nào phân biệt được hai mức này. Hãy tính toán chính xác bằng lệnh:
 
 ```bash
 npx --yes notugly fix "#8ab4f8" "#ffffff"     # ratio, APCA, and the nearest passing colour
@@ -27,72 +27,67 @@ npx --yes notugly onepager <url> --out review.html   # every pairing, printable
 npx --yes notugly vision                      # which colours merge for colour-blind viewers
 ```
 
-`notugly fix` returns the ratio, the APCA lightness contrast, and the closest
-colour to the one already chosen that passes — same hue, same chroma. Paste
-those numbers into the tables below rather than estimating them.
+Lệnh `notugly fix` trả về tỷ lệ tương phản, độ tương phản sáng APCA và màu gần nhất với màu đã chọn mà đạt chuẩn — giữ nguyên sắc độ (hue) và độ bão hòa (chroma). Hãy dán các con số đó vào các bảng bên dưới thay vì tự ước lượng.
 
-Deterministic, zero dependencies, and **no model call** — so it costs nothing to
-run and gives the same answer every time.
+Công cụ mang tính tất định, không có dependency ngoài và **không gọi model AI** — do đó không tốn chi phí khi chạy và luôn cho ra cùng một kết quả mỗi lần.
 
-Contrast annotations should carry the computed ratio and the target, e.g.
-"4.52:1 — passes AA for body text". An annotation that says "check contrast" is
-a task, not an annotation.
+Chú thích về độ tương phản cần ghi rõ tỷ lệ đã tính và mức mục tiêu, ví dụ: "4.52:1 — đạt chuẩn AA cho văn bản nội dung (body text)". Một chú thích chỉ ghi "kiểm tra tương phản" là một đầu việc, không phải chú thích kỹ thuật.
 
-## Output Structure
+## Cấu trúc Đầu ra
 
-### 1. Screen/Component Overview
-Name, purpose, entry points, exit points.
+### 1. Tổng quan Màn hình/Component
+Tên, mục đích, điểm vào (entry points), điểm thoát (exit points).
 
-### 2. Interaction Annotations
+### 2. Chú thích Tương tác (Interaction Annotations)
 
-**[Element name]**
-- Default state: [Visual description]
-- On tap/click: [Exact action — API call, state change, navigation]
-- Loading state: [Description]
-- Success state: [What happens after]
-- Error state: [What error looks like and user options]
-- Disabled condition: [When and why]
+**[Tên phần tử]**
+- Trạng thái mặc định (Default state): [Mô tả trực quan]
+- Khi chạm/nhấp (On tap/click): [Hành động chính xác — gọi API, thay đổi trạng thái, điều hướng]
+- Trạng thái đang tải (Loading state): [Mô tả]
+- Trạng thái thành công (Success state): [Điều gì xảy ra sau đó]
+- Trạng thái lỗi (Error state): [Lỗi hiển thị thế nào và các lựa chọn cho người dùng]
+- Điều kiện vô hiệu hóa (Disabled condition): [Khi nào và tại sao]
 
-### 3. State Inventory
+### 3. Danh mục Trạng thái (State Inventory)
 
-| Element | States Required |
+| Phần tử | Các trạng thái bắt buộc |
 |---|---|
-| [Element] | Default, Hover, Active, Disabled, Loading, Error, Empty |
+| [Phần tử] | Default, Hover, Active, Disabled, Loading, Error, Empty |
 
-Flag missing designs: "Warning: Error state not designed — needed before build"
+Cảnh báo các thiết kế còn thiếu: "Cảnh báo: Chưa thiết kế trạng thái Error — cần bổ sung trước khi build"
 
-### 4. Spacing and Layout Notes
-Fixed vs fluid elements, scroll behaviour, breakpoints, safe areas.
+### 4. Ghi chú Khoảng cách và Bố cục (Spacing and Layout Notes)
+Các phần tử cố định (fixed) so với co giãn (fluid), hành vi cuộn (scroll behaviour), breakpoints, safe areas.
 
-### 5. Content and Copy Rules
-Character limits, dynamic vs static content, truncation rules, empty states.
+### 5. Quy tắc Nội dung và Văn bản (Content and Copy Rules)
+Giới hạn ký tự, nội dung động (dynamic) so với tĩnh (static), quy tắc cắt ngắn chuỗi (truncation), trạng thái trống (empty states).
 
-### 6. Accessibility Annotations
-Touch targets, screen reader labels, focus order, colour contrast, motion preferences.
+### 6. Chú thích Khả năng Tiếp cận (Accessibility Annotations)
+Vùng chạm (touch targets), nhãn trình đọc màn hình (screen reader labels), thứ tự focus (focus order), độ tương phản màu (colour contrast), tùy chọn chuyển động (motion preferences).
 
-### 7. Edge Cases and Developer Questions
-- [ ] [Unresolved question for developer to flag]
+### 7. Trường hợp Biên và Câu hỏi cho Lập trình viên
+- [ ] [Câu hỏi chưa giải quyết cần gắn cờ cho lập trình viên]
 
-## Quality Checks
-- [ ] Every interactive element has all states defined
-- [ ] State inventory flags missing designs
-- [ ] Accessibility covers touch targets and screen reader labels
-- [ ] Empty states specified
-- [ ] Edge cases listed as actionable questions
+## Kiểm tra Chất lượng (Quality Checks)
+- [ ] Mọi phần tử tương tác đều đã được định nghĩa đầy đủ các trạng thái
+- [ ] Danh mục trạng thái gắn cờ rõ các thiết kế còn thiếu
+- [ ] Khả năng tiếp cận bao gồm vùng chạm và nhãn trình đọc màn hình
+- [ ] Đã đặc tả rõ các trạng thái trống (empty states)
+- [ ] Các trường hợp biên được liệt kê dưới dạng câu hỏi có thể hành động
 
-## Anti-Patterns
+## Các Lỗi Cần Tránh (Anti-Patterns)
 
-- [ ] Do not annotate only the happy path — error states, loading states, and empty states must all be documented
-- [ ] Do not use vague spacing descriptions like "some padding" — specify exact pixel values or token names
-- [ ] Do not skip accessibility annotations — focus order, ARIA labels, and colour contrast ratios must be included
-- [ ] Do not leave interaction behaviour undescribed — every interactive element needs a documented response
-- [ ] Do not produce annotations without edge cases — developers need to know what happens at boundaries
+- [ ] Không chỉ chú thích luồng thuận lợi (happy path) — trạng thái lỗi, đang tải và trống đều phải được tài liệu hóa đầy đủ
+- [ ] Không dùng mô tả khoảng cách mơ hồ như "thêm chút padding" — phải chỉ rõ giá trị pixel chính xác hoặc tên token
+- [ ] Không bỏ qua chú thích khả năng tiếp cận — thứ tự focus, ARIA labels và tỷ lệ tương phản màu bắt buộc phải có
+- [ ] Không để trống mô tả hành vi tương tác — mọi phần tử có tương tác đều cần tài liệu hóa phản hồi cụ thể
+- [ ] Không xuất chú thích thiếu trường hợp biên — lập trình viên cần biết điều gì xảy ra ở các ngưỡng giới hạn
 
-## Example Trigger Phrases
+## Ví dụ Câu lệnh Kích hoạt (Trigger Phrases)
 - "Write dev annotations for this Figma screen"
 - "Create developer handoff notes for [screen/component]"
 - "Document this design for the engineering team"
 - "Write the Figma spec for [feature]"
 - "What should I annotate before handing off this design?"
 
-Run this skill in your browser: https://mohitagw15856.github.io/pm-claude-skills/skill/figma-annotation-guide.html
+Chạy skill này trực tiếp trên trình duyệt: https://mohitagw15856.github.io/pm-claude-skills/skill/figma-annotation-guide.html

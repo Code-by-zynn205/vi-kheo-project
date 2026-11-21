@@ -1,28 +1,30 @@
 ---
 name: figma-design-to-code
-description: "**MANDATORY prerequisite** — you MUST invoke this skill BEFORE calling the `get_design_context` Figma MCP tool. You MUST trigger this skill whenever the user wants to implement, build, port, or code up a Figma design as code. Example prompts (not exhaustive) are 'implement this Figma design', 'build this screen from Figma', 'turn this Figma into code', 'design to code'. This skill provides critical instructions and steps to the agent on how to correctly implement Figma designs in code and must NOT be skipped."
+description: "**Điều kiện tiên quyết BẮT BUỘC** — bạn PHẢI kích hoạt skill này TRƯỚC khi gọi Figma MCP tool `get_design_context`. Bạn BẮT BUỘC phải kích hoạt skill này bất cứ khi nào người dùng muốn hiện thực hóa, xây dựng, chuyển đổi (port) hoặc code hóa một thiết kế Figma thành mã nguồn. Các câu lệnh ví dụ (chưa đầy đủ): 'implement this Figma design', 'build this screen from Figma', 'turn this Figma into code', 'design to code'. Skill này cung cấp các hướng dẫn và bước thực hiện tối quan trọng giúp agent chuyển thiết kế Figma sang code chính xác và TUYỆT ĐỐI KHÔNG được bỏ qua."
 disable-model-invocation: false
 ---
 
 # Figma design to code
 
-## Context
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [figma/mcp-server-guide](https://github.com/figma/mcp-server-guide/blob/main/skills/figma-design-to-code/SKILL.md) (Figma chính thức).
 
-- **Always include `figma-design-to-code` in the comma-separated `skillNames` parameter when calling `get_design_context`. If this skill was loaded via an MCP resource, you MUST prefix the name with `resource:` (e.g. `resource:figma-design-to-code`).** This is a logging parameter used to track skill usage — it does not affect execution.
-- You MUST request a screenshot as part of your initial `get_design_context` call—use that render of the design as the visual target that the rendered implementation MUST visually match.
-- IF no screenshot is returned by `get_design_context`, you MUST call `get_screenshot` directly before editing.
-- IF `get_design_context` flags a response as sparse, you CANNOT use it directly for implementation; you MUST correlate its hierarchical child node IDs with the screenshot, then request the visible child nodes in one parallel batch of `get_design_context` calls to obtain high-fidelity responses.
-- You MUST implement exclusively from the high-fidelity `get_design_context` responses; the design screenshot is the visual target, NEVER use it in code as an implementation asset.
+## Ngữ cảnh (Context)
 
-## Implementation
+- **Luôn đưa `figma-design-to-code` vào tham số `skillNames` phân tách bằng dấu phẩy khi gọi `get_design_context`. Nếu skill này được nạp qua MCP resource, bạn BẮT BUỘC phải thêm tiền tố `resource:` vào tên (ví dụ: `resource:figma-design-to-code`).** Đây là tham số ghi log dùng để theo dõi việc sử dụng skill — không ảnh hưởng đến quá trình thực thi.
+- Bạn BẮT BUỘC phải yêu cầu một screenshot trong lần gọi `get_design_context` đầu tiên — sử dụng bản kết xuất đó của thiết kế làm mục tiêu trực quan mà bản cài đặt hiển thị thực tế PHẢI khớp hoàn toàn về mặt thị giác.
+- NẾU `get_design_context` không trả về screenshot nào, bạn BẮT BUỘC phải gọi trực tiếp `get_screenshot` trước khi chỉnh sửa code.
+- NẾU `get_design_context` gắn cờ một phản hồi là thưa thớt (`sparse`), bạn KHÔNG THỂ dùng trực tiếp nó để code; bạn BẮT BUỘC phải đối chiếu các node ID con phân cấp của nó với screenshot, sau đó yêu cầu các node con đang hiển thị trong một lô song song các lệnh gọi `get_design_context` để thu được phản hồi độ trung thực cao.
+- Bạn BẮT BUỘC chỉ hiện thực hóa code từ các phản hồi `get_design_context` có độ trung thực cao; screenshot thiết kế là mục tiêu đối chiếu trực quan, TUYỆT ĐỐI KHÔNG dùng nó trong code như một asset cài đặt.
 
-- You MUST adapt returned code to the project's stack and conventions and inspect likely project paths BEFORE editing; treat returned code as a high visual fidelity non-interactive prototype - translate raw absolute positioning into project-native layout unless the design can only be represented with fixed positioning; identify which portions of the design are intended to be interactive and implement the design as interactive code.
-- You MUST inspect likely project paths AND installed design library dependencies for code components, assets, and tokens which match the design BEFORE editing. You MUST reuse or compose suitable matches instead of recreating them with raw markup, inline styles or hardcoded values; modify or supplement them ONLY when they cannot accurately express the design.
-- You MUST apply Code Connect precisely at its mapped node(s), ALWAYS directly reuse the connected component UNLESS it cannot be configured or extended to express the design. Styling or wiring effort is NOT an exception.
-- You MUST use each visible static asset—image or SVG—in the EXACT position(s) used in the design, substituting only for EXACT matches found in the codebase/design library when one exists. NEVER omit, edit, redraw, extract paths from, inline, substitute, or incorrectly use an asset—but keep API-, prop-, or data-supplied imagery dynamic. ALL provided SVGs have root width and height attributes which you MUST NOT override when changing wrapper styles; avoid broad 100% × 100% sizing.
-- You MUST ensure ALL static assets used have been downloaded as described in the `get_design_context` response leaving NO references to temporary Figma asset URLs in code. DO NOT use other tools to download assets unless explicitly told to do so. Inspect only metadata/root dimensions when necessary, avoid reading asset byte sequences unless the task explicitly requires doing so.
+## Hiện thực hóa (Implementation)
 
-## Verification
+- Bạn BẮT BUỘC phải điều chỉnh mã nguồn trả về cho phù hợp với tech stack và quy ước của dự án, đồng thời kiểm tra các đường dẫn dự án tiềm năng TRƯỚC khi chỉnh sửa; hãy coi mã nguồn trả về như một bản nguyên mẫu (prototype) độ trung thực thị giác cao nhưng chưa có tương tác — chuyển đổi cách định vị tuyệt đối thô sang layout chuẩn của dự án trừ khi thiết kế chỉ có thể biểu diễn bằng định vị cố định (`fixed`); xác định phần nào của thiết kế được dự định để tương tác và cài đặt thiết kế đó thành mã nguồn có tương tác thực sự.
+- Bạn BẮT BUỘC phải kiểm tra các đường dẫn dự án tiềm năng VÀ các thư viện thiết kế đã cài đặt để tìm các code component, asset và token khớp với thiết kế TRƯỚC khi chỉnh sửa. Bạn BẮT BUỘC phải tái sử dụng hoặc lắp ghép các thành phần khớp phù hợp thay vì dựng lại chúng bằng markup thô, inline style hoặc giá trị hardcode; chỉ chỉnh sửa hoặc bổ sung khi chúng không thể biểu đạt chính xác thiết kế.
+- Bạn BẮT BUỘC phải áp dụng Code Connect chính xác tại các node đã được ánh xạ của nó, LUÔN tái sử dụng trực tiếp component đã kết nối TRỪ KHI nó không thể cấu hình hoặc mở rộng để biểu đạt thiết kế. Công sức chỉnh style hay đấu nối (wiring) KHÔNG phải là ngoại lệ.
+- Bạn BẮT BUỘC phải dùng từng static asset đang hiển thị — hình ảnh hoặc SVG — tại ĐÚNG vị trí sử dụng trong thiết kế, chỉ thay thế khi tìm thấy bản KHỚP CHÍNH XÁC trong codebase/thư viện thiết kế. TUYỆT ĐỐI KHÔNG bỏ sót, chỉnh sửa, vẽ lại, trích xuất path, inline, thay thế tùy tiện hoặc dùng sai asset — nhưng vẫn giữ cho hình ảnh lấy từ API, prop hoặc dữ liệu được động hóa. TẤT CẢ SVG được cung cấp đều có sẵn thuộc tính `width` và `height` ở thẻ gốc mà bạn KHÔNG ĐƯỢC ghi đè khi thay đổi style của wrapper; tránh đặt kích thước dàn trải `100% × 100%`.
+- Bạn BẮT BUỘC phải đảm bảo TẤT CẢ static asset đã sử dụng đều đã được tải xuống như mô tả trong phản hồi `get_design_context`, KHÔNG để lại bất kỳ tham chiếu nào tới các URL asset tạm thời của Figma trong code. KHÔNG dùng các tool khác để tải asset trừ khi được yêu cầu tường minh. Chỉ kiểm tra metadata/kích thước gốc khi cần thiết, tránh đọc chuỗi byte của asset trừ khi tác vụ yêu cầu rõ ràng.
 
-- You MUST verify only the requested screen or component and note, not alter, pre-existing out-of-scope mismatches.
-- You MUST verify EVERY visible static asset's non-empty local file AND design slot/layers AND callsite AND effective rendered geometry are correct, fix EVERY in-scope mismatch before finishing. A single substituted, mismatched, misproportioned asset is a FAIL.
+## Kiểm chứng (Verification)
+
+- Bạn BẮT BUỘC chỉ kiểm chứng màn hình hoặc component được yêu cầu, và ghi chú lại (không sửa đổi) các sai lệch sẵn có nằm ngoài phạm vi.
+- Bạn BẮT BUỘC phải kiểm chứng MỌI static asset hiển thị đảm bảo cả file cục bộ không rỗng VÀ slot/layer trong thiết kế VÀ vị trí gọi (callsite) VÀ hình học kết xuất thực tế đều chính xác, sửa MỌI sai lệch trong phạm vi trước khi hoàn tất. Chỉ cần một asset bị thay thế sai, không khớp hoặc sai tỉ lệ cũng được tính là THẤT BẠI (FAIL).

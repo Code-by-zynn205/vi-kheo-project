@@ -1,131 +1,133 @@
 ---
 name: design-handoff
-description: Generate developer handoff specs from a design. Use when a design is ready for engineering and needs a spec sheet covering layout, design tokens, component props, interaction states, responsive breakpoints, edge cases, and animation details.
-argument-hint: "<Figma URL or design description>"
+description: Tạo tài liệu đặc tả bàn giao lập trình viên (developer handoff specs) từ một thiết kế. Sử dụng khi thiết kế đã sẵn sàng chuyển sang đội ngũ kỹ thuật và cần một spec sheet đầy đủ về bố cục (layout), design tokens, component props, trạng thái tương tác, breakpoint responsive, các trường hợp biên (edge cases) và chi tiết animation.
+argument-hint: "<URL Figma hoặc mô tả thiết kế>"
 ---
 
 # /design-handoff
 
-> If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](../../CONNECTORS.md).
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins/blob/main/design/skills/design-handoff/SKILL.md) (Anthropic).
 
-Generate comprehensive developer handoff documentation from a design.
+> Nếu bạn thấy các placeholder lạ hoặc cần kiểm tra công cụ nào đang được kết nối, hãy xem [CONNECTORS.md](../../CONNECTORS.md).
 
-## Usage
+Tạo tài liệu bàn giao toàn diện cho lập trình viên từ một thiết kế.
+
+## Cách dùng
 
 ```
 /design-handoff $ARGUMENTS
 ```
 
-Generate handoff specs for: @$1
+Tạo tài liệu spec bàn giao cho: @$1
 
-If a Figma URL is provided, pull the design from Figma. Otherwise, work from the provided description or screenshot.
+Nếu có URL Figma được cung cấp, hãy lấy thiết kế từ Figma. Nếu không, hãy làm việc dựa trên mô tả hoặc ảnh chụp màn hình được cung cấp.
 
-## What to Include
+## Nội dung cần có
 
-### Visual Specifications
-- Exact measurements (padding, margins, widths)
-- Design token references (colors, typography, spacing)
-- Responsive breakpoints and behavior
-- Component variants and states
+### Đặc tả trực quan (Visual Specifications)
+- Thông số kích thước chính xác (padding, margin, chiều rộng)
+- Tham chiếu design token (màu sắc, typography, khoảng cách)
+- Các breakpoint responsive và hành vi tương ứng
+- Các biến thể (variants) và trạng thái của component
 
-### Interaction Specifications
-- Click/tap behavior
-- Hover states
-- Transitions and animations (duration, easing)
-- Gesture support (swipe, pinch, long-press)
+### Đặc tả tương tác (Interaction Specifications)
+- Hành vi khi nhấp/chạm (click/tap)
+- Trạng thái hover
+- Hiệu ứng chuyển cảnh và animation (thời lượng duration, đường cong easing)
+- Hỗ trợ cử chỉ (vuốt swipe, chụm pinch, nhấn giữ long-press)
 
-### Content Specifications
-- Character limits
-- Truncation behavior
-- Empty states
-- Loading states
-- Error states
+### Đặc tả nội dung (Content Specifications)
+- Giới hạn ký tự
+- Hành vi cắt gọn chữ (truncation)
+- Trạng thái rỗng (empty states)
+- Trạng thái đang tải (loading states)
+- Trạng thái lỗi (error states)
 
-### Edge Cases
-- Minimum/maximum content
-- International text (longer strings)
-- Slow connections
-- Missing data
+### Trường hợp biên (Edge Cases)
+- Nội dung tối thiểu/tối đa
+- Văn bản đa ngôn ngữ (chuỗi ký tự dài hơn)
+- Kết nối mạng chậm
+- Thiếu dữ liệu
 
-### Accessibility
-- Focus order
-- ARIA labels and roles
-- Keyboard interactions
-- Screen reader announcements
+### Khả năng tiếp cận (Accessibility)
+- Thứ tự focus (focus order)
+- Nhãn và vai trò ARIA (ARIA labels & roles)
+- Tương tác bàn phím
+- Thông báo cho trình đọc màn hình (screen reader)
 
-## Principles
+## Nguyên tắc
 
-1. **Don't assume** — If it's not specified, the developer will guess. Specify everything.
-2. **Use tokens, not values** — Reference `spacing-md` not `16px`.
-3. **Show all states** — Default, hover, active, disabled, loading, error, empty.
-4. **Describe the why** — "This collapses on mobile because users primarily use one-handed" helps developers make good judgment calls.
+1. **Không phỏng đoán** — Nếu không được quy định rõ, lập trình viên sẽ tự đoán. Hãy đặc tả mọi thứ.
+2. **Dùng token, không dùng giá trị cứng** — Tham chiếu `spacing-md` thay vì `16px`.
+3. **Thể hiện đủ mọi trạng thái** — Default, hover, active, disabled, loading, error, empty.
+4. **Giải thích lý do (why)** — "Phần này thu gọn trên mobile vì người dùng chủ yếu thao tác một tay" giúp lập trình viên đưa ra quyết định xử lý chính xác.
 
-## Output
+## Đầu ra (Output)
 
 ```markdown
-## Handoff Spec: [Feature/Screen Name]
+## Spec bàn giao (Handoff Spec): [Tên tính năng/Màn hình]
 
-### Overview
-[What this screen/feature does, user context]
+### Tổng quan
+[Màn hình/tính năng này làm gì, ngữ cảnh người dùng]
 
-### Layout
-[Grid system, breakpoints, responsive behavior]
+### Bố cục (Layout)
+[Hệ thống lưới grid, breakpoints, hành vi responsive]
 
-### Design Tokens Used
-| Token | Value | Usage |
-|-------|-------|-------|
-| `color-primary` | #[hex] | CTA buttons, links |
-| `spacing-md` | [X]px | Between sections |
-| `font-heading-lg` | [size/weight/family] | Page title |
+### Design Tokens sử dụng
+| Token | Giá trị | Mục đích sử dụng |
+|-------|---------|------------------|
+| `color-primary` | #[hex] | Nút CTA, liên kết |
+| `spacing-md` | [X]px | Khoảng cách giữa các phần |
+| `font-heading-lg` | [size/weight/family] | Tiêu đề trang |
 
 ### Components
-| Component | Variant | Props | Notes |
-|-----------|---------|-------|-------|
-| [Component] | [Variant] | [Props] | [Special behavior] |
+| Component | Variant | Props | Ghi chú |
+|-----------|---------|-------|---------|
+| [Component] | [Variant] | [Props] | [Hành vi đặc biệt] |
 
-### States and Interactions
-| Element | State | Behavior |
-|---------|-------|----------|
-| [CTA Button] | Hover | [Background darken 10%] |
-| [CTA Button] | Loading | [Spinner, disabled] |
-| [Form] | Error | [Red border, error message below] |
+### Trạng thái và Tương tác
+| Thành phần | Trạng thái | Hành vi |
+|------------|------------|---------|
+| [Nút CTA] | Hover | [Nền tối hơn 10%] |
+| [Nút CTA] | Loading | [Hiển thị spinner, vô hiệu hóa nút] |
+| [Form] | Error | [Viền đỏ, hiển thị thông báo lỗi bên dưới] |
 
-### Responsive Behavior
-| Breakpoint | Changes |
-|------------|---------|
-| Desktop (>1024px) | [Default layout] |
-| Tablet (768-1024px) | [What changes] |
-| Mobile (<768px) | [What changes] |
+### Hành vi Responsive
+| Breakpoint | Thay đổi |
+|------------|----------|
+| Desktop (>1024px) | [Bố cục mặc định] |
+| Tablet (768-1024px) | [Những điểm thay đổi] |
+| Mobile (<768px) | [Những điểm thay đổi] |
 
-### Edge Cases
-- **Empty state**: [What to show when no data]
-- **Long text**: [Truncation rules]
-- **Loading**: [Skeleton or spinner]
-- **Error**: [Error state appearance]
+### Trường hợp biên (Edge Cases)
+- **Trạng thái rỗng (Empty state)**: [Hiển thị gì khi không có dữ liệu]
+- **Văn bản dài**: [Quy tắc cắt gọn / ellipsis]
+- **Đang tải (Loading)**: [Dùng skeleton hay spinner]
+- **Lỗi (Error)**: [Giao diện trạng thái lỗi]
 
-### Animation / Motion
-| Element | Trigger | Animation | Duration | Easing |
-|---------|---------|-----------|----------|--------|
-| [Element] | [Trigger] | [Description] | [ms] | [easing] |
+### Animation / Chuyển động
+| Thành phần | Kích hoạt (Trigger) | Animation | Thời lượng | Easing |
+|------------|---------------------|-----------|------------|--------|
+| [Thành phần] | [Trigger] | [Mô tả] | [ms] | [easing] |
 
-### Accessibility Notes
-- [Focus order]
-- [ARIA labels needed]
-- [Keyboard interactions]
+### Ghi chú Accessibility
+- [Thứ tự focus]
+- [Các nhãn ARIA cần thiết]
+- [Tương tác bàn phím]
 ```
 
-## If Connectors Available
+## Khi có Connector khả dụng
 
-If **~~design tool** is connected:
-- Pull exact measurements, tokens, and component specs from Figma
-- Export assets and generate a complete spec sheet
+Nếu **~~design tool** đã được kết nối:
+- Lấy chính xác thông số kích thước, token và spec component từ Figma
+- Xuất tài nguyên (assets) và tạo bản spec hoàn chỉnh
 
-If **~~project tracker** is connected:
-- Link the handoff to the implementation ticket
-- Create sub-tasks for each section of the spec
+Nếu **~~project tracker** đã được kết nối:
+- Liên kết tài liệu bàn giao vào ticket triển khai
+- Tạo các sub-task tương ứng cho từng phần của bản spec
 
-## Tips
+## Mẹo thực hành
 
-1. **Share the Figma link** — I can pull exact measurements, tokens, and component info.
-2. **Mention edge cases** — "What happens with 100 items?" helps me spec boundary conditions.
-3. **Specify the tech stack** — "We use React + Tailwind" helps me give relevant implementation notes.
+1. **Chia sẻ liên kết Figma** — Tôi có thể trích xuất chính xác thông số đo đạc, token và thông tin component.
+2. **Đề cập các trường hợp biên** — "Điều gì xảy ra khi có 100 mục?" giúp tôi đặc tả các điều kiện giới hạn.
+3. **Nêu rõ tech stack** — "Chúng tôi dùng React + Tailwind" giúp tôi đưa ra ghi chú triển khai sát thực tế hơn.

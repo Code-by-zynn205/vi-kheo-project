@@ -1,148 +1,148 @@
 ---
 name: figma-use-slides
-description: "This skill helps agents use Figma's use_figma MCP tool in the Slides context. Can be used alongside figma-use which has foundational context for using the use_figma tool."
+description: "Skill này hỗ trợ các agent sử dụng công cụ MCP use_figma của Figma trong ngữ cảnh Slides. Có thể dùng song song với figma-use vốn chứa ngữ cảnh nền tảng cho việc sử dụng công cụ use_figma."
 disable-model-invocation: false
 ---
 
-# use_figma — Figma Plugin API Skill for Slides
+# use_figma — Skill Figma Plugin API cho Slides
 
-This skill contains Slides-specific context for the `use_figma` MCP tool. The [figma-use](../figma-use/SKILL.md) skill provides foundational context for plugin API execution via MCP as well as the full Figma plugin API for more advanced use-cases that are not described here.
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [figma/mcp-server-guide](https://github.com/figma/mcp-server-guide/blob/main/skills/figma-use-slides/SKILL.md) (Figma chính thức).
 
-**Always include `figma-use-slides` in the comma-separated `skillNames` parameter when calling `use_figma` for Slides operations. If this skill was loaded via an MCP resource, you MUST prefix the name with `resource:` (e.g. `resource:figma-use-slides`).** This is a logging parameter used to track skill usage — it does not affect execution.
+Skill này chứa ngữ cảnh đặc thù cho Slides của công cụ MCP `use_figma`. Skill [figma-use](../figma-use/SKILL.md) cung cấp ngữ cảnh nền tảng cho việc thực thi plugin API qua MCP cũng như toàn bộ Figma plugin API cho các trường hợp nâng cao hơn không được mô tả tại đây.
 
-## Critical Rules (Slides-specific)
+**Luôn đưa `figma-use-slides` vào tham số `skillNames` phân tách bằng dấu phẩy khi gọi `use_figma` cho các thao tác Slides. Nếu skill này được tải thông qua tài nguyên MCP, bạn BẮT BUỘC phải thêm tiền tố `resource:` vào tên (ví dụ `resource:figma-use-slides`).** Đây là tham số ghi log dùng để theo dõi mức độ sử dụng skill — nó không ảnh hưởng đến quá trình thực thi.
 
-1. **Newly created Slides files have a default light theme.** When a Slides file is created via `create_new_file`, a default light theme is automatically initialized. This theme is structural scaffolding — you should overwrite the theme's color variables and text styles with your own design direction for the deck you're building. Do not rely on or be influenced by the default light theme tokens.
-2. **MUST `appendChild` BEFORE setting `x`/`y` — for every node, at every level of nesting.** Newly created nodes are silently auto-parented to a slide context at absolute `(240, 240)` (the slide grid's `GRID_PADDING`). Writing `x`/`y` before `appendChild` causes the value to be stored against that hidden origin; the node then lands at `(intended − 240, intended − 240)` once you attach the real parent. The bug is **intermittent** — some frames in the same script escape it, so a working test is not proof you're safe. **Signature to recognize:** if any node ends up `(−240, −240)` from where you set it, your code set `x`/`y` before the final `appendChild`. Do NOT try to compensate by adding 240 back — that produces worse output on retry. Fix the order instead. See [slide-gotchas.md](references/slide-gotchas.md#position-after-appendchild-critical) for the helper pattern that makes the order impossible to get wrong.
-3. **SLIDE_GRID and SLIDE_ROW are opaque nodes** — do not access `.fills`, `.effects`, or layout properties on them. Only `SLIDE` nodes (type `'SLIDE'`) extend `BaseFrameMixin`. **Exception:** `SLIDE_ROW.name` IS settable — that's how plugins rename slide sections (e.g. `slideRow.name = "Intro"`). See [slide-lifecycle.md](references/slide-lifecycle.md).
-4. **`get_metadata` does NOT work on Slides files.** Use `use_figma` read-only scripts for validation. Return created node positions in `closePlugin()` output and verify no overlapping bounding boxes.
-5. **Do NOT call `figma.createPage()` in Slides.** It throws `TypeError: figma.createPage no such property 'createPage' on the figma global object` — `createPage()` is a Design-file API only (`figma.com/design/...`); the Slides URL is `figma.com/slides/...`. Use the slide grid (`SLIDE_GRID` / `SLIDE_ROW` / `SLIDE`) to organize deck structure instead — see [slide-lifecycle.md](references/slide-lifecycle.md) and [slide-grid.md](references/slide-grid.md).
-6. **Never delete existing slides to rebuild them.** When asked to improve, redesign, or restyle a deck, modify the existing slides in place. Only delete slides when the user explicitly asks to "start over" or "redo from scratch."
+## Quy tắc tối quan trọng (Đặc thù Slides)
 
-## Design Thinking
+1. **Các file Slides mới tạo có sẵn một theme sáng mặc định.** Khi một file Slides được tạo thông qua `create_new_file`, một theme sáng mặc định sẽ tự động được khởi tạo. Theme này chỉ là khung cấu trúc — bạn nên ghi đè các biến màu và text style của theme bằng định hướng thiết kế riêng cho bộ slide (deck) đang xây dựng. Đừng phụ thuộc hay bị ảnh hưởng bởi các token của theme sáng mặc định.
+2. **BẮT BUỘC gọi `appendChild` TRƯỚC khi đặt `x`/`y` — cho mọi node, ở mọi cấp độ lồng nhau.** Các node mới tạo bị âm thầm gán cha tự động vào ngữ cảnh slide tại tọa độ tuyệt đối `(240, 240)` (`GRID_PADDING` của slide grid). Việc ghi `x`/`y` trước `appendChild` khiến giá trị bị lưu theo gốc tọa độ ẩn đó; node sau đó sẽ rơi vào vị trí `(intended − 240, intended − 240)` khi bạn gắn node cha thực sự. Lỗi này xảy ra **chập chờn không ổn định** — một số frame trong cùng script có thể thoát lỗi, nên một lần test chạy ổn không chứng minh bạn an toàn. **Dấu hiệu nhận biết:** nếu bất kỳ node nào bị lệch `(−240, −240)` so với vị trí bạn đã đặt, mã của bạn đã gán `x`/`y` trước lệnh `appendChild` cuối cùng. KHÔNG tìm cách bù trừ bằng cách cộng thêm 240 ngược lại — điều đó tạo ra kết quả tệ hơn khi chạy lại. Hãy sửa đúng thứ tự thao tác. Xem [slide-gotchas.md](references/slide-gotchas.md#position-after-appendchild-critical) để lấy mẫu hàm hỗ trợ giúp không thể làm sai thứ tự này.
+3. **`SLIDE_GRID` và `SLIDE_ROW` là các node mờ đục (opaque)** — không truy cập `.fills`, `.effects` hoặc các thuộc tính bố cục trên chúng. Chỉ các node `SLIDE` (kiểu `'SLIDE'`) mới kế thừa `BaseFrameMixin`. **Ngoại lệ:** `SLIDE_ROW.name` CÓ THỂ gán giá trị — đó là cách các plugin đổi tên các phần (section) slide (ví dụ `slideRow.name = "Intro"`). Xem [slide-lifecycle.md](references/slide-lifecycle.md).
+4. **`get_metadata` KHÔNG hoạt động trên các file Slides.** Hãy dùng các script chỉ đọc của `use_figma` để kiểm tra. Trả về vị trí các node đã tạo trong đầu ra `closePlugin()` và xác minh không có bounding box nào chồng chéo nhau.
+5. **KHÔNG gọi `figma.createPage()` trong Slides.** Lệnh này ném lỗi `TypeError: figma.createPage no such property 'createPage' on the figma global object` — `createPage()` là API chỉ dành cho file Design (`figma.com/design/...`); URL của Slides là `figma.com/slides/...`. Thay vào đó, hãy dùng slide grid (`SLIDE_GRID` / `SLIDE_ROW` / `SLIDE`) để sắp xếp cấu trúc deck — xem [slide-lifecycle.md](references/slide-lifecycle.md) và [slide-grid.md](references/slide-grid.md).
+6. **Không bao giờ xóa các slide hiện có để dựng lại.** Khi được yêu cầu cải thiện, thiết kế lại hoặc đổi phong cách một deck, hãy chỉnh sửa trực tiếp trên các slide hiện có. Chỉ xóa slide khi người dùng yêu cầu rõ ràng "làm lại từ đầu" hoặc "xóa hết làm lại".
 
-Not every task needs the same depth of design thinking. Before doing anything, identify which gear you're in:
+## Tư duy thiết kế
 
-- **Content/property edits** — changing text, swapping a color, updating a number, fixing alignment, resizing an element. Skip design thinking. Just make the change and match what's already there.
-- **Structural additions** — adding slides, reworking a section's layout, changing the deck's color palette, introducing a new visual element. This includes requests to "improve," "redesign," or "restyle" a deck — those are in-place edits to what's already there, not a new deck. Design thinking applies, but in *inherit* mode: the existing deck is your design language. Inspect it, match its palette, type, spatial habits, and motifs. Extend the deck's existing character rather than reinventing it.
-- **New deck creation** — building a deck from scratch or from a blank file. Full design thinking applies as described below.
+Không phải mọi tác vụ đều cần độ sâu tư duy thiết kế giống nhau. Trước khi làm bất cứ điều gì, hãy xác định bạn đang ở chế độ nào:
 
-For structural additions to existing decks: run the inspection scripts (below) and take screenshots before making changes. The answers to "what color story?" and "what type treatment?" are already in the file — your job is to read them and stay consistent. The design principles in [slide-design.md](references/slide-design.md) describe what you're *matching*, not what you're *choosing*.
+- **Chỉnh sửa nội dung/thuộc tính** — đổi văn bản, đổi một màu, cập nhật số liệu, sửa căn chỉnh, đổi kích thước phần tử. Bỏ qua tư duy thiết kế. Chỉ cần thực hiện thay đổi và khớp với những gì đã có sẵn.
+- **Bổ sung cấu trúc** — thêm slide, làm lại bố cục một section, đổi bảng màu của deck, đưa vào một yếu tố thị giác mới. Điều này bao gồm các yêu cầu "cải thiện", "thiết kế lại" hoặc "đổi phong cách" một deck — đó là các chỉnh sửa tại chỗ trên những gì đã có, không phải một deck mới. Tư duy thiết kế vẫn áp dụng, nhưng ở chế độ *kế thừa*: deck hiện tại chính là ngôn ngữ thiết kế của bạn. Hãy kiểm tra nó, bám sát bảng màu, kiểu chữ, thói quen dàn trang và họa tiết đặc trưng của nó. Mở rộng cá tính hiện có của deck thay vì phát minh lại từ đầu.
+- **Tạo deck mới** — xây dựng một deck từ đầu hoặc từ một file trống. Áp dụng đầy đủ tư duy thiết kế như mô tả bên dưới.
 
-### New deck design process
+Đối với bổ sung cấu trúc trên các deck hiện có: hãy chạy các script kiểm tra (bên dưới) và chụp ảnh màn hình trước khi thực hiện thay đổi. Câu trả lời cho "câu chuyện màu sắc là gì?" và "xử lý chữ thế nào?" đều đã nằm sẵn trong file — việc của bạn là đọc chúng và giữ nhất quán. Các nguyên tắc thiết kế trong [slide-design.md](references/slide-design.md) mô tả những gì bạn đang *khớp theo*, không phải những gì bạn tự *chọn mới*.
 
-Before writing any Plugin API code for a new deck, decide what it should *feel* like. Figma users have high visual expectations — a deck that looks like it came out of a generic template generator will stand out for the wrong reasons.
+### Quy trình thiết kế deck mới
 
-1. **Read the brief.** What is the deck communicating, and to whom? An investor pitch, a team retrospective, a product launch, and a technical deep-dive all demand different visual treatments. The design should be inseparable from the content.
-2. **Check for a design language.** Before inventing anything, look at what the user already gave you. Brand guidelines in the prompt — color palettes, typography specs, logo rules, tone descriptors — are design decisions that have already been made. A link to a reference Figma file is a design language you should study, not glance at. The more specific the user's inputs, the less you should invent on your own. When the user provides a reference, your job shifts from *designer* to *interpreter*: extract the design language and apply it faithfully to new content.
-3. **Take a position — on what's left.** If the user supplied a full brand system, your creative latitude is in layout, pacing, and composition — not in color or type. If they gave you a single reference slide for inspiration, you have more room but should still echo its character. If they gave you nothing, then you own every decision — choose a color story, a type treatment, a way of organizing space, and follow through on it across every slide. A deck with a clear perspective (even a quiet one) always reads better than one that plays it safe on every decision. The scope of "take a position" scales inversely with what the user provided.
-4. **Give it a signature.** Every good deck has at least one element you'd recognize if you saw it out of context: a distinctive palette, an unexpected layout cadence, a recurring shape language. When working from brand guidelines, the signature should *come from* that brand language — amplify something that's already there rather than adding something foreign. When designing from scratch, decide what the signature is before you start building.
+Trước khi viết bất kỳ mã Plugin API nào cho một deck mới, hãy quyết định *cảm giác* mà nó cần mang lại. Người dùng Figma có kỳ vọng thị giác rất cao — một deck trông như bước ra từ trình tạo template đại trà sẽ bị lạc lõng một cách đáng tiếc.
 
-### Reading a reference file
+1. **Đọc kỹ đề bài.** Deck này truyền đạt điều gì và cho ai? Một bài thuyết trình gọi vốn (investor pitch), một buổi hồi cứu nhóm (retrospective), một lễ ra mắt sản phẩm và một buổi đào sâu kỹ thuật đều đòi hỏi cách xử lý thị giác khác nhau. Thiết kế phải gắn chặt không thể tách rời khỏi nội dung.
+2. **Kiểm tra ngôn ngữ thiết kế có sẵn.** Trước khi tự nghĩ ra bất cứ thứ gì, hãy nhìn vào những gì người dùng đã đưa cho bạn. Hướng dẫn thương hiệu trong prompt — bảng màu, thông số kiểu chữ, quy tắc logo, mô tả giọng điệu — là những quyết định thiết kế đã được chốt. Một liên kết đến file Figma tham chiếu là một ngôn ngữ thiết kế mà bạn cần nghiên cứu kỹ, chứ không phải liếc qua. Đầu vào của người dùng càng cụ thể, bạn càng nên ít tự phát minh. Khi người dùng cung cấp tài liệu tham chiếu, vai trò của bạn chuyển từ *nhà thiết kế* sang *người diễn giải*: trích xuất ngôn ngữ thiết kế và áp dụng trung thành cho nội dung mới.
+3. **Đưa ra lập trường rõ ràng — trên phần còn lại.** Nếu người dùng cung cấp đầy đủ bộ nhận diện thương hiệu, phạm vi sáng tạo của bạn nằm ở bố cục, nhịp điệu và sắp xếp không gian — chứ không phải ở màu sắc hay kiểu chữ. Nếu họ đưa một slide tham chiếu duy nhất để lấy cảm hứng, bạn có nhiều không gian hơn nhưng vẫn nên phản chiếu tinh thần của nó. Nếu họ không đưa gì cả, thì bạn làm chủ mọi quyết định — chọn một câu chuyện màu sắc, một cách xử lý kiểu chữ, một cách tổ chức không gian và theo đuổi nhất quán xuyên suốt mọi slide. Một deck có góc nhìn rõ ràng (kể cả khi tối giản, trầm tĩnh) luôn dễ đọc hơn một deck chọn phương án an toàn ở mọi quyết định. Phạm vi của việc "đưa ra lập trường" tỷ lệ nghịch với lượng thông tin người dùng đã cung cấp.
+4. **Tạo dấu ấn riêng.** Mọi deck xuất sắc đều có ít nhất một yếu tố khiến bạn nhận ra ngay cả khi tách khỏi ngữ cảnh: một bảng màu đặc trưng, một nhịp điệu bố cục bất ngờ, một ngôn ngữ hình khối lặp lại. Khi làm việc từ hướng dẫn thương hiệu, dấu ấn riêng phải *bắt nguồn từ* ngôn ngữ thương hiệu đó — khuếch đại một điểm đã sẵn có thay vì thêm thứ gì xa lạ. Khi thiết kế từ đầu, hãy chốt dấu ấn riêng là gì trước khi bắt đầu dựng.
 
-When the user provides a link to a Figma file as a reference, study it before designing anything. What you extract depends on what the file is:
+### Đọc file tham chiếu
 
-- **A Slides file**: `get_metadata` does not work on Slides files. Use `get_screenshot` to capture individual slides for visual reference, and `use_figma` with the reference file's `fileKey` to run read-only scripts that extract theme variables, color palettes, font choices, and layout patterns.
-- **A Design file**: `get_design_context` gives you comprehensive design data — colors, typography, layout structure. `get_screenshot` gives you visual reference. Use both.
+Khi người dùng cung cấp liên kết đến một file Figma để tham chiếu, hãy nghiên cứu nó trước khi thiết kế bất cứ thứ gì. Những gì bạn trích xuất phụ thuộc vào loại file:
 
-What to look for in a reference file: the color palette (which hue leads, what the accent is, how dark/light backgrounds are used), the type choices (families, weights, how hierarchy is handled), the spatial habits (where content anchors, how much whitespace, whether things bleed off edges), and any recurring motifs (shapes, line treatments, decorative elements). These are the decisions you inherit — everything else is yours.
+- **File Slides**: `get_metadata` không hoạt động trên file Slides. Dùng `get_screenshot` để chụp từng slide làm tham chiếu trực quan, và dùng `use_figma` với `fileKey` của file tham chiếu để chạy các script chỉ đọc nhằm trích xuất theme variable, bảng màu, lựa chọn font và mẫu bố cục.
+- **File Design**: `get_design_context` cung cấp dữ liệu thiết kế toàn diện — màu sắc, kiểu chữ, cấu trúc bố cục. `get_screenshot` cung cấp tham chiếu trực quan. Hãy dùng cả hai.
 
-How closely to follow the reference depends on what the user asked for. "Make it look like this" means replicate the design language with new content. "Use this for inspiration" means echo the character but make it your own. "Here's our brand deck" means extract the brand system and apply it consistently. When in doubt, stay closer to the reference — it's easier for a user to ask you to diverge than to ask you to undo invented choices that conflict with their brand.
+Những điểm cần tìm trong một file tham chiếu: bảng màu (tông màu nào chủ đạo, màu nhấn là gì, nền tối/sáng được dùng ra sao), lựa chọn kiểu chữ (họ font, độ đậm, cách phân cấp), thói quen không gian (nội dung neo ở đâu, lượng khoảng trắng, các phần tử có tràn lề không) và bất kỳ họa tiết lặp lại nào (hình khối, kiểu đường nét, chi tiết trang trí). Đây là những quyết định bạn kế thừa — mọi thứ còn lại là của bạn.
 
-Load [slide-design.md](references/slide-design.md) for specific guidance on color, type, layout patterns, composition, and what to avoid. When you have a reference file or brand guidelines, treat slide-design.md's principles as defaults for the decisions the user *didn't* make — not as overrides for the ones they did.
+Mức độ bám sát file tham chiếu phụ thuộc vào yêu cầu của người dùng. "Làm cho giống thế này" nghĩa là sao chép nguyên ngôn ngữ thiết kế với nội dung mới. "Dùng cái này để lấy cảm hứng" nghĩa là phản chiếu tinh thần nhưng biến hóa theo cách của bạn. "Đây là deck thương hiệu của chúng tôi" nghĩa là trích xuất hệ thống thương hiệu và áp dụng nhất quán. Khi còn phân vân, hãy bám sát tài liệu tham chiếu hơn — người dùng sẽ dễ dàng bảo bạn tách ra sáng tạo hơn là bảo bạn gỡ bỏ những lựa chọn tự bịa gây xung đột với thương hiệu của họ.
 
-## Deck-Building Workflow
+Tải [slide-design.md](references/slide-design.md) để xem hướng dẫn cụ thể về màu sắc, kiểu chữ, mẫu bố cục, phối hợp không gian và những điều cần tránh. Khi bạn có file tham chiếu hoặc hướng dẫn thương hiệu, hãy coi các nguyên tắc trong `slide-design.md` là mặc định cho những quyết định mà người dùng *không* đưa ra — chứ không phải để ghi đè những quyết định họ đã chọn.
 
-When building a new deck of 5 or more slides, use this two-phase workflow. It replaces the general incremental workflow from [figma-use](../figma-use/SKILL.md) Section 6 for deck-building specifically — the principles still apply, but the cadence changes.
+## Quy trình xây dựng Deck
 
-### Phase 1 — Design & Plan
+Khi xây dựng một deck mới từ 5 slide trở lên, hãy dùng quy trình hai giai đoạn này. Nó thay thế cho quy trình tăng dần tổng quát trong [figma-use](../figma-use/SKILL.md) Mục 6 riêng cho việc dựng deck — các nguyên tắc vẫn áp dụng, nhưng nhịp độ thực hiện thay đổi.
 
-Complete the design thinking process above (read the brief, check for a design language, take a position, give it a signature), then **before writing any `use_figma` code**, produce a slide plan covering the entire deck:
+### Giai đoạn 1 — Thiết kế & Lập kế hoạch
 
-1. **Slide-by-slide plan.** For every slide: its purpose/content, layout approach described spatially (e.g. "title anchored upper-left, spec card filling the right third, decorative circle bleeding off top-right edge"), and background treatment (dark/light/gradient). Do NOT compute pixel coordinates during planning — describe layouts in spatial terms. Coordinate math happens during code generation.
-2. **Shared constants.** Declare the font families and styles you'll use, the color palette as named roles (primary, accent, bgDark, surface, textPrimary, textMuted, etc.), and the recurring motif or signature element.
-3. **Layout variety check.** Read through the slide plans in sequence. If the layout descriptions feel repetitive — "two-column, two-column, grid, two-column" — rearrange before building. This is the cheapest moment to diversify. See [slide-design.md](references/slide-design.md) for anti-patterns.
-4. **Code preamble.** Write out the reusable preamble you'll paste at the top of every build script: a `const C = { ... }` color palette object, a `Promise.all([...])` font-loading block, and the `addFrame`/`addText`/`addRect` helpers from [slide-gotchas.md](references/slide-gotchas.md#position-after-appendchild-critical).
+Hoàn tất quy trình tư duy thiết kế ở trên (đọc đề bài, kiểm tra ngôn ngữ thiết kế, đưa ra lập trường, tạo dấu ấn riêng), sau đó **trước khi viết bất kỳ mã `use_figma` nào**, hãy lập kế hoạch slide bao quát toàn bộ deck:
 
-### Phase 2 — Build
+1. **Kế hoạch từng slide.** Đối với mỗi slide: mục đích/nội dung, cách tiếp cận bố cục được mô tả theo không gian (ví dụ: "tiêu đề neo ở góc trên bên trái, thẻ thông số chiếm một phần ba bên phải, hình tròn trang trí tràn qua cạnh trên bên phải") và cách xử lý nền (tối/sáng/gradient). KHÔNG tính toán tọa độ pixel trong lúc lập kế hoạch — hãy mô tả bố cục bằng thuật ngữ không gian. Việc tính toán tọa độ diễn ra trong lúc sinh mã.
+2. **Hằng số dùng chung.** Khai báo các họ font và style bạn sẽ dùng, bảng màu dưới dạng các vai trò đặt tên (`primary`, `accent`, `bgDark`, `surface`, `textPrimary`, `textMuted`, v.v.), và họa tiết lặp lại hoặc yếu tố dấu ấn riêng.
+3. **Kiểm tra độ đa dạng bố cục.** Đọc lướt qua kế hoạch các slide theo trình tự. Nếu mô tả bố cục nghe bị lặp lại — "hai cột, hai cột, lưới, hai cột" — hãy sắp xếp lại trước khi dựng. Đây là thời điểm ít tốn kém nhất để đa dạng hóa. Xem [slide-design.md](references/slide-design.md) để biết các phản mẫu cần tránh.
+4. **Phần mở đầu mã (Code preamble).** Viết sẵn phần mở đầu tái sử dụng mà bạn sẽ dán ở đầu mỗi script dựng slide: một đối tượng bảng màu `const C = { ... }`, một khối tải font `Promise.all([...])`, và các hàm hỗ trợ `addFrame`/`addText`/`addRect` từ [slide-gotchas.md](references/slide-gotchas.md#position-after-appendchild-critical).
 
-Execute the plan in large batches. The goal is to minimize the number of think-then-build cycles — not to minimize elements per script.
+### Giai đoạn 2 — Dựng slide
 
-- **3–5 slides per `use_figma` call.** Structurally similar slides (e.g. a series of product feature slides) can go in the same batch. Each slide is an isolated subtree — cross-slide dependencies don't exist, so large batches are safe.
-- **Do NOT re-plan between batches.** The design was decided in Phase 1. If a batch succeeds and passes validation, move to the next batch immediately. Only re-plan if a batch fails or produces a visual problem that requires changing the approach.
-- **Paste the code preamble** (colors, fonts, helpers) at the top of every build script. Copy it from Phase 1 verbatim — do not re-derive it.
-- **Validate every batch** with the deterministic batch validation script from [slide-gotchas.md](references/slide-gotchas.md#batch-validation-script). This checks for overlapping elements, text clipping, and out-of-bounds nodes in ~3 seconds. If the check passes, proceed without a screenshot. If it fails, screenshot the affected slides and fix before continuing.
-- **Screenshot at checkpoints only** — after the first batch (validates the visual system: colors, typography, design direction), and after the final batch (overall quality). Take a screenshot of 1–2 representative slides per checkpoint using inline `await slide.screenshot()`, not separate `get_screenshot` calls.
-- **Return all created node IDs** from every build script, as always.
+Thực thi kế hoạch theo các lô lớn (large batches). Mục tiêu là giảm thiểu số chu kỳ suy-nghĩ-rồi-dựng — chứ không phải giảm thiểu số phần tử trong mỗi script.
 
-## Sections
+- **3–5 slide cho mỗi lần gọi `use_figma`.** Các slide có cấu trúc tương đồng (ví dụ một loạt slide tính năng sản phẩm) có thể đi chung trong một lô. Mỗi slide là một cây con cô lập — không tồn tại sự phụ thuộc chéo giữa các slide, nên các lô lớn rất an toàn.
+- **KHÔNG lập lại kế hoạch giữa các lô.** Thiết kế đã được chốt ở Giai đoạn 1. Nếu một lô chạy thành công và vượt qua bước kiểm tra, hãy chuyển ngay sang lô tiếp theo. Chỉ lập lại kế hoạch nếu một lô thất bại hoặc gây ra lỗi thị giác đòi hỏi phải thay đổi hướng tiếp cận.
+- **Dán phần mở đầu mã** (màu sắc, font chữ, hàm hỗ trợ) ở đầu mỗi script dựng slide. Sao chép nguyên văn từ Giai đoạn 1 — không suy diễn lại.
+- **Kiểm tra mọi lô** bằng script kiểm tra xác định (deterministic batch validation script) từ [slide-gotchas.md](references/slide-gotchas.md#batch-validation-script). Script này kiểm tra các phần tử chồng chéo, văn bản bị cắt và các node nằm ngoài biên chỉ trong ~3 giây. Nếu kiểm tra đạt, tiếp tục mà không cần chụp ảnh màn hình. Nếu thất bại, chụp ảnh màn hình các slide bị ảnh hưởng và sửa trước khi tiếp tục.
+- **Chỉ chụp ảnh màn hình tại các mốc kiểm tra** — sau lô đầu tiên (xác thực hệ thống thị giác: màu sắc, kiểu chữ, định hướng thiết kế), và sau lô cuối cùng (chất lượng tổng thể). Chụp ảnh 1–2 slide đại diện mỗi mốc bằng `await slide.screenshot()` nội tuyến, không gọi `get_screenshot` tách rời.
+- **Trả về toàn bộ ID các node đã tạo** từ mỗi script dựng slide, như mọi khi.
 
-A section is a horizontal row in the slide grid — every row is a section. Names show up in the editor (next to the row) and in Presenter View (so speakers can jump between groups). They're an organizational aid for whoever is editing the deck — the user owns where the breaks fall, not you.
+## Sections (Phân khu)
 
-### When asked to organize a deck
+Một section là một hàng ngang trong slide grid — mỗi hàng là một section. Tên hiển thị trong trình chỉnh sửa (cạnh hàng) và trong Presenter View (giúp diễn giả nhảy giữa các nhóm). Đây là công cụ tổ chức dành cho người chỉnh sửa deck — người dùng làm chủ vị trí ngắt đoạn, không phải bạn.
 
-"Organize this deck" is ambiguous — grouping, reordering, deduping, or restructuring. Read the deck before reaching for `AskUserQuestion`.
+### Khi được yêu cầu sắp xếp một deck
+"Sắp xếp deck này" là yêu cầu mơ hồ — có thể là gom nhóm, đổi thứ tự, loại bỏ trùng lặp hoặc tái cấu trúc. Hãy đọc deck trước khi dùng `AskUserQuestion`.
 
-**Default: propose, don't ask.** Most decks have cues — title bookend, numbered use cases, repeated *Before / After* pairs, transition slides ("Then X enters the chat"), a *Thank you*. When cues exist, pick a sectioning and surface it in one confirmation message. Bounded calls inside the proposal (one *Use Cases* row vs. three, where a transition slide lives) are reversible — pick one and move on.
+**Mặc định: đề xuất, đừng hỏi ngay.** Hầu hết các deck đều có manh mối — slide mở đầu đóng khung, các use case đánh số, các cặp *Before / After* lặp lại, slide chuyển tiếp ("Then X enters the chat"), slide *Thank you*. Khi có manh mối, hãy chọn một cách chia section và đưa nó vào một thông báo xác nhận. Các quyết định có giới hạn bên trong đề xuất (gộp một hàng *Use Cases* hay tách ba hàng, slide chuyển tiếp nằm ở đâu) đều có thể đảo ngược — hãy chọn một phương án và tiếp tục.
 
-**Fallback: ask when cues are absent.** If slides are in arbitrary order or there's no spine, ask which ranges go together and what to call them. Don't slice by thirds as a substitute for reading.
+**Dự phòng: hỏi khi thiếu manh mối.** Nếu các slide xếp theo thứ tự tùy tiện hoặc không có trục mạch lạc, hãy hỏi xem các đoạn nào đi cùng nhau và đặt tên là gì. Đừng chia ba đều tăm tắp để thay thế cho việc đọc nội dung.
 
-### Naming + scoping
+### Đặt tên + phân phạm vi
+Tên nên ngắn gọn (1–3 từ), cụ thể (*Demo* hay hơn *Show & tell*) và nhất quán trong cùng một deck. Hai đến năm section là mức phổ biến; nhiều hơn chỉ áp dụng cho deck dài hoặc lặp cấu trúc. Tên không phải là tiêu đề slide — chúng giúp tìm kiếm một nhóm, không phải mô tả nội dung của nó.
 
-Names should be short (1–3 words), concrete (*Demo* beats *Show & tell*), and consistent within a deck. Two to five sections is typical; more only for long or repeating decks. Names aren't slide titles — they help find a group, not describe its content.
+### Đổi tên một section
 
-### Renaming a section
-
-`getSlideGrid()` returns `SlideNode[][]` — the inner arrays are plain JS arrays of slides, NOT `SLIDE_ROW` nodes. Setting `.name` on those arrays silently no-ops. To rename a section, traverse the node tree and set `.name` on the actual `SLIDE_ROW`:
+`getSlideGrid()` trả về `SlideNode[][]` — các mảng bên trong là mảng JS thuần chứa các slide, KHÔNG phải các node `SLIDE_ROW`. Gán `.name` lên các mảng đó sẽ âm thầm không có tác dụng. Để đổi tên một section, hãy duyệt cây node và gán `.name` lên `SLIDE_ROW` thực tế:
 
 ```js
 const slideGrid = figma.currentPage.children.find(c => c.type === "SLIDE_GRID");
 slideGrid.children[0].name = "Intro";
 ```
 
-## Speaker Notes
+## Speaker Notes (Ghi chú diễn giả)
 
-Speaker notes are the presenter's private companion to each slide. They appear in Presenter View (visible only to the speaker, not the audience) and serve as a script, cue sheet, or talking-points reference during a live presentation.
+Speaker notes là người bạn đồng hành riêng tư của diễn giả cho mỗi slide. Chúng xuất hiện trong Presenter View (chỉ diễn giả nhìn thấy, khán giả không thấy) và đóng vai trò kịch bản, bảng nhắc ý hoặc tài liệu tham khảo các luận điểm khi thuyết trình trực tiếp.
 
-### When to write speaker notes
+### Khi nào viết speaker notes
 
-- **When asked**: If the user asks for speaker notes, presenter notes, talking points, or a script for a deck, write notes for every slide that has substantive content (skip section dividers or purely decorative slides unless there's something to say).
-- **Presenter-ready decks**: If the user explicitly asks for a deck that is ready to present live, speaker notes are useful. Add them when they help the presenter understand pacing, transitions, or context that is not visible on the slide.
-- **Sparse or visual slides**: If a slide is built around a chart, image, metaphor, or provocative question, notes can help explain what the presenter should say. Use screenshots or `node.screenshot()` for image-heavy, chart-heavy, or visually sparse slides when visual context matters, but don't screenshot every slide by default — images spend context budget.
-- **Don't add notes unprompted**: For normal slide edits, layout work, or updates to existing decks, do not populate speaker notes unless the user asks. Adding notes changes the presentation flow and can surprise the deck owner.
+- **Khi được yêu cầu**: Nếu người dùng yêu cầu speaker notes, ghi chú diễn giả, luận điểm hoặc kịch bản cho deck, hãy viết ghi chú cho mọi slide có nội dung thực chất (bỏ qua các slide phân tách section hoặc slide chỉ mang tính trang trí trừ khi có điều cần nói).
+- **Deck sẵn sàng thuyết trình**: Nếu người dùng yêu cầu rõ ràng một deck sẵn sàng để trình bày trực tiếp, speaker notes rất hữu ích. Hãy thêm chúng khi cần giúp diễn giả nắm bắt nhịp độ, câu chuyển ý hoặc ngữ cảnh không hiển thị trên slide.
+- **Slide thưa chữ hoặc thiên về hình ảnh**: Nếu một slide xoay quanh biểu đồ, hình ảnh, phép ẩn dụ hoặc câu hỏi gợi mở, ghi chú có thể giải thích điều diễn giả nên nói. Dùng ảnh chụp màn hình hoặc `node.screenshot()` cho các slide nhiều ảnh, nhiều biểu đồ hoặc ít chữ khi ngữ cảnh thị giác quan trọng, nhưng đừng mặc định chụp mọi slide — ảnh tiêu tốn ngân sách ngữ cảnh.
+- **Không tự ý thêm ghi chú khi không được yêu cầu**: Với các chỉnh sửa slide thông thường, tinh chỉnh bố cục hoặc cập nhật deck hiện có, không điền speaker notes trừ khi người dùng yêu cầu. Thêm ghi chú làm thay đổi luồng thuyết trình và có thể khiến chủ sở hữu deck bất ngờ.
 
-### What good speaker notes look like
+### Ghi chú diễn giả tốt trông như thế nào
 
-Speaker notes are for the *presenter*, not the audience. They should feel like a trusted colleague leaning over and whispering "here's what to say." Good notes:
+Speaker notes là dành cho *diễn giả*, không phải khán giả. Chúng nên tạo cảm giác như một đồng nghiệp tin cậy ghé tai nhắc nhỏ "đây là điều bạn cần nói". Ghi chú tốt sẽ:
 
-- **Complement the slide, not repeat it.** If the slide says "Revenue grew 40%", the notes shouldn't say "Revenue grew 40%." They should say *why* it grew, what the audience should take away, or what question this usually prompts.
-- **Are concise and scannable.** A presenter glancing down mid-sentence needs to find their place instantly. Use short bullet points, not dense paragraphs. Each point should be one idea.
-- **Include transitions.** The best notes tell the presenter how to *move* between slides: "After the applause dies down..." or "This builds on the previous point — call back to the 40% figure."
-- **Carry context the slide can't.** Data sources ("Source: Q4 FY25 internal metrics, not yet public"), caveats ("Skip this slide if the CFO is in the room"), timing cues ("This is the halfway point — you should be at ~10 minutes"), and anticipated questions ("They'll ask about margins — see appendix slide 14").
-- **Match the presentation's register.** Notes for an investor pitch are precise and rehearsed. Notes for a team retro are casual and flexible. Notes for a keynote might include stage directions. Match the tone to the context.
+- **Bổ trợ cho slide, không lặp lại slide.** Nếu slide ghi "Doanh thu tăng 40%", ghi chú không nên ghi "Doanh thu tăng 40%". Chúng nên nói *tại sao* nó tăng, khán giả cần đọng lại điều gì, hoặc câu hỏi nào thường phát sinh từ con số này.
+- **Ngắn gọn và dễ đọc lướt.** Diễn giả liếc xuống giữa chừng câu nói cần tìm đúng vị trí ngay lập tức. Hãy dùng các gạch đầu dòng ngắn, không dùng đoạn văn dày đặc. Mỗi ý chỉ nên chứa một thông điệp.
+- **Bao gồm câu chuyển tiếp.** Ghi chú hay nhất cho diễn giả biết cách *di chuyển* giữa các slide: "Sau khi tiếng vỗ tay lắng xuống..." hoặc "Ý này nối tiếp điểm trước — hãy nhắc lại con số 40%."
+- **Mang theo ngữ cảnh mà slide không thể chứa.** Nguồn dữ liệu ("Nguồn: số liệu nội bộ Q4 FY25, chưa công bố"), lưu ý ngoại lệ ("Bỏ qua slide này nếu có CFO trong phòng"), mốc thời gian ("Đây là điểm nửa chặng — bạn nên đang ở phút thứ ~10"), và các câu hỏi dự đoán trước ("Họ sẽ hỏi về biên lợi nhuận — xem slide phụ lục 14").
+- **Khớp với sắc thái bài thuyết trình.** Ghi chú cho bài gọi vốn nhà đầu tư cần chính xác và được tập dượt kỹ. Ghi chú cho buổi hồi cứu nhóm thì tự nhiên và linh hoạt. Ghi chú cho bài phát biểu chính (keynote) có thể kèm chỉ dẫn sân khấu. Hãy khớp giọng điệu với bối cảnh.
 
-### What to avoid in speaker notes
+### Những điều cần tránh trong speaker notes
 
-- **Full scripts**: Wall-of-text notes encourage reading verbatim, which makes for a terrible presentation. If the user explicitly asks for a script, write one, but default to bullet points.
-- **Formatting for the audience**: Notes aren't visible to the audience. Don't optimize them for readability by non-presenters.
-- **Redundancy with the slide**: If the slide is self-explanatory ("Thank You" with contact info), notes aren't needed. It's fine to leave a slide's notes empty.
+- **Kịch bản dài dòng đầy đủ**: Ghi chú dạng bức tường chữ khuyến khích việc đọc thuộc lòng từng chữ, tạo nên một buổi thuyết trình tồi. Nếu người dùng yêu cầu rõ ràng một kịch bản, hãy viết nó, nhưng mặc định là các gạch đầu dòng.
+- **Định dạng dành cho khán giả**: Ghi chú không hiển thị với khán giả. Đừng tối ưu chúng cho khả năng đọc của người không phải diễn giả.
+- **Dư thừa với slide**: Nếu slide đã tự giải thích rõ ("Cảm ơn" kèm thông tin liên hệ), không cần ghi chú. Để trống ghi chú của một slide là hoàn toàn bình thường.
 
-### Formatting
+### Định dạng
 
-`slide.speakerNotes` accepts a markdown string. Prefer bullet lists as the primary structure; bold is useful for emphasis on key phrases the presenter shouldn't skip. See [slide-properties.md](references/slide-properties.md#supported-formatting) for the full list of supported (lists, bold, italic, strikethrough) and unsupported (headings, code blocks, inline code, links) markdown.
+`slide.speakerNotes` nhận một chuỗi markdown. Ưu tiên danh sách gạch đầu dòng làm cấu trúc chính; in đậm hữu ích để nhấn mạnh các cụm từ khóa mà diễn giả không nên bỏ qua. Xem [slide-properties.md](references/slide-properties.md#supported-formatting) để biết danh sách đầy đủ các cú pháp markdown được hỗ trợ (danh sách, in đậm, in nghiêng, gạch ngang) và không được hỗ trợ (tiêu đề `#`, khối code, code nội tuyến, liên kết).
 
-## Inspecting Slides Files
+## Kiểm tra nội dung file Slides
 
-There is no dedicated read tool for Slides files yet. Use `use_figma` with read-only scripts for inspection, and `get_screenshot` / `await node.screenshot()` for visual context.
+Hiện chưa có công cụ đọc chuyên biệt cho các file Slides. Hãy sử dụng `use_figma` với các script chỉ đọc để kiểm tra, và `get_screenshot` / `await node.screenshot()` để lấy ngữ cảnh thị giác.
 
-- **Inspect before creating.** Before creating anything, run a read-only `use_figma` to discover what already exists — slides, text, components, naming conventions. The [figma-use](../figma-use/SKILL.md) Section 6 "Inspect first" pattern applies here.
-- **`get_metadata` does NOT work on Slides files** — it only supports `figma` (Design) editor type.
-- **`console.log()` output is NOT returned** — only the `return` value comes back. Always `return` the data you need.
-- **Use `get_screenshot` for visual context** — pass a valid `nodeId` to get a screenshot. You can also use `await node.screenshot()` inline within `use_figma` scripts.
+- **Kiểm tra trước khi tạo.** Trước khi tạo bất cứ thứ gì, hãy chạy một lệnh `use_figma` chỉ đọc để khám phá những gì đã tồn tại — các slide, văn bản, component, quy ước đặt tên. Mẫu "Kiểm tra trước" trong [figma-use](../figma-use/SKILL.md) Mục 6 cũng áp dụng tại đây.
+- **`get_metadata` KHÔNG hoạt động trên các file Slides** — nó chỉ hỗ trợ loại trình chỉnh sửa `figma` (Design).
+- **Đầu ra `console.log()` KHÔNG được trả về** — chỉ giá trị `return` mới được trả về. Luôn `return` dữ liệu bạn cần.
+- **Dùng `get_screenshot` để lấy ngữ cảnh thị giác** — truyền một `nodeId` hợp lệ để lấy ảnh chụp màn hình. Bạn cũng có thể dùng `await node.screenshot()` nội tuyến bên trong các script `use_figma`.
 
-### Quick inspection scripts
+### Các script kiểm tra nhanh
 
-**List all slides in the deck:**
+**Liệt kê tất cả slide trong deck:**
 ```js
 const grid = figma.getSlideGrid();
 return grid.map((row, rowIdx) =>
@@ -157,7 +157,7 @@ return grid.map((row, rowIdx) =>
 );
 ```
 
-**Get text content from a specific slide:**
+**Lấy nội dung văn bản từ một slide cụ thể:**
 ```js
 const slide = figma.getNodeById("TARGET_SLIDE_ID");
 // findAllWithCriteria uses an indexed type lookup — much faster than
@@ -186,13 +186,13 @@ return textNodes.map(t => ({
 }));
 ```
 
-## Reference Docs
+## Tài liệu tham khảo
 
-Load only the references your task needs:
+Chỉ tải những tài liệu tham khảo mà tác vụ của bạn cần:
 
-- [slide-gotchas](references/slide-gotchas.md) — Pitfalls specific to Slides (coordinate offsets, opaque node types, validation workarounds)
-- [slide-lifecycle](references/slide-lifecycle.md) — Create, clone, delete, and reorder slides and slide rows
-- [slide-grid](references/slide-grid.md) — Work with the slide grid layout (`getSlideGrid`, `setSlideGrid`)
-- [slide-content](references/slide-content.md) — Build content within slides (text, shapes, auto-layout — SlideNode extends BaseFrameMixin)
-- [slide-properties](references/slide-properties.md) — Slide-specific properties (`speakerNotes`, `isSkippedSlide`, `focusedSlide`, `focusedNode`, `slideThemeId`, `InteractiveSlideElementNode`)
-- [slide-design](references/slide-design.md) — Design principles for visually interesting, varied decks (color strategy, typography, layout variety, spatial composition, anti-patterns)
+- [slide-gotchas](references/slide-gotchas.md) — Các bẫy đặc thù cho Slides (độ lệch tọa độ, các loại node mờ đục, giải pháp thay thế kiểm tra hợp lệ)
+- [slide-lifecycle](references/slide-lifecycle.md) — Tạo mới, nhân bản, xóa và sắp xếp lại slide và slide row
+- [slide-grid](references/slide-grid.md) — Làm việc với bố cục slide grid (`getSlideGrid`, `setSlideGrid`)
+- [slide-content](references/slide-content.md) — Xây dựng nội dung bên trong slide (văn bản, hình khối, auto-layout — SlideNode kế thừa BaseFrameMixin)
+- [slide-properties](references/slide-properties.md) — Các thuộc tính đặc thù của slide (`speakerNotes`, `isSkippedSlide`, `focusedSlide`, `focusedNode`, `slideThemeId`, `InteractiveSlideElementNode`)
+- [slide-design](references/slide-design.md) — Nguyên tắc thiết kế cho các deck hấp dẫn, đa dạng về mặt thị giác (chiến lược màu sắc, kiểu chữ, sự đa dạng bố cục, phối hợp không gian, các phản mẫu cần tránh)

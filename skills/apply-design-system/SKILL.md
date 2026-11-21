@@ -1,83 +1,85 @@
 ---
 name: apply-design-system
-description: Review an existing design and connect it to design system components.
+description: Rà soát thiết kế hiện có và kết nối thiết kế đó với các component của design system.
 ---
 
-# Connect A Design To A Design System
+# Kết nối thiết kế với Design System
 
-Use this skill for an existing Figma design that should reuse a published design system instead of detached layers, local wrappers, or one-off components.
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [edenspiekermann/Skills](https://github.com/edenspiekermann/Skills/blob/main/skills/apply-design-system/SKILL.md) (Edenspiekermann).
 
-This skill supports two entry modes:
-- `review-then-apply`: the user wants a broad pass, but the exact offending sections are not yet identified
-- `apply-known-scope`: the user already knows which sections or clusters should be brought onto the design system
+Sử dụng skill này cho một thiết kế Figma hiện có cần tái sử dụng một design system đã publish thay vì các layer bị detach, local wrapper hoặc các component dùng một lần.
 
-Load these capabilities first:
-- Figma MCP read access for tools such as `get_metadata`, `get_screenshot`, and `search_design_system`
-- a `figma-use`-style helper before any `use_figma` call, when your environment requires one
-- a screen-building companion workflow, when available, if you are reconnecting a full screen or page
+Skill này hỗ trợ hai chế độ đầu vào:
+- `review-then-apply`: người dùng muốn rà soát tổng thể, nhưng các section vi phạm cụ thể vẫn chưa được xác định
+- `apply-known-scope`: người dùng đã biết những section hoặc cụm nào cần được đưa về design system
 
-Do not use this skill as the default follow-up to a single `audit-design-system` finding. For one targeted issue, use [fix-design-system-finding](../fix-design-system-finding/SKILL.md) so the write scope stays narrow.
+Nạp các năng lực sau trước tiên:
+- Quyền đọc Figma MCP cho các công cụ như `get_metadata`, `get_screenshot` và `search_design_system`
+- Một helper kiểu `figma-use` trước bất kỳ lời gọi `use_figma` nào, khi môi trường của bạn yêu cầu
+- Một workflow đồng hành xây dựng màn hình (screen-building), khi có sẵn, nếu bạn đang kết nối lại toàn bộ một màn hình hoặc trang
 
-## Core Rule
+Không sử dụng skill này làm bước tiếp theo mặc định cho một finding đơn lẻ từ `audit-design-system`. Đối với một vấn đề cụ thể, hãy sử dụng [fix-design-system-finding](../fix-design-system-finding/SKILL.md) để giữ phạm vi ghi (write scope) ở mức hẹp.
 
-Do not treat a section as "connected" just because it contains a few design-system buttons or icons.
+## Quy tắc cốt lõi
 
-This skill is for multi-section reconciliation. If the task can be satisfied by fixing one specific reviewed node, the narrower finding-fix skill is the better choice.
+Không coi một section là "đã kết nối" chỉ vì nó chứa một vài button hoặc icon từ design system.
 
-Classify each section into exactly one bucket:
-- `already-connected`: the section itself is a library instance or a composition the user explicitly accepts as already canonical
-- `exact-swap`: a published library component or variant can replace the section directly
-- `compose-from-primitives`: no single library component exists, but the section can be rebuilt from published library primitives
-- `blocked`: the library does not expose the needed components, imports fail, or the section is intentionally bespoke
+Skill này dành cho việc đối chiếu và đồng bộ trên nhiều section (multi-section reconciliation). Nếu tác vụ có thể hoàn thành bằng cách sửa một node cụ thể đã được rà soát, skill sửa finding hẹp hơn sẽ là lựa chọn tốt hơn.
 
-## Required Workflow
+Phân loại từng section vào đúng một nhóm:
+- `already-connected`: bản thân section là một library instance hoặc là một bố cục tổng hợp (composition) được người dùng chấp nhận rõ ràng là đã đạt chuẩn
+- `exact-swap`: một component hoặc variant trong library đã publish có thể thay thế trực tiếp cho section đó
+- `compose-from-primitives`: không có một library component đơn lẻ nào phù hợp, nhưng section có thể được dựng lại từ các primitive trong library đã publish
+- `blocked`: library không cung cấp các component cần thiết, việc import thất bại hoặc section được chủ đích thiết kế riêng (bespoke)
 
-### 1. Determine Scope First
+## Workflow bắt buộc
 
-Before gathering replacement candidates, decide whether the screen needs an initial audit.
+### 1. Xác định phạm vi trước
 
-If scope is not already identified:
-1. Run [audit-design-system](../audit-design-system/SKILL.md) or perform an equivalent internal audit pass.
-2. Collapse the review output into section-sized work packages instead of treating every micro-finding as a separate rewrite task.
-3. If the review produces only one narrow finding, switch to [fix-design-system-finding](../fix-design-system-finding/SKILL.md) instead of continuing here.
+Trước khi thu thập các ứng viên thay thế, hãy quyết định xem màn hình có cần một lượt audit ban đầu hay không.
 
-If scope is already identified, continue directly.
+Nếu phạm vi chưa được xác định:
+1. Chạy [audit-design-system](../audit-design-system/SKILL.md) hoặc thực hiện một lượt audit nội bộ tương đương.
+2. Gom kết quả rà soát thành các gói công việc theo kích thước section thay vì xử lý từng micro-finding như một tác vụ viết lại riêng lẻ.
+3. Nếu kết quả rà soát chỉ ra một finding hẹp duy nhất, hãy chuyển sang [fix-design-system-finding](../fix-design-system-finding/SKILL.md) thay vì tiếp tục tại đây.
 
-Do not skip component discovery just because a review already exists. Review identifies drift; this skill still has to choose the actual replacement primitives and variants.
+Nếu phạm vi đã được xác định, hãy tiếp tục trực tiếp.
 
-### 2. Capture the Current State
+Không bỏ qua bước khám phá component chỉ vì đã có bản rà soát. Bản rà soát chỉ xác định sự sai lệch (drift); skill này vẫn phải chọn ra các primitive và variant thay thế thực tế.
 
-Before writing:
-1. Get the target frame metadata with `get_metadata`.
-2. Get a screenshot with `get_screenshot`.
-3. If you need `get_design_context` and Figma asks the Code Connect question, ask the user exactly as instructed by the tool before proceeding.
+### 2. Chụp và ghi nhận trạng thái hiện tại
 
-For this skill, prefer `get_metadata` plus `use_figma` for structure discovery. `get_design_context` is optional unless it unlocks missing context.
+Trước khi ghi dữ liệu:
+1. Lấy metadata của frame mục tiêu bằng `get_metadata`.
+2. Chụp ảnh màn hình bằng `get_screenshot`.
+3. Nếu bạn cần `get_design_context` và Figma hỏi câu hỏi về Code Connect, hãy hỏi người dùng đúng theo hướng dẫn của công cụ trước khi tiếp tục.
 
-### 3. Back Up the Target Screen
+Với skill này, ưu tiên sử dụng `get_metadata` kết hợp `use_figma` để khám phá cấu trúc. `get_design_context` là tùy chọn trừ khi nó giúp mở khóa ngữ cảnh còn thiếu.
 
-Before destructive edits, duplicate the frame or page and place the backup to the right.
+### 3. Sao lưu màn hình mục tiêu
 
-Name it clearly, for example:
+Trước khi thực hiện các chỉnh sửa mang tính phá hủy, hãy nhân bản (duplicate) frame hoặc page và đặt bản sao lưu sang bên phải.
+
+Đặt tên rõ ràng, ví dụ:
 - `Backup - Start`
 - `Backup - Mobile dashboard`
 
-Do this in its own `use_figma` call and return the created node ID.
+Thực hiện bước này trong một lời gọi `use_figma` riêng và trả về node ID đã tạo.
 
-### 4. Inventory the Existing Screen
+### 4. Kiểm kê màn hình hiện có
 
-Inspect the target frame before searching the library.
+Kiểm tra frame mục tiêu trước khi tìm kiếm trong library.
 
-Use `use_figma` to gather:
-- top-level section instances
-- each section's `mainComponent`
-- whether that component is local, remote, or missing
-- nested published components already used inside each local wrapper
-- exposed text and variant properties when present
+Sử dụng `use_figma` để thu thập:
+- các instance ở cấp cao nhất (top-level section instances)
+- `mainComponent` của từng section
+- component đó là local, remote hay bị thiếu (missing)
+- các published component lồng bên trong (nested) đang được sử dụng bên trong mỗi local wrapper
+- các thuộc tính text và variant đang được expose (nếu có)
 
-Prefer exact keys over names. Names are only hints.
+Ưu tiên exact key hơn là tên. Tên chỉ mang tính gợi ý.
 
-Useful read-only inventory pattern:
+Mẫu kiểm kê chỉ đọc (read-only inventory) hữu ích:
 
 ```js
 (async () => {
@@ -103,118 +105,118 @@ Useful read-only inventory pattern:
 })()
 ```
 
-### 5. Build a Component Map From the Design System
+### 5. Xây dựng bản đồ Component từ Design System
 
-Prefer authoritative sources in this order:
-1. Existing screens in the same library or workfile that already use the system
-2. Known library pages inspected directly with `use_figma`
-3. `search_design_system` as a fallback only
+Ưu tiên các nguồn chính thống theo thứ tự sau:
+1. Các màn hình hiện có trong cùng library hoặc workfile vốn đã sử dụng hệ thống
+2. Các trang library đã biết được kiểm tra trực tiếp bằng `use_figma`
+3. `search_design_system` chỉ dùng làm phương án dự phòng
 
-When using `search_design_system`, remember:
-- results may include unrelated team or community libraries
-- broad queries are useful for discovery, but do not trust them without verifying the actual file or page
-- once the right library is known, prefer direct inspection of that file over repeated search calls
+Khi sử dụng `search_design_system`, hãy lưu ý:
+- kết quả có thể bao gồm các team library hoặc community library không liên quan
+- các truy vấn rộng hữu ích cho việc khám phá, nhưng không được tin tưởng tuyệt đối nếu chưa xác minh tệp hoặc trang thực tế
+- một khi đã biết đúng library, hãy ưu tiên kiểm tra trực tiếp tệp đó thay vì gọi tìm kiếm lặp đi lặp lại
 
-For each candidate, capture:
-- component or component-set key
-- exact variant name
-- whether the section is a one-to-one swap or a composition
-- text property keys or nested instance properties needed for overrides
+Với mỗi ứng viên, hãy thu thập:
+- key của component hoặc component-set
+- tên chính xác của variant
+- section đó là thay thế một-một (one-to-one swap) hay là một bố cục tổng hợp (composition)
+- các key thuộc tính text hoặc thuộc tính nested instance cần thiết cho việc override
 
-Do not default blindly to the library's primary or default variant.
+Không chọn mặc định một cách mù quáng variant chính hoặc variant mặc định của library.
 
-Before choosing a variant, inspect the original node for:
-- semantic cues from the name, copy, and usage context
-- visual cues such as fills, strokes, effects, corner radius, and typography treatment
-- existing variant-like traits already visible in the screen, such as primary vs secondary button treatment
+Trước khi chọn một variant, hãy kiểm tra node gốc để tìm:
+- các tín hiệu ngữ nghĩa từ tên, nội dung văn bản (copy) và ngữ cảnh sử dụng
+- các tín hiệu trực quan như fills, strokes, effects, corner radius và cách xử lý typography
+- các đặc điểm dạng variant đã hiển thị sẵn trên màn hình, chẳng hạn như cách thể hiện button primary so với secondary
 
-Then compare those cues against the available component-set variants and choose the closest match. If the family is correct but the variant match is ambiguous, call that out instead of silently using the default variant.
+Sau đó so sánh các tín hiệu đó với các variant hiện có của component-set và chọn phương án khớp nhất. Nếu đúng họ component (family) nhưng lựa chọn variant còn mơ hồ, hãy nêu rõ điều đó thay vì âm thầm dùng variant mặc định.
 
-### 6. Decide Section Strategy
+### 6. Quyết định chiến lược cho từng Section
 
-Use these heuristics:
+Sử dụng các heuristic sau:
 
-- `exact-swap` if a library component matches the section's job and structure closely enough that `swapComponent()` or a direct replacement preserves intent.
-- `compose-from-primitives` if the section is really a container around library pieces such as avatar, badge, buttons, metrics, or nav items.
-- `blocked` if the design system lacks the composite, the library is not published, imports fail, or the section should remain bespoke.
+- `exact-swap` nếu một library component khớp đủ sát với vai trò và cấu trúc của section đến mức `swapComponent()` hoặc thay thế trực tiếp vẫn bảo toàn được ý đồ thiết kế.
+- `compose-from-primitives` nếu section thực chất là một container bọc quanh các thành phần của library như avatar, badge, buttons, metrics hoặc nav items.
+- `blocked` nếu design system thiếu tổ hợp (composite) này, library chưa được publish, việc import thất bại hoặc section cần giữ nguyên thiết kế riêng.
 
-Common patterns:
-- Header summary blocks are often `compose-from-primitives`, not one component.
-- Alerts and metrics often have strong `exact-swap` candidates.
-- Appointment or patient cards often require composition unless the system explicitly ships those domain cards.
-- Bottom nav bars are frequently custom containers built from nav-item primitives.
+Các mẫu phổ biến:
+- Các khối tóm tắt ở header (header summary blocks) thường là `compose-from-primitives`, không phải một component đơn lẻ.
+- Alerts và metrics thường có ứng viên `exact-swap` rất rõ ràng.
+- Thẻ lịch hẹn hoặc thẻ bệnh nhân thường đòi hỏi dựng tổng hợp (composition) trừ khi hệ thống có cung cấp sẵn các domain card đó.
+- Thanh điều hướng dưới cùng (bottom nav bars) thường là container tùy biến được xây dựng từ các primitive nav-item.
 
-### 7. Update One Section At A Time
+### 7. Cập nhật từng Section một
 
-Never rewrite the entire screen in one script.
+Không bao giờ viết lại toàn bộ màn hình trong một script duy nhất.
 
-For each section:
-1. Read the current node IDs.
-2. Import or locate the library component.
-3. Match the closest variant to the original section before swapping or rebuilding.
-4. Detect whether the parent uses auto-layout.
-5. Create or swap only that section.
-6. Return all mutated node IDs.
-7. Validate with `get_screenshot`.
+Đối với từng section:
+1. Đọc các node ID hiện tại.
+2. Import hoặc xác định vị trí của library component.
+3. Đối chiếu variant khớp nhất với section gốc trước khi swap hoặc dựng lại.
+4. Phát hiện xem parent có sử dụng auto-layout hay không.
+5. Chỉ tạo mới hoặc swap duy nhất section đó.
+6. Trả về toàn bộ các node ID đã thay đổi (mutated node IDs).
+7. Xác thực bằng `get_screenshot`.
 
-Prefer `swapComponent()` when the existing node is already an instance of a compatible family and you want to preserve overrides.
+Ưu tiên `swapComponent()` khi node hiện tại đã là một instance thuộc họ tương thích và bạn muốn bảo toàn các override.
 
-Prefer rebuilding beside the original when:
-- the old section is a local wrapper around mixed content
-- you need to compare the result visually before replacing the original
-- you are composing from multiple primitives
+Ưu tiên dựng lại bên cạnh bản gốc khi:
+- section cũ là một local wrapper bọc quanh nội dung hỗn hợp
+- bạn cần đối chiếu trực quan kết quả trước khi thay thế bản gốc
+- bạn đang tổng hợp từ nhiều primitive
 
-When the parent is not auto-layout, treat replacement as a layout-risk operation.
+Khi parent không dùng auto-layout, hãy coi việc thay thế là một thao tác có rủi ro về bố cục (layout-risk operation).
 
-For non-auto-layout parents:
-- preserve `x` and `y` explicitly
-- preserve width and height explicitly when the replacement should occupy the same footprint
-- do not assume the new instance will inherit the old node's position or size
-- warn the user that absolute-positioned or grouped parents can cause drift after swaps or rebuilds
-- suggest converting the parent to auto-layout only when the user wants structural cleanup, not as the default move
+Đối với các parent không có auto-layout:
+- bảo toàn `x` và `y` một cách tường minh
+- bảo toàn chiều rộng (width) và chiều cao (height) một cách tường minh khi phần thay thế cần chiếm đúng vùng không gian đó
+- không giả định rằng instance mới sẽ kế thừa vị trí hoặc kích thước của node cũ
+- cảnh báo người dùng rằng các parent đặt vị trí tuyệt đối (absolute-positioned) hoặc dạng group có thể gây xô lệch sau khi swap hoặc dựng lại
+- chỉ đề xuất chuyển đổi parent sang auto-layout khi người dùng muốn dọn dẹp cấu trúc, không coi đó là thao tác mặc định
 
-### 8. Handle Import Failures Explicitly
+### 8. Xử lý lỗi Import một cách tường minh
 
-If `importComponentSetByKeyAsync()` or `importComponentByKeyAsync()` fails or times out:
-1. Stop.
-2. Do not continue making unrelated edits and pretend the section is connected.
-3. Check whether exact component keys already exist elsewhere in the target file.
-4. If the library file is accessible, verify the exact component key there.
-5. Try importing the exact component key instead of the component-set key.
-6. If imports still fail, mark the section `blocked` and report the blocker clearly.
+Nếu `importComponentSetByKeyAsync()` hoặc `importComponentByKeyAsync()` thất bại hoặc quá thời gian chờ (timeout):
+1. Dừng lại.
+2. Không tiếp tục thực hiện các chỉnh sửa không liên quan rồi giả vờ như section đã được kết nối.
+3. Kiểm tra xem các exact component key đã tồn tại ở nơi khác trong tệp mục tiêu hay chưa.
+4. Nếu có thể truy cập tệp library, hãy xác minh exact component key tại đó.
+5. Thử import exact component key thay cho component-set key.
+6. Nếu việc import vẫn thất bại, hãy đánh dấu section là `blocked` và báo cáo rõ nguyên nhân gây nghẽn.
 
-Treat these as real blockers:
-- published key exists in the library but import times out
-- `search_design_system` finds the family, but the target file cannot import it
-- only nested primitives can be imported, not the intended composite
+Coi các trường hợp sau là blocker thực sự:
+- published key có tồn tại trong library nhưng quá trình import bị timeout
+- `search_design_system` tìm thấy họ component, nhưng tệp mục tiêu không thể import được
+- chỉ có thể import các primitive lồng bên trong, không thể import được composite mong muốn
 
-### 9. Validate What Actually Changed
+### 9. Xác thực những gì thực sự đã thay đổi
 
-After each section:
-- screenshot the changed section, not only the full frame
-- confirm placeholder text is gone
-- confirm the instance is really linked to a library component
-- confirm spacing did not regress
+Sau mỗi section:
+- chụp ảnh screenshot phần section đã thay đổi, không chỉ toàn bộ frame
+- xác nhận văn bản giữ chỗ (placeholder text) không còn
+- xác nhận instance thực sự đã liên kết với một library component
+- xác nhận khoảng cách (spacing) không bị lỗi hoặc thụt lùi
 
-At the end, validate the full screen screenshot as well.
+Ở bước cuối cùng, hãy xác thực cả ảnh chụp toàn màn hình (full screen screenshot).
 
-## Writing Rules
+## Quy tắc thực thi & viết báo cáo
 
-- Work incrementally and preserve a backup.
-- Prefer direct library inspection over noisy search results.
-- Prefer exact component keys over names.
-- Match the variant to the original visual treatment, not just the correct component family.
-- Preserve position and size explicitly when replacing content inside non-auto-layout parents.
-- Use imperative evidence in the report: node names, keys, component families, and whether the final node is local or library-backed.
-- Do not claim full reconnection when the result is still a local shell around a few shared children.
-- If a section must remain bespoke, say so and explain why.
+- Làm việc từng bước tăng dần và luôn giữ bản sao lưu.
+- Ưu tiên kiểm tra trực tiếp library hơn là kết quả tìm kiếm nhiễu.
+- Ưu tiên exact component key hơn là tên.
+- Khớp variant theo đúng cách thể hiện trực quan gốc, không chỉ khớp đúng họ component.
+- Bảo toàn vị trí và kích thước một cách tường minh khi thay thế nội dung bên trong các parent không dùng auto-layout.
+- Sử dụng bằng chứng cụ thể, rõ ràng trong báo cáo: tên node, key, họ component, và trạng thái node cuối cùng là local hay gắn với library.
+- Không tuyên bố đã kết nối hoàn toàn khi kết quả vẫn chỉ là một local shell bọc quanh vài node con dùng chung.
+- Nếu một section bắt buộc phải giữ thiết kế riêng, hãy nêu rõ điều đó và giải thích lý do.
 
-## Deliverable Format
+## Định dạng bàn giao
 
-When closing the task, report:
-- `Swapped`: sections replaced directly with library instances
-- `Composed`: sections rebuilt from library primitives
-- `Already connected`: sections that were already valid
-- `Blocked`: sections that could not be connected, with the concrete reason
+Khi kết thúc tác vụ, hãy báo cáo theo cấu trúc:
+- `Swapped`: các section được thay thế trực tiếp bằng library instance
+- `Composed`: các section được dựng lại từ các library primitive
+- `Already connected`: các section vốn đã hợp lệ từ trước
+- `Blocked`: các section không thể kết nối, kèm theo lý do cụ thể
 
-If everything is blocked, say that plainly and include the exact failure mode instead of a vague summary.
+Nếu mọi thứ đều bị chặn, hãy nói thẳng điều đó và nêu rõ hình thức lỗi cụ thể thay vì đưa ra một bản tóm tắt chung chung.

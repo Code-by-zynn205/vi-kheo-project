@@ -1,65 +1,67 @@
 ---
 name: figma-shaders
-description: "**MANDATORY prerequisite** — load this skill before calling `create_shader` or `update_shader`. Use when the user asks to create, author, change, fix, or iterate on a shader effect, shader fill, custom effect, custom fill, or procedural shader in Figma."
+description: "**Điều kiện tiên quyết BẮT BUỘC** — tải skill này trước khi gọi `create_shader` hoặc `update_shader`. Sử dụng khi người dùng yêu cầu tạo, viết, chỉnh sửa, sửa lỗi hoặc cải tiến một hiệu ứng shader, shader fill, custom effect, custom fill, hoặc procedural shader trong Figma."
 disable-model-invocation: false
 ---
 
-# Create and update Figma shaders
+# Tạo và cập nhật Figma shader
 
-Load this skill before every `create_shader` or `update_shader` call. It covers account-library shader authoring through the Figma MCP server. Reading or applying an existing shader does not require this skill.
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [figma/mcp-server-guide](https://github.com/figma/mcp-server-guide/blob/main/skills/figma-shaders/SKILL.md) (Figma chính thức).
 
-Shaders have two kinds:
+Tải skill này trước mỗi lần gọi `create_shader` hoặc `update_shader`. Skill này bao phủ việc viết shader cho thư viện tài khoản thông qua Figma MCP server. Việc đọc hoặc áp dụng một shader có sẵn không yêu cầu skill này.
 
-- `effect` samples and transforms the rendered layer beneath it. Use it for blur, distortion, glow, color grading, pixelation, halftone, or other post-processing.
-- `fill` generates pixels without an input raster. Use it for gradients, patterns, noise, textures, and procedural backgrounds.
+Shader có hai loại:
 
-Do not silently switch kinds during an update. The `kind` passed to `update_shader` must match the existing shader.
+- `effect` lấy mẫu và biến đổi layer đã render nằm bên dưới nó. Dùng cho làm mờ (blur), biến dạng (distortion), phát sáng (glow), chỉnh màu (color grading), pixelation, halftone hoặc các xử lý hậu kỳ khác.
+- `fill` tạo ra pixel mà không cần ảnh đầu vào (input raster). Dùng cho gradient, hoa văn (pattern), nhiễu (noise), chất liệu (texture) và nền tạo theo thủ tục (procedural background).
 
-## Create workflow
+Không âm thầm chuyển đổi loại trong khi cập nhật. Giá trị `kind` truyền vào `update_shader` phải khớp với shader hiện có.
 
-1. Decide whether the request is an effect or fill. Ask only when the visual intent does not resolve the distinction.
-2. Resolve `planKey`. Reuse one supplied by the user; otherwise call `whoami`. Use the sole eligible plan automatically, or ask the user to choose when several materially different plans are available.
-3. Call `create_shader` once with a concise name, description, selected `kind`, and `planKey`. This creates a starter scaffold, not the requested final shader.
-4. Call `get_shader` with the returned `id`, then read every source URI. If the client cannot read MCP resources, call `get_shader` with `includeSource: true` instead. This establishes the runtime imports and the scaffold's fixed metadata contract.
-5. Author the complete replacement `main.ts` for the requested result.
-6. Call `update_shader` with the returned `id`, the same `kind`, `files: [{ path: "main.ts", content: "..." }]`, and a specific `commitMessage`. Use `metadata` when changing the name, description, or animation capabilities. Set `metadata.isAnimated: true` when the source reads time-related frame inputs and `metadata.usesMouse: true` when it reads `frame.mousePosition`.
+## Quy trình tạo mới
 
-Never stop after `create_shader`: the starter scaffold is only a structural starting point.
+1. Xác định xem yêu cầu là effect hay fill. Chỉ hỏi khi ý định thị giác chưa làm rõ được sự phân biệt này.
+2. Xác định `planKey`. Tái sử dụng giá trị do người dùng cung cấp; nếu không có, hãy gọi `whoami`. Tự động dùng plan hợp lệ duy nhất, hoặc yêu cầu người dùng chọn khi có nhiều plan khác biệt đáng kể.
+3. Gọi `create_shader` một lần với tên ngắn gọn, mô tả, `kind` đã chọn và `planKey`. Thao tác này tạo ra một khung mẫu khởi tạo, không phải shader hoàn chỉnh cuối cùng được yêu cầu.
+4. Gọi `get_shader` với `id` trả về, sau đó đọc toàn bộ các source URI. Nếu client không thể đọc tài nguyên MCP, hãy gọi `get_shader` với `includeSource: true` thay thế. Bước này giúp nắm rõ các lệnh import runtime và hợp đồng metadata cố định của khung mẫu.
+5. Viết file thay thế hoàn chỉnh `main.ts` cho kết quả được yêu cầu.
+6. Gọi `update_shader` với `id` trả về, cùng `kind` đó, `files: [{ path: "main.ts", content: "..." }]`, và một `commitMessage` cụ thể. Sử dụng `metadata` khi thay đổi tên, mô tả hoặc khả năng chuyển động. Đặt `metadata.isAnimated: true` khi mã nguồn đọc các đầu vào frame liên quan đến thời gian và `metadata.usesMouse: true` khi mã nguồn đọc `frame.mousePosition`.
 
-## Update workflow
+Không bao giờ dừng lại sau `create_shader`: khung mẫu khởi tạo chỉ là điểm xuất phát về mặt cấu trúc.
 
-1. Identify the shader with `list_shaders`, then call `get_shader`. Use its `type` (`effect` or `fill`) as the required update kind.
-2. Read every source URI returned by `get_shader` before editing. If the client cannot read MCP resources, call it with `includeSource: true`. Treat those files as the current source of truth.
-3. Preserve existing controls and behavior unless the user asks to change them.
-4. Call `update_shader` with the complete replacement `main.ts` in the `files` array, not a diff or partial fragment. An empty `files` array is valid only for a metadata-only update.
+## Quy trình cập nhật
 
-## Version notes
+1. Xác định shader bằng `list_shaders`, sau đó gọi `get_shader`. Dùng `type` của nó (`effect` hoặc `fill`) làm `kind` bắt buộc khi cập nhật.
+2. Đọc toàn bộ các source URI do `get_shader` trả về trước khi chỉnh sửa. Nếu client không thể đọc tài nguyên MCP, hãy gọi công cụ với `includeSource: true`. Coi các file đó là nguồn chân lý hiện tại.
+3. Giữ nguyên các điều khiển và hành vi hiện có trừ khi người dùng yêu cầu thay đổi chúng.
+4. Gọi `update_shader` với nội dung thay thế hoàn chỉnh cho `main.ts` trong mảng `files`, không phải một bản diff hay đoạn mã rời rạc. Mảng `files` rỗng chỉ hợp lệ cho một bản cập nhật chỉ sửa metadata.
 
-For every `update_shader` call, check the tool's advertised input schema and include each field below when that field is exposed:
+## Ghi chú phiên bản
 
-- `versionDescription`: A concise, nonblank, single-line summary of the changes delivered, focused on the user-visible result.
-- `versionDetail`: One or two nonblank sentences explaining the key implementation detail. Keep the detail proportional to the change, support it with the work performed, and avoid repeating the summary.
+Đối với mỗi lần gọi `update_shader`, hãy kiểm tra input schema được công bố của công cụ và bao gồm từng trường dưới đây khi trường đó được hỗ trợ:
 
-If either field is absent from the advertised schema, omit that field and continue the update. Always include the required `commitMessage`. Do not send empty placeholders or claim unperformed work.
+- `versionDescription`: Một dòng tóm tắt ngắn gọn, không bỏ trống về các thay đổi được bàn giao, tập trung vào kết quả người dùng nhìn thấy được.
+- `versionDetail`: Một hoặc hai câu không bỏ trống giải thích chi tiết triển khai chính. Giữ mức độ chi tiết tương xứng với thay đổi, bám sát công việc đã thực hiện và tránh lặp lại phần tóm tắt.
 
-## Authoring rules
+Nếu một trong hai trường không có trong schema được công bố, hãy bỏ qua trường đó và tiếp tục cập nhật. Luôn bao gồm `commitMessage` bắt buộc. Không gửi placeholder rỗng hoặc khẳng định công việc chưa được thực hiện.
 
-- Before writing the `main.ts` replacement, read [Shader source authoring](references/authoring.md). It contains the required module shape, WebGPU lifecycle, supported parameter schemas, effect/fill alpha rules, and WGSL failure checklist.
-- Match animation metadata to the source. Set `metadata.isAnimated: true` if `main.ts` reads `frame.time`, `frame.deltaTime`, or `frame.frame`, and set `metadata.usesMouse: true` if it reads `frame.mousePosition`. Set the corresponding value to `false` when removing the last such use. `update_shader` applies these metadata fields to the fixed `features.json` manifest even though that file cannot be replaced directly.
-- Prefer `frame.time` for animation so skipped frames do not change the result. It is an absolute millisecond clock; convert it to seconds with `Number(frame.time) * 0.001` when useful.
-- Expose controls for values users are likely to tune per layer; hardcode implementation details.
-- Keep numeric ranges bounded and defaults visually useful.
-- For effects, sample the input raster intentionally. For fills, do not assume an input raster exists.
-- Treat a non-error `update_shader` result as success. Record the returned version when present; a successful response may omit it.
-- On a build error, use the returned compiler output to make the smallest source correction and retry once. If it still fails, surface the error instead of repeatedly rewriting the shader.
-- If the tool reports that animation or mouse input is unavailable, treat that as a terminal capability gate: do not retry or attempt to bypass it. Offer to author a static shader whose exposed properties can be keyframed in Motion mode instead.
+## Quy tắc viết mã nguồn
 
-## Completion
+- Trước khi viết bản thay thế `main.ts`, hãy đọc [Shader source authoring](references/authoring.md). Tài liệu này chứa cấu trúc module bắt buộc, vòng đời WebGPU, các schema tham số được hỗ trợ, quy tắc alpha cho effect/fill và danh sách kiểm tra lỗi WGSL.
+- Giữ metadata chuyển động khớp với mã nguồn. Đặt `metadata.isAnimated: true` nếu `main.ts` đọc `frame.time`, `frame.deltaTime` hoặc `frame.frame`, và đặt `metadata.usesMouse: true` nếu nó đọc `frame.mousePosition`. Đặt lại giá trị tương ứng thành `false` khi xóa lần sử dụng cuối cùng như vậy. `update_shader` áp dụng các trường metadata này vào manifest `features.json` cố định dù file đó không thể bị thay thế trực tiếp.
+- Ưu tiên `frame.time` cho chuyển động để việc rớt khung hình không làm thay đổi kết quả. Đây là đồng hồ mili-giây tuyệt đối; chuyển đổi sang giây bằng `Number(frame.time) * 0.001` khi cần.
+- Đưa ra các điều khiển (controls) cho những giá trị mà người dùng có khả năng tinh chỉnh trên từng layer; hardcode các chi tiết triển khai nội bộ.
+- Giữ các dải giá trị số có giới hạn và đặt giá trị mặc định hữu ích về mặt thị giác.
+- Với effect, hãy lấy mẫu input raster một cách có chủ đích. Với fill, không giả định rằng có tồn tại input raster.
+- Coi kết quả `update_shader` không có lỗi là thành công. Ghi nhận phiên bản trả về nếu có; một phản hồi thành công có thể lược bỏ trường này.
+- Khi có lỗi build, hãy dùng kết quả trình biên dịch trả về để thực hiện chỉnh sửa nhỏ nhất trong mã nguồn và thử lại một lần. Nếu vẫn thất bại, hãy hiển thị lỗi thay vì viết lại shader nhiều lần.
+- Nếu công cụ báo rằng đầu vào chuyển động hoặc chuột không khả dụng, hãy coi đó là giới hạn năng lực cuối cùng: không thử lại hoặc tìm cách vượt qua. Thay vào đó, hãy đề xuất viết một shader tĩnh có các thuộc tính công khai để có thể gắn keyframe trong chế độ Motion.
 
-Report the shader name, kind, and id, plus the returned version when present. Briefly identify the controls or behavior that were added. Construct and include a clickable URL that opens a new Design file with the unpublished shader ready to try, using the exact shader id as `try-tool-resource-content-id`. Set `try-tool-resource-type` from the shader kind: `gen_effect` for an effect and `gen_fill` for a fill.
+## Hoàn tất
+
+Báo cáo tên shader, loại (`kind`) và id, kèm theo phiên bản trả về nếu có. Mô tả ngắn gọn các điều khiển hoặc hành vi đã được thêm vào. Tạo và đính kèm một URL có thể nhấp để mở một file Design mới với shader chưa xuất bản đã sẵn sàng dùng thử, sử dụng chính xác shader id làm `try-tool-resource-content-id`. Đặt `try-tool-resource-type` theo loại shader: `gen_effect` cho effect và `gen_fill` cho fill.
 
 `https://www.figma.com/file/new?try-tool-resource-content-id=<id>&try-tool-resource-type=<gen_effect|gen_fill>&type=design&mode=design`
 
-After presenting the new-file link, ask whether the user wants to open the shader in an existing Figma Design file instead. If yes, reuse a file URL already provided or ask for one, then add the same `try-tool-resource-content-id` and resolved `try-tool-resource-type` query parameters to that URL. Never guess the file URL.
+Sau khi cung cấp liên kết file mới, hãy hỏi xem người dùng có muốn mở shader trong một file Figma Design hiện có hay không. Nếu có, hãy tái sử dụng URL file đã được cung cấp hoặc hỏi xin URL, sau đó thêm các tham số truy vấn `try-tool-resource-content-id` và `try-tool-resource-type` đã xác định tương tự vào URL đó. Không bao giờ tự đoán URL file.
 
-Replace the type placeholder with exactly one value; do not include angle brackets or the pipe in the returned URL.
+Thay thế placeholder loại bằng chính xác một giá trị; không để lại dấu ngoặc nhọn hoặc dấu gạch đứng trong URL trả về.

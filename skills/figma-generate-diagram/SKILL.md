@@ -1,112 +1,114 @@
 ---
 name: figma-generate-diagram
-description: "MANDATORY prerequisite — load this skill BEFORE every `generate_diagram` tool call. NEVER call `generate_diagram` directly without loading this skill first. Trigger whenever the user asks to create, generate, draw, render, sketch, or build a diagram — flowchart, architecture diagram, sequence diagram, ERD or entity-relationship diagram, state diagram or state machine, gantt chart, or timeline. Also trigger when the user mentions Mermaid syntax or wants a system architecture, decision tree, dependency graph, API call flow, auth handshake, schema, or pipeline visualized in FigJam. Routes to type-specific guidance, sets universal Mermaid constraints, and tells you when to use a different diagram type or skip the tool entirely (mindmaps, pie charts, class diagrams, etc.)."
+description: "Điều kiện tiên quyết BẮT BUỘC — nạp skill này TRƯỚC mọi lần gọi tool `generate_diagram`. KHÔNG BAO GIỜ gọi `generate_diagram` trực tiếp mà chưa nạp skill này trước. Kích hoạt bất cứ khi nào người dùng yêu cầu tạo, sinh, vẽ, kết xuất, phác thảo hoặc xây dựng một sơ đồ — flowchart, architecture diagram, sequence diagram, ERD hoặc entity-relationship diagram, state diagram hoặc state machine, gantt chart hoặc timeline. Cũng kích hoạt khi người dùng nhắc đến cú pháp Mermaid hoặc muốn trực quan hóa kiến trúc hệ thống, cây quyết định, đồ thị phụ thuộc, luồng gọi API, quy trình bắt tay xác thực (auth handshake), lược đồ dữ liệu (schema) hoặc pipeline trong FigJam. Skill này điều hướng tới hướng dẫn theo từng loại sơ đồ, đặt các ràng buộc Mermaid phổ quát và cho bạn biết khi nào cần dùng loại sơ đồ khác hoặc bỏ qua tool hoàn toàn (mindmap, pie chart, class diagram, v.v.)."
 ---
 
 # generate-diagram
 
-**You MUST load this skill before every `generate_diagram` tool call.** Skipping it causes preventable rendering failures and low-quality output.
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [figma/mcp-server-guide](https://github.com/figma/mcp-server-guide/blob/main/skills/figma-generate-diagram/SKILL.md) (Figma chính thức).
 
-`generate_diagram` takes Mermaid.js syntax and produces an editable FigJam diagram. This skill routes you to the right per-type guidance and sets universal constraints.
+**Bạn BẮT BUỘC phải nạp skill này trước mọi lần gọi tool `generate_diagram`.** Bỏ qua nó sẽ gây ra các lỗi kết xuất đáng tiếc và đầu ra kém chất lượng.
 
-## Step 1: Is `generate_diagram` the right tool?
+`generate_diagram` nhận cú pháp Mermaid.js và tạo ra một sơ đồ FigJam có thể chỉnh sửa được. Skill này dẫn bạn tới đúng hướng dẫn cho từng loại sơ đồ và thiết lập các ràng buộc phổ quát.
 
-### Supported diagram types
+## Bước 1: `generate_diagram` có phải tool phù hợp không?
+
+### Các loại sơ đồ được hỗ trợ
 
 `flowchart`, `sequenceDiagram`, `stateDiagram` / `stateDiagram-v2`, `gantt`, `erDiagram`.
 
-### Unsupported — don't call the tool
+### Không được hỗ trợ — không gọi tool
 
-If the user wants any of these, tell them directly that `generate_diagram` doesn't support it instead of calling the tool and failing:
+Nếu người dùng muốn bất kỳ loại nào dưới đây, hãy báo thẳng cho họ biết `generate_diagram` không hỗ trợ thay vì gọi tool rồi để lỗi:
 - **Pie chart, mindmap, venn diagram, class diagram, journey, timeline, quadrant, C4, git graph, requirement diagram**
 
-### When to push the user to edit in Figma
+### Khi nào nên hướng người dùng tự sửa trong Figma
 
-The tool cannot:
-- Change fonts on an existing diagram
-- Move individual shapes
-- Edit a diagram node-by-node after generation
+Tool này không thể:
+- Đổi font chữ trên một sơ đồ đã có sẵn
+- Di chuyển từng hình khối riêng lẻ
+- Sửa từng node của sơ đồ sau khi đã sinh
 
-If the user asks for any of those on an existing diagram, recommend they open the diagram in Figma and edit there. For content-level changes, it's usually faster to regenerate.
+Nếu người dùng yêu cầu bất kỳ thao tác nào trong số đó trên một sơ đồ hiện có, hãy khuyến nghị họ mở sơ đồ trong Figma và chỉnh sửa tại đó. Đối với các thay đổi ở mức nội dung, sinh lại sơ đồ thường nhanh hơn.
 
-## Step 2: Pick the diagram type
+## Bước 2: Chọn loại sơ đồ
 
-Lightweight routing — use the first match.
+Điều hướng nhanh — chọn mục khớp đầu tiên.
 
-| User wants… | Type | Next step |
+| Người dùng muốn… | Loại | Bước tiếp theo |
 |---|---|---|
-| Services + datastores + queues + integrations | **Architecture flowchart** | Read [references/architecture.md](./references/architecture.md) |
-| Decision tree, process flow, pipeline, dependency graph, user journey | **Flowchart** | Read [references/flowchart.md](./references/flowchart.md) |
-| Interactions between parties over time (API calls, auth, messaging) | **Sequence diagram** | Read [references/sequence.md](./references/sequence.md) |
-| Data model, tables, keys, cardinality | **ER diagram** | Read [references/erd.md](./references/erd.md) |
-| Named states with transitions between them | **State diagram** | Read [references/state.md](./references/state.md) |
-| Project schedule with dates, milestones | **Gantt chart** | Read [references/gantt.md](./references/gantt.md) |
+| Services + datastores + queues + integrations | **Architecture flowchart** | Đọc [references/architecture.md](./references/architecture.md) |
+| Cây quyết định, luồng quy trình, pipeline, đồ thị phụ thuộc, hành trình người dùng | **Flowchart** | Đọc [references/flowchart.md](./references/flowchart.md) |
+| Tương tác giữa các bên theo thời gian (gọi API, xác thực, nhắn tin) | **Sequence diagram** | Đọc [references/sequence.md](./references/sequence.md) |
+| Mô hình dữ liệu, bảng, khóa (keys), quan hệ lực lượng (cardinality) | **ER diagram** | Đọc [references/erd.md](./references/erd.md) |
+| Các trạng thái có tên kèm chuyển đổi qua lại giữa chúng | **State diagram** | Đọc [references/state.md](./references/state.md) |
+| Lịch trình dự án kèm ngày tháng, cột mốc (milestones) | **Gantt chart** | Đọc [references/gantt.md](./references/gantt.md) |
 
-If a flowchart is requested and it describes software infrastructure (services, datastores, queues, external integrations), route to `architecture.md` — not `flowchart.md`. When in doubt, ask the user.
+Nếu một flowchart được yêu cầu mô tả hạ tầng phần mềm (services, datastores, queues, tích hợp ngoài), hãy điều hướng sang `architecture.md` — không phải `flowchart.md`. Khi phân vân, hãy hỏi người dùng.
 
-## Step 3: Universal constraints (apply to every diagram type)
+## Bước 3: Ràng buộc phổ quát (áp dụng cho mọi loại sơ đồ)
 
-1. **No emojis** in any part of the Mermaid source. The tool rejects them.
-2. **No `\n`** in labels. Use newlines only when absolutely required and only via actual line breaks (not the escape sequence).
-3. **No HTML tags** in labels.
-4. **Reserved words** — don't use `end`, `subgraph`, `graph` as node IDs.
-5. **Node IDs**: camelCase (`userService`), no spaces. Underscores can break edge routing in some processors.
-6. **Special characters in labels** must be wrapped in quotes: `A["Process (main)"]`, `-->|"O(1) lookup"|`.
-7. **Sequence diagrams** — Mermaid `Note over X` / `Note left of X` / `Note right of X` are silently stripped by the renderer; don't put them in the source. If the user wants annotations on a sequence diagram, generate the base diagram first and add stickies/text via the hybrid workflow ([references/workflow.md](references/workflow.md)).
-8. **Gantt charts** — `classDef`, `class`, and any other styling are stripped by preprocessing; the rendered chart will not have colors. If the user wants color-coded phases, milestones, or tasks, generate the base chart first and add color/annotations via the hybrid workflow ([references/workflow.md](references/workflow.md)) — or, for diagrams that fundamentally need styling, build the timeline directly with `use_figma` instead (see [references/gantt.md](references/gantt.md) §11).
-9. **Use FigJam-only APIs in any `use_figma` extension.** `generate_diagram` output lands in a FigJam file (`figma.com/board/...`), so hybrid extensions must stick to FigJam-supported APIs. Do NOT call `figma.createPage()` — it's Design-only (`figma.com/design/...`) and throws `TypeError: figma.createPage no such property 'createPage' on the figma global object` in FigJam. Organize content with FigJam sections instead (see [figma-use-figjam](../figma-use-figjam/SKILL.md)).
+1. **Không dùng emoji** ở bất kỳ phần nào trong mã nguồn Mermaid. Tool sẽ từ chối chúng.
+2. **Không dùng `\n`** trong nhãn (label). Chỉ xuống dòng khi thực sự bắt buộc và chỉ dùng ký tự xuống dòng thật (không dùng chuỗi escape).
+3. **Không dùng thẻ HTML** trong nhãn.
+4. **Các từ khóa bảo lưu (Reserved words)** — không dùng `end`, `subgraph`, `graph` làm node ID.
+5. **Node IDs**: dùng camelCase (`userService`), không khoảng trắng. Dấu gạch dưới có thể làm hỏng việc định tuyến cạnh ở một số bộ xử lý.
+6. **Các ký tự đặc biệt trong nhãn** phải được bọc trong dấu ngoặc kép: `A["Process (main)"]`, `-->|"O(1) lookup"|`.
+7. **Sequence diagrams** — các lệnh Mermaid `Note over X` / `Note left of X` / `Note right of X` bị trình kết xuất lược bỏ âm thầm; đừng đưa chúng vào mã nguồn. Nếu người dùng muốn có chú thích trên sequence diagram, hãy sinh sơ đồ nền trước rồi thêm sticky note/văn bản qua quy trình kết hợp ([references/workflow.md](references/workflow.md)).
+8. **Gantt charts** — `classDef`, `class` và mọi định dạng style khác bị bước tiền xử lý lược bỏ; biểu đồ kết xuất ra sẽ không có màu sắc. Nếu người dùng muốn phân màu theo giai đoạn, cột mốc hoặc tác vụ, hãy sinh biểu đồ nền trước rồi thêm màu sắc/chú thích qua quy trình kết hợp ([references/workflow.md](references/workflow.md)) — hoặc, đối với các sơ đồ bắt buộc phải có styling ngay từ bản chất, hãy dựng timeline trực tiếp bằng `use_figma` thay thế (xem [references/gantt.md](references/gantt.md) §11).
+9. **Chỉ dùng các API của FigJam trong bất kỳ phần mở rộng `use_figma` nào.** Đầu ra của `generate_diagram` nằm trong một file FigJam (`figma.com/board/...`), nên các phần mở rộng kết hợp phải tuân thủ các API được FigJam hỗ trợ. KHÔNG gọi `figma.createPage()` — hàm đó chỉ dành cho Design (`figma.com/design/...`) và ném lỗi `TypeError: figma.createPage no such property 'createPage' on the figma global object` trong FigJam. Hãy tổ chức nội dung bằng FigJam sections thay thế (xem [figma-use-figjam](../figma-use-figjam/SKILL.md)).
 
-## Step 4: Garbage in, garbage out
+## Bước 4: Đầu vào rác thì đầu ra cũng rác
 
-The quality of the generated diagram is bounded by the quality of the Mermaid you produce, which is bounded by the context you have. Before writing Mermaid, make sure you have enough real information to describe the subject accurately — and use whatever the current environment gives you to gather it.
+Chất lượng sơ đồ được sinh ra bị giới hạn bởi chất lượng mã Mermaid bạn viết, và chất lượng Mermaid lại bị giới hạn bởi ngữ cảnh bạn có. Trước khi viết Mermaid, hãy đảm bảo bạn có đủ thông tin thực tế để mô tả chính xác đối tượng — và tận dụng mọi thứ môi trường hiện tại cung cấp để thu thập thông tin đó.
 
-Depending on what's available, useful sources of context include:
+Tùy vào những gì khả dụng, các nguồn ngữ cảnh hữu ích bao gồm:
 
-- **Source code** — grep/read the relevant files so the diagram reflects real service names, real edge labels, real data stores, real entry points. Walking actual routes/handlers/consumers beats recreating from memory.
-- **User-provided documents** — a PRD, spec, meeting notes, transcript, research synthesis, onboarding doc, process write-up. Ask the user to paste or attach it if the subject isn't code.
-- **Existing Figma or FigJam files** — if the new diagram should align with one the user already has, read it with `get_figjam` or `get_design_context` (see the `figma-use` and `figma-use-figjam` skills).
-- **Other MCP servers or tools you have available** — issue trackers, docs sites, CRMs, analytics, internal wikis, design systems, database schemas, etc. If a connected tool holds the ground truth for what you're diagramming, pull from it rather than guessing.
-- **The user themselves** — when the description is thin or ambiguous (unclear direction of flow, unclear scope, unclear which entities matter), ask one or two focused questions before generating. Examples: "What are the 3–5 main steps?", "Who owns each step?", "What triggers the next step?". One good question beats one wasted diagram.
+- **Mã nguồn** — grep/đọc các file liên quan để sơ đồ phản ánh đúng tên service thực, nhãn cạnh thực, datastore thực, điểm đầu vào (entry point) thực. Lần theo các route/handler/consumer thực tế tốt hơn nhiều so với tự nhớ lại.
+- **Tài liệu do người dùng cung cấp** — PRD, spec, ghi chú cuộc họp, bản chép lời (transcript), tổng hợp nghiên cứu, tài liệu onboarding, mô tả quy trình. Đề nghị người dùng dán hoặc đính kèm nếu chủ đề không phải mã nguồn.
+- **Các file Figma hoặc FigJam hiện có** — nếu sơ đồ mới cần đồng bộ với một sơ đồ người dùng đã có, hãy đọc nó bằng `get_figjam` hoặc `get_design_context` (xem các skill `figma-use` và `figma-use-figjam`).
+- **Các MCP server hoặc tool khác bạn có sẵn** — hệ thống quản lý issue, trang tài liệu, CRM, công cụ phân tích, wiki nội bộ, design system, database schema, v.v. Nếu một tool đã kết nối đang nắm nguồn chuẩn cho thứ bạn sắp vẽ sơ đồ, hãy lấy dữ liệu từ đó thay vì đoán.
+- **Chính người dùng** — khi mô tả còn mỏng hoặc mơ hồ (không rõ chiều luồng đi, không rõ phạm vi, không rõ các thực thể nào quan trọng), hãy hỏi một hoặc hai câu hỏi trọng tâm trước khi sinh. Ví dụ: "3–5 bước chính là gì?", "Ai phụ trách mỗi bước?", "Điều gì kích hoạt bước tiếp theo?". Một câu hỏi hay tốt hơn một sơ đồ lãng phí.
 
-Don't invent edges, labels, or entities to "round out" a diagram. Missing information is better than hallucinated information — leave a gap and flag it to the user.
+Đừng tự bịa thêm cạnh, nhãn hay thực thể để "lấp đầy" sơ đồ. Thiếu thông tin còn hơn là thông tin bịa đặt — hãy để trống chỗ đó và báo lại cho người dùng.
 
-## Step 5: Will the diagram need more than Mermaid can express?
+## Bước 5: Sơ đồ có cần những thứ vượt quá khả năng biểu đạt của Mermaid không?
 
-Mermaid can't do everything. Sticky-note annotations tied to specific nodes, per-node domain coloring on ERDs, callouts with attached data — these all require composing `generate_diagram` with `use_figma` (via the [figma-use-figjam](../figma-use-figjam/SKILL.md) skill). This is the **hybrid workflow**.
+Mermaid không thể làm mọi thứ. Chú thích bằng sticky-note gắn vào các node cụ thể, tô màu theo domain trên từng node của ERD, các hộp chú giải (callout) kèm dữ liệu đính kèm — tất cả đều đòi hỏi phải kết hợp `generate_diagram` với `use_figma` (thông qua skill [figma-use-figjam](../figma-use-figjam/SKILL.md)). Đây là **quy trình kết hợp (hybrid workflow)**.
 
-It's a judgment call, not a default. Deploy it when the user's ask clearly benefits — skip it when the base diagram is obviously enough. Signals that say yes: user explicitly asked for notes, colors, callouts, or "X attached to each node"; they shared data that maps to specific nodes; the diagram is a shareable artifact, not a thinking sketch. Signals that say no: short/self-explanatory request, small diagram, user exploring or testing.
+Đây là quyết định dựa trên phán đoán, không phải mặc định. Triển khai nó khi yêu cầu của người dùng thực sự hưởng lợi — bỏ qua khi sơ đồ nền hiển nhiên là đủ. Dấu hiệu nên dùng: người dùng yêu cầu rõ ràng các ghi chú, màu sắc, callout hoặc "X gắn vào mỗi node"; họ chia sẻ dữ liệu ánh xạ tới từng node cụ thể; sơ đồ là một sản phẩm để chia sẻ chính thức, không phải bản nháp tư duy. Dấu hiệu không cần: yêu cầu ngắn/tự giải thích rõ ràng, sơ đồ nhỏ, người dùng đang thăm dò hoặc thử nghiệm.
 
-**If hybrid is warranted, read [references/workflow.md](./references/workflow.md) before calling `generate_diagram`** — it covers the pattern, two core recipes (annotations + color-coding), communication style, and failure handling. If not, proceed directly to Step 6.
+**Nếu quy trình kết hợp là cần thiết, hãy đọc [references/workflow.md](./references/workflow.md) trước khi gọi `generate_diagram`** — tài liệu đó trình bày mẫu thiết kế, hai công thức cốt lõi (chú thích + phân màu), phong cách giao tiếp và cách xử lý lỗi. Nếu không cần, đi thẳng tới Bước 6.
 
-## Step 6: Calling the tool
+## Bước 6: Gọi tool
 
-Required:
-- `name`: a descriptive title (shown to the user)
-- `mermaidSyntax`: the Mermaid source
+Tham số bắt buộc:
+- `name`: tiêu đề mang tính mô tả (hiển thị cho người dùng)
+- `mermaidSyntax`: mã nguồn Mermaid
 
-Optional:
-- `userIntent`: a short sentence describing what the user is trying to accomplish — helps telemetry and downstream tuning
-- `useArchitectureLayoutCode`: **only for architecture diagrams**; value is specified in `references/architecture.md`
-- `fileKey`: if the user wants the diagram added to an existing FigJam file instead of a new one
+Tham số tùy chọn:
+- `userIntent`: một câu ngắn mô tả điều người dùng đang cố đạt được — hỗ trợ telemetry và tinh chỉnh phía sau
+- `useArchitectureLayoutCode`: **chỉ dành cho sơ đồ kiến trúc**; giá trị được chỉ định trong `references/architecture.md`
+- `fileKey`: nếu người dùng muốn thêm sơ đồ vào một file FigJam hiện có thay vì tạo file mới
 
-Do **not** call `create_new_file` before `generate_diagram` — the tool creates its own file.
+**Không** gọi `create_new_file` trước `generate_diagram` — tool này tự tạo file riêng của nó.
 
-## Step 7: After generation
+## Bước 7: Sau khi sinh sơ đồ
 
-- The tool returns a link (or widget) the user can click to open the diagram in FigJam. Show it as a markdown link unless the client renders an inline widget.
-- If extensions are warranted (see Step 5), compose with `use_figma` now — the pattern and recipes are in [references/workflow.md](./references/workflow.md).
-- If the user is dissatisfied after 2 attempts at the same diagram, stop regenerating. Ask what specifically is wrong, or suggest they open it in Figma and edit manually rather than burning more tool calls.
+- Tool trả về một liên kết (hoặc widget) để người dùng bấm vào mở sơ đồ trong FigJam. Hiển thị nó dưới dạng liên kết markdown trừ khi client tự kết xuất thành widget inline.
+- Nếu cần các phần mở rộng (xem Bước 5), hãy kết hợp với `use_figma` ngay lúc này — mẫu thiết kế và công thức nằm trong [references/workflow.md](./references/workflow.md).
+- Nếu người dùng không hài lòng sau 2 lần thử trên cùng một sơ đồ, hãy dừng việc sinh lại. Hỏi rõ điểm nào chưa đúng, hoặc gợi ý họ mở trong Figma và sửa thủ công thay vì tiêu tốn thêm các lượt gọi tool.
 
-### Reuse the same file when iterating or adding related diagrams
+### Dùng lại cùng một file khi lặp lại chỉnh sửa hoặc thêm các sơ đồ liên quan
 
-Every call to `generate_diagram` without a `fileKey` creates a new FigJam file in the user's drafts. Regenerating 4 times = 4 draft files to clean up. Prefer reusing the existing file when:
+Mỗi lần gọi `generate_diagram` không có `fileKey` sẽ tạo một file FigJam mới trong mục nháp (drafts) của người dùng. Sinh lại 4 lần = 4 file nháp cần dọn dẹp. Ưu tiên dùng lại file hiện có khi:
 
-- The user is iterating on the same diagram ("try again with…", "change the labels…").
-- The user wants a follow-up diagram that lives alongside the first (e.g. a sequence diagram next to a flowchart of the same system).
+- Người dùng đang lặp lại chỉnh sửa trên cùng một sơ đồ ("thử lại với…", "đổi các nhãn…").
+- Người dùng muốn một sơ đồ tiếp nối nằm cạnh sơ đồ đầu tiên (ví dụ một sequence diagram nằm cạnh flowchart của cùng hệ thống).
 
-How to reuse:
+Cách dùng lại:
 
-1. **Pass `fileKey`** on subsequent `generate_diagram` calls. Extract from a `figma.com/board/{fileKey}/...` URL. The diagram is added to the existing file rather than creating a new one.
-2. If you want to replace the previous diagram rather than adding next to it, use the `use_figma` tool (see the `figma-use-figjam` skill) to delete the old diagram's nodes first, then call `generate_diagram` with the same `fileKey`. Or leave the old diagram and place the new one beside it — readers often benefit from seeing the history of attempts.
+1. **Truyền `fileKey`** trong các lần gọi `generate_diagram` tiếp theo. Trích xuất từ URL `figma.com/board/{fileKey}/...`. Sơ đồ sẽ được thêm vào file hiện có thay vì tạo file mới.
+2. Nếu bạn muốn thay thế sơ đồ trước đó thay vì thêm vào bên cạnh, hãy dùng tool `use_figma` (xem skill `figma-use-figjam`) để xóa các node của sơ đồ cũ trước, sau đó gọi `generate_diagram` với cùng `fileKey`. Hoặc giữ lại sơ đồ cũ và đặt sơ đồ mới bên cạnh — người đọc thường hưởng lợi khi nhìn thấy lịch sử các lần thử.
 
-Ask the user which they prefer the first time you iterate — "regenerate over the old one, or keep both side-by-side?" — and remember their answer for subsequent iterations in the session.
+Hãy hỏi người dùng xem họ thích phương án nào ngay lần đầu lặp lại — "sinh đè lên bản cũ, hay giữ cả hai bản đặt cạnh nhau?" — và ghi nhớ câu trả lời của họ cho các lần lặp tiếp theo trong phiên làm việc.

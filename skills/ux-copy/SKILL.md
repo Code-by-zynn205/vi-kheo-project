@@ -1,107 +1,109 @@
 ---
 name: ux-copy
-description: Write or review UX copy — microcopy, error messages, empty states, CTAs. Trigger with "write copy for", "what should this button say?", "review this error message", or when naming a CTA, wording a confirmation dialog, filling an empty state, or writing onboarding text.
-argument-hint: "<context or copy to review>"
+description: Viết hoặc rà soát UX copy — microcopy, thông báo lỗi, trạng thái rỗng (empty states), CTA. Kích hoạt với các yêu cầu như "write copy for", "what should this button say?", "review this error message", "viết UX copy cho", hoặc khi đặt tên nút CTA, viết hộp thoại xác nhận (confirmation dialog), điền nội dung cho empty state hay viết văn bản onboarding.
+argument-hint: "<ngữ cảnh hoặc nội dung copy cần rà soát>"
 ---
 
 # /ux-copy
 
-> If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](../../CONNECTORS.md).
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins/blob/main/design/skills/ux-copy/SKILL.md) (Anthropic).
 
-Write or review UX copy for any interface context.
+> Nếu bạn thấy các placeholder lạ hoặc cần kiểm tra công cụ nào đang được kết nối, hãy xem [CONNECTORS.md](../../CONNECTORS.md).
 
-## Usage
+Viết hoặc rà soát UX copy cho mọi ngữ cảnh giao diện.
+
+## Cách dùng
 
 ```
 /ux-copy $ARGUMENTS
 ```
 
-## What I Need From You
+## Thông tin tôi cần từ bạn
 
-- **Context**: What screen, flow, or feature?
-- **User state**: What is the user trying to do? How are they feeling?
-- **Tone**: Formal, friendly, playful, reassuring?
-- **Constraints**: Character limits, platform guidelines?
+- **Ngữ cảnh**: Màn hình, luồng hoặc tính năng nào?
+- **Trạng thái người dùng**: Người dùng đang cố làm gì? Họ đang cảm thấy thế nào?
+- **Giọng văn (Tone)**: Trang trọng, thân thiện, vui tươi hay trấn an?
+- **Ràng buộc**: Giới hạn ký tự, hướng dẫn của nền tảng (platform guidelines)?
 
-## Principles
+## Nguyên tắc
 
-1. **Clear**: Say exactly what you mean. No jargon, no ambiguity.
-2. **Concise**: Use the fewest words that convey the full meaning.
-3. **Consistent**: Same terms for the same things everywhere.
-4. **Useful**: Every word should help the user accomplish their goal.
-5. **Human**: Write like a helpful person, not a robot.
+1. **Rõ ràng**: Nói chính xác điều bạn muốn truyền đạt. Không dùng biệt ngữ, không gây mơ hồ.
+2. **Súc tích**: Dùng ít từ nhất nhưng vẫn truyền tải trọn vẹn ý nghĩa.
+3. **Nhất quán**: Dùng cùng một thuật ngữ cho cùng một khái niệm ở mọi nơi.
+4. **Hữu ích**: Mọi từ ngữ đều phải giúp người dùng đạt được mục tiêu của họ.
+5. **Tự nhiên như con người**: Viết như một người hỗ trợ tận tâm, không phải như một cỗ máy.
 
-## Copy Patterns
+## Các mẫu UX Copy (Copy Patterns)
 
-### CTAs
-- Start with a verb: "Start free trial", "Save changes", "Download report"
-- Be specific: "Create account" not "Submit"
-- Match the outcome to the label
+### Nút kêu gọi hành động (CTAs)
+- Bắt đầu bằng động từ: "Dùng thử miễn phí", "Lưu thay đổi", "Tải báo cáo"
+- Cụ thể: "Tạo tài khoản" thay vì "Gửi" (Submit)
+- Khớp nhãn nút với kết quả thực tế xảy ra
 
-### Error Messages
-Structure: What happened + Why + How to fix
-- "Payment declined. Your card was declined by your bank. Try a different card or contact your bank."
+### Thông báo lỗi (Error Messages)
+Cấu trúc: Chuyện gì đã xảy ra + Tại sao + Cách khắc phục
+- "Thanh toán bị từ chối. Thẻ của bạn đã bị ngân hàng từ chối. Hãy thử thẻ khác hoặc liên hệ ngân hàng của bạn."
 
-### Empty States
-Structure: What this is + Why it's empty + How to start
-- "No projects yet. Create your first project to start collaborating with your team."
+### Trạng thái rỗng (Empty States)
+Cấu trúc: Đây là khu vực gì + Tại sao đang trống + Cách bắt đầu
+- "Chưa có dự án nào. Hãy tạo dự án đầu tiên để bắt đầu cộng tác cùng đội nhóm của bạn."
 
-### Confirmation Dialogs
-- Make the action clear: "Delete 3 files?" not "Are you sure?"
-- Describe consequences: "This can't be undone"
-- Label buttons with the action: "Delete files" / "Keep files" not "OK" / "Cancel"
+### Hộp thoại xác nhận (Confirmation Dialogs)
+- Nêu rõ hành động: "Xóa 3 tệp?" thay vì "Bạn có chắc chắn không?"
+- Mô tả hệ quả: "Hành động này không thể hoàn tác"
+- Đặt nhãn nút theo đúng hành động: "Xóa tệp" / "Giữ lại tệp" thay vì "OK" / "Hủy"
 
 ### Tooltips
-- Concise, helpful, never obvious
+- Ngắn gọn, hữu ích, không bao giờ nói điều hiển nhiên
 
-### Loading States
-- Set expectations, reduce anxiety
+### Trạng thái đang tải (Loading States)
+- Định hình kỳ vọng, giảm bớt sự lo lắng chờ đợi
 
 ### Onboarding
-- Progressive disclosure, one concept at a time
+- Hé lộ thông tin từng bước (progressive disclosure), mỗi lần chỉ giới thiệu một khái niệm
 
-## Voice and Tone
+## Giọng văn và Sắc thái (Voice and Tone)
 
-Adapt tone to context:
-- **Success**: Celebratory but not over the top
-- **Error**: Empathetic and helpful
-- **Warning**: Clear and actionable
-- **Neutral**: Informative and concise
+Điều chỉnh sắc thái theo ngữ cảnh:
+- **Thành công (Success)**: Chúc mừng nhưng không quá đà
+- **Lỗi (Error)**: Đồng cảm và sẵn sàng hỗ trợ
+- **Cảnh báo (Warning)**: Rõ ràng và có hướng xử lý cụ thể
+- **Trung tính (Neutral)**: Đầy đủ thông tin và súc tích
 
-## Output
+## Đầu ra (Output)
 
 ```markdown
-## UX Copy: [Context]
+## UX Copy: [Ngữ cảnh]
 
-### Recommended Copy
-**[Element]**: [Copy]
+### Copy đề xuất
+**[Thành phần]**: [Nội dung copy]
 
-### Alternatives
-| Option | Copy | Tone | Best For |
-|--------|------|------|----------|
-| A | [Copy] | [Tone] | [When to use] |
-| B | [Copy] | [Tone] | [When to use] |
-| C | [Copy] | [Tone] | [When to use] |
+### Các phương án thay thế
+| Phương án | Nội dung copy | Giọng văn | Phù hợp nhất khi |
+|-----------|---------------|-----------|------------------|
+| A | [Copy] | [Tone] | [Khi nào nên dùng] |
+| B | [Copy] | [Tone] | [Khi nào nên dùng] |
+| C | [Copy] | [Tone] | [Khi nào nên dùng] |
 
-### Rationale
-[Why this copy works — user context, clarity, action-orientation]
+### Lý giải
+[Tại sao copy này hiệu quả — ngữ cảnh người dùng, độ rõ ràng, định hướng hành động]
 
-### Localization Notes
-[Anything translators should know — idioms to avoid, character expansion, cultural context]
+### Ghi chú bản địa hóa (Localization Notes)
+[Những điều người dịch cần lưu ý — thành ngữ cần tránh, độ giãn ký tự, bối cảnh văn hóa]
 ```
 
-## If Connectors Available
+## Khi có Connector khả dụng
 
-If **~~knowledge base** is connected:
-- Pull your brand voice guidelines and content style guide
-- Check for existing copy patterns and terminology standards
+Nếu **~~knowledge base** đã được kết nối:
+- Lấy tài liệu hướng dẫn giọng điệu thương hiệu (brand voice) và quy chuẩn nội dung (content style guide)
+- Kiểm tra các mẫu copy và bộ thuật ngữ chuẩn hiện có
 
-If **~~design tool** is connected:
-- View the screen context in Figma to understand the full user flow
-- Check character limits and layout constraints from the design
+Nếu **~~design tool** đã được kết nối:
+- Xem ngữ cảnh màn hình trong Figma để hiểu toàn bộ luồng người dùng
+- Kiểm tra giới hạn ký tự và ràng buộc bố cục từ thiết kế
 
-## Tips
+## Mẹo thực hành
 
-1. **Be specific about context** — "Error message when payment fails" is better than "error message."
-2. **Share your brand voice** — "We're professional but warm" helps me match your tone.
-3. **Consider the user's emotional state** — Error messages need empathy. Success messages can celebrate.
+1. **Cụ thể về ngữ cảnh** — "Thông báo lỗi khi thanh toán thất bại" tốt hơn nhiều so với chỉ nói "thông báo lỗi".
+2. **Chia sẻ giọng điệu thương hiệu** — "Chúng tôi chuyên nghiệp nhưng ấm áp" giúp tôi điều chỉnh đúng sắc thái của bạn.
+3. **Cân nhắc trạng thái cảm xúc của người dùng** — Thông báo lỗi cần sự đồng cảm. Thông báo thành công có thể mang tính chúc mừng.

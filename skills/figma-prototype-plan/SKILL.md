@@ -1,39 +1,41 @@
 ---
 name: figma-prototype-plan
-description: "Plan prototype interactions and flows for user testing in Figma. Use when asked to plan a Figma prototype, set up prototype interactions, define what to prototype for a user test, or prepare a Figma prototype for usability testing. Produces a prototype scope, interaction specification, test task scripts, and Figma setup guide."
+description: "Lập kế hoạch tương tác và luồng cho prototype phục vụ kiểm thử người dùng (user testing) trong Figma. Sử dụng khi được yêu cầu lên kế hoạch prototype Figma, thiết lập tương tác prototype, xác định phần nào cần làm prototype cho bài kiểm thử người dùng hoặc chuẩn bị prototype Figma cho kiểm thử khả năng sử dụng (usability testing). Tạo ra phạm vi prototype, đặc tả tương tác, kịch bản tác vụ kiểm thử và hướng dẫn thiết lập Figma."
 ---
 
-# Figma Prototype Plan Skill
+# Skill: Lập kế hoạch Prototype Figma (Figma Prototype Plan)
 
-Plans what to prototype in Figma and how — scoping to what the user test needs, defining every interaction, and setting up the test scenarios. Prevents over-building and ensures the prototype answers the research question.
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [mohitagw15856/pm-claude-skills](https://github.com/mohitagw15856/pm-claude-skills/blob/main/skills/figma-prototype-plan/SKILL.md) (mohitagw15856).
 
-## Required Inputs
+Lên kế hoạch những gì cần làm prototype trong Figma và cách thực hiện — khoanh vùng đúng theo nhu cầu kiểm thử người dùng, định nghĩa từng tương tác và thiết lập các kịch bản kiểm thử. Tránh việc dựng thừa thãi (over-building) và đảm bảo prototype trả lời đúng câu hỏi nghiên cứu.
 
-- **Research question** (what are you trying to learn?)
-- **Feature or flow being prototyped**
-- **Prototype fidelity** (low wireframe / mid functional / high pixel-perfect)
-- **Testing method** (moderated in-person / moderated remote / unmoderated)
-- **Number of test tasks**
+## Đầu vào Bắt buộc
 
-## Output Structure
+- **Câu hỏi nghiên cứu** (bạn đang cố gắng tìm hiểu điều gì?)
+- **Tính năng hoặc luồng cần làm prototype**
+- **Độ chi tiết của prototype** (wireframe thấp / có chức năng mức trung bình / sắc nét từng pixel ở mức cao)
+- **Phương pháp kiểm thử** (có người điều phối trực tiếp / có người điều phối từ xa / không có người điều phối)
+- **Số lượng tác vụ kiểm thử (test tasks)**
 
-### 1. Prototype Scope
+## Cấu trúc Đầu ra
 
-**In scope:** [Flows with real interactions — specific screens listed]
-**Out of scope:** [Screens to show as static — not worth building as interactive]
-**Rationale:** Prototypes should be the minimum needed to test the hypothesis.
+### 1. Phạm vi Prototype (Prototype Scope)
 
-### 2. Interaction Specification
+**Trong phạm vi (In scope):** [Các luồng có tương tác thật — liệt kê cụ thể từng màn hình]
+**Ngoài phạm vi (Out of scope):** [Các màn hình chỉ hiển thị dạng tĩnh — không đáng công dựng tương tác]
+**Lý do (Rationale):** Prototype chỉ nên ở mức tối thiểu cần thiết để kiểm chứng giả thuyết.
 
-**Interaction N: [Description]**
-- Trigger: Tap/Swipe/Hover/Form submit
-- Element: [Figma layer name]
-- Destination: [Figma frame name]
-- Animation: Instant/Dissolve/Push left/Push right/Slide up
-- Timing: [ms]
-- Reset after: Yes/No
+### 2. Đặc tả Tương tác (Interaction Specification)
 
-### 3. Prototype Flow Diagram
+**Tương tác N: [Mô tả]**
+- Kích hoạt (Trigger): Tap/Swipe/Hover/Form submit
+- Phần tử (Element): [Tên layer trong Figma]
+- Đích đến (Destination): [Tên frame trong Figma]
+- Hiệu ứng chuyển (Animation): Instant/Dissolve/Push left/Push right/Slide up
+- Thời gian (Timing): [ms]
+- Đặt lại sau khi chạy (Reset after): Có/Không (Yes/No)
+
+### 3. Sơ đồ Luồng Prototype (Prototype Flow Diagram)
 
 ```
 [Start frame]
@@ -43,52 +45,52 @@ Plans what to prototype in Figma and how — scoping to what the user test needs
   -> Tap "Cancel"   -> [Back to start]
 ```
 
-### 4. Test Task Scripts
+### 4. Kịch bản Tác vụ Kiểm thử (Test Task Scripts)
 
-**Task N: [Title]**
+**Tác vụ N: [Tiêu đề]**
 
-Scenario (read to participant):
-"[Realistic scenario giving context without directing the click path]"
+Tình huống (đọc cho người tham gia):
+"[Tình huống thực tế cung cấp bối cảnh mà không chỉ đường nhấp chuột]"
 
-Observing:
-- [What to watch for]
+Điểm cần quan sát (Observing):
+- [Những gì cần theo dõi]
 
-Success when: [Specific trigger]
+Thành công khi: [Tín hiệu kích hoạt cụ thể]
 
-### 5. Figma Setup Guide
-- Starting frame: [Name]
-- Device preview: [Device]
-- Prototype settings: background colour, show device, type
-- Sharing: Can view link, reset process between participants
+### 5. Hướng dẫn Thiết lập Figma (Figma Setup Guide)
+- Frame bắt đầu (Starting frame): [Tên]
+- Thiết bị xem trước (Device preview): [Thiết bị]
+- Cài đặt Prototype: màu nền, hiển thị khung thiết bị, loại prototype
+- Chia sẻ: Liên kết chỉ xem (Can view link), quy trình đặt lại (reset) giữa các người tham gia
 
-### 6. Build vs Fake Table
+### 6. Bảng Phân định Làm thật vs Giả lập (Build vs Fake Table)
 
-| Element | Build | Fake | Notes |
+| Phần tử | Làm thật (Build) | Giả lập (Fake) | Ghi chú |
 |---|---|---|---|
-| Primary CTA flow | Yes | | Core to research |
-| Secondary nav | | Yes | Not being tested |
-| Error state | Yes | | Testing recovery |
+| Luồng CTA chính | Có | | Trọng tâm nghiên cứu |
+| Thanh điều hướng phụ | | Có | Không nằm trong phạm vi test |
+| Trạng thái lỗi | Có | | Kiểm thử khả năng khôi phục lỗi |
 
-## Quality Checks
-- [ ] Scope limited to what the research question requires
-- [ ] Every interaction has a named destination frame
-- [ ] Task scripts are scenario-based (not "click on X")
-- [ ] Success criteria defined for each task
-- [ ] Reset process defined for between participants
+## Kiểm tra Chất lượng (Quality Checks)
+- [ ] Phạm vi giới hạn đúng theo những gì câu hỏi nghiên cứu yêu cầu
+- [ ] Mọi tương tác đều có tên frame đích cụ thể
+- [ ] Kịch bản tác vụ viết theo tình huống thực tế (không phải kiểu "bấm vào nút X")
+- [ ] Có tiêu chí thành công rõ ràng cho từng tác vụ
+- [ ] Đã định nghĩa quy trình đặt lại (reset) giữa các lượt người tham gia
 
-## Anti-Patterns
+## Các Lỗi Cần Tránh (Anti-Patterns)
 
-- [ ] Do not prototype everything — scope must be limited to the interactions that answer the specific research questions
-- [ ] Do not design prototype flows without also writing the test task scripts — the two must align exactly
-- [ ] Do not skip the reset process between participants — unsettled prototype state contaminates results
-- [ ] Do not plan a prototype without specifying which interactions are clickable vs static — ambiguity causes scope creep
-- [ ] Do not scope a prototype without first defining the research questions it needs to answer
+- [ ] Không làm prototype cho mọi thứ — phạm vi phải giới hạn ở những tương tác giúp trả lời đúng các câu hỏi nghiên cứu cụ thể
+- [ ] Không thiết kế luồng prototype mà thiếu kịch bản tác vụ kiểm thử đi kèm — cả hai phải khớp hoàn toàn với nhau
+- [ ] Không bỏ qua quy trình reset giữa các người tham gia — trạng thái prototype chưa đặt lại sẽ làm sai lệch kết quả kiểm thử
+- [ ] Không lên kế hoạch prototype mà thiếu phân định rõ tương tác nào bấm được và phần nào để tĩnh — sự mơ hồ gây phình phạm vi (scope creep)
+- [ ] Không khoanh vùng prototype khi chưa xác định rõ các câu hỏi nghiên cứu cần giải đáp
 
-## Example Trigger Phrases
+## Ví dụ Câu lệnh Kích hoạt (Trigger Phrases)
 - "Plan the Figma prototype for our user test on [feature]"
 - "What interactions do I need to build for this prototype?"
 - "Help me set up a Figma prototype for [research question]"
 - "Write the test task scripts for our [feature] prototype"
 - "What should I prototype vs leave as static screens?"
 
-Run this skill in your browser: https://mohitagw15856.github.io/pm-claude-skills/skill/figma-prototype-plan.html
+Chạy skill này trực tiếp trên trình duyệt: https://mohitagw15856.github.io/pm-claude-skills/skill/figma-prototype-plan.html

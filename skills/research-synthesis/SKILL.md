@@ -1,92 +1,94 @@
 ---
 name: research-synthesis
-description: Synthesize user research into themes, insights, and recommendations. Use when you have interview transcripts, survey results, usability test notes, support tickets, or NPS responses that need to be distilled into patterns, user segments, and prioritized next steps.
-argument-hint: "<research data, transcripts, or survey results>"
+description: Tổng hợp dữ liệu nghiên cứu người dùng thành các chủ đề (themes), insight và khuyến nghị hành động. Sử dụng khi bạn có bản ghi phỏng vấn, kết quả khảo sát, ghi chú kiểm thử khả năng sử dụng (usability test), ticket hỗ trợ hoặc phản hồi NPS cần chắt lọc thành các mô thức (patterns), phân khúc người dùng và các bước tiếp theo theo thứ tự ưu tiên.
+argument-hint: "<dữ liệu nghiên cứu, bản ghi phỏng vấn hoặc kết quả khảo sát>"
 ---
 
 # /research-synthesis
 
-> If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](../../CONNECTORS.md).
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins/blob/main/design/skills/research-synthesis/SKILL.md) (Anthropic).
 
-Synthesize user research data into actionable insights. See the **user-research** skill for research methods, interview guides, and analysis frameworks.
+> Nếu bạn thấy các placeholder lạ hoặc cần kiểm tra công cụ nào đang được kết nối, hãy xem [CONNECTORS.md](../../CONNECTORS.md).
 
-## Usage
+Tổng hợp dữ liệu nghiên cứu người dùng thành các insight có thể hành động. Xem thêm skill **user-research** để biết các phương pháp nghiên cứu, hướng dẫn phỏng vấn và khung phân tích.
+
+## Cách dùng
 
 ```
 /research-synthesis $ARGUMENTS
 ```
 
-## What I Accept
+## Dữ liệu đầu vào được hỗ trợ
 
-- Interview transcripts or notes
-- Survey results (CSV, pasted data)
-- Usability test recordings or notes
-- Support tickets or feedback
-- NPS/CSAT responses
-- App store reviews
+- Bản ghi (transcript) hoặc ghi chú phỏng vấn
+- Kết quả khảo sát (CSV, dữ liệu dán trực tiếp)
+- Bản ghi hoặc ghi chú kiểm thử khả năng sử dụng (usability test)
+- Ticket hỗ trợ hoặc phản hồi người dùng
+- Phản hồi NPS/CSAT
+- Đánh giá trên kho ứng dụng (App Store / Google Play)
 
-## Output
+## Đầu ra (Output)
 
 ```markdown
-## Research Synthesis: [Study Name]
-**Method:** [Interviews / Survey / Usability Test] | **Participants:** [X]
-**Date:** [Date range] | **Researcher:** [Name]
+## Tổng hợp nghiên cứu (Research Synthesis): [Tên nghiên cứu]
+**Phương pháp:** [Phỏng vấn / Khảo sát / Usability Test] | **Số người tham gia:** [X]
+**Thời gian:** [Khoảng ngày] | **Người nghiên cứu:** [Tên]
 
-### Executive Summary
-[3-4 sentence overview of key findings]
+### Tóm tắt điều hành (Executive Summary)
+[Tổng quan 3-4 câu về các phát hiện chính]
 
-### Key Themes
+### Các chủ đề chính (Key Themes)
 
-#### Theme 1: [Name]
-**Prevalence:** [X of Y participants]
-**Summary:** [What this theme is about]
-**Supporting Evidence:**
-- "[Quote]" — P[X]
-- "[Quote]" — P[X]
-**Implication:** [What this means for the product]
+#### Chủ đề 1: [Tên chủ đề]
+**Mức độ phổ biến:** [X trên Y người tham gia]
+**Tóm tắt:** [Chủ đề này nói về điều gì]
+**Bằng chứng hỗ trợ:**
+- "[Trích dẫn]" — P[X]
+- "[Trích dẫn]" — P[X]
+**Hàm ý:** [Điều này có ý nghĩa gì đối với sản phẩm]
 
-#### Theme 2: [Name]
-[Same format]
+#### Chủ đề 2: [Tên chủ đề]
+[Theo cùng định dạng]
 
-### Insights → Opportunities
+### Insight → Cơ hội (Opportunities)
 
-| Insight | Opportunity | Impact | Effort |
-|---------|-------------|--------|--------|
-| [What we learned] | [What we could do] | High/Med/Low | High/Med/Low |
+| Insight | Cơ hội | Tác động (Impact) | Nỗ lực (Effort) |
+|---------|--------|-------------------|-----------------|
+| [Điều chúng ta học được] | [Điều chúng ta có thể làm] | Cao/TB/Thấp | Cao/TB/Thấp |
 
-### User Segments Identified
-| Segment | Characteristics | Needs | Size |
-|---------|----------------|-------|------|
-| [Name] | [Description] | [Key needs] | [Rough %] |
+### Các phân khúc người dùng được nhận diện
+| Phân khúc | Đặc điểm | Nhu cầu | Quy mô |
+|-----------|----------|---------|--------|
+| [Tên] | [Mô tả] | [Nhu cầu chính] | [Khoảng %] |
 
-### Recommendations
-1. **[High priority]** — [Why, based on which findings]
-2. **[Medium priority]** — [Why]
-3. **[Lower priority]** — [Why]
+### Khuyến nghị
+1. **[Ưu tiên cao]** — [Lý do, dựa trên các phát hiện nào]
+2. **[Ưu tiên trung bình]** — [Lý do]
+3. **[Ưu tiên thấp hơn]** — [Lý do]
 
-### Questions for Further Research
-- [What we still don't know]
+### Câu hỏi cần nghiên cứu thêm
+- [Những điều chúng ta vẫn chưa biết]
 
-### Methodology Notes
-[How the research was conducted, any limitations or biases to note]
+### Ghi chú phương pháp luận
+[Cách nghiên cứu được tiến hành, mọi giới hạn hoặc thiên lệch (bias) cần lưu ý]
 ```
 
-## If Connectors Available
+## Khi có Connector khả dụng
 
-If **~~user feedback** is connected:
-- Pull support tickets, feature requests, and NPS responses to supplement research data
-- Cross-reference themes with real user complaints and requests
+Nếu **~~user feedback** đã được kết nối:
+- Kéo thêm ticket hỗ trợ, yêu cầu tính năng và phản hồi NPS để bổ sung dữ liệu nghiên cứu
+- Đối chiếu chéo các chủ đề với khiếu nại và yêu cầu thực tế của người dùng
 
-If **~~product analytics** is connected:
-- Validate qualitative findings with usage data and behavioral metrics
-- Quantify the impact of identified pain points
+Nếu **~~product analytics** đã được kết nối:
+- Kiểm chứng các phát hiện định tính bằng dữ liệu sử dụng và chỉ số hành vi
+- Định lượng mức độ tác động của các điểm nghẽn (pain points) đã xác định
 
-If **~~knowledge base** is connected:
-- Search for prior research studies and findings to compare against
-- Publish the synthesis to your research repository
+Nếu **~~knowledge base** đã được kết nối:
+- Tìm kiếm các nghiên cứu và phát hiện trước đây để so sánh đối chiếu
+- Xuất bản bản tổng hợp lên kho lưu trữ nghiên cứu của nhóm
 
-## Tips
+## Mẹo thực hành
 
-1. **Include raw quotes** — Direct participant quotes make insights credible and memorable.
-2. **Separate observations from interpretations** — "5 of 8 users clicked the wrong button" is an observation. "The button placement is confusing" is an interpretation.
-3. **Quantify where possible** — "Most users" is vague. "7 of 10 users" is specific.
+1. **Đưa vào trích dẫn nguyên văn** — Câu nói trực tiếp từ người tham gia giúp insight thuyết phục và dễ nhớ hơn.
+2. **Tách biệt quan sát và diễn giải** — "5 trên 8 người dùng bấm nhầm nút" là quan sát. "Vị trí đặt nút gây nhầm lẫn" là diễn giải.
+3. **Định lượng bất cứ khi nào có thể** — "Hầu hết người dùng" là mơ hồ. "7 trên 10 người dùng" là cụ thể.

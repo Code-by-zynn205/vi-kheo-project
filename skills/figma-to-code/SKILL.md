@@ -1,7 +1,7 @@
 ---
 name: figma-to-code
 description: |
-  Pixel-perfect implementation of Figma designs using Figma MCP for specifications and Chrome DevTools MCP for iterative visual validation. Use this skill when a user provides a Figma link and wants an accurate HTML/CSS implementation. The skill includes formulas for correct positioning, iterative diff-based refinement, and achieves 98%+ pixel accuracy.
+  Triển khai thiết kế Figma chuẩn từng pixel (pixel-perfect) bằng cách sử dụng Figma MCP để lấy thông số kỹ thuật và Chrome DevTools MCP để xác thực trực quan theo từng vòng lặp. Sử dụng skill này khi người dùng cung cấp một liên kết Figma và muốn có bản triển khai HTML/CSS chính xác. Skill bao gồm các công thức căn chỉnh vị trí chính xác, tinh chỉnh lặp dựa trên diff và đạt độ chính xác pixel từ 98% trở lên.
 license: MIT
 compatibility: |
   Requires: Figma MCP (Framelink), Chrome DevTools MCP, modern browser.
@@ -13,27 +13,29 @@ metadata:
   tags: figma, design, pixel-perfect, css, html, frontend
 ---
 
-# Figma to Code: Pixel-Perfect Implementation
+# Figma sang Code: Triển khai chuẩn từng Pixel
 
-This skill enables accurate implementation of Figma designs with iterative visual validation.
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [applyagency/figma-to-code-skill](https://github.com/applyagency/figma-to-code-skill/blob/main/SKILL.md) (Apply Agency).
 
-> **Agent-agnostic**: This skill works with any AI coding agent that supports the [Agent Skills standard](https://agentskills.io).
+Skill này cho phép triển khai chính xác các thiết kế Figma kèm quy trình xác thực trực quan theo từng vòng lặp.
 
-## Prerequisites
+> **Độc lập với agent (Agent-agnostic)**: Skill này hoạt động với bất kỳ AI coding agent nào hỗ trợ [tiêu chuẩn Agent Skills](https://agentskills.io).
 
-- **Figma MCP** (Framelink) - for extracting design specifications
-- **Chrome DevTools MCP** - for taking screenshots and visual comparison
-- **pixelmatch** and **pngjs** npm packages (for diff generation)
+## Điều kiện tiên quyết
 
-## Workflow Overview
+- **Figma MCP** (Framelink) - để trích xuất thông số kỹ thuật thiết kế
+- **Chrome DevTools MCP** - để chụp ảnh màn hình và đối chiếu trực quan
+- Các gói npm **pixelmatch** và **pngjs** (để tạo ảnh so sánh diff)
+
+## Tổng quan Workflow
 
 ```
 1. Extract Figma specs → 2. Create HTML/CSS → 3. Screenshot → 4. Diff compare → 5. Iterate
 ```
 
-## Step 1: Extract Figma Design Data
+## Bước 1: Trích xuất dữ liệu thiết kế Figma
 
-Use the Figma MCP to get precise specifications:
+Sử dụng Figma MCP để lấy thông số kỹ thuật chính xác:
 
 ```
 Tool: get_figma_data
@@ -43,20 +45,20 @@ Arguments:
   nodeId: "<extracted from URL: node-id=<nodeId>>"
 ```
 
-### Key Data to Extract
+### Dữ liệu quan trọng cần trích xuất
 
-From the response, capture these `globalVars.styles` values:
+Từ kết quả trả về, thu thập các giá trị `globalVars.styles` sau:
 
-| Data Type | What to Look For |
-|-----------|------------------|
+| Loại dữ liệu | Cần tìm gì |
+|--------------|------------|
 | **Dimensions** | `dimensions.width`, `dimensions.height` |
 | **Position** | `locationRelativeToParent.x`, `locationRelativeToParent.y` |
-| **Colors** | `fill_*` arrays (e.g., `['#FDFDFD']`) |
+| **Colors** | các mảng `fill_*` (ví dụ: `['#FDFDFD']`) |
 | **Typography** | `fontFamily`, `fontSize`, `fontWeight`, `lineHeight` |
-| **Spacing** | `padding`, `gap`, `margin` in layout styles |
-| **Borders** | `borderRadius`, `strokeWeight`, `stroke_*` colors |
+| **Spacing** | `padding`, `gap`, `margin` trong các layout style |
+| **Borders** | `borderRadius`, `strokeWeight`, màu `stroke_*` |
 
-### Download Icons/Images
+### Tải xuống Icon/Hình ảnh
 
 ```
 Tool: download_figma_images
@@ -69,21 +71,21 @@ Arguments:
   localPath: "<absolute-path-to-images-folder>"
 ```
 
-## Step 2: Positioning Formula
+## Bước 2: Công thức định vị (Positioning Formula)
 
-**Critical**: Figma's y-coordinates are from the TOP of the bounding box, but CSS text rendering is affected by `line-height`.
+**Quan trọng**: Tọa độ y của Figma được tính từ ĐỈNH (TOP) của bounding box, nhưng cách render văn bản trong CSS lại bị ảnh hưởng bởi `line-height`.
 
-### The Line-Height Offset Problem
+### Vấn đề lệch do Line-Height
 
-When text has `line-height > 1`, extra space is added above and below:
+Khi văn bản có `line-height > 1`, khoảng trống thừa sẽ được thêm vào ở phía trên và phía dưới:
 
 ```
 offset = (line-height - 1) × font-size ÷ 2
 ```
 
-### Solution: Two Approaches
+### Giải pháp: Hai cách tiếp cận
 
-**Option A: Compensate in CSS position**
+**Phương án A: Bù trừ trong vị trí CSS**
 ```css
 /* Figma says y: 48, font-size: 48px, line-height: 1.2 */
 /* offset = (1.2 - 1) × 48 ÷ 2 = 4.8px */
@@ -93,7 +95,7 @@ offset = (line-height - 1) × font-size ÷ 2
 }
 ```
 
-**Option B: Use line-height: 1 (Recommended)**
+**Phương án B: Sử dụng line-height: 1 (Khuyến nghị)**
 ```css
 /* Use Figma coordinates directly */
 .element {
@@ -102,23 +104,23 @@ offset = (line-height - 1) × font-size ÷ 2
 }
 ```
 
-### Position Mapping Table
+### Bảng ánh xạ vị trí
 
-| Figma Property | CSS Property |
-|----------------|--------------|
-| `locationRelativeToParent.x` | `left` (for `position: absolute`) |
-| `locationRelativeToParent.y` | `top` (adjust for line-height) |
+| Thuộc tính Figma | Thuộc tính CSS |
+|------------------|----------------|
+| `locationRelativeToParent.x` | `left` (cho `position: absolute`) |
+| `locationRelativeToParent.y` | `top` (điều chỉnh theo line-height) |
 | `dimensions.width` | `width` |
 | `dimensions.height` | `height` |
 
-## Step 3: Create HTML/CSS Structure
+## Bước 3: Tạo cấu trúc HTML/CSS
 
-### Best Practices
+### Thực hành tốt nhất (Best Practices)
 
-1. **Use absolute positioning** for precise placement within cards/containers
-2. **Match exact Figma values** for colors, border-radius, padding, gap
-3. **Load Google Fonts** if Figma uses custom fonts (e.g., Urbanist)
-4. **Add font-smoothing** for better rendering:
+1. **Sử dụng absolute positioning** để đặt vị trí chính xác bên trong các card/container
+2. **Khớp chính xác các giá trị Figma** cho màu sắc, border-radius, padding, gap
+3. **Tải Google Fonts** nếu Figma sử dụng font tùy chỉnh (ví dụ: Urbanist)
+4. **Thêm font-smoothing** để hiển thị sắc nét hơn:
 
 ```css
 body {
@@ -128,7 +130,7 @@ body {
 }
 ```
 
-### CSS Structure Template
+### Mẫu cấu trúc CSS
 
 ```css
 :root {
@@ -159,11 +161,11 @@ body {
 }
 ```
 
-## Step 4: Visual Comparison with Chrome DevTools MCP
+## Bước 4: Đối chiếu trực quan với Chrome DevTools MCP
 
-### Take Screenshot of Implementation
+### Chụp ảnh màn hình bản triển khai
 
-First, open the HTML file in Chrome and take a screenshot:
+Trước tiên, mở tệp HTML trong Chrome và chụp ảnh màn hình:
 
 ```
 Tool: new_page
@@ -172,7 +174,7 @@ Arguments:
   url: "file:///path/to/your/index.html"
 ```
 
-Wait for fonts to load, then:
+Chờ font tải xong, sau đó:
 
 ```
 Tool: take_screenshot
@@ -182,16 +184,16 @@ Arguments:
   filePath: "/path/to/output/screenshot.png"
 ```
 
-### For Element-Specific Screenshots
+### Chụp ảnh riêng từng phần tử
 
-If you need to capture just a specific element:
+Nếu bạn chỉ cần chụp một phần tử cụ thể:
 
 ```
 Tool: take_snapshot
 Server: user-chrome-devtools
 ```
 
-Then use the `uid` from the snapshot:
+Sau đó sử dụng `uid` lấy từ snapshot:
 
 ```
 Tool: take_screenshot
@@ -201,11 +203,11 @@ Arguments:
   filePath: "/path/to/output/element-screenshot.png"
 ```
 
-## Step 5: Pixel Diff Comparison
+## Bước 5: So sánh sai khác từng pixel (Pixel Diff)
 
-### Using Node.js Script
+### Sử dụng script Node.js
 
-Create a comparison script (see `references/compare.js`):
+Tạo một script so sánh (xem `references/compare.js`):
 
 ```javascript
 import pixelmatch from 'pixelmatch';
@@ -233,26 +235,26 @@ console.log(`Match rate: ${matchRate}%`);
 fs.writeFileSync('diff.png', PNG.sync.write(diff));
 ```
 
-### Interpreting the Diff
+### Diễn giải kết quả Diff
 
-| Match Rate | Status | Action |
-|------------|--------|--------|
-| 99%+ | Excellent | Done - only anti-aliasing differences |
-| 97-99% | Good | Minor tweaks needed |
-| 95-97% | Acceptable | Check positioning, fonts |
-| <95% | Needs work | Review coordinates, sizes |
+| Tỷ lệ khớp | Trạng thái | Hành động |
+|------------|------------|-----------|
+| 99%+ | Xuất sắc | Hoàn tất - chỉ còn khác biệt khử răng cưa (anti-aliasing) |
+| 97-99% | Tốt | Cần tinh chỉnh nhẹ |
+| 95-97% | Chấp nhận được | Kiểm tra lại vị trí, font chữ |
+| <95% | Cần sửa thêm | Rà soát lại tọa độ, kích thước |
 
-## Step 6: Iterative Refinement
+## Bước 6: Tinh chỉnh theo vòng lặp
 
-Based on diff results, common fixes:
+Dựa trên kết quả diff, các cách khắc phục phổ biến gồm:
 
-### Position Issues (elements shifted)
+### Lỗi vị trí (các phần tử bị lệch)
 ```css
 /* Adjust top/left values by 1-2px */
 .element { top: 47px; } /* was 48px */
 ```
 
-### Font Rendering Differences
+### Khác biệt render font
 ```css
 /* Try different font-smoothing */
 .text {
@@ -260,7 +262,7 @@ Based on diff results, common fixes:
 }
 ```
 
-### Alignment Issues with flex-end
+### Lỗi căn chỉnh với flex-end
 ```css
 /* Use margin-bottom to align to baseline */
 .label {
@@ -268,7 +270,7 @@ Based on diff results, common fixes:
 }
 ```
 
-### Size Mismatch (@2x exports)
+### Lệch kích thước (xuất @2x)
 ```css
 /* Figma exports at 2x, display at 1x */
 .original-image {
@@ -277,11 +279,11 @@ Based on diff results, common fixes:
 }
 ```
 
-## Quick Reference: Figma to CSS Mapping
+## Tra cứu nhanh: Ánh xạ Figma sang CSS
 
-| Figma Property | CSS Equivalent |
-|----------------|----------------|
-| `fill_*: ['#HEX']` | `background-color: #HEX` or `color: #HEX` |
+| Thuộc tính Figma | Tương đương trong CSS |
+|------------------|-----------------------|
+| `fill_*: ['#HEX']` | `background-color: #HEX` hoặc `color: #HEX` |
 | `borderRadius: '8px'` | `border-radius: 8px` |
 | `strokeWeight: '1px'` | `border-width: 1px` |
 | `stroke_*: ['#HEX']` | `border-color: #HEX` |
@@ -292,9 +294,9 @@ Based on diff results, common fixes:
 | `alignItems: 'center'` | `align-items: center` |
 | `justifyContent: 'center'` | `justify-content: center` |
 | `sizing.horizontal: 'hug'` | `width: fit-content` |
-| `sizing.horizontal: 'fill'` | `flex: 1` or `width: 100%` |
+| `sizing.horizontal: 'fill'` | `flex: 1` hoặc `width: 100%` |
 
-## Example: Complete Workflow
+## Ví dụ: Workflow hoàn chỉnh
 
 ```markdown
 User: "Implement this Figma design: https://figma.com/design/abc123/File?node-id=1-234"
@@ -311,33 +313,33 @@ User: "Implement this Figma design: https://figma.com/design/abc123/File?node-id
 10. Repeat until 98%+ match
 ```
 
-## Troubleshooting
+## Xử lý sự cố (Troubleshooting)
 
-### "37% is too low" - Text Position Problem
-- Check `line-height` value
-- Use `line-height: 1` for precise control
-- Subtract line-height offset from Figma y-coordinate
+### "37% bị quá thấp" - Vấn đề vị trí văn bản
+- Kiểm tra giá trị `line-height`
+- Sử dụng `line-height: 1` để kiểm soát chính xác
+- Trừ phần bù line-height khỏi tọa độ y của Figma
 
-### "Label is misaligned" - Flex Alignment Issue
-- Check if parent uses `align-items: flex-end`
-- Add `margin-bottom` to push element up to baseline
+### "Nhãn bị lệch hàng" - Vấn đề căn chỉnh Flex
+- Kiểm tra xem phần tử cha có dùng `align-items: flex-end` không
+- Thêm `margin-bottom` để đẩy phần tử lên đúng đường cơ sở (baseline)
 
-### "Colors don't match"
-- Ensure you're using exact hex values from Figma
-- Check if element has multiple fills (use first one)
+### "Màu sắc không khớp"
+- Đảm bảo bạn đang dùng chính xác mã hex từ Figma
+- Kiểm tra xem phần tử có nhiều fill không (sử dụng fill đầu tiên)
 
-### "Screenshot size doesn't match"
-- Figma may export at 2x (retina)
-- Use `deviceScaleFactor: 2` when taking screenshots
-- Or scale original image to 1x for comparison
+### "Kích thước ảnh chụp màn hình không khớp"
+- Figma có thể xuất ảnh ở mức 2x (retina)
+- Sử dụng `deviceScaleFactor: 2` khi chụp ảnh màn hình
+- Hoặc thu nhỏ ảnh gốc về tỷ lệ 1x để so sánh
 
 ---
 
-## Installation & Distribution
+## Cài đặt & Phân phối
 
-### For Personal/Team Use
+### Dành cho cá nhân/nhóm
 
-Place this skill folder in one of these locations:
+Đặt thư mục skill này vào một trong các vị trí sau:
 
 ```
 # Project-level (recommended for team sharing)
@@ -347,12 +349,12 @@ your-project/.cursor/skills/figma-to-code/
 your-project/figma-to-code/
 ```
 
-### Publishing to GitHub
+### Đưa lên GitHub
 
-To share this skill publicly:
+Để chia sẻ skill này công khai:
 
-1. Create a public GitHub repository
-2. Structure it as:
+1. Tạo một repository GitHub công khai (public)
+2. Tổ chức cấu trúc như sau:
    ```
    your-repo/
    └── figma-to-code/
@@ -360,11 +362,11 @@ To share this skill publicly:
        ├── scripts/
        └── references/
    ```
-3. Others can clone or reference your repo
+3. Người khác có thể clone hoặc tham chiếu đến repo của bạn
 
-### Discovery
+### Khám phá (Discovery)
 
-Published skills can be discovered via:
-- GitHub search for "agent-skills" or "SKILL.md"
-- Community collections like [awesome-agent-skills](https://github.com/skillmatic-ai/awesome-agent-skills)
-- Agent-specific skill directories
+Các skill đã phát hành có thể được tìm thấy qua:
+- Tìm kiếm trên GitHub với từ khóa "agent-skills" hoặc "SKILL.md"
+- Các bộ sưu tập cộng đồng như [awesome-agent-skills](https://github.com/skillmatic-ai/awesome-agent-skills)
+- Các thư mục skill riêng của từng agent

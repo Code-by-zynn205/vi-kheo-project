@@ -1,87 +1,93 @@
 ---
 name: figma-generate-design
-description: "Use this skill alongside figma-use when the task involves translating an application page, view, or multi-section layout into Figma. Triggers: 'write to Figma', 'create in Figma from code', 'push page to Figma', 'take this app/page and build it in Figma', 'create a screen', 'build a landing page in Figma', 'update the Figma screen to match code', 'convert this modal/dialog/drawer/panel to Figma'. This is the preferred workflow skill whenever the user wants to build or update a full page, modal, dialog, drawer, sidebar, panel, form, dashboard, list, table, card, header, message preview, or other composed product UI in Figma from code or a description—even when the user calls that composed UI a component. Discovers design system components, variables, and styles from Code Connect files, existing screens, and library search, then imports them and assembles views incrementally section-by-section using design system tokens instead of hardcoded values."
+description: "Sử dụng skill này cùng với `figma-use` khi tác vụ liên quan đến việc chuyển đổi một trang ứng dụng, khung nhìn (view), hoặc bố cục nhiều phần sang Figma. Các từ khóa kích hoạt: 'write to Figma', 'create in Figma from code', 'push page to Figma', 'take this app/page and build it in Figma', 'create a screen', 'build a landing page in Figma', 'update the Figma screen to match code', 'convert this modal/dialog/drawer/panel to Figma'. Đây là skill quy trình ưu tiên bất cứ khi nào người dùng muốn dựng hoặc cập nhật toàn bộ trang, modal, dialog, drawer, sidebar, panel, form, dashboard, list, table, card, header, bản xem trước tin nhắn, hoặc các UI sản phẩm tổng hợp khác trong Figma từ code hoặc mô tả — ngay cả khi người dùng gọi UI tổng hợp đó là một component. Skill giúp khám phá các component, variable và style của design system từ các file Code Connect, màn hình hiện có và tìm kiếm thư viện, sau đó import chúng và lắp ráp khung nhìn từng bước theo từng phần bằng các token của design system thay vì giá trị hardcode."
 disable-model-invocation: false
 ---
-# Build / Update Screens and Views from Design System
-**Hard deliverable gate:** Code-to-design output must recreate the UI as editable text, components, icons, and hierarchy.
-Treat any screenshot or flattened rendering of the complete UI only as a visual reference: never upload or import it into the deliverable, including as the wrapper fill or a child node, even if it exists in the repository or appears more pixel-accurate. Before completion, inspect the result; if the UI is not primarily represented by editable layers, rebuild it semantically or report failure.
+# Xây dựng / Cập nhật Màn hình và Khung nhìn từ Design System
 
-Use this skill to create or update **screens, views, and multi-section UI containers** in Figma by **reusing the published design system** — components, variables, and styles — rather than drawing primitives with hardcoded values. This includes full pages, modals, dialogs, drawers, sidebars, panels, and any composed view with multiple sections. The key insight: the Figma file likely has a published design system with components, color/spacing variables, and text/effect styles that correspond to the codebase's UI components and tokens. Find and use those instead of drawing boxes with hex colors.
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [figma/mcp-server-guide](https://github.com/figma/mcp-server-guide/blob/main/skills/figma-generate-design/SKILL.md) (Figma chính thức).
 
-**MANDATORY**: You MUST also load [figma-use](../figma-use/SKILL.md) before any `use_figma` call. That skill contains critical rules (color ranges, font loading, etc.) that apply to every script you write.
+**Chốt chặn sản phẩm bàn giao cứng (Hard deliverable gate):** Đầu ra từ code sang thiết kế phải tái tạo giao diện dưới dạng văn bản chỉnh sửa được, các component, biểu tượng (icon) và cấu trúc phân cấp rõ ràng.
+Chỉ coi bất kỳ ảnh chụp màn hình (screenshot) hay bản kết xuất phẳng (flattened rendering) nào của toàn bộ UI là tài liệu tham khảo trực quan: tuyệt đối không upload hoặc import nó vào sản phẩm bàn giao, kể cả dưới dạng fill của khung bọc ngoài (wrapper fill) hay một node con, ngay cả khi nó có sẵn trong repository hoặc trông giống pixel hơn. Trước khi hoàn tất, hãy kiểm tra kết quả; nếu UI không được biểu diễn chủ yếu bằng các layer chỉnh sửa được, hãy dựng lại theo ngữ nghĩa (semantically) hoặc báo thất bại.
 
-When available, call `create_session` with `fileKey` and `description` before file reads or edits (create the file first if needed), then pass the returned `sessionId` unchanged to every call that accepts it, including follow-ups and work across files.
+Sử dụng skill này để tạo mới hoặc cập nhật **màn hình, khung nhìn (view) và các container UI nhiều phần** trong Figma bằng cách **tái sử dụng design system đã xuất bản (published)** — các component, variable và style — thay vì vẽ các hình khối cơ bản với giá trị hardcode. Phạm vi này bao gồm toàn bộ trang, modal, dialog, drawer, sidebar, panel và bất kỳ khung nhìn tổng hợp nào có nhiều phần. Điểm mấu chốt: file Figma nhiều khả năng đã có một design system được xuất bản chứa các component, variable màu/khoảng cách và text/effect style tương ứng với các UI component và token trong codebase. Hãy tìm và sử dụng chúng thay vì vẽ các khung hộp với mã màu hex.
 
-**Always include `figma-generate-design` in the comma-separated `skillNames` parameter when calling `use_figma` as part of this skill. If this skill was loaded via an MCP resource, you MUST prefix the name with `resource:` (e.g. `resource:figma-generate-design`).** This is a logging parameter — it does not affect execution.
-## Image and vector assets
-Reuse available source, captured, or library assets first. If suitable assets are unavailable, use Figma’s `generate_image` for raster images or `generate_vector_illustration` for editable icons, logos, and illustrations.
-## Skill Boundaries
+**BẮT BUỘC**: Bạn PHẢI nạp thêm [figma-use](../figma-use/SKILL.md) trước bất kỳ lệnh gọi `use_figma` nào. Skill đó chứa các quy tắc quan trọng (thang màu, nạp font, v.v.) áp dụng cho mọi script bạn viết.
 
-- Use this skill when the deliverable is a **composed Figma view** (new or updated) — including a form, dashboard, list, table, card, header, panel, dialog, message preview, or other multi-section container — built from design system component instances. This applies even when the user calls the composed view a component.
-- If the primary deliverable is a **reusable library primitive or foundation** intended for variants, tokens, or publication, use [figma-generate-library](../figma-generate-library/SKILL.md) with [figma-use](../figma-use/SKILL.md) instead.
-- If the user wants to write **Code Connect mappings**, switch to [figma-code-connect](../figma-code-connect/SKILL.md).
+Khi khả dụng, hãy gọi `create_session` với `fileKey` và `description` trước khi đọc hoặc chỉnh sửa file (tạo file trước nếu cần), sau đó truyền nguyên vẹn `sessionId` trả về vào mọi lệnh gọi có nhận tham số này, bao gồm cả các bước tiếp theo và công việc xuyên suốt nhiều file.
 
-## Prerequisites
+**Luôn đưa `figma-generate-design` vào tham số `skillNames` phân tách bằng dấu phẩy khi gọi `use_figma` trong khuôn khổ skill này. Nếu skill này được nạp qua MCP resource, bạn BẮT BUỘC phải thêm tiền tố `resource:` vào tên (ví dụ: `resource:figma-generate-design`).** Đây là tham số ghi log — không ảnh hưởng đến quá trình thực thi.
 
-- Figma MCP server must be connected
-- The target Figma file must have a published design system with components (or access to a team library)
-- User must provide a target Figma file (URL or `fileKey`). If they don't have one yet, invoke `/figma-create-new-file` (or call `create_new_file`) first and reuse the returned file_key. Both `use_figma` and `generate_figma_design` require an existing `fileKey`.
-- Source code or description of the screen/view to build/update
+## Tài nguyên hình ảnh và vector
 
-## Parallel Workflow with generate_figma_design (Web Apps Only)
+Ưu tiên tái sử dụng các asset từ mã nguồn, bản chụp (captured) hoặc thư viện sẵn có trước. Nếu không có asset phù hợp, hãy dùng `generate_image` của Figma cho ảnh raster hoặc `generate_vector_illustration` cho các icon, logo và hình minh họa có thể chỉnh sửa.
 
-When building a screen from a **web app** that can be rendered in a browser, the best results come from running both approaches in parallel:
+## Phạm vi ranh giới của Skill
 
-1. **In parallel:**
-   - Start building the screen using this skill's workflow (use_figma + design system components) against the target Figma file (`fileKey`).
-   - Run `generate_figma_design` against the **same `fileKey`** to capture a pixel-perfect screenshot of the running web app into that file. `generate_figma_design` always requires `fileKey` — if the user does not yet have a Figma file, first invoke `/figma-create-new-file` (or call the `create_new_file` MCP tool) to get one, and reuse that file_key for both this skill and the capture.
-2. **Once both complete:** Update the use_figma output to match the pixel-perfect layout from the `generate_figma_design` capture. The capture provides the exact spacing, sizing, and visual treatment to aim for, while your use_figma output has proper component instances linked to the design system. If the capture contains images, transfer them to your use_figma output by copying `imageHash` values from the capture's image fills (see Step 5 for details).
-3. **Once confirmed looking good:** Delete the `generate_figma_design` output — it was only used as a visual reference.
+- Sử dụng skill này khi sản phẩm bàn giao là một **khung nhìn Figma tổng hợp (composed Figma view)** (tạo mới hoặc cập nhật) — bao gồm form, dashboard, danh sách, bảng, card, header, panel, dialog, bản xem trước tin nhắn hoặc các container nhiều phần khác — được dựng từ các instance component của design system. Điều này áp dụng ngay cả khi người dùng gọi khung nhìn tổng hợp đó là một component.
+- Nếu sản phẩm bàn giao chính là một **thành phần cơ sở hoặc nền tảng thư viện tái sử dụng** dành cho các variant, token hoặc xuất bản (publication), hãy dùng [figma-generate-library](../figma-generate-library/SKILL.md) cùng với [figma-use](../figma-use/SKILL.md).
+- Nếu người dùng muốn viết **các ánh xạ Code Connect**, hãy chuyển sang [figma-code-connect](../figma-code-connect/SKILL.md).
 
-This combines the best of both: `generate_figma_design` gives pixel-perfect layout accuracy, while use_figma gives proper design system component instances that stay linked and updatable.
+## Điều kiện tiên quyết
 
-**This parallel workflow is MANDATORY when the source contains discrete content images used by the app, such as photos, avatars, logos, or icons. A screenshot or flattened rendering of the complete UI is a visual reference, not a content image.** The `use_figma` Plugin API cannot fetch external image URLs — it can only set image fills by copying `imageHash` values from nodes already in the file. `generate_figma_design` rasterizes all visible images into Figma, providing the hashes you need. If you skip the capture when these content images are present, their image frames will be left blank.
+- Figma MCP server phải được kết nối.
+- File Figma đích phải có một design system đã xuất bản kèm các component (hoặc có quyền truy cập vào thư viện nhóm - team library).
+- Người dùng phải cung cấp file Figma đích (URL hoặc `fileKey`). Nếu họ chưa có, hãy kích hoạt `/figma-create-new-file` (hoặc gọi `create_new_file`) trước và dùng lại `file_key` trả về. Cả `use_figma` và `generate_figma_design` đều yêu cầu một `fileKey` đã tồn tại.
+- Mã nguồn hoặc mô tả của màn hình/khung nhìn cần dựng hoặc cập nhật.
 
-For non-web apps (iOS, Android, etc.) or when updating existing screens, use the standard workflow below.
+## Quy trình song song với generate_figma_design (Chỉ dành cho Web App)
 
-## Required Workflow
+Khi dựng một màn hình từ một **web app** có thể kết xuất trên trình duyệt, kết quả tốt nhất đạt được khi chạy song song cả hai hướng tiếp cận:
 
-**Follow these steps in order. Do not skip steps.**
+1. **Chạy song song:**
+   - Bắt đầu dựng màn hình theo quy trình của skill này (`use_figma` + các component của design system) trên file Figma đích (`fileKey`).
+   - Chạy `generate_figma_design` vào **cùng `fileKey` đó** để chụp lại bản kết xuất chính xác từng pixel của web app đang chạy vào file đó. `generate_figma_design` luôn yêu cầu `fileKey` — nếu người dùng chưa có file Figma, trước tiên hãy kích hoạt `/figma-create-new-file` (hoặc gọi MCP tool `create_new_file`) để lấy file và dùng lại `file_key` đó cho cả skill này lẫn quá trình chụp.
+2. **Khi cả hai hoàn tất:** Cập nhật đầu ra từ `use_figma` để khớp với bố cục chính xác từng pixel từ bản chụp `generate_figma_design`. Bản chụp cung cấp chính xác khoảng cách, kích thước và cách xử lý trực quan cần hướng tới, trong khi đầu ra `use_figma` của bạn chứa các component instance chuẩn liên kết với design system. Nếu bản chụp có chứa hình ảnh, hãy chuyển chúng sang đầu ra `use_figma` của bạn bằng cách sao chép các giá trị `imageHash` từ image fill của bản chụp (xem Bước 5 để biết chi tiết).
+3. **Sau khi xác nhận hiển thị tốt:** Xóa đầu ra của `generate_figma_design` — nó chỉ được dùng làm tài liệu tham khảo trực quan.
 
-> **Required invariants:**
+Cách này kết hợp ưu điểm của cả hai: `generate_figma_design` đem lại độ chính xác bố cục từng pixel, còn `use_figma` đem lại các component instance chuẩn của design system luôn được liên kết và cập nhật được.
+
+**Quy trình song song này là BẮT BUỘC khi mã nguồn chứa các hình ảnh nội dung riêng lẻ mà ứng dụng sử dụng, chẳng hạn như ảnh chụp, avatar, logo hoặc icon. Ảnh chụp màn hình hay bản kết xuất phẳng của toàn bộ UI chỉ là tài liệu tham khảo trực quan, không phải ảnh nội dung.** Plugin API của `use_figma` không thể tải các URL hình ảnh bên ngoài — nó chỉ có thể đặt image fill bằng cách sao chép giá trị `imageHash` từ các node đã có trong file. `generate_figma_design` raster hóa toàn bộ hình ảnh hiển thị vào Figma, cung cấp các mã hash bạn cần. Nếu bạn bỏ qua bước chụp khi có các ảnh nội dung này, các khung ảnh của chúng sẽ bị bỏ trống.
+
+Đối với các ứng dụng không phải web (iOS, Android, v.v.) hoặc khi cập nhật màn hình có sẵn, hãy dùng quy trình tiêu chuẩn dưới đây.
+
+## Quy trình bắt buộc
+
+**Thực hiện các bước sau theo đúng thứ tự. Không bỏ qua bước nào.**
+
+> **Các bất biến bắt buộc:**
 >
-> - Complete Code Connect discovery and select the target library before mutating the deliverable. Discovery-only imports and temporary instances are allowed; remove temporary instances immediately.
-> - Apply each selected asset where it is imported. If an import fails, try the next applicable exact result before building a manual fallback.
+> - Hoàn tất khám phá Code Connect và chọn thư viện đích trước khi chỉnh sửa sản phẩm bàn giao. Các lệnh import chỉ phục vụ khám phá và các instance tạm thời được phép dùng; phải xóa bỏ instance tạm ngay lập tức.
+> - Áp dụng từng asset đã chọn tại nơi nó được import. Nếu lệnh import thất bại, hãy thử kết quả khớp chính xác phù hợp tiếp theo trước khi tự dựng phương án dự phòng thủ công.
 
-### Step 1: Understand the Deliverable
+### Bước 1: Hiểu rõ sản phẩm bàn giao
 
-Before touching Figma, understand what you're building:
+Trước khi chạm vào Figma, hãy hiểu rõ bạn đang dựng gì:
 
-1. If building from code, read the relevant source files to understand the structure, sections, and which components are used.
-2. Identify the major sections of the view (e.g., for a page: Header, Hero, Content Panels, Footer; for a modal: Title Bar, Form Sections, Action Bar; for a sidebar: Navigation, Content Area, Footer Actions).
-3. For each section, list the UI components involved (buttons, inputs, cards, navigation pills, accordions, etc.).
-4. **Identify the product's font family from the source. Do not default to Inter.** Find *which* typeface the product uses before writing any script. See [references/discover-product-font.md](references/discover-product-font.md) for where to look (CSS variables, component files) and how to resolve messy Figma font names.
-5. **Check whether the view contains any images** (e.g., `<img>`, `<Image>`, background images, product photos, avatars, icons loaded from URLs). If it does and this is a web app, you **must** run the parallel `generate_figma_design` capture workflow — start it immediately alongside Step 2 so the capture runs while you discover components. See "Parallel Workflow with generate_figma_design" above.
+1. Nếu dựng từ code, đọc các file mã nguồn liên quan để hiểu cấu trúc, các section và những component nào được sử dụng.
+2. Xác định các section chính của khung nhìn (ví dụ, với một trang: Header, Hero, Content Panels, Footer; với một modal: Title Bar, Form Sections, Action Bar; với một sidebar: Navigation, Content Area, Footer Actions).
+3. Với mỗi section, liệt kê các UI component tham gia (button, input, card, navigation pill, accordion, v.v.).
+4. **Xác định font family của sản phẩm từ mã nguồn. Không mặc định chọn Inter.** Hãy tìm xem sản phẩm sử dụng *kiểu chữ* nào trước khi viết bất kỳ script nào. Xem [references/discover-product-font.md](references/discover-product-font.md) để biết nơi tìm (CSS variables, file component) và cách xử lý tên font Figma rắc rối.
+5. **Kiểm tra xem khung nhìn có chứa hình ảnh nào không** (ví dụ `<img>`, `<Image>`, ảnh nền, ảnh sản phẩm, avatar, icon tải từ URL). Nếu có và đây là web app, bạn **bắt buộc** chạy quy trình chụp `generate_figma_design` song song — khởi chạy nó ngay cùng với Bước 2 để bản chụp chạy trong lúc bạn khám phá component. Xem mục "Quy trình song song với generate_figma_design" ở trên.
 
-### Step 2: Collect Component Keys, Variables, and Styles
+### Bước 2: Thu thập Component Keys, Variables và Styles
 
-You need three things from the design system: **components** (buttons, cards, etc.), **variables** (colors, spacing, radii), and **styles** (text styles, effect styles like shadows). Don't hardcode hex colors or pixel values when design system tokens exist.
+Bạn cần ba thứ từ design system: **components** (buttons, cards, v.v.), **variables** (màu sắc, khoảng cách, bo góc), và **styles** (text styles, effect styles như đổ bóng). Không hardcode mã màu hex hay giá trị pixel khi đã có design system token.
 
-#### 2a: Discover components
+#### 2a: Khám phá components
 
-**2a-i — REQUIRED: Check Code Connect for needed components.** Starting from the component list you built in Step 1, check whether each component has a Code Connect file in the codebase. Code Connect files live next to the component source and are named by platform:
+**2a-i — BẮT BUỘC: Kiểm tra Code Connect cho các component cần dùng.** Bắt đầu từ danh sách component đã lập ở Bước 1, kiểm tra xem mỗi component có file Code Connect trong codebase hay không. Các file Code Connect nằm cạnh mã nguồn component và được đặt tên theo nền tảng:
 
 - **TypeScript/JS**: `*.figma.ts`, `*.figma.js`
-- **React (parser-based)**: `*.figma.tsx`
-- **Kotlin/Compose**: `.kt` files containing `@FigmaConnect`
-- **Swift**: `.swift` files containing `FigmaConnect`
+- **React (dựa trên parser)**: `*.figma.tsx`
+- **Kotlin/Compose**: các file `.kt` chứa `@FigmaConnect`
+- **Swift**: các file `.swift` chứa `FigmaConnect`
 
-For each component you need (e.g., Button, Card, Input), search for its Code Connect file — glob or grep by component name (e.g., `**/Button.figma.tsx`, `**/Card.figma.ts`). Only read files that match components you actually need.
+Với mỗi component bạn cần (ví dụ: Button, Card, Input), tìm file Code Connect của nó — glob hoặc grep theo tên component (ví dụ `**/Button.figma.tsx`, `**/Card.figma.ts`). Chỉ đọc các file khớp với component bạn thực sự cần.
 
-From each matching Code Connect file, extract the Figma component URL. Parse `fileKey` and `nodeId` from the URL (convert hyphens to colons: `123-456` → `123:456`). Then resolve component keys via `use_figma`:
+Từ mỗi file Code Connect khớp, trích xuất URL component Figma. Phân tách `fileKey` và `nodeId` từ URL (chuyển dấu gạch ngang thành dấu hai chấm: `123-456` → `123:456`). Sau đó phân giải component key qua `use_figma`:
 
-**Example:** Code Connect file contains `// url=https://figma.com/design/ABC123/File?node-id=609-35535`. Parse `fileKey` = `ABC123`, `nodeId` = `609:35535`. Run `use_figma` against the **library file** (fileKey `ABC123`, not the target file) to resolve the key:
+**Ví dụ:** File Code Connect chứa `// url=https://figma.com/design/ABC123/File?node-id=609-35535`. Phân tách `fileKey` = `ABC123`, `nodeId` = `609:35535`. Chạy `use_figma` nhắm vào **file thư viện** (`fileKey` `ABC123`, không phải file đích) để lấy key:
 
 ```js
 const node = await figma.getNodeByIdAsync("609:35535");
@@ -95,13 +101,13 @@ if (set?.type === "COMPONENT") {
 throw new Error("Expected a component or component set");
 ```
 
-Batch multiple lookups in a single call. Use the returned keys with either `importComponentByKeyAsync()` or `importComponentSetByKeyAsync()` depending on each item's `assetType` in Step 4.
+Gom nhiều lượt tra cứu vào một lần gọi duy nhất. Dùng các key trả về với `importComponentByKeyAsync()` hoặc `importComponentSetByKeyAsync()` tùy theo `assetType` của từng mục ở Bước 4.
 
-Mark resolved components and continue with unresolved ones.
+Đánh dấu các component đã tìm thấy và tiếp tục xử lý các component chưa giải quyết được.
 
-**2a-ii — REQUIRED: Select the library scope, then search and inspect the whole view.** Call `get_libraries`. If the user names one or more libraries, use their exact keys whether they appear in `libraries_added_to_file` or `libraries_available_to_add`. Otherwise search across all libraries in `libraries_added_to_file` together. Pass the selected keys in `includeLibraryKeys` on every search. Only when unresolved gaps have no suitable match, add specifically relevant libraries from `libraries_available_to_add` and retry those unresolved queries; do not broaden to unrelated available libraries. In the first batched `search_design_system` call, include one component query for the requested view or flow alongside queries for unresolved items already known from source or Code Connect inspection. Name the whole-view query by purpose and container (for example, `billing settings drawer`). Inspect the strongest candidate. If it covers two or more requested sections, select it as a foundation; otherwise continue without a whole-view composite.
+**2a-ii — BẮT BUỘC: Chọn phạm vi thư viện, sau đó tìm kiếm và kiểm tra toàn bộ khung nhìn.** Gọi `get_libraries`. Nếu người dùng nêu tên một hoặc nhiều thư viện, hãy dùng chính xác key của chúng bất kể chúng nằm trong `libraries_added_to_file` hay `libraries_available_to_add`. Ngược lại, hãy tìm kiếm đồng thời trên tất cả thư viện có trong `libraries_added_to_file`. Truyền các key đã chọn vào `includeLibraryKeys` trong mọi lần tìm kiếm. Chỉ khi các phần còn thiếu chưa giải quyết được không có kết quả khớp phù hợp, mới thêm cụ thể các thư viện liên quan từ `libraries_available_to_add` và thử lại các truy vấn chưa giải quyết đó; không mở rộng sang các thư viện khả dụng không liên quan. Trong lần gọi `search_design_system` gom nhóm đầu tiên, đưa vào một truy vấn component cho khung nhìn hoặc luồng được yêu cầu cùng với các truy vấn cho các mục chưa giải quyết đã biết từ mã nguồn hoặc kiểm tra Code Connect. Đặt tên truy vấn toàn khung nhìn theo mục đích và loại container (ví dụ: `billing settings drawer`). Kiểm tra ứng viên mạnh nhất. Nếu nó bao phủ từ hai section được yêu cầu trở lên, chọn nó làm nền tảng; nếu không, tiếp tục mà không dùng mẫu ghép toàn khung nhìn.
 
-**2a-iii — Inspect existing screens.** Check if the target file already contains screens using the same design system. One read-only `use_figma` call inventories an existing frame — its component keys, bound variables, and text/effect styles — in a single authoritative pass. Run it once here and reuse the result in 2b and 2c rather than re-walking the frame:
+**2a-iii — Kiểm tra các màn hình hiện có.** Kiểm tra xem file đích đã có sẵn các màn hình dùng cùng design system hay chưa. Một lần gọi `use_figma` chỉ đọc duy nhất sẽ thống kê toàn bộ một frame sẵn có — các component key, bound variable và text/effect style của nó — trong một lượt duyệt tin cậy. Chạy một lần ở đây và tái sử dụng kết quả cho mục 2b và 2c thay vì duyệt lại frame:
 
 ```js
 const frame = figma.currentPage.findOne(n => n.name === "Existing Screen");
@@ -139,9 +145,9 @@ return {
 };
 ```
 
-Match `components` against your unresolved components; Code Connect keys from 2a-i stay authoritative. Mark any newly resolved.
+Đối chiếu `components` với các component chưa giải quyết của bạn; các key từ Code Connect ở 2a-i vẫn giữ quyền ưu tiên chuẩn xác nhất. Đánh dấu các mục mới giải quyết được.
 
-**2a-iv — Search only the gaps needed for construction.** After Code Connect, whole-view discovery, and existing-screen inspection, search for unresolved components and tokens the design still needs. Batch independent one-intent entries, keep `includeLibraryKeys` restricted to the selected library scope, and carry selected keys into the build. Do not delay construction to exhaustively search every unresolved role.
+**2a-iv — Chỉ tìm kiếm các phần còn thiếu phục vụ dựng hình.** Sau bước Code Connect, khám phá toàn khung nhìn và kiểm tra màn hình hiện có, hãy tìm kiếm các component và token còn chưa giải quyết mà thiết kế vẫn cần. Gom nhóm các mục truy vấn đơn mục đích độc lập, giữ `includeLibraryKeys` giới hạn trong phạm vi thư viện đã chọn và mang các key chọn được vào bước dựng. Đừng trì hoãn việc dựng hình chỉ để tìm kiếm cạn kiệt mọi vai trò chưa giải quyết.
 
 ```
 // Step 1: Discover available libraries
@@ -156,16 +162,16 @@ get_libraries({ fileKey })
 search_design_system({ queries: [{ entity: "component", query: "button" }], fileKey, includeLibraryKeys: ["lk-abc123..."] })
 ```
 
-Org libraries in `libraries_available_to_add` are paginated (20 per page). When `libraries_available_to_add_next_offset` is non-null, more org libraries are available — call `get_libraries` again with `offset` set to that value to fetch the next page. Community UI kits only appear on the first page. If the user names a specific library you don't see in the current page, page further before giving up.
+Các thư viện tổ chức (org libraries) trong `libraries_available_to_add` được phân trang (20 mục mỗi trang). Khi `libraries_available_to_add_next_offset` khác null, nghĩa là còn thêm thư viện tổ chức — hãy gọi lại `get_libraries` với `offset` bằng giá trị đó để lấy trang tiếp theo. Các Community UI kit chỉ xuất hiện ở trang đầu tiên. Nếu người dùng nêu tên một thư viện cụ thể mà bạn chưa thấy ở trang hiện tại, hãy lật tiếp trang trước khi bỏ cuộc.
 
-This is especially useful when the file has many libraries and you want targeted results (e.g. searching only within "iOS 26" or "Material 3" instead of getting matches from every library).
+Điều này đặc biệt hữu ích khi file có nhiều thư viện và bạn muốn kết quả khoanh vùng (ví dụ chỉ tìm trong "iOS 26" hoặc "Material 3" thay vì nhận kết quả từ mọi thư viện).
 
-**Use one intent per query.** `search_design_system` does not apply OR semantics, so never pack alternatives or synonyms into one string ("Button IconButton icon" matches nothing useful). Use an exact design-system name or component type when known; otherwise search by the asset's UI role, such as "archive action icon" or "primary submit button".
-Map every selected key to a section or property. Reuse applicable composite descendants instead of building parallel replacements, and keep nested instances intact unless only an example/template wrapper must be detached.
+**Mỗi truy vấn chỉ mang một ý định (one intent per query).** `search_design_system` không áp dụng ngữ nghĩa OR, vì vậy đừng bao giờ nhồi nhiều từ thay thế hoặc đồng nghĩa vào cùng một chuỗi ("Button IconButton icon" sẽ không khớp gì hữu ích). Dùng tên chính xác trong design system hoặc loại component khi đã biết; nếu không hãy tìm theo vai trò UI của asset, ví dụ "archive action icon" hoặc "primary submit button".
+Ánh xạ mọi key đã chọn vào một section hoặc property. Tái sử dụng các thành phần con tổng hợp phù hợp thay vì dựng bản thay thế song song, và giữ nguyên các nested instance trừ khi chỉ là vỏ bọc ví dụ/mẫu (template wrapper) bắt buộc phải detach.
 
-**Include component properties** in your map — you need to know which TEXT properties each component exposes for text overrides. Create a temporary instance, read its `componentProperties` (and those of nested instances), then remove the temp instance.
+**Đưa các component property vào bản đồ ánh xạ** — bạn cần biết mỗi component phơi bày những TEXT property nào để ghi đè văn bản. Tạo một instance tạm, đọc `componentProperties` của nó (và của các nested instance), sau đó xóa instance tạm đó đi.
 
-Example component map with property info:
+Ví dụ bản đồ component kèm thông tin thuộc tính:
 
 ```
 Component Map:
@@ -177,42 +183,42 @@ Component Map:
   Nested "Button" has: { "Label#2:0": TEXT }
 ```
 
-#### 2b: Discover variables (colors, spacing, radii)
+#### 2b: Khám phá variables (màu sắc, khoảng cách, bo góc)
 
-**Inspect existing screens first.** Reuse `variables` from the 2a-iii inventory; if that step was skipped, run the inventory here when an existing screen is available. For unresolved variables, use `search_design_system` with `queries` entries whose `entity` is `"variable"`.
+**Kiểm tra các màn hình hiện có trước.** Tái sử dụng `variables` từ danh sách kiểm kê ở bước 2a-iii; nếu bước đó bị bỏ qua, hãy chạy kiểm kê tại đây khi có màn hình sẵn có. Với các variable chưa giải quyết, dùng `search_design_system` với các mục `queries` có `entity` là `"variable"`.
 
-> **WARNING: Two different variable discovery methods — do not confuse them.**
+> **CẢNH BÁO: Hai phương pháp khám phá variable khác nhau — tuyệt đối không nhầm lẫn.**
 >
-> - `use_figma` with `figma.variables.getLocalVariableCollectionsAsync()` — returns **only local variables defined in the current file**. If this returns empty, it does **not** mean no variables exist. Remote/published library variables are invisible to this API.
-> - `search_design_system` with `entity: "variable"` query entries — searches remote and published library variables. Scope every query to the library keys selected in 2a-ii with `includeLibraryKeys`.
+> - `use_figma` với `figma.variables.getLocalVariableCollectionsAsync()` — **chỉ trả về các variable cục bộ (local) được định nghĩa trong file hiện tại**. Nếu nó trả về rỗng, điều đó **không** có nghĩa là không có variable nào tồn tại. Các variable từ thư viện từ xa/đã xuất bản hoàn toàn vô hình với API này.
+> - `search_design_system` với các mục truy vấn `entity: "variable"` — tìm kiếm các variable thư viện từ xa và đã xuất bản. Giới hạn mọi truy vấn theo các library key đã chọn ở bước 2a-ii bằng `includeLibraryKeys`.
 >
-> **Never conclude "no variables exist" based solely on `getLocalVariableCollectionsAsync()` returning empty.** Always also run `search_design_system` with variable query entries to check for library variables before deciding to create your own.
+> **Không bao giờ kết luận "không có variable nào tồn tại" chỉ dựa vào việc `getLocalVariableCollectionsAsync()` trả về rỗng.** Luôn chạy thêm `search_design_system` với các mục truy vấn variable để kiểm tra variable thư viện trước khi quyết định tự tạo mới.
 
-**Query strategy:** `search_design_system` matches against **variable names** (e.g., "Gray/gray-9", "core/gray/100", "space/400"), not categories. Put multiple short, simple searches in one `queries` call rather than one compound query. Every array entry must be an `{ "entity": "variable", "query": "..." }` object, never a bare string:
+**Chiến lược truy vấn:** `search_design_system` đối khớp theo **tên variable** (ví dụ "Gray/gray-9", "core/gray/100", "space/400"), không theo danh mục. Đặt nhiều tìm kiếm ngắn, đơn giản vào một lần gọi `queries` thay vì một truy vấn ghép phức tạp. Mọi phần tử trong mảng phải là một object `{ "entity": "variable", "query": "..." }`, tuyệt đối không truyền chuỗi trần:
 
-- **Primitive colors:** `{ "entity": "variable", "query": "gray" }`, `{ "entity": "variable", "query": "red" }`, etc.
-- **Semantic colors:** `{ "entity": "variable", "query": "background" }`, `{ "entity": "variable", "query": "surface" }`, etc.
-- **Spacing/sizing:** `{ "entity": "variable", "query": "space" }`, `{ "entity": "variable", "query": "radius" }`, etc.
+- **Màu cơ bản (Primitive colors):** `{ "entity": "variable", "query": "gray" }`, `{ "entity": "variable", "query": "red" }`, v.v.
+- **Màu ngữ nghĩa (Semantic colors):** `{ "entity": "variable", "query": "background" }`, `{ "entity": "variable", "query": "surface" }`, v.v.
+- **Khoảng cách/kích thước:** `{ "entity": "variable", "query": "space" }`, `{ "entity": "variable", "query": "radius" }`, v.v.
 
-If initial searches return empty, try shorter fragments or different naming conventions — libraries vary widely ("grey" vs "gray", "spacing" vs "space", "color/bg" vs "background").
+Nếu các truy vấn ban đầu trả về rỗng, hãy thử các mảnh từ ngắn hơn hoặc quy ước đặt tên khác — các thư viện đặt tên rất đa dạng ("grey" vs "gray", "spacing" vs "space", "color/bg" vs "background").
 
-For library variables (remote = true), import them by key with `figma.variables.importVariableByKeyAsync(key)`. For local variables, use `figma.variables.getVariableByIdAsync(id)` directly.
+Với các variable thư viện (`remote = true`), import chúng theo key bằng `figma.variables.importVariableByKeyAsync(key)`. Với các variable cục bộ, dùng trực tiếp `figma.variables.getVariableByIdAsync(id)`.
 
-See [variable-patterns.md](../figma-use/references/variable-patterns.md) for binding patterns.
+Xem [variable-patterns.md](../figma-use/references/variable-patterns.md) để nắm các mẫu binding.
 
-#### 2c: Discover styles (text styles, effect styles)
+#### 2c: Khám phá styles (text styles, effect styles)
 
-Reuse `textStyles` and `effectStyles` from the inventory in 2a-iii or 2b. If no inventory exists, inspect an available screen with the same script. Before hardcoding an unresolved reusable fill/stroke, typography, or effect role, issue a focused `search_design_system` entry with `entity: "style"`, such as "surface", "border", "heading", "body", "shadow", or "elevation". Batch independent entries, but do not exhaustively search roles covered by a selected component or existing-screen style. Search for any styles still missing.
+Tái sử dụng `textStyles` và `effectStyles` từ bản kiểm kê ở bước 2a-iii hoặc 2b. Nếu chưa có bản kiểm kê, kiểm tra một màn hình khả dụng bằng cùng script đó. Trước khi hardcode một vai trò fill/stroke, typography hoặc hiệu ứng có thể tái sử dụng chưa giải quyết, hãy phát một truy vấn `search_design_system` tập trung với `entity: "style"`, chẳng hạn "surface", "border", "heading", "body", "shadow" hoặc "elevation". Gom nhóm các mục độc lập, nhưng không tìm kiếm cạn kiệt cho những vai trò đã được bao phủ bởi component hoặc style màn hình hiện có. Tìm kiếm các style vẫn còn thiếu.
 
-Import library styles with `figma.importStyleByKeyAsync(key)`, then apply with `node.textStyleId = style.id` or `node.effectStyleId = style.id`.
+Import các style thư viện bằng `figma.importStyleByKeyAsync(key)`, sau đó áp dụng bằng `node.textStyleId = style.id` hoặc `node.effectStyleId = style.id`.
 
-See [text-style-patterns.md](../figma-use/references/text-style-patterns.md) and [effect-style-patterns.md](../figma-use/references/effect-style-patterns.md) for details.
+Xem [text-style-patterns.md](../figma-use/references/text-style-patterns.md) và [effect-style-patterns.md](../figma-use/references/effect-style-patterns.md) để biết chi tiết.
 
-### Step 3: Create the Wrapper Frame
+### Bước 3: Tạo Wrapper Frame
 
-**Do NOT build sections as top-level page children and reparent them later** — moving nodes across `use_figma` calls with `appendChild()` silently fails and produces orphaned frames. Create a mutable wrapper frame first, then build each section directly inside it.
+**KHÔNG dựng các section như những node con cấp trang (top-level) rồi mới chuyển parent sau** — việc di chuyển node giữa các lần gọi `use_figma` bằng `appendChild()` sẽ thất bại âm thầm và tạo ra các frame mồ côi. Hãy tạo một wrapper frame có thể chỉnh sửa trước, rồi dựng từng section trực tiếp bên trong nó.
 
-Import and instantiate any selected whole-view composite inside the wrapper. Customize its covered descendants and append missing sections to the wrapper alongside it; never append children directly to an instance. Position the wrapper away from existing content and return its ID:
+Import và khởi tạo bất kỳ mẫu ghép toàn khung nhìn (whole-view composite) nào đã chọn vào bên trong wrapper. Tùy biến các thành phần con mà nó đã bao phủ và append các section còn thiếu vào wrapper nằm cạnh nó; tuyệt đối không append node con trực tiếp vào một instance. Đặt wrapper cách xa nội dung hiện có và trả về ID của nó:
 
 ```js
 // Find clear space
@@ -241,9 +247,9 @@ wrapper.y = 0;
 return { success: true, wrapperId: wrapper.id };
 ```
 
-### Step 4: Customize Covered Sections and Build Missing Sections
+### Bước 4: Tùy biến các Section đã phủ và Dựng các Section còn thiếu
 
-**This is the most important step.** Start with the selected composite: customize the descendants it already covers and build only missing sections. Work in retry-safe construction phases, batching related sections when safe. Split only for page-context boundaries, hard-to-recover partial execution, or a targeted retry after a failure—not merely to create a validation checkpoint. At the start of each script, fetch the mutable wrapper frame by ID. Append new content to that frame, never to a component instance.
+**Đây là bước quan trọng nhất.** Bắt đầu với mẫu ghép (composite) đã chọn: tùy biến các thành phần con mà nó đã bao phủ và chỉ dựng các section còn thiếu. Làm việc theo các pha dựng hình retry an toàn, gom nhóm các section liên quan khi an toàn. Chỉ tách ở ranh giới ngữ cảnh trang, thao tác ghi khó khôi phục nếu dở dang, hoặc retry có mục tiêu sau một lỗi thực tế — không tách chỉ để tạo điểm kiểm tra kiểm chứng. Ở đầu mỗi script, lấy lại wrapper frame có thể chỉnh sửa theo ID. Append nội dung mới vào frame đó, không bao giờ append vào một component instance.
 
 ```js
 const createdNodeIds = [];
@@ -288,13 +294,13 @@ createdNodeIds.push(section.id);
 return { success: true, createdNodeIds };
 ```
 
-Return the created node IDs plus the relevant counts, names, and bounds from each call — this is your default structural validation. Run a separate structural read only when that evidence is missing or when a relevant mutation has invalidated it. Save the visual pass for Step 5.
+Trả về các node ID đã tạo cùng số lượng, tên và kích thước biên liên quan từ mỗi lần gọi — đây là kiểm chứng cấu trúc mặc định của bạn. Chỉ chạy một bước đọc cấu trúc riêng khi thiếu bằng chứng đó hoặc khi một thao tác ghi liên quan làm nó mất hiệu lực. Dành lượt kiểm tra trực quan cho Bước 5.
 
-#### Override instance text with setProperties()
+#### Ghi đè văn bản trên instance bằng `setProperties()`
 
-Component instances ship with placeholder text ("Title", "Heading", "Button"). Use the component property keys you discovered in Step 2 to override them with `setProperties()` — this is more reliable than direct `node.characters` manipulation. See [component-patterns.md](../figma-use/references/component-patterns.md#overriding-text-in-a-component-instance) for the full pattern.
+Các component instance đi kèm văn bản giữ chỗ ("Title", "Heading", "Button"). Hãy dùng các key component property bạn đã khám phá ở Bước 2 để ghi đè chúng bằng `setProperties()` — cách này tin cậy hơn thao tác trực tiếp lên `node.characters`. Xem [component-patterns.md](../figma-use/references/component-patterns.md#overriding-text-in-a-component-instance) để biết mẫu đầy đủ.
 
-For nested instances that expose their own TEXT properties, call `setProperties()` on the nested instance:
+Với các nested instance phơi bày các TEXT property riêng, hãy gọi `setProperties()` trên nested instance đó:
 
 ```js
 // Use the type-indexed criteria for the type filter, then narrow by name.
@@ -306,40 +312,40 @@ if (nestedHeading) {
 }
 ```
 
-Only fall back to direct `node.characters` for text that is NOT managed by any component property.
+Chỉ lùi về gán trực tiếp `node.characters` đối với văn bản KHÔNG được quản lý bởi bất kỳ component property nào.
 
-#### Read source code defaults carefully
+#### Đọc kỹ giá trị mặc định trong mã nguồn
 
-When translating code components to Figma instances, check the component's default prop values in the source code, not just what's explicitly passed. For example, `<Button size="small">Register</Button>` with no variant prop — check the component definition to find `variant = "primary"` as the default. Selecting the wrong variant (e.g., Neutral instead of Primary) produces a visually incorrect result that's easy to miss.
+Khi chuyển đổi các code component sang Figma instance, hãy kiểm tra giá trị prop mặc định trong phần định nghĩa component ở mã nguồn, không chỉ những gì được truyền tường minh. Ví dụ `<Button size="small">Register</Button>` không truyền prop `variant` — hãy kiểm tra định nghĩa component để tìm giá trị mặc định `variant = "primary"`. Chọn sai variant (ví dụ Neutral thay vì Primary) sẽ tạo ra kết quả sai về mặt thị giác nhưng rất dễ bị bỏ sót.
 
-#### What to build manually vs. import from design system
+#### Những gì dựng thủ công so với import từ design system
 
-| Build manually | Import from design system |
+| Dựng thủ công | Import từ design system |
 |----------------|--------------------------|
-| Wrapper frame | **Components**: buttons, cards, inputs, nav, etc. |
-| Section container frames | **Variables**: colors (fills, strokes), spacing (padding, gap), radii |
-| Layout grids (rows, columns) | **Text styles**: heading, body, caption, etc. |
-| | **Effect styles**: shadows, blurs, etc. |
+| Wrapper frame | **Components**: buttons, cards, inputs, nav, v.v. |
+| Các section container frame | **Variables**: màu sắc (fills, strokes), khoảng cách (padding, gap), bo góc (radii) |
+| Lưới bố cục (hàng, cột) | **Text styles**: heading, body, caption, v.v. |
+| | **Effect styles**: shadows, blurs, v.v. |
 
-**Never hardcode hex colors or pixel spacing** when a design system variable exists. Use `setBoundVariable` for spacing/radii and `setBoundVariableForPaint` for colors. Apply text styles with `node.textStyleId` and effect styles with `node.effectStyleId`.
+**Không bao giờ hardcode mã màu hex hay khoảng cách pixel** khi có sẵn variable trong design system. Dùng `setBoundVariable` cho spacing/radii và `setBoundVariableForPaint` cho màu sắc. Áp dụng text style bằng `node.textStyleId` và effect style bằng `node.effectStyleId`.
 
-#### Componentize repeated and reusable elements (required)
+#### Component hóa các phần tử lặp lại và tái sử dụng (bắt buộc)
 
-Componentization is part of the **default** workflow, not an optional follow-up. Produce a componentized structure on the first pass; do not emit a flat tree of one-off frames and wait for a second "now make it componentized" prompt.
+Component hóa là một phần của quy trình **mặc định**, không phải bước làm thêm tùy chọn. Hãy tạo cấu trúc đã được component hóa ngay trong lượt đầu tiên; không xuất ra một cây phẳng gồm các frame dùng một lần rồi chờ lời nhắc thứ hai kiểu "bây giờ hãy component hóa nó".
 
-- **Design-system instances are already componentized** (Step 2). Prefer them.
-- **For anything the design system does not cover that repeats or maps to a reusable source component, create a local component once with `figma.createComponent()` and place instances**, instead of hand-building N near-identical frames. One source component maps to one Figma main component.
+- **Các instance từ design system vốn đã được component hóa sẵn** (Bước 2). Hãy ưu tiên chúng.
+- **Đối với bất kỳ thứ gì design system chưa có mà bị lặp lại hoặc tương ứng với một component tái sử dụng trong mã nguồn, hãy tạo một local component một lần bằng `figma.createComponent()` rồi đặt các instance**, thay vì dựng tay N frame gần giống hệt nhau. Một component trong mã nguồn tương ứng với một main component trong Figma.
 
-See [references/componentization.md](references/componentization.md) for the build-once-place-instances pattern and code.
+Xem [references/componentization.md](references/componentization.md) để nắm mẫu "dựng một lần - đặt nhiều instance" và code minh họa.
 
-#### Icons: import the SVG, never reconstruct from rotated primitives
+#### Icons: import SVG, tuyệt đối không dựng lại từ các hình khối xoay góc
 
-Icons are the **main exception to the build-manually-vs-import split above.** If the design system exposes an icon as a component, instance it (a single INSTANCE_SWAP property, not a variant per icon). Otherwise — most commonly when **grabbing an icon from the codebase to place or replace it in Figma** — import the icon's **SVG source directly** as a vector node. This is the primary, default path for icons; do not redraw them.
+Icon là **ngoại lệ chính của bảng phân tách dựng-thủ-công vs import ở trên.** Nếu design system cung cấp icon dưới dạng component, hãy tạo instance từ nó (một property `INSTANCE_SWAP` duy nhất, không tạo mỗi icon một variant). Ngược lại — phổ biến nhất là khi **lấy icon từ codebase để đặt hoặc thay thế vào Figma** — hãy import trực tiếp **mã nguồn SVG** của icon thành vector node. Đây là lộ trình chính và mặc định cho icon; không vẽ lại chúng.
 
-1. **Get the SVG from the codebase.** Read the icon's source — inline `<svg>`, the imported `.svg` asset, or the icon-library entry — and pass that exact SVG string. Prefer the codebase's own SVG over hand-authoring one.
-2. **Import with `figma.createNodeFromSvg(svgString)`**, which returns a `FrameNode` of editable vector paths. The SVG string **must** include a `viewBox` plus explicit `width`/`height` (e.g. `<svg width="24" height="24" viewBox="0 0 24 24" ...>`). Without `width`/`height` it falls back to the `viewBox` size, which is often smaller than the slot — the usual cause of "the icon didn't size properly."
-3. **Size it to the slot.** `createNodeFromSvg` frames scale their contents on resize, so `icon.resize(size, size)` fits the whole icon (stroke weight included) to the target box. Equivalently author `width`/`height` equal to the target. Match the source's icon size — commonly 16/20/24px.
-4. **Never reconstruct an icon from rotated line/rect/ellipse primitives.** Figma's line rotation is unreliable in the `use_figma` context and produces broken, mis-rotated icons (a chevron collapses into a blob, an arrowhead detaches from its shaft). Importing the SVG is both more reliable and more editable.
+1. **Lấy SVG từ codebase.** Đọc mã nguồn của icon — thẻ `<svg>` inline, file `.svg` được import, hoặc mục từ thư viện icon — và truyền nguyên chuỗi SVG đó. Ưu tiên dùng SVG có sẵn của codebase thay vì tự viết tay.
+2. **Import bằng `figma.createNodeFromSvg(svgString)`**, hàm trả về một `FrameNode` chứa các đường dẫn vector chỉnh sửa được. Chuỗi SVG **bắt buộc** phải có `viewBox` cộng với `width`/`height` tường minh (ví dụ `<svg width="24" height="24" viewBox="0 0 24 24" ...>`). Nếu thiếu `width`/`height`, nó sẽ lấy kích thước của `viewBox`, thường nhỏ hơn ô chứa — đây là nguyên nhân thường gặp gây lỗi "icon không đúng kích thước".
+3. **Chỉnh kích thước khớp với ô chứa.** Các frame tạo bởi `createNodeFromSvg` tự co giãn nội dung khi resize, vì vậy `icon.resize(size, size)` sẽ vừa khít toàn bộ icon (bao gồm cả độ dày stroke) vào khung đích. Hoặc viết `width`/`height` bằng đúng kích thước đích. Khớp theo kích thước icon trong mã nguồn — thường là 16/20/24px.
+4. **Tuyệt đối không dựng lại icon từ các hình `line`/`rect`/`ellipse` xoay góc.** Phép xoay đoạn thẳng của Figma hoạt động không ổn định trong ngữ cảnh `use_figma` và tạo ra các icon bị lệch xoay, hỏng hình (dấu mũi tên chevron bị gãy thành cục, đầu mũi tên tách rời khỏi thân). Import SVG vừa đáng tin cậy hơn vừa dễ chỉnh sửa hơn.
 
 ```js
 // Place / replace an icon from a codebase SVG into a 24px slot
@@ -352,36 +358,36 @@ icon.resize(24, 24);          // scales the whole icon to the slot
 slotFrame.appendChild(icon);
 ```
 
-**Codebase SVGs usually use `currentColor`** (e.g. `stroke="currentColor"` / `fill="currentColor"`), which `createNodeFromSvg` imports as **black** — it does not inherit the parent's color. Set the intended color after import: substitute the literal color into the SVG string before importing, or bind the imported vector fills/strokes to a design-system color variable with `setBoundVariableForPaint` (same as any paint). To turn an imported SVG into a reusable icon component (for INSTANCE_SWAP), see [figma-generate-library → Creating Icon Components](../figma-generate-library/references/component-creation.md) and the [INSTANCE_SWAP pattern](../figma-use/references/component-patterns.md#instance_swap-avoiding-variant-explosion).
+**SVG trong codebase thường dùng `currentColor`** (ví dụ `stroke="currentColor"` / `fill="currentColor"`), giá trị mà `createNodeFromSvg` sẽ import thành **màu đen** — nó không kế thừa màu từ phần tử cha. Hãy đặt màu mong muốn sau khi import: thay thế màu tường minh vào chuỗi SVG trước khi import, hoặc bind các fill/stroke vector vừa import vào một color variable của design system bằng `setBoundVariableForPaint` (giống như mọi paint khác). Để biến một SVG đã import thành icon component tái sử dụng (cho `INSTANCE_SWAP`), xem [figma-generate-library → Creating Icon Components](../figma-generate-library/references/component-creation.md) và mẫu [INSTANCE_SWAP pattern](../figma-use/references/component-patterns.md#instance_swap-avoiding-variant-explosion).
 
-### Step 5: Validate the Full View and Transfer Images
+### Bước 5: Kiểm chứng toàn bộ Khung nhìn và Chuyển giao Hình ảnh
 
-Before visual validation, use `use_figma` to read back the wrapper and return its total descendant count, counts for every descendant node type present, and the ID, name, node type, and dimensions of every image-filled node. These counts are evidence, not a numeric pass threshold; do not infer editability from a screenshot or accept token editable nodes layered over a complete-UI raster. If a screenshot or flattened rendering of the complete UI is present anywhere inside the wrapper, remove it and rebuild the UI semantically or report failure; do not claim completion.
+Trước khi kiểm tra trực quan, hãy dùng `use_figma` để đọc lại wrapper và trả về tổng số lượng node hậu duệ, số lượng cho từng loại node hậu duệ có mặt, cùng với ID, tên, loại node và kích thước của mọi node có fill là hình ảnh. Các con số này là bằng chứng kiểm chứng, không phải ngưỡng đỗ dạng số thuần túy; không suy luận khả năng chỉnh sửa từ ảnh screenshot hay chấp nhận vài node chỉnh sửa được mang tính tượng trưng đè lên một ảnh raster chụp toàn bộ UI. Nếu có bất kỳ ảnh chụp màn hình hoặc bản kết xuất phẳng nào của toàn bộ UI xuất hiện ở đâu đó trong wrapper, hãy xóa nó đi và dựng lại UI theo ngữ nghĩa hoặc báo thất bại; không được tuyên bố hoàn thành.
 
-After composing all sections, take **one full-view composition screenshot** of the wrapper frame and compare against the source. If it reveals a meaningful visual defect, apply targeted `use_figma` fixes — don't rebuild the entire view — then take **one** post-fix screenshot. The most recent passing screenshot is the final check: do not take an additional unchanged "final" shot, and do not screenshot every section individually.
+Sau khi lắp ráp tất cả các section, chụp **một screenshot tổng hợp toàn khung nhìn** của wrapper frame và đối chiếu với nguồn. Nếu ảnh cho thấy lỗi hiển thị đáng kể, hãy áp dụng các bản sửa `use_figma` có mục tiêu — đừng dựng lại toàn bộ khung nhìn — rồi chụp **một** screenshot sau khi sửa. Ảnh chụp đạt yêu cầu gần nhất là bước kiểm tra cuối cùng: không chụp thêm một ảnh "cuối cùng" khi không có thay đổi gì, và không chụp ảnh từng section riêng lẻ.
 
-Before visual fixes, compare the wrapper's instance, style, and bound-variable keys with the Step 2 map. Every applicable selected asset should appear in the output; replace manual equivalents and raw values before finishing.
+Trước khi sửa lỗi hiển thị, đối chiếu các key của instance, style và bound-variable trong wrapper với bản đồ ở Bước 2. Mọi asset phù hợp đã chọn phải xuất hiện trong đầu ra; hãy thay thế các phần tử dựng thủ công tương đương và các giá trị thô trước khi kết thúc.
 
-Inspect the composition screenshot for:
-- **Cropped/clipped text** — line heights or frame sizing cutting off descenders, ascenders, or entire lines
-- **Overlapping content** — elements stacking on top of each other due to incorrect sizing or missing auto-layout
-- Placeholder text still showing ("Title", "Heading", "Button")
-- Truncated content from layout sizing bugs
-- Wrong component variants (e.g., Neutral vs Primary button)
-- **Wrong font family** — text rendered in a different typeface than the product uses (e.g. Inter where the product is SF Pro). The script ran without error, so this is invisible at a glance; assert it explicitly (see "Assert the font family is correct" below)
-- **Blank image placeholders** — if images are missing, transfer them from the `generate_figma_design` capture before considering `generate_image` or `generate_vector_illustration` to generate placeholders (see "Transfer images from the generate_figma_design capture" below)
+Kiểm tra screenshot tổng hợp để phát hiện:
+- **Chữ bị cắt/xén** — line height hoặc kích thước frame cắt mất phần nét dưới, nét trên hoặc cả dòng chữ.
+- **Nội dung chồng lấp** — các phần tử xếp đè lên nhau do sai kích thước hoặc thiếu auto-layout.
+- Văn bản giữ chỗ vẫn còn hiển thị ("Title", "Heading", "Button").
+- Nội dung bị cắt cụt do lỗi cấu hình sizing bố cục.
+- Sai variant của component (ví dụ nút Neutral thay vì Primary).
+- **Sai font family** — chữ hiển thị bằng một kiểu chữ khác với sản phẩm (ví dụ Inter trong khi sản phẩm dùng SF Pro). Script chạy không báo lỗi nên mắt thường lướt qua khó thấy; hãy khẳng định điều này một cách tường minh (xem "Khẳng định font family chính xác" bên dưới).
+- **Khung ảnh trống** — nếu thiếu ảnh, hãy chuyển chúng từ bản chụp `generate_figma_design` trước khi cân nhắc dùng `generate_image` hoặc `generate_vector_illustration` để tạo ảnh giữ chỗ (xem "Chuyển hình ảnh từ bản chụp generate_figma_design" bên dưới).
 
-#### Assert the font family is correct
+#### Khẳng định font family chính xác
 
-**You MUST explicitly assert that rendered text uses the product font(s) identified in Step 1**, and treat any mismatch as a failed validation. Do not assume a successfully loaded font is the correct font: loading Inter when the product uses SF Pro is a failure even if no errors occur. **If you have a source reference (the running web app, a design mock, or the `generate_figma_design` capture), you MUST also compare rendered screenshots** — a near-miss style within the right family can pass a family check but still look wrong.
+**Bạn PHẢI khẳng định tường minh rằng văn bản được kết xuất sử dụng đúng font sản phẩm đã xác định ở Bước 1**, và coi mọi sự sai lệch là kiểm chứng thất bại. Không giả định rằng một font nạp thành công nghĩa là đúng font: nạp Inter khi sản phẩm dùng SF Pro là một lỗi ngay cả khi không có thông báo lỗi nào xảy ra. **Nếu bạn có tài liệu tham chiếu nguồn (web app đang chạy, design mock hoặc bản chụp `generate_figma_design`), bạn CŨNG PHẢI đối chiếu các ảnh chụp kết xuất** — một style gần đúng trong cùng font family có thể qua được bước kiểm tra tên family nhưng nhìn thực tế vẫn sai.
 
-See [references/discover-product-font.md](references/discover-product-font.md#verify-the-font-after-building) for the read-back script (which separates free-standing text you fix from design-system-governed text you flag) and the screenshot-comparison steps.
+Xem [references/discover-product-font.md](references/discover-product-font.md#verify-the-font-after-building) để lấy script đọc kiểm tra lại (script phân tách giữa text đứng độc lập do bạn sửa với text do design system quản lý để bạn gắn cờ báo) và các bước đối chiếu ảnh chụp.
 
-#### Transfer images from the generate_figma_design capture
+#### Chuyển hình ảnh từ bản chụp `generate_figma_design`
 
-If you ran `generate_figma_design` in parallel, transfer only discrete content assets used by the app into your design system output. Never upload or transfer the capture root or any screenshot or flattened rendering of the complete UI.
+Nếu bạn đã chạy `generate_figma_design` song song, chỉ chuyển các asset hình ảnh nội dung riêng lẻ mà ứng dụng sử dụng vào đầu ra design system của bạn. Tuyệt đối không upload hay chuyển node gốc của bản chụp hoặc bất kỳ ảnh chụp màn hình hay bản kết xuất phẳng nào của toàn bộ UI.
 
-1. Find all image nodes in the capture output by searching for fills with `type === "IMAGE"`:
+1. Tìm tất cả các image node trong đầu ra bản chụp bằng cách tìm kiếm các fill có `type === "IMAGE"`:
    ```js
    const capture = await figma.getNodeByIdAsync("CAPTURE_NODE_ID");
    const imageNodes = capture.findAll(() => true).flatMap(n => {
@@ -391,32 +397,32 @@ If you ran `generate_figma_design` in parallel, transfer only discrete content a
    });
    return imageNodes;
    ```
-2. Match each captured image to the corresponding frame in your use_figma output (by position, name, or order).
-3. Apply the image hash to the target frame:
+2. Khớp từng hình ảnh chụp được với frame tương ứng trong đầu ra `use_figma` của bạn (theo vị trí, tên hoặc thứ tự).
+3. Áp dụng image hash vào frame đích:
    ```js
    targetFrame.fills = [{ type: "IMAGE", imageHash: "hash_from_capture", scaleMode: "FILL" }];
    ```
-4. Delete the `generate_figma_design` capture output after all images are transferred.
+4. Xóa đầu ra bản chụp `generate_figma_design` sau khi toàn bộ hình ảnh đã được chuyển sang.
 
-#### Generating placeholder images and vectors
+#### Tạo ảnh và vector giữ chỗ
 
-Reuse existing assets if possible. If not, choose between `generate_image` and `generate_vector_illustration`. Then inform the user that Figma AI credits were used.
+Tái sử dụng các asset sẵn có nếu khả thi. Nếu không, chọn giữa `generate_image` và `generate_vector_illustration`. Sau đó thông báo cho người dùng rằng credit Figma AI đã được sử dụng.
 
-If Figma AI is unavailable or its credit limit is reached, ask before using an alternative image-generation provider. Upload only these alternative-provider images with `upload_assets`.
+Nếu Figma AI không khả dụng hoặc đã hết hạn mức credit, hãy hỏi trước khi dùng nhà cung cấp tạo ảnh thay thế. Chỉ upload các ảnh từ nhà cung cấp thay thế này bằng `upload_assets`.
 
-### Step 6: Updating an Existing View
+### Bước 6: Cập nhật một Khung nhìn hiện có
 
-When updating rather than creating from scratch:
+Khi cập nhật thay vì dựng mới từ đầu:
 
-1. Use `get_metadata` to inspect the existing screen structure.
-2. Identify which sections need updating and which can stay.
-3. For each section that needs changes:
-   - Locate the existing nodes by ID or name
-   - Swap component instances if the design system component changed
-   - Update text content, variant properties, or layout as needed
-   - Remove deprecated sections
-   - Add new sections
-4. Follow the same evidence and screenshot cadence as Steps 4–5: rely on returned IDs plus relevant counts, names, and bounds for structural validation, then take one full-view screenshot after the updates (and one post-fix screenshot only if a targeted visual fix is needed).
+1. Dùng `get_metadata` để kiểm tra cấu trúc màn hình hiện tại.
+2. Xác định các section cần cập nhật và các section giữ nguyên.
+3. Với mỗi section cần thay đổi:
+   - Định vị các node hiện có theo ID hoặc tên
+   - Hoán đổi (swap) các component instance nếu component trong design system đã thay đổi
+   - Cập nhật nội dung văn bản, thuộc tính variant hoặc bố cục khi cần
+   - Xóa các section đã lỗi thời
+   - Thêm các section mới
+4. Tuân theo cùng nhịp bằng chứng và ảnh chụp như Bước 4–5: dựa vào các ID trả về cùng số lượng, tên và kích thước biên liên quan để kiểm chứng cấu trúc, sau đó chụp một screenshot toàn khung nhìn sau khi cập nhật (và chỉ chụp thêm một screenshot sau khi sửa nếu cần một bản sửa hiển thị có mục tiêu).
 
 ```js
 // Example: Swap a button variant in an existing screen.
@@ -435,34 +441,34 @@ if (existingButton && existingButton.type === "INSTANCE") {
 return { success: true, mutatedNodeIds: [existingButton.id] };
 ```
 
-## Reference Docs
+## Tài liệu tham khảo
 
-For detailed API patterns and gotchas, load these from the [figma-use](../figma-use/SKILL.md) references as needed:
+Để biết các mẫu API chi tiết và bẫy lỗi, nạp các tài liệu sau từ phần tham khảo của [figma-use](../figma-use/SKILL.md) khi cần:
 
-- [component-patterns.md](../figma-use/references/component-patterns.md) — importing by key, finding variants, setProperties, text overrides, working with instances
-- [variable-patterns.md](../figma-use/references/variable-patterns.md) — creating/binding variables, importing library variables, scopes, aliasing, discovering existing variables
-- [text-style-patterns.md](../figma-use/references/text-style-patterns.md) — creating/applying text styles, importing library text styles, type ramps
-- [effect-style-patterns.md](../figma-use/references/effect-style-patterns.md) — creating/applying effect styles (shadows), importing library effect styles
-- [gotchas.md](../figma-use/references/gotchas.md) — layout pitfalls (HUG/FILL interactions, counterAxisAlignItems, sizing order), paint/color issues, page context resets
+- [component-patterns.md](../figma-use/references/component-patterns.md) — import theo key, tìm variant, `setProperties`, ghi đè text, làm việc với instance
+- [variable-patterns.md](../figma-use/references/variable-patterns.md) — tạo/bind variable, import variable thư viện, scopes, aliasing, khám phá variable sẵn có
+- [text-style-patterns.md](../figma-use/references/text-style-patterns.md) — tạo/áp dụng text style, import text style thư viện, type ramps
+- [effect-style-patterns.md](../figma-use/references/effect-style-patterns.md) — tạo/áp dụng effect style (đổ bóng), import effect style thư viện
+- [gotchas.md](../figma-use/references/gotchas.md) — bẫy lỗi bố cục (tương tác HUG/FILL, `counterAxisAlignItems`, thứ tự sizing), vấn đề paint/màu sắc, reset ngữ cảnh trang
 
-## Error Recovery
+## Khôi phục lỗi
 
-Follow [figma-use error recovery](../figma-use/references/validation-and-recovery.md#error-recovery-after-failed-use_figma):
+Tuân thủ [figma-use error recovery](../figma-use/references/validation-and-recovery.md#error-recovery-after-failed-use_figma):
 
-- If `safeToRetryWithoutCanvasRead` is `true`, fix the error and retry.
-- If `false`, read the canvas, determine what changed, then make changes.
+- Nếu `safeToRetryWithoutCanvasRead` là `true`, sửa lỗi và thử lại.
+- Nếu là `false`, đọc lại canvas, xác định những gì đã thay đổi, sau đó mới sửa tiếp.
 
-Because this skill works in retry-safe construction phases, errors are naturally scoped to the current phase. Content from previous successful calls remains intact.
+Vì skill này vận hành theo các pha dựng hình retry an toàn, lỗi sẽ tự nhiên được khoanh vùng trong pha hiện tại. Nội dung từ các lệnh gọi thành công trước đó vẫn nguyên vẹn.
 
-## Best Practices
+## Thực hành tốt nhất
 
-- **Always search before building.** The design system likely has the component, variable, or style you need. Manual construction and hardcoded values should be the exception, not the rule.
-- **Search unresolved gaps, one intent per query.** Try synonyms and partial terms as separate `{ entity, query }` entries in one `queries` call, never combined into one string—a "NavigationPill" might be found under "pill", "nav", "tab", or "chip", so pass those as four component entries. For variables, use `entity: "variable"` with queries like "color", "spacing", and "radius". Do this only for unresolved construction gaps, and stop once a suitable asset is found.
-- **Prefer design system tokens over hardcoded values.** Use variable bindings for colors, spacing, and radii. Use text styles for typography. Use effect styles for shadows. This keeps the screen linked to the design system.
-- **Prefer component instances over manual builds.** Instances stay linked to the source component and update automatically when the design system evolves.
-- **Componentize by default.** Build repeated or reusable elements as a component once, then place instances. Do not ship a flat tree of one-off frames that needs a second "make it componentized" pass.
-- **Work in retry-safe construction phases.** Batch related sections into one `use_figma` call when the script stays safe to retry; split only at page-context boundaries, hard-to-recover mutations, or a targeted retry after an actual failure.
-- **Return node IDs and validation evidence from every call.** Return created IDs plus the relevant counts, names, and bounds — this is your default structural validation, and you'll need the IDs to compose sections and for error recovery.
-- **Validate visually with one composition screenshot.** Take one full-view screenshot after composition, and one more only after a targeted visual fix; the most recent passing screenshot is final.
-- **Assert the font family, not just a successful load.** A script can load the wrong font without error. After building, verify rendered text uses the product font identified in Step 1 (see Step 5).
-- **Match existing conventions.** If the file already has screens, match their naming, sizing, and layout patterns.
+- **Luôn tìm kiếm trước khi dựng.** Design system nhiều khả năng đã có sẵn component, variable hoặc style bạn cần. Dựng thủ công và dùng giá trị hardcode chỉ nên là ngoại lệ, không phải quy tắc.
+- **Tìm kiếm các phần còn thiếu chưa giải quyết, mỗi truy vấn một ý định.** Thử các từ đồng nghĩa và mảnh từ dưới dạng các mục `{ entity, query }` riêng biệt trong một lần gọi `queries`, tuyệt đối không gộp vào một chuỗi — một "NavigationPill" có thể tìm thấy dưới tên "pill", "nav", "tab" hoặc "chip", nên hãy truyền chúng thành bốn mục component riêng. Với variable, dùng `entity: "variable"` với các truy vấn như "color", "spacing" và "radius". Chỉ làm việc này cho các phần còn thiếu chưa giải quyết và dừng lại ngay khi tìm thấy asset phù hợp.
+- **Ưu tiên token của design system hơn giá trị hardcode.** Dùng variable binding cho màu sắc, khoảng cách và bo góc. Dùng text style cho typography. Dùng effect style cho đổ bóng. Điều này giữ cho màn hình luôn liên kết với design system.
+- **Ưu tiên component instance hơn dựng thủ công.** Instance luôn liên kết với component nguồn và tự động cập nhật khi design system phát triển.
+- **Component hóa theo mặc định.** Dựng các phần tử lặp lại hoặc tái sử dụng thành một component một lần, sau đó đặt các instance. Đừng xuất ra một cây phẳng các frame dùng một lần để rồi cần thêm một lượt "làm cho nó thành component" thứ hai.
+- **Làm việc theo các pha dựng hình retry an toàn.** Gom nhóm các section liên quan vào một lần gọi `use_figma` khi script vẫn an toàn để thử lại; chỉ tách ở ranh giới ngữ cảnh trang, thao tác ghi khó khôi phục hoặc retry có mục tiêu sau một lỗi thực tế.
+- **Trả về node ID và bằng chứng kiểm chứng ở mọi lệnh gọi.** Trả về các ID đã tạo cùng số lượng, tên và kích thước biên liên quan — đây là kiểm chứng cấu trúc mặc định của bạn, và bạn sẽ cần các ID này để lắp ráp các section cũng như khôi phục lỗi.
+- **Kiểm chứng trực quan bằng một screenshot tổng hợp.** Chụp một screenshot toàn khung nhìn sau khi lắp ráp, và tối đa thêm một screenshot nữa chỉ sau khi sửa lỗi hiển thị có mục tiêu; ảnh chụp đạt yêu cầu gần nhất là ảnh cuối cùng.
+- **Khẳng định đúng font family, không chỉ nạp thành công.** Một script có thể nạp nhầm font mà không báo lỗi. Sau khi dựng, hãy xác minh văn bản được kết xuất sử dụng đúng font sản phẩm xác định ở Bước 1 (xem Bước 5).
+- **Tuân thủ quy ước sẵn có.** Nếu file đã có các màn hình, hãy làm khớp theo cách đặt tên, kích thước và mẫu bố cục của chúng.

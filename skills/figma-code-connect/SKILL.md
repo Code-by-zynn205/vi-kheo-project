@@ -1,24 +1,26 @@
 ---
 name: figma-code-connect
-description: Creates and maintains Figma Code Connect template files that map Figma components to code snippets. Use when the user mentions Code Connect, Figma component mapping, design-to-code translation, or asks to create/update .figma.ts or .figma.js files.
+description: Tạo và duy trì các file template Figma Code Connect ánh xạ các Figma component sang đoạn mã nguồn (code snippet). Sử dụng khi người dùng nhắc đến Code Connect, ánh xạ Figma component, chuyển đổi design-to-code, hoặc yêu cầu tạo/cập nhật các file .figma.ts hoặc .figma.js.
 disable-model-invocation: false
 ---
 
 # Code Connect
 
-## Overview
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [figma/mcp-server-guide](https://github.com/figma/mcp-server-guide/blob/main/skills/figma-code-connect/SKILL.md) (Figma chính thức).
 
-Create Code Connect template files (`.figma.ts`) that map Figma components to code snippets. Given a Figma URL, follow the steps below to create a template.
+## Tổng quan
 
-> **You write `.figma.ts` template files ONLY — never `.figma.tsx`.** This skill produces *parserless templates*: a `.figma.ts` file whose default export uses a `` figma.code`...` `` tagged template. Do **NOT** write a `.figma.tsx` file and do **NOT** use `figma.connect()` — that is the separate **parser-based** Code Connect format (published a different way) and is the **wrong artifact** for this skill; output written as `.figma.tsx` is rejected outright. If a `.figma.tsx` already exists for a component, leave it untouched and add your `.figma.ts` template alongside it. A capable model may be tempted to reach for the more familiar `.figma.tsx` / `figma.connect()` pattern from memory — resist it; here the correct output is **always** `.figma.ts` + `figma.code`.
+Tạo các file template Code Connect (`.figma.ts`) ánh xạ các Figma component sang các đoạn mã nguồn. Khi nhận được một URL Figma, hãy thực hiện theo các bước dưới đây để tạo template.
 
-## Prerequisites
+> **Bạn CHỈ viết các file template `.figma.ts` — tuyệt đối không viết `.figma.tsx`.** Skill này tạo ra *parserless templates*: một file `.figma.ts` có export mặc định sử dụng tagged template `` figma.code`...` ``. KHÔNG viết file `.figma.tsx` và KHÔNG dùng `figma.connect()` — đó là định dạng Code Connect **dựa trên parser (parser-based)** riêng biệt (được publish theo cách khác) và là **sai sản phẩm đầu ra** đối với skill này; đầu ra viết dưới dạng `.figma.tsx` sẽ bị từ chối thẳng. Nếu một file `.figma.tsx` đã tồn tại cho component đó, hãy giữ nguyên nó và thêm template `.figma.ts` của bạn bên cạnh. Một mô hình đủ năng lực có thể dễ bị cám dỗ chọn mẫu `.figma.tsx` / `figma.connect()` quen thuộc từ trí nhớ — hãy tránh điều đó; ở đây đầu ra đúng **luôn luôn** là `.figma.ts` + `figma.code`.
 
-- **Figma MCP server must be connected** — verify that Figma MCP tools (e.g., `get_code_connect_suggestions`) are available before proceeding. If not, guide the user to enable the Figma MCP server and restart their MCP client.
-- **Components must be published** — Code Connect only works with components published to a Figma team library. If a component is not published, inform the user and stop.
-- **Organization or Enterprise plan required** — Code Connect is not available on Free or Professional plans.
-- **URL must include `node-id`** — the Figma URL must contain the `node-id` query parameter.
-- **TypeScript types** — for editor autocomplete and type checking in `.figma.ts` files `@figma/code-connect/figma-types` must be added to `types` in `tsconfig.json`:
+## Điều kiện tiên quyết
+
+- **Figma MCP server phải được kết nối** — xác minh rằng các Figma MCP tool (ví dụ `get_code_connect_suggestions`) khả dụng trước khi tiến hành. Nếu chưa, hướng dẫn người dùng bật Figma MCP server và khởi động lại MCP client của họ.
+- **Component phải được xuất bản (published)** — Code Connect chỉ hoạt động với các component đã xuất bản lên thư viện nhóm (Figma team library). Nếu một component chưa được xuất bản, thông báo cho người dùng và dừng lại.
+- **Yêu cầu gói Organization hoặc Enterprise** — Code Connect không khả dụng trên gói Free hoặc Professional.
+- **URL phải bao gồm `node-id`** — URL Figma phải chứa tham số truy vấn `node-id`.
+- **TypeScript types** — để trình soạn thảo tự động gợi ý và kiểm tra kiểu trong các file `.figma.ts`, `@figma/code-connect/figma-types` phải được thêm vào `types` trong `tsconfig.json`:
   ```json
   {
     "compilerOptions": {
@@ -27,83 +29,83 @@ Create Code Connect template files (`.figma.ts`) that map Figma components to co
   }
   ```
 
-## Step 1: Parse the Figma URL
+## Bước 1: Phân tích URL Figma
 
-Extract `fileKey` and `nodeId` from the URL:
+Trích xuất `fileKey` và `nodeId` từ URL:
 
-| URL Format | fileKey | nodeId |
+| Định dạng URL | `fileKey` | `nodeId` |
 |---|---|---|
 | `figma.com/design/:fileKey/:name?node-id=X-Y` | `:fileKey` | `X-Y` → `X:Y` |
 | `figma.com/file/:fileKey/:name?node-id=X-Y` | `:fileKey` | `X-Y` → `X:Y` |
-| `figma.com/design/:fileKey/branch/:branchKey/:name` | use `:branchKey` | from `node-id` param |
+| `figma.com/design/:fileKey/branch/:branchKey/:name` | dùng `:branchKey` | từ tham số `node-id` |
 
-Always convert `nodeId` hyphens to colons: `1234-5678` → `1234:5678`.
+Luôn chuyển dấu gạch ngang trong `nodeId` thành dấu hai chấm: `1234-5678` → `1234:5678`.
 
-**Worked example:**
+**Ví dụ minh họa:**
 
-Given: `https://www.figma.com/design/QiEF6w564ggoW8ftcLvdcu/MyDesignSystem?node-id=4185-3778`
+Cho URL: `https://www.figma.com/design/QiEF6w564ggoW8ftcLvdcu/MyDesignSystem?node-id=4185-3778`
 - `fileKey` = `QiEF6w564ggoW8ftcLvdcu`
 - `nodeId` = `4185-3778` → `4185:3778`
 
-## Step 2: Discover Unmapped Components
+## Bước 2: Khám phá các Component chưa được ánh xạ
 
-The user may provide a URL pointing to a frame, instance, or variant — not necessarily a component set or standalone component. Call the MCP tool `get_code_connect_suggestions` with:
-- `fileKey` — from Step 1
-- `nodeId` — from Step 1 (colons format)
-- `excludeMappingPrompt` — `true` (returns a lightweight list of unmapped components)
+Người dùng có thể cung cấp một URL trỏ tới một frame, instance hoặc variant — không nhất thiết phải là một component set hay standalone component. Gọi MCP tool `get_code_connect_suggestions` với:
+- `fileKey` — từ Bước 1
+- `nodeId` — từ Bước 1 (định dạng dấu hai chấm)
+- `excludeMappingPrompt` — `true` (trả về danh sách gọn nhẹ các component chưa ánh xạ)
 
-This tool identifies published components in the selection that don't yet have Code Connect mappings.
+Tool này xác định các component đã xuất bản trong vùng chọn nhưng chưa có ánh xạ Code Connect.
 
-**Handle the response:**
+**Xử lý phản hồi:**
 
-- **"No published components found in this selection"** — the node contains no published components. Inform the user they need to publish the component to a team library in Figma first, then stop.
-- **"All component instances in this selection are already connected to code via Code Connect"** — everything is already mapped. Inform the user and stop.
-- **Normal response with component list** — extract the `mainComponentNodeId` for each returned component. Use these resolved node IDs (not the original from the URL) for all subsequent steps. If multiple components are returned (e.g. the user selected a frame containing several different component instances), repeat Steps 3–6 for each one.
+- **"No published components found in this selection"** — node không chứa component nào đã xuất bản. Thông báo cho người dùng rằng họ cần xuất bản component lên team library trong Figma trước, sau đó dừng lại.
+- **"All component instances in this selection are already connected to code via Code Connect"** — mọi thứ đều đã được ánh xạ. Thông báo cho người dùng và dừng lại.
+- **Phản hồi bình thường kèm danh sách component** — trích xuất `mainComponentNodeId` cho từng component trả về. Dùng các node ID đã phân giải này (không dùng ID gốc từ URL) cho toàn bộ các bước tiếp theo. Nếu nhiều component được trả về (ví dụ người dùng chọn một frame chứa nhiều component instance khác nhau), lặp lại Bước 3–6 cho từng component.
 
-## Step 3: Fetch Component Properties
+## Bước 3: Lấy các thuộc tính của Component
 
-Call the MCP tool `get_context_for_code_connect` with:
-- `fileKey` — from Step 1
-- `nodeId` — the resolved `mainComponentNodeId` from Step 2
-- `clientFrameworks` — determine from `figma.config.json` `parser` field (e.g. `"react"` → `["react"]`)
-- `clientLanguages` — infer from project file extensions (e.g. TypeScript project → `["typescript"]`, JavaScript → `["javascript"]`)
+Gọi MCP tool `get_context_for_code_connect` với:
+- `fileKey` — từ Bước 1
+- `nodeId` — `mainComponentNodeId` đã phân giải từ Bước 2
+- `clientFrameworks` — xác định từ trường `parser` trong `figma.config.json` (ví dụ `"react"` → `["react"]`)
+- `clientLanguages` — suy ra từ phần mở rộng file trong dự án (ví dụ dự án TypeScript → `["typescript"]`, JavaScript → `["javascript"]`)
 
-For multiple components, call the tool once per node ID.
+Với nhiều component, gọi tool một lần cho mỗi node ID.
 
-The response contains the Figma component's **property definitions** — note each property's name and type:
-- **TEXT** — text content (labels, titles, placeholders)
-- **BOOLEAN** — toggles (show/hide icon, disabled state)
-- **VARIANT** — enum options (size, variant, state)
-- **INSTANCE_SWAP** — swappable nested instances tied to a specific component (icon, avatar)
-- **SLOT** — flexible content regions (freeform layout, mixed children); use `getSlot()` in templates (not the same as INSTANCE_SWAP)
+Phản hồi chứa các **property definitions** của Figma component — ghi nhận tên và kiểu của từng property:
+- **TEXT** — nội dung văn bản (nhãn, tiêu đề, placeholder)
+- **BOOLEAN** — bật/tắt (hiện/ẩn icon, trạng thái disabled)
+- **VARIANT** — các tùy chọn enum (size, variant, state)
+- **INSTANCE_SWAP** — các nested instance có thể hoán đổi gắn với một component cụ thể (icon, avatar)
+- **SLOT** — các vùng nội dung linh hoạt (bố cục tự do, nhiều loại node con); dùng `getSlot()` trong template (không giống với `INSTANCE_SWAP`)
 
-Save this property list — you will use it in Step 5 to write the template.
+Lưu lại danh sách thuộc tính này — bạn sẽ dùng nó ở Bước 5 để viết template.
 
-## Step 4: Identify the Code Component
+## Bước 4: Xác định Code Component
 
-If the user did not specify which code component to connect:
+Nếu người dùng chưa chỉ rõ code component nào cần kết nối:
 
-1. Check `figma.config.json` for `paths` and `importPaths` to find where components live
-2. Search the codebase for a component matching the Figma component name. Check common directories (`src/components/`, `components/`, `lib/ui/`, `app/components/`) if `figma.config.json` doesn't specify paths
-3. Read candidate files and compare their props interface against the Figma properties from Step 3 — look for matching variant types, size options, boolean flags, and slot props
-4. If multiple candidates match, pick the one with the closest prop-interface match and explain your reasoning to the user
-5. If no match is found, show the 2 closest candidates and ask the user to confirm or provide the correct path
+1. Kiểm tra `figma.config.json` để xem `paths` và `importPaths` nhằm tìm nơi đặt các component
+2. Tìm kiếm trong codebase một component khớp với tên Figma component. Kiểm tra các thư mục phổ biến (`src/components/`, `components/`, `lib/ui/`, `app/components/`) nếu `figma.config.json` không chỉ định đường dẫn
+3. Đọc các file ứng viên và đối chiếu interface `props` của chúng với các Figma property từ Bước 3 — tìm các kiểu variant, tùy chọn size, cờ boolean và slot prop tương ứng
+4. Nếu có nhiều ứng viên khớp, chọn ứng viên có interface prop khớp sát nhất và giải thích lý do của bạn cho người dùng
+5. Nếu không tìm thấy kết quả khớp, hiển thị 2 ứng viên gần nhất và yêu cầu người dùng xác nhận hoặc cung cấp đường dẫn đúng
 
-**Confirm with the user** before proceeding to Step 5. Present the match: which code component you found, where it lives, and why it matches (prop correspondence, naming, purpose).
+**Xác nhận với người dùng** trước khi chuyển sang Bước 5. Trình bày kết quả đối khớp: code component nào bạn đã tìm thấy, nó nằm ở đâu và tại sao nó khớp (tương ứng prop, đặt tên, mục đích).
 
-Read `figma.config.json` for import path aliases — the `importPaths` section maps glob patterns to import specifiers, and the `paths` section maps those specifiers to directories.
+Đọc `figma.config.json` để lấy các bí danh đường dẫn import (import path aliases) — mục `importPaths` ánh xạ các mẫu glob sang import specifier, và mục `paths` ánh xạ các specifier đó tới các thư mục.
 
-Read the code component's source to understand its props interface — this informs how to map Figma properties to code props in Step 5.
+Đọc mã nguồn của code component để hiểu interface `props` của nó — điều này định hướng cách ánh xạ các Figma property sang code prop ở Bước 5.
 
-## Step 5: Create the Template File (.figma.ts)
+## Bước 5: Tạo file Template (.figma.ts)
 
-### File location
+### Vị trí file
 
-Place the file alongside existing Code Connect files. Check `figma.config.json` `include` patterns for the correct directory. **Name it `ComponentName.figma.ts` — never `ComponentName.figma.tsx`.** The `.figma.tsx` extension is the parser-based format; do not create one or modify an existing one.
+Đặt file cạnh các file Code Connect sẵn có. Kiểm tra các mẫu `include` trong `figma.config.json` để xác định đúng thư mục. **Đặt tên file là `ComponentName.figma.ts` — tuyệt đối không đặt `ComponentName.figma.tsx`.** Phần mở rộng `.figma.tsx` là định dạng dựa trên parser; không tạo mới hoặc chỉnh sửa file `.figma.tsx` có sẵn.
 
-### Template structure
+### Cấu trúc Template
 
-Every template file follows this structure:
+Mỗi file template tuân theo cấu trúc sau:
 
 ```ts
 // url=https://www.figma.com/file/{fileKey}/{fileName}?node-id={nodeId}
@@ -126,26 +128,26 @@ export default {
 }
 ```
 
-### Property mapping
+### Ánh xạ thuộc tính (Property mapping)
 
-Use the property list from Step 3 to extract values. For each Figma property type, use the corresponding method:
+Sử dụng danh sách thuộc tính từ Bước 3 để trích xuất giá trị. Với mỗi loại thuộc tính Figma, dùng phương thức tương ứng:
 
-| Figma Property Type | Template Method | When to Use |
+| Loại Figma Property | Phương thức Template | Khi nào sử dụng |
 |---|---|---|
-| TEXT | `instance.getString('Name')` | Labels, titles, placeholder text |
-| BOOLEAN | `instance.getBoolean('Name', { true: ..., false: ... })` | Toggle visibility, conditional props |
-| VARIANT | `instance.getEnum('Name', { 'FigmaVal': 'codeVal' })` | Size, variant, state enums |
-| INSTANCE_SWAP | `instance.getInstanceSwap('Name')` | Swapped instance for a fixed component slot (then `hasCodeConnect()` / `executeTemplate()`) - do not confuse with the SLOT property below |
-| SLOT | `instance.getSlot('Name')` | Freeform slot content only when the Figma property type is **SLOT** 
-| (child layer) | `instance.findInstance('LayerName')` | Named child instances without a property |
-| (text layer) | `instance.findText('LayerName')` → `.textContent` | Text content from named layers |
+| TEXT | `instance.getString('Name')` | Nhãn, tiêu đề, văn bản placeholder |
+| BOOLEAN | `instance.getBoolean('Name', { true: ..., false: ... })` | Bật/tắt hiển thị, các prop có điều kiện |
+| VARIANT | `instance.getEnum('Name', { 'FigmaVal': 'codeVal' })` | Các enum kích thước, biến thể, trạng thái |
+| INSTANCE_SWAP | `instance.getInstanceSwap('Name')` | Instance được hoán đổi cho một slot component cố định (sau đó dùng `hasCodeConnect()` / `executeTemplate()`) - không nhầm lẫn với thuộc tính `SLOT` bên dưới |
+| SLOT | `instance.getSlot('Name')` | Nội dung slot tự do chỉ khi loại Figma property là **SLOT** |
+| (child layer) | `instance.findInstance('LayerName')` | Các instance con có tên nhưng không có component property |
+| (text layer) | `instance.findText('LayerName')` → `.textContent` | Nội dung văn bản từ các text layer có tên |
 
-**TEXT** — get the string value directly:
+**TEXT** — lấy trực tiếp giá trị chuỗi:
 ```ts
 const label = instance.getString('Label')
 ```
 
-**VARIANT** — map Figma enum values to code values:
+**VARIANT** — ánh xạ các giá trị enum của Figma sang giá trị trong code:
 ```ts
 const variant = instance.getEnum('Variant', {
   'Primary': 'primary',
@@ -159,7 +161,7 @@ const size = instance.getEnum('Size', {
 })
 ```
 
-**BOOLEAN** — simple boolean or mapped to values:
+**BOOLEAN** — boolean đơn giản hoặc ánh xạ sang các giá trị:
 ```ts
 // Simple boolean
 const disabled = instance.getBoolean('Disabled')
@@ -168,11 +170,11 @@ const disabled = instance.getBoolean('Disabled')
 const size = instance.getBoolean('Show Label', { true: 'large', false: 'small' })
 ```
 
-**Map Figma properties to code props where there's a valid correspondence.** Figma properties and code props don't always line up 1:1 — some Figma properties map directly (by name, or via the API methods above), others have no code equivalent. Where a mapping exists, use it; where none fits, omit the Figma property rather than invent a code prop. Never emit an attribute whose name doesn't appear in the code component's `Props` interface.
+**Ánh xạ các Figma property sang code prop ở những nơi có sự tương ứng hợp lệ.** Các Figma property và code prop không phải lúc nào cũng khớp 1:1 — một số Figma property ánh xạ trực tiếp (theo tên hoặc qua các phương thức API ở trên), số khác không có giá trị tương đương trong code. Nơi nào có ánh xạ thì sử dụng; nơi nào không khớp thì bỏ qua Figma property đó thay vì tự bịa ra một code prop. Tuyệt đối không xuất ra thuộc tính có tên không tồn tại trong interface `Props` của code component.
 
-### Exhaustive variant handling
+### Xử lý đầy đủ toàn bộ giá trị Variant (Exhaustive variant handling)
 
-When a VARIANT property has multiple possible values, the `getEnum` mapping **must list every value** returned by `get_context_for_code_connect`. Don't omit values — an unmapped value silently returns `undefined`, producing broken output.
+Khi một thuộc tính `VARIANT` có nhiều giá trị khả dĩ, bảng ánh xạ `getEnum` **bắt buộc phải liệt kê mọi giá trị** do `get_context_for_code_connect` trả về. Không bỏ sót giá trị — một giá trị không được ánh xạ sẽ âm thầm trả về `undefined`, tạo ra đầu ra bị lỗi.
 
 ```ts
 // WRONG — omits 'Warning', which will render as undefined
@@ -190,7 +192,7 @@ const status = instance.getEnum('Status', {
 })
 ```
 
-When **two or more VARIANT properties combine** to produce different code output, generate exhaustive conditional branches. For example, 2 variants × 2 values = 4 branches:
+Khi **hai hoặc nhiều thuộc tính `VARIANT` kết hợp** để tạo ra đầu ra code khác nhau, hãy viết đầy đủ toàn bộ các nhánh điều kiện. Ví dụ: 2 variants × 2 giá trị = 4 nhánh:
 
 ```ts
 const type = instance.getEnum('Type', { 'Filled': 'filled', 'Outlined': 'outlined' })
@@ -208,9 +210,9 @@ if (type === 'filled' && status === 'success') {
 }
 ```
 
-If the combinations produce **repetitive** output (e.g., `Size` doesn't change the snippet structure — it's just passed through as a prop), a single `getEnum` mapping per variant is sufficient — no need for cross-product branches.
+Nếu các tổ hợp chỉ tạo ra đầu ra **lặp lại giống nhau** (ví dụ `Size` không làm thay đổi cấu trúc snippet — nó chỉ được truyền thẳng vào như một prop), thì một ánh xạ `getEnum` đơn lẻ cho mỗi variant là đủ — không cần tách nhánh tích chéo.
 
-**INSTANCE_SWAP** — access swappable component instances:
+**INSTANCE_SWAP** — truy cập các component instance có thể hoán đổi:
 ```ts
 const icon = instance.getInstanceSwap('Icon')
 let iconCode
@@ -219,9 +221,9 @@ if (icon && icon.type === 'INSTANCE') {
 }
 ```
 
-**SLOT** — `getSlot(propName)` is only valid when the Figma component property reported in Step 3 has type **`SLOT`**. Do not use `getSlot()` for **INSTANCE_SWAP** properties (those use `getInstanceSwap()`). Slots are explicit “content regions” in the component definition, not generic nested instances.
+**SLOT** — `getSlot(propName)` chỉ hợp lệ khi Figma component property báo về ở Bước 3 có kiểu là **`SLOT`**. Không dùng `getSlot()` cho các thuộc tính **`INSTANCE_SWAP`** (chúng dùng `getInstanceSwap()`). Slot là các “vùng nội dung” tường minh trong định nghĩa component, không phải các nested instance thông thường.
 
-- **Signature:** `getSlot(propName: string): ResultSection[] | undefined`
+- **Chữ ký hàm:** `getSlot(propName: string): ResultSection[] | undefined`
 ```ts
 // Figma property "Content" must be type SLOT in component properties
 const content = instance.getSlot('Content')
@@ -232,35 +234,35 @@ export default {
 }
 ```
 
-### Interpolation in tagged templates
+### Nội suy biến trong tagged templates
 
-When interpolating values in tagged templates, use the correct wrapping:
-- **String values** (`getString`, `getEnum`, `textContent`): wrap in quotes → `variant="${variant}"`
-- **Instance/section values** (`executeTemplate().example`): wrap in braces → `icon={${iconCode}}`
-- **Slot sections** (`getSlot()` result — `ResultSection[] | undefined`): interpolate directly inside `` figma.code`...` `` (same shape as nested snippet sections), e.g. `` figma.code`<Select>${content}</Select>` `` — do not treat as a plain string
-- **Boolean bare props**: use conditional → `${disabled ? 'disabled' : ''}`
+Khi nội suy giá trị vào bên trong tagged templates, hãy bọc đúng cú pháp:
+- **Giá trị chuỗi** (`getString`, `getEnum`, `textContent`): bọc trong dấu ngoặc kép → `variant="${variant}"`
+- **Giá trị instance/section** (`executeTemplate().example`): bọc trong ngoặc nhọn → `icon={${iconCode}}`
+- **Các slot section** (kết quả `getSlot()` — `ResultSection[] | undefined`): nội suy trực tiếp bên trong `` figma.code`...` `` (cùng dạng với các snippet section lồng nhau), ví dụ `` figma.code`<Select>${content}</Select>` `` — không xử lý nó như một chuỗi thuần
+- **Các boolean bare prop**: dùng biểu thức điều kiện → `${disabled ? 'disabled' : ''}`
 
-### Finding descendant layers
+### Tìm các layer hậu duệ
 
-When you need to access children that aren't exposed as component properties:
+Khi bạn cần truy cập các node con không được phơi bày dưới dạng component property:
 
-| Method | Use when |
+| Phương thức | Sử dụng khi |
 |---|---|
-| `instance.getInstanceSwap('PropName')` | Figma property type is **INSTANCE_SWAP** (fixed swapped instance) |
-| `instance.getSlot('PropName')` | Figma property type is **SLOT** (freeform content region) |
-| `instance.findInstance('LayerName')` | You know the child layer name (no component property) |
-| `instance.findText('LayerName')` → `.textContent` | You need text content from a named text layer |
-| `instance.findConnectedInstance('id')` | You know the child's Code Connect `id` |
-| `instance.findConnectedInstances(fn)` | You need multiple connected children matching a filter |
-| `instance.findLayers(fn)` | You need any layers (text + instances) matching a filter |
+| `instance.getInstanceSwap('PropName')` | Loại Figma property là **INSTANCE_SWAP** (instance hoán đổi cố định) |
+| `instance.getSlot('PropName')` | Loại Figma property là **SLOT** (vùng nội dung tự do) |
+| `instance.findInstance('LayerName')` | Bạn biết tên layer con (không có component property) |
+| `instance.findText('LayerName')` → `.textContent` | Bạn cần nội dung văn bản từ một text layer có tên |
+| `instance.findConnectedInstance('id')` | Bạn biết Code Connect `id` của layer con |
+| `instance.findConnectedInstances(fn)` | Bạn cần nhiều layer con đã kết nối khớp với một bộ lọc |
+| `instance.findLayers(fn)` | Bạn cần bất kỳ layer nào (text + instances) khớp với một bộ lọc |
 
-### Nested configurable instances
+### Các nested instance có thể cấu hình
 
-A component may contain child instances that are **not exposed as component properties** (no INSTANCE_SWAP) but are still **independently configurable** — they have their own variants, properties, or swap slots. These must be resolved dynamically, not hardcoded.
+Một component có thể chứa các instance con **không được phơi bày dưới dạng component property** (không có `INSTANCE_SWAP`) nhưng vẫn **cấu hình độc lập được** — chúng có các variant, property hoặc swap slot riêng. Các thành phần này phải được phân giải động, không được hardcode.
 
-1. **Check whether the child already has a Code Connect template** — use `get_code_connect_suggestions` or check existing `.figma.ts` files in the project.
-2. **If no template exists, create one** for the child so it renders correctly both standalone and when nested.
-3. **Reference the child from the parent** using `findInstance()` or `findConnectedInstance()`, then call `executeTemplate()`.
+1. **Kiểm tra xem layer con đã có template Code Connect chưa** — dùng `get_code_connect_suggestions` hoặc kiểm tra các file `.figma.ts` hiện có trong dự án.
+2. **Nếu chưa có template, hãy tạo một template** cho layer con đó để nó kết xuất chính xác cả khi đứng độc lập lẫn khi lồng bên trong.
+3. **Tham chiếu layer con từ template cha** bằng `findInstance()` hoặc `findConnectedInstance()`, sau đó gọi `executeTemplate()`.
 
 ```ts
 // Parent template — the Badge child isn't a prop, but it's configurable
@@ -276,11 +278,11 @@ export default {
 }
 ```
 
-This applies to icons, badges, labels, and any other nested instance that is configurable by itself — always connect them and render dynamically, never hardcode their content.
+Quy tắc này áp dụng cho icon, badge, label và bất kỳ nested instance nào tự cấu hình được — luôn kết nối và kết xuất động chúng, tuyệt đối không hardcode nội dung của chúng.
 
-### Nested component example
+### Ví dụ component lồng nhau
 
-For multi-level nested components or metadata prop passing between templates, see [advanced-patterns.md](references/advanced-patterns.md).
+Đối với các component lồng nhau nhiều cấp hoặc truyền metadata prop giữa các template, xem [advanced-patterns.md](references/advanced-patterns.md).
 
 ```ts
 const icon = instance.getInstanceSwap('Icon')
@@ -295,7 +297,7 @@ export default {
 }
 ```
 
-### Conditional props
+### Các prop có điều kiện
 
 ```ts
 const variant = instance.getEnum('Variant', { 'Primary': 'primary', 'Secondary': 'secondary' })
@@ -314,24 +316,24 @@ export default {
 }
 ```
 
-## Step 6: Validate
+## Bước 6: Kiểm chứng (Validate)
 
-Read back the `.figma.ts` file and review it against the following:
+Đọc lại file `.figma.ts` và rà soát theo các tiêu chí sau:
 
-- **Correct file type & format (check this FIRST)** — the file is `ComponentName.figma.ts` (NOT `.figma.tsx`), and its default export is a parserless template using a `` figma.code`...` `` tagged template. It must NOT use `figma.connect()` (the parser-based format). If you wrote `.figma.tsx` or `figma.connect()`, discard it and rewrite as a `.figma.ts` `figma.code` template.
-- **Property coverage** — every Figma property from Step 3 should be accounted for in the template. Flag any that are missing and ask the user if they were intentionally omitted.
-- **Valid, correctly typed code** — all emitted code must be valid and correctly typed against the code component's `Props` interface. Never make up component properties — if a Figma property has no corresponding code prop, omit it rather than invent one.
-- **No hardcoded children** — verify that every INSTANCE_SWAP property and child component slot uses the dynamic APIs (`getInstanceSwap()`, `findInstance()`, `findConnectedInstance()`, etc.) with `executeTemplate()`. No slot should contain hardcoded component content.
-- **Rules and Pitfalls** — check for the common mistakes listed below (string concatenation of template results, unnecessary `hasCodeConnect()` guards, missing `type === 'INSTANCE'` checks, etc.)
-- **Interpolation wrapping** — strings (`getString`, `getEnum`, `textContent`) wrapped in quotes, instance/section values (`executeTemplate().example`) wrapped in braces, slot sections (`getSlot`) interpolated as snippet sections inside `` figma.code`...` ``, booleans using conditionals
+- **Đúng loại file & định dạng (kiểm tra mục này ĐẦU TIÊN)** — file phải là `ComponentName.figma.ts` (KHÔNG phải `.figma.tsx`), và export mặc định của nó là một parserless template dùng tagged template `` figma.code`...` ``. Nó KHÔNG được dùng `figma.connect()` (định dạng dựa trên parser). Nếu bạn lỡ viết `.figma.tsx` hoặc `figma.connect()`, hãy hủy bỏ và viết lại thành template `.figma.ts` dùng `figma.code`.
+- **Độ phủ thuộc tính** — mọi Figma property từ Bước 3 phải được xử lý đầy đủ trong template. Gắn cờ báo bất kỳ thuộc tính nào còn thiếu và hỏi người dùng xem chúng có bị bỏ qua có chủ đích hay không.
+- **Code hợp lệ, đúng kiểu** — mọi đoạn code xuất ra phải hợp lệ và đúng kiểu dữ liệu theo interface `Props` của code component. Tuyệt đối không tự bịa thuộc tính component — nếu một Figma property không có code prop tương ứng, hãy bỏ qua thay vì tự chế tên prop mới.
+- **Không hardcode thành phần con** — xác minh rằng mọi thuộc tính `INSTANCE_SWAP` và slot component con đều dùng các API động (`getInstanceSwap()`, `findInstance()`, `findConnectedInstance()`, v.v.) kèm `executeTemplate()`. Không slot nào được chứa nội dung component viết cứng.
+- **Quy tắc và Bẫy lỗi** — kiểm tra các lỗi phổ biến được liệt kê bên dưới (nối chuỗi kết quả template, bọc thừa `hasCodeConnect()`, thiếu kiểm tra `type === 'INSTANCE'`, v.v.)
+- **Bọc cú pháp nội suy** — chuỗi (`getString`, `getEnum`, `textContent`) bọc trong ngoặc kép, giá trị instance/section (`executeTemplate().example`) bọc trong ngoặc nhọn, các slot section (`getSlot`) nội suy dưới dạng snippet section bên trong `` figma.code`...` ``, boolean dùng biểu thức điều kiện.
 
-If anything looks uncertain, consult [api.md](references/api.md) for API details and [advanced-patterns.md](references/advanced-patterns.md) for complex nesting.
+Nếu có điểm nào chưa chắc chắn, tham khảo [api.md](references/api.md) để xem chi tiết API và [advanced-patterns.md](references/advanced-patterns.md) cho các cấu trúc lồng nhau phức tạp.
 
-## Inline Quick Reference
+## Tài liệu tra cứu nhanh nội tuyến
 
-### `instance.*` Methods
+### Các phương thức `instance.*`
 
-| Method | Signature | Returns |
+| Phương thức | Chữ ký (Signature) | Trả về |
 |---|---|---|
 | `getString` | `(propName: string)` | `string` |
 | `getBoolean` | `(propName: string, mapping?: { true: any, false: any })` | `boolean \| any` |
@@ -345,31 +347,31 @@ If anything looks uncertain, consult [api.md](references/api.md) for API details
 | `findConnectedInstances` | `(selector: (node) => boolean, opts?: SelectorOptions)` | `InstanceHandle[]` |
 | `findLayers` | `(selector: (node) => boolean, opts?: SelectorOptions)` | `(InstanceHandle \| TextHandle)[]` |
 
-### InstanceHandle Methods
+### Các phương thức `InstanceHandle`
 
-| Method | Returns |
+| Phương thức | Trả về |
 |---|---|
 | `hasCodeConnect()` | `boolean` |
 | `executeTemplate()` | `{ example: ResultSection[], metadata: Metadata }` |
 | `codeConnectId()` | `string \| null` |
 
-### TextHandle Properties
+### Các thuộc tính `TextHandle`
 
-| Property | Type |
+| Thuộc tính | Kiểu |
 |---|---|
 | `.textContent` | `string` |
 | `.name` | `string` |
 
-### SelectorOptions
+### `SelectorOptions`
 
 ```ts
 { path?: string[], traverseInstances?: boolean }
 ```
 
-- `traverseInstances: true` — required when the target lives inside another nested instance. Without it, `findInstance`/`findText` only search the current instance's own layers and stop at nested instance boundaries.
-- `path: string[]` — disambiguates when multiple descendants share the same layer name. Lists parent layer names that must appear on the path to the target.
+- `traverseInstances: true` — bắt buộc khi mục tiêu nằm bên trong một nested instance khác. Nếu thiếu tùy chọn này, `findInstance`/`findText` chỉ tìm trong các layer riêng của instance hiện tại và dừng lại ở ranh giới các nested instance.
+- `path: string[]` — phân biệt khi nhiều hậu duệ dùng chung tên layer. Liệt kê tên các layer cha phải xuất hiện trên đường dẫn tới mục tiêu.
 
-**Examples:**
+**Ví dụ:**
 
 ```ts
 // Layer hierarchy:
@@ -384,9 +386,9 @@ instance.findInstance('mychild', { traverseInstances: true })
 instance.findInstance('mychild', { traverseInstances: true, path: ['C'] })
 ```
 
-**When to reach into a nested instance from a parent template:** only when the parent code component (from Step 4) takes the nested layer as a prop value itself (e.g. `<C show={<B />} />` — A forwards B into C). If the parent just composes C and C renders B internally, resolve C with `executeTemplate()` and let C's own template handle B — don't duplicate B's rendering at the parent level.
+**Khi nào cần chọc sâu vào một nested instance từ template cha:** chỉ khi chính code component cha (từ Bước 4) nhận layer lồng nhau đó làm giá trị của một prop (ví dụ `<C show={<B />} />` — A truyền tiếp B vào C). Nếu cha chỉ chứa C và C tự kết xuất B ở bên trong, hãy phân giải C bằng `executeTemplate()` và để template riêng của C xử lý B — không lặp lại việc kết xuất B ở cấp cha.
 
-### Export Structure
+### Cấu trúc Export
 
 ```ts
 export default {
@@ -397,11 +399,11 @@ export default {
 }
 ```
 
-## Rules and Pitfalls
+## Quy tắc và Bẫy lỗi
 
-1. **Never string-concatenate template results.** `executeTemplate().example` is a `ResultSection[]` object, not a string. Using `+` or `.join()` produces `[object Object]`. Always interpolate inside tagged templates: `` figma.code`${snippet1}${snippet2}` ``
+1. **Không bao giờ nối chuỗi kết quả template.** `executeTemplate().example` là một mảng object `ResultSection[]`, không phải chuỗi. Dùng `+` hoặc `.join()` sẽ tạo ra `[object Object]`. Luôn nội suy bên trong tagged templates: `` figma.code`${snippet1}${snippet2}` ``
 
-2. **Do not use `hasCodeConnect()` guards.** Call `executeTemplate()` directly on any instance after a `type === 'INSTANCE'` check. The runtime handles instances without Code Connect automatically.
+2. **Không dùng điều kiện chặn `hasCodeConnect()`.** Gọi trực tiếp `executeTemplate()` trên bất kỳ instance nào sau khi kiểm tra `type === 'INSTANCE'`. Runtime tự động xử lý các instance chưa có Code Connect.
 
    ```ts
    // WRONG — hasCodeConnect() gate drops non-CC instances
@@ -415,15 +417,15 @@ export default {
    }
    ```
 
-3. **Check `type === 'INSTANCE'` before calling `executeTemplate()`.** `findInstance()`, `findConnectedInstance()`, and `findText()` return an `ErrorHandle` (truthy, but not a real node) on failure — not `null`. Always add a type check to avoid crashes: `if (child && child.type === 'INSTANCE') { ... }`
+3. **Kiểm tra `type === 'INSTANCE'` trước khi gọi `executeTemplate()`.** `findInstance()`, `findConnectedInstance()` và `findText()` trả về một `ErrorHandle` (có giá trị truthy nhưng không phải node thật) khi thất bại — không phải `null`. Luôn thêm bước kiểm tra type để tránh crash: `if (child && child.type === 'INSTANCE') { ... }`
 
-4. **Prefer `getInstanceSwap()` over `findInstance()`** when a component property exists for the slot. `findInstance('Star Icon')` breaks when the icon is swapped to a different name; `getInstanceSwap('Icon')` always works regardless of which instance is in the slot.
+4. **Ưu tiên `getInstanceSwap()` hơn `findInstance()`** khi có sẵn component property cho slot đó. `findInstance('Star Icon')` sẽ hỏng khi icon bị hoán đổi sang tên khác; `getInstanceSwap('Icon')` luôn hoạt động bất kể instance nào đang nằm trong slot.
 
-5. **Use `getSlot()` only when the Figma property type is `SLOT`.** For **INSTANCE_SWAP** props, use `getInstanceSwap()` (returns an `InstanceHandle`). `getSlot()` returns structured slot sections, not instances — never call `executeTemplate()` on its return value.
+5. **Chỉ dùng `getSlot()` khi loại Figma property là `SLOT`.** Với các prop `INSTANCE_SWAP`, dùng `getInstanceSwap()` (trả về `InstanceHandle`). `getSlot()` trả về các slot section có cấu trúc, không phải instance — không bao giờ gọi `executeTemplate()` lên giá trị trả về của nó.
 
-6. **Property names are case-sensitive** and must exactly match what `get_context_for_code_connect` returns.
+6. **Tên property phân biệt hoa thường (case-sensitive)** và phải khớp chính xác với giá trị do `get_context_for_code_connect` trả về.
 
-7. **Handle multiple template arrays correctly.** When iterating over children, set each result in a separate variable and interpolate them individually — do not use `.map().join()`:
+7. **Xử lý nhiều mảng template đúng cách.** Khi lặp qua các thành phần con, gán từng kết quả vào một biến riêng và nội suy riêng rẽ từng biến — không dùng `.map().join()`:
    ```ts
    // Wrong:
    items.map(n => n.executeTemplate().example).join('\n')
@@ -434,7 +436,7 @@ export default {
    export default { example: figma.code`${child1}${child2}` }
    ```
 
-7. **Never hardcode slot or children content.** Always resolve child instances dynamically — use `getInstanceSwap()` for INSTANCE_SWAP properties, `findInstance()`/`findConnectedInstance()` for direct children — and render them via `executeTemplate()`. Never construct JSX from a layer name (e.g., `<StarIcon />`) or guess import paths. If an instance has no Code Connect, omit it — do not add a hardcoded fallback.
+8. **Không bao giờ hardcode nội dung của slot hoặc children.** Luôn phân giải động các instance con — dùng `getInstanceSwap()` cho các thuộc tính `INSTANCE_SWAP`, `findInstance()`/`findConnectedInstance()` cho con trực tiếp — và kết xuất chúng qua `executeTemplate()`. Không bao giờ tự dựng JSX từ tên layer (ví dụ `<StarIcon />`) hoặc đoán đường dẫn import. Nếu một instance chưa có Code Connect, hãy bỏ qua nó — không thêm giá trị dự phòng viết cứng.
 
    ```ts
    // WRONG — hardcodes the icon from its layer name
@@ -449,22 +451,22 @@ export default {
    example: figma.code`<Button${iconCode ? figma.code` icon={${iconCode}}` : ''}>...</Button>`
    ```
 
-8. **Attempt to represent every Figma property via a code prop.** The code component's `Props` interface (from Step 4) is the authoritative list of attribute names. For each Figma property, figure out the right way to represent it using the API methods from Step 5 — direct name match, value transformation, or whatever fits. If no code prop fits at all, omit it — don't invent a prop name.
+9. **Cố gắng biểu diễn mọi Figma property thông qua một code prop.** Interface `Props` của code component (từ Bước 4) là danh sách tên thuộc tính chuẩn xác duy nhất. Với mỗi Figma property, tìm cách phù hợp nhất để biểu diễn nó bằng các phương thức API ở Bước 5 — khớp tên trực tiếp, biến đổi giá trị hoặc bất kỳ cách nào tương thích. Nếu hoàn toàn không có code prop nào khớp, hãy bỏ qua nó — đừng tự bịa tên prop.
 
-## Complete Worked Example
+## Ví dụ hoàn chỉnh từ đầu đến cuối
 
-Given URL: `https://figma.com/design/abc123/MyFile?node-id=42-100`
+Cho URL: `https://figma.com/design/abc123/MyFile?node-id=42-100`
 
-**Step 1:** Parse the URL.
+**Bước 1:** Phân tích URL.
 - `fileKey` = `abc123`
 - `nodeId` = `42-100` → `42:100`
 
-**Step 2:** Call `get_code_connect_suggestions` with `fileKey: "abc123"`, `nodeId: "42:100"`, `excludeMappingPrompt: true`.
-Response returns one component with `mainComponentNodeId: "42:100"`. If the response were empty, stop and inform the user. If multiple components were returned, repeat Steps 3–6 for each.
+**Bước 2:** Gọi `get_code_connect_suggestions` với `fileKey: "abc123"`, `nodeId: "42:100"`, `excludeMappingPrompt: true`.
+Phản hồi trả về một component với `mainComponentNodeId: "42:100"`. Nếu phản hồi rỗng, dừng lại và thông báo cho người dùng. Nếu nhiều component được trả về, lặp lại Bước 3–6 cho từng component.
 
-**Step 3:** Call `get_context_for_code_connect` with `fileKey: "abc123"`, `nodeId: "42:100"` (from Step 2), `clientFrameworks: ["react"]`, `clientLanguages: ["typescript"]`.
+**Bước 3:** Gọi `get_context_for_code_connect` với `fileKey: "abc123"`, `nodeId: "42:100"` (từ Bước 2), `clientFrameworks: ["react"]`, `clientLanguages: ["typescript"]`.
 
-Response includes properties:
+Phản hồi bao gồm các thuộc tính:
 - Label (TEXT)
 - Variant (VARIANT): Primary, Secondary
 - Size (VARIANT): Small, Medium, Large
@@ -472,9 +474,9 @@ Response includes properties:
 - Has Icon (BOOLEAN)
 - Icon (INSTANCE_SWAP)
 
-**Step 4:** Search codebase → find `Button` component. Read its source to confirm props: `variant`, `size`, `disabled`, `icon`, `children`. Import path: `"primitives"`.
+**Bước 4:** Tìm kiếm codebase → tìm thấy component `Button`. Đọc mã nguồn của nó để xác nhận các prop: `variant`, `size`, `disabled`, `icon`, `children`. Đường dẫn import: `"primitives"`.
 
-**Step 5:** Create `src/figma/primitives/Button.figma.ts`:
+**Bước 5:** Tạo `src/figma/primitives/Button.figma.ts`:
 
 ```ts
 // url=https://figma.com/design/abc123/MyFile?node-id=42-100
@@ -518,11 +520,11 @@ export default {
 }
 ```
 
-**Step 6:** Read back file to verify syntax.
+**Bước 6:** Đọc lại file để xác minh cú pháp.
 
-## Additional Reference
+## Tài liệu tham khảo bổ sung
 
-For advanced patterns (multi-level nested components, `findConnectedInstances` filtering, metadata prop passing between parent/child templates):
+Đối với các mẫu nâng cao (component lồng nhiều cấp, lọc bằng `findConnectedInstances`, truyền metadata prop giữa template cha/con):
 
-- [api.md](references/api.md) — Full Code Connect API reference
-- [advanced-patterns.md](references/advanced-patterns.md) — Advanced nesting, metadata props, and descendant patterns
+- [api.md](references/api.md) — Tài liệu tham khảo đầy đủ API Code Connect
+- [advanced-patterns.md](references/advanced-patterns.md) — Lồng cấp nâng cao, metadata props và các mẫu truy vấn hậu duệ

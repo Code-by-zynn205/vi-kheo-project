@@ -1,118 +1,120 @@
 ---
 name: design-critique
-description: Get structured design feedback on usability, hierarchy, and consistency. Trigger with "review this design", "critique this mockup", "what do you think of this screen?", or when sharing a Figma link or screenshot for feedback at any stage from exploration to final polish.
-argument-hint: "<Figma URL, screenshot, or description>"
+description: Nhận phản hồi thiết kế có cấu trúc về tính khả dụng (usability), phân cấp thị giác (hierarchy) và tính nhất quán (consistency). Kích hoạt với các yêu cầu như "review this design", "critique this mockup", "what do you think of this screen?", "nhận xét thiết kế này", hoặc khi chia sẻ liên kết Figma hay ảnh chụp màn hình để lấy góp ý ở bất kỳ giai đoạn nào từ khám phá ý tưởng đến hoàn thiện cuối cùng.
+argument-hint: "<URL Figma, ảnh chụp màn hình hoặc mô tả>"
 ---
 
 # /design-critique
 
-> If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](../../CONNECTORS.md).
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [anthropics/knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins/blob/main/design/skills/design-critique/SKILL.md) (Anthropic).
 
-Get structured design feedback across multiple dimensions.
+> Nếu bạn thấy các placeholder lạ hoặc cần kiểm tra công cụ nào đang được kết nối, hãy xem [CONNECTORS.md](../../CONNECTORS.md).
 
-## Usage
+Nhận phản hồi thiết kế có cấu trúc trên nhiều khía cạnh.
+
+## Cách dùng
 
 ```
 /design-critique $ARGUMENTS
 ```
 
-Review the design: @$1
+Đánh giá thiết kế: @$1
 
-If a Figma URL is provided, pull the design from Figma. If a file is referenced, read it. Otherwise, ask the user to describe or share their design.
+Nếu có URL Figma được cung cấp, hãy lấy thiết kế từ Figma. Nếu có tệp được tham chiếu, hãy đọc tệp đó. Nếu không, hãy yêu cầu người dùng mô tả hoặc chia sẻ thiết kế của họ.
 
-## What I Need From You
+## Thông tin tôi cần từ bạn
 
-- **The design**: Figma URL, screenshot, or detailed description
-- **Context**: What is this? Who is it for? What stage (exploration, refinement, final)?
-- **Focus** (optional): "Focus on mobile" or "Focus on the onboarding flow"
+- **Thiết kế**: URL Figma, ảnh chụp màn hình hoặc mô tả chi tiết
+- **Ngữ cảnh**: Đây là màn hình/tính năng gì? Dành cho ai? Đang ở giai đoạn nào (khám phá, tinh chỉnh, hoàn thiện)?
+- **Trọng tâm** (tùy chọn): Ví dụ "Tập trung vào mobile" hoặc "Tập trung vào luồng onboarding"
 
-## Critique Framework
+## Khung đánh giá thiết kế (Critique Framework)
 
-### 1. First Impression (2 seconds)
-- What draws the eye first? Is that correct?
-- What's the emotional reaction?
-- Is the purpose immediately clear?
+### 1. Ấn tượng đầu tiên (2 giây)
+- Điều gì thu hút ánh nhìn đầu tiên? Điều đó đã đúng trọng tâm chưa?
+- Cảm xúc gợi lên là gì?
+- Mục đích của màn hình có rõ ràng ngay lập tức không?
 
-### 2. Usability
-- Can the user accomplish their goal?
-- Is the navigation intuitive?
-- Are interactive elements obvious?
-- Are there unnecessary steps?
+### 2. Tính khả dụng (Usability)
+- Người dùng có thể hoàn thành mục tiêu của họ không?
+- Điều hướng có trực quan không?
+- Các phần tử tương tác có dễ nhận biết không?
+- Có bước nào dư thừa không?
 
-### 3. Visual Hierarchy
-- Is there a clear reading order?
-- Are the right elements emphasized?
-- Is whitespace used effectively?
-- Is typography creating the right hierarchy?
+### 3. Phân cấp thị giác (Visual Hierarchy)
+- Có thứ tự đọc rõ ràng không?
+- Các thành phần quan trọng có được nhấn mạnh đúng mức không?
+- Khoảng trắng (whitespace) có được sử dụng hiệu quả không?
+- Kiểu chữ (typography) có tạo ra hệ thống phân cấp phù hợp không?
 
-### 4. Consistency
-- Does it follow the design system?
-- Are spacing, colors, and typography consistent?
-- Do similar elements behave similarly?
+### 4. Tính nhất quán (Consistency)
+- Thiết kế có tuân thủ design system không?
+- Khoảng cách, màu sắc và typography có đồng nhất không?
+- Các thành phần tương tự có hành vi giống nhau không?
 
-### 5. Accessibility
-- Color contrast ratios
-- Touch target sizes
-- Text readability
-- Alternative text for images
+### 5. Khả năng tiếp cận (Accessibility)
+- Tỷ lệ tương phản màu sắc
+- Kích thước vùng chạm (touch target)
+- Khả năng đọc của văn bản
+- Văn bản thay thế (alt text) cho hình ảnh
 
-## How to Give Feedback
+## Cách đưa ra phản hồi
 
-- **Be specific**: "The CTA competes with the navigation" not "the layout is confusing"
-- **Explain why**: Connect feedback to design principles or user needs
-- **Suggest alternatives**: Don't just identify problems, propose solutions
-- **Acknowledge what works**: Good feedback includes positive observations
-- **Match the stage**: Early exploration gets different feedback than final polish
+- **Cụ thể**: Nói "Nút CTA đang cạnh tranh sự chú ý với thanh điều hướng" thay vì "bố cục rối"
+- **Giải thích lý do**: Gắn phản hồi với nguyên lý thiết kế hoặc nhu cầu người dùng
+- **Đề xuất giải pháp**: Không chỉ chỉ ra vấn đề, hãy gợi ý hướng khắc phục
+- **Ghi nhận điểm tốt**: Phản hồi chất lượng luôn bao gồm cả những nhận xét tích cực
+- **Phù hợp giai đoạn**: Giai đoạn khám phá ban đầu cần góc nhìn khác với giai đoạn tinh chỉnh cuối cùng
 
-## Output
+## Đầu ra (Output)
 
 ```markdown
-## Design Critique: [Design Name]
+## Đánh giá thiết kế (Design Critique): [Tên thiết kế]
 
-### Overall Impression
-[1-2 sentence first reaction — what works, what's the biggest opportunity]
+### Ấn tượng tổng quan
+[1-2 câu phản hồi đầu tiên — điểm làm tốt và cơ hội cải thiện lớn nhất]
 
-### Usability
-| Finding | Severity | Recommendation |
-|---------|----------|----------------|
-| [Issue] | 🔴 Critical / 🟡 Moderate / 🟢 Minor | [Fix] |
+### Tính khả dụng (Usability)
+| Phát hiện | Mức độ | Khuyến nghị |
+|-----------|--------|-------------|
+| [Vấn đề] | 🔴 Nghiêm trọng / 🟡 Trung bình / 🟢 Nhỏ | [Cách khắc phục] |
 
-### Visual Hierarchy
-- **What draws the eye first**: [Element] — [Is this correct?]
-- **Reading flow**: [How does the eye move through the layout?]
-- **Emphasis**: [Are the right things emphasized?]
+### Phân cấp thị giác (Visual Hierarchy)
+- **Điểm thu hút ánh nhìn đầu tiên**: [Thành phần] — [Đã hợp lý chưa?]
+- **Luồng đọc**: [Ánh mắt di chuyển qua bố cục như thế nào?]
+- **Điểm nhấn**: [Các yếu tố quan trọng đã được nhấn mạnh đúng chưa?]
 
-### Consistency
-| Element | Issue | Recommendation |
-|---------|-------|----------------|
-| [Typography/spacing/color] | [Inconsistency] | [Fix] |
+### Tính nhất quán (Consistency)
+| Thành phần | Vấn đề | Khuyến nghị |
+|------------|--------|-------------|
+| [Typography/spacing/color] | [Điểm chưa nhất quán] | [Cách khắc phục] |
 
-### Accessibility
-- **Color contrast**: [Pass/fail for key text]
-- **Touch targets**: [Adequate size?]
-- **Text readability**: [Font size, line height]
+### Khả năng tiếp cận (Accessibility)
+- **Tương phản màu**: [Đạt/chưa đạt cho các đoạn văn bản chính]
+- **Vùng chạm (Touch targets)**: [Kích thước đã đủ lớn chưa?]
+- **Độ dễ đọc của chữ**: [Cỡ chữ, chiều cao dòng]
 
-### What Works Well
-- [Positive observation 1]
-- [Positive observation 2]
+### Điểm làm tốt
+- [Nhận xét tích cực 1]
+- [Nhận xét tích cực 2]
 
-### Priority Recommendations
-1. **[Most impactful change]** — [Why and how]
-2. **[Second priority]** — [Why and how]
-3. **[Third priority]** — [Why and how]
+### Khuyến nghị ưu tiên
+1. **[Thay đổi tác động lớn nhất]** — [Tại sao và làm thế nào]
+2. **[Ưu tiên thứ hai]** — [Tại sao và làm thế nào]
+3. **[Ưu tiên thứ ba]** — [Tại sao và làm thế nào]
 ```
 
-## If Connectors Available
+## Khi có Connector khả dụng
 
-If **~~design tool** is connected:
-- Pull the design directly from Figma and inspect components, tokens, and layers
-- Compare against the existing design system for consistency
+Nếu **~~design tool** đã được kết nối:
+- Lấy trực tiếp thiết kế từ Figma để kiểm tra các component, token và layer
+- Đối chiếu với design system hiện có để đảm bảo tính nhất quán
 
-If **~~user feedback** is connected:
-- Cross-reference design decisions with recent user feedback and support tickets
+Nếu **~~user feedback** đã được kết nối:
+- Đối chiếu chéo các quyết định thiết kế với phản hồi người dùng và ticket hỗ trợ gần đây
 
-## Tips
+## Mẹo thực hành
 
-1. **Share the context** — "This is a checkout flow for a B2B SaaS" helps me give relevant feedback.
-2. **Specify your stage** — Early exploration gets different feedback than final polish.
-3. **Ask me to focus** — "Just look at the navigation" gives you more depth on one area.
+1. **Chia sẻ ngữ cảnh** — "Đây là luồng thanh toán cho B2B SaaS" giúp tôi đưa ra nhận xét sát thực tế hơn.
+2. **Nêu rõ giai đoạn** — Giai đoạn khám phá ý tưởng cần góp ý khác với giai đoạn hoàn thiện chi tiết.
+3. **Yêu cầu tập trung nếu cần** — "Chỉ xem giúp phần điều hướng" sẽ giúp nhận được phân tích sâu hơn vào một khu vực cụ thể.

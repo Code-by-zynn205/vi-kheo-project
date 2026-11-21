@@ -1,64 +1,66 @@
 ---
 name: figma-use-figjam
-description: "This skill helps agents use Figma's use_figma MCP tool in the FigJam context. Can be used alongside figma-use which has foundational context for using the use_figma tool."
+description: "Skill này hỗ trợ các agent sử dụng công cụ MCP use_figma của Figma trong ngữ cảnh FigJam. Có thể dùng song song với figma-use vốn chứa ngữ cảnh nền tảng cho việc sử dụng công cụ use_figma."
 disable-model-invocation: false
 ---
 
-# use_figma — Figma Plugin API Skill for FigJam
+# use_figma — Skill Figma Plugin API cho FigJam
 
-This skill contains FigJam-specific context for the `use_figma` MCP tool. The [figma-use](../figma-use/SKILL.md) skill provides foundational context for plugin API execution via MCP as well as the full Figma plugin API for more advanced use-cases that are not described here.
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [figma/mcp-server-guide](https://github.com/figma/mcp-server-guide/blob/main/skills/figma-use-figjam/SKILL.md) (Figma chính thức).
 
-**Always include `figma-use-figjam` in the comma-separated `skillNames` parameter when calling `use_figma` for FigJam operations. If this skill was loaded via an MCP resource, you MUST prefix the name with `resource:` (e.g. `resource:figma-use-figjam`).** This is a logging parameter used to track skill usage — it does not affect execution.
+Skill này chứa ngữ cảnh đặc thù cho FigJam của công cụ MCP `use_figma`. Skill [figma-use](../figma-use/SKILL.md) cung cấp ngữ cảnh nền tảng cho việc thực thi plugin API qua MCP cũng như toàn bộ Figma plugin API cho các trường hợp nâng cao hơn không được mô tả tại đây.
 
-> **FigJam URL is `figma.com/board/...`.** Do NOT call `figma.createPage()` in FigJam — it throws `TypeError: figma.createPage no such property 'createPage' on the figma global object`. `createPage()` is a Design-file API only (`figma.com/design/...`). FigJam files have a single implicit page; organize content with sections instead (see [create-section](references/create-section.md)).
+**Luôn đưa `figma-use-figjam` vào tham số `skillNames` phân tách bằng dấu phẩy khi gọi `use_figma` cho các thao tác FigJam. Nếu skill này được tải thông qua tài nguyên MCP, bạn BẮT BUỘC phải thêm tiền tố `resource:` vào tên (ví dụ `resource:figma-use-figjam`).** Đây là tham số ghi log dùng để theo dõi mức độ sử dụng skill — nó không ảnh hưởng đến quá trình thực thi.
 
-## Inspecting FigJam Files
+> **URL của FigJam là `figma.com/board/...`.** KHÔNG gọi `figma.createPage()` trong FigJam — nó sẽ ném lỗi `TypeError: figma.createPage no such property 'createPage' on the figma global object`. `createPage()` là API chỉ dành riêng cho file Design (`figma.com/design/...`). Các file FigJam chỉ có một trang ngầm định duy nhất; hãy sắp xếp nội dung bằng các section thay thế (xem [create-section](references/create-section.md)).
 
-**`get_figjam` is the inspection tool for FigJam files.** It returns the full node tree as XML, including IDs of pages, sections, stickies, connectors, and other nodes you need to reference in subsequent `use_figma` calls.
+## Kiểm tra nội dung file FigJam
 
-- **Use `get_figjam` upfront** before writing any `use_figma` code that needs to reference existing nodes (page IDs, section IDs, etc.). Don't try to discover IDs by running an inspection script — `console.log` output from `use_figma` is **not returned to the agent** (see [figma-use Critical Rule #4](../figma-use/SKILL.md)). Only the `return` value comes back.
-- **`get_metadata` does NOT work on FigJam files** — it is design-mode only and will fail immediately with "unsupported for FigJam files".
-- **`get_screenshot` requires a valid `nodeId`** — passing an empty nodeId returns "invalid nodeId" error. Get IDs from `get_figjam` first.
-- If you forgot to `return` an ID from a previous `use_figma` call and need it now, call `get_figjam` rather than re-running an inspection script.
+**`get_figjam` là công cụ kiểm tra dành cho file FigJam.** Nó trả về toàn bộ cây node dưới dạng XML, bao gồm ID của page, section, sticky, connector và các node khác mà bạn cần tham chiếu trong các lần gọi `use_figma` tiếp theo.
 
-## Loading Reference Docs Efficiently
+- **Sử dụng `get_figjam` ngay từ đầu** trước khi viết bất kỳ mã `use_figma` nào cần tham chiếu đến các node hiện có (ID của trang, ID của section, v.v.). Đừng cố tìm ID bằng cách chạy một script kiểm tra — đầu ra `console.log` từ `use_figma` **không được trả về cho agent** (xem [Quy tắc tối quan trọng số 4 của figma-use](../figma-use/SKILL.md)). Chỉ giá trị `return` mới được trả về.
+- **`get_metadata` KHÔNG hoạt động trên file FigJam** — nó chỉ dành cho chế độ design và sẽ lỗi ngay lập tức với thông báo "unsupported for FigJam files".
+- **`get_screenshot` yêu cầu một `nodeId` hợp lệ** — truyền một nodeId rỗng sẽ trả về lỗi "invalid nodeId". Hãy lấy các ID từ `get_figjam` trước.
+- Nếu bạn quên `return` một ID từ lần gọi `use_figma` trước và giờ đang cần nó, hãy gọi `get_figjam` thay vì chạy lại một script kiểm tra.
 
-Load only the references your task needs — but when you do need to load multiple, **issue all reads in a single parallel tool-call batch**, not sequentially across turns. For a typical board-creation task, that means a single message containing reads for `plan-board-content` plus the 3-4 specific node-type references you'll use.
+## Tải tài liệu tham khảo hiệu quả
 
-## Deferred Tools — Batch-Load Schemas
+Chỉ tải những tài liệu tham khảo mà tác vụ của bạn cần — nhưng khi bạn cần tải nhiều tài liệu, hãy **gọi tất cả các lệnh đọc trong một đợt tool-call song song duy nhất**, đừng gọi tuần tự qua nhiều lượt. Đối với một tác vụ tạo bảng thông thường, điều đó nghĩa là một tin nhắn duy nhất chứa các lệnh đọc cho `plan-board-content` cộng với 3-4 tài liệu tham khảo theo loại node cụ thể mà bạn sẽ dùng.
 
-The Figma MCP tools (`use_figma`, `get_figjam`, `get_screenshot`, `get_metadata`, `create_new_file`, `whoami`) often appear as deferred tools that require `ToolSearch` to load their schemas before they can be called. **Load all schemas in a single `ToolSearch` call** using the `select:` syntax instead of one call per tool:
+## Công cụ trì hoãn — Tải schema hàng loạt
+
+Các công cụ MCP của Figma (`use_figma`, `get_figjam`, `get_screenshot`, `get_metadata`, `create_new_file`, `whoami`) thường xuất hiện dưới dạng công cụ trì hoãn (deferred tools) yêu cầu `ToolSearch` tải schema trước khi có thể gọi. **Tải tất cả schema trong một lần gọi `ToolSearch` duy nhất** bằng cú pháp `select:` thay vì mỗi công cụ một lần gọi:
 
 ```
 ToolSearch query="select:use_figma,get_figjam,get_screenshot,get_metadata,create_new_file"
 ```
 
-Six sequential `ToolSearch` calls is six round trips before any work happens. One batched call is one round trip.
+Sáu lần gọi `ToolSearch` tuần tự tương đương sáu lượt khứ hồi trước khi có bất kỳ công việc nào được thực hiện. Một lần gọi gộp chỉ mất một lượt khứ hồi.
 
-## Text Mutations — Canonical Recipe
+## Thay đổi văn bản — Công thức chuẩn
 
-Every FigJam text mutation (sticky/shape/label/table cell/connector text, standalone text nodes) follows the same recipe as Design files: load font → `await` → mutate → return affected IDs. Skipping the load throws `Cannot write to node with unloaded font "<family> <style>"`. See [figma-use → gotchas.md → Canonical text-edit recipe](../figma-use/references/gotchas.md#canonical-text-edit-recipe-font-load--await--mutate--return-ids). FigJam-specific note: sublayer defaults vary (sticky → `Inter Medium`, shape → `Inter Medium`, connector → invalid until set), so always load from `node.text.fontName` rather than hardcoding `{ family: 'Inter', style: 'Regular' }`.
+Mọi thao tác thay đổi văn bản trong FigJam (sticky/shape/label/ô bảng/văn bản trên connector, text node độc lập) đều tuân theo cùng công thức như file Design: tải font → `await` → thay đổi → trả về các ID bị ảnh hưởng. Bỏ qua bước tải font sẽ ném lỗi `Cannot write to node with unloaded font "<family> <style>"`. Xem [figma-use → gotchas.md → Canonical text-edit recipe](../figma-use/references/gotchas.md#canonical-text-edit-recipe-font-load--await--mutate--return-ids). Lưu ý đặc thù của FigJam: giá trị mặc định của sublayer khác nhau (sticky → `Inter Medium`, shape → `Inter Medium`, connector → không hợp lệ cho đến khi được đặt), vì vậy hãy luôn tải từ `node.text.fontName` thay vì hardcode `{ family: 'Inter', style: 'Regular' }`.
 
-## Adding Images to a FigJam Board
+## Thêm hình ảnh vào bảng FigJam
 
-**`upload_assets` is the ONLY supported way to add images to a FigJam file.** Call `upload_assets` with the FigJam `fileKey`; the tool returns single-use upload URLs that you POST raw image bytes to, and the image is committed and placed automatically. Pass `nodeIds` (with one entry per upload) to attach uploads to existing FigJam nodes as fills; omit `nodeIds` to drop the images onto the board as new layers.
+**`upload_assets` là cách duy nhất được hỗ trợ để thêm hình ảnh vào một file FigJam.** Gọi `upload_assets` với `fileKey` của FigJam; công cụ trả về các URL upload dùng một lần để bạn POST dữ liệu byte ảnh thô tới, và hình ảnh sẽ được lưu và đặt vào bảng tự động. Truyền `nodeIds` (mỗi mục tương ứng một ảnh tải lên) để gắn ảnh vào các node FigJam hiện có dưới dạng fill; bỏ qua `nodeIds` để thả ảnh lên bảng dưới dạng các layer mới.
 
-For the full request/response shape, see [figma-use → api-reference.md → Images](../figma-use/references/api-reference.md#images).
+Để xem cấu trúc request/response đầy đủ, hãy tham khảo [figma-use → api-reference.md → Images](../figma-use/references/api-reference.md#images).
 
-## Reference Docs
+## Tài liệu tham khảo
 
-- [plan-board-content](references/plan-board-content.md) - Read this for any board content request — board template, retro, brainstorm, ice breaker, meeting board, scaffold
-  - Covers planning of generated board content, including sequential outline, sections, intents, and hierarchical text
-  - Delegates to other references for specific API details
-- [create-section](references/create-section.md) — Create and configure FigJam sections (sizing, naming, colors, content visibility, organizing nodes, column layouts)
-- [create-sticky](references/create-sticky.md) — Create and configure FigJam sticky notes (colors, sizing, text, author visibility, batch creation)
-- [create-connector](references/create-connector.md) — Create and configure FigJam connectors (endpoints, arrows, line types, labels, colors, diagram wiring)
-- [create-text](references/create-text.md) — Create and configure FigJam text nodes (font loading, preset fonts and colors, sizing, lists, mind map operations)
-- [position-figjam-nodes](references/position-figjam-nodes.md) — Position, size, and reparent nodes on the canvas (including within sections)
-- [create-shape-with-text](references/create-shape-with-text.md) — Create and configure FigJam shapes with embedded text (shape types, color presets, sizing to fit text, diagram layouts)
-- [create-code-block](references/create-code-block.md) — Create and configure FigJam code block nodes (languages, syntax highlighting, positioning, embedding in sections)
-- [create-table](references/create-table.md) — Create and configure FigJam tables (rows, columns, cell text, color presets, resizing)
-- [edit-text](references/edit-text.md) — Edit existing text nodes (font loading, styled ranges, find/replace, FigJam Charcoal default color)
-- [create-label](references/create-label.md) — Create and configure FigJam label nodes (small numbered/lettered circle callout markers, sequences, positioning)
-- [batch-modify](references/batch-modify.md) — Patterns for modifying many existing nodes at once (bulk style changes, repositioning, property updates)
-- [figjam-colors](references/figjam-colors.md) — Canonical FigJam color palettes for every node type (sticky, section, connector, shape, label) plus the `hex/255` notation rule and the `h()` helper
+- [plan-board-content](references/plan-board-content.md) - Đọc tài liệu này cho mọi yêu cầu tạo nội dung bảng — mẫu bảng, retro, brainstorm, ice breaker, bảng họp, khung dàn ý
+  - Bao gồm việc lập kế hoạch nội dung bảng được tạo, gồm dàn ý tuần tự, các section, ý định và văn bản phân cấp
+  - Điều hướng sang các tài liệu tham khảo khác để xem chi tiết API cụ thể
+- [create-section](references/create-section.md) — Tạo và cấu hình các section FigJam (kích thước, đặt tên, màu sắc, hiển thị nội dung, sắp xếp node, bố cục cột)
+- [create-sticky](references/create-sticky.md) — Tạo và cấu hình giấy ghi chú FigJam sticky notes (màu sắc, kích thước, văn bản, hiển thị tác giả, tạo hàng loạt)
+- [create-connector](references/create-connector.md) — Tạo và cấu hình đường nối FigJam connectors (điểm đầu cuối, mũi tên, kiểu đường, nhãn, màu sắc, nối sơ đồ)
+- [create-text](references/create-text.md) — Tạo và cấu hình text node FigJam (tải font, font và màu cài sẵn, kích thước, danh sách, thao tác mind map)
+- [position-figjam-nodes](references/position-figjam-nodes.md) — Định vị, chỉnh kích thước và đổi node cha trên canvas (bao gồm bên trong section)
+- [create-shape-with-text](references/create-shape-with-text.md) — Tạo và cấu hình hình khối FigJam có văn bản nhúng (loại hình khối, bảng màu cài sẵn, chỉnh kích thước vừa văn bản, bố cục sơ đồ)
+- [create-code-block](references/create-code-block.md) — Tạo và cấu hình các node khối mã FigJam code block (ngôn ngữ, tô sáng cú pháp, định vị, nhúng vào section)
+- [create-table](references/create-table.md) — Tạo và cấu hình bảng FigJam (hàng, cột, văn bản ô, bảng màu cài sẵn, đổi kích thước)
+- [edit-text](references/edit-text.md) — Chỉnh sửa các text node hiện có (tải font, vùng định dạng theo style, tìm/thay thế, màu mặc định FigJam Charcoal)
+- [create-label](references/create-label.md) — Tạo và cấu hình các node nhãn FigJam (các dấu tròn đánh số/chữ cái nhỏ, chuỗi thứ tự, định vị)
+- [batch-modify](references/batch-modify.md) — Các mẫu chỉnh sửa nhiều node hiện có cùng lúc (đổi style hàng loạt, sắp xếp lại vị trí, cập nhật thuộc tính)
+- [figjam-colors](references/figjam-colors.md) — Bảng màu FigJam chuẩn cho mọi loại node (sticky, section, connector, shape, label) cùng quy tắc ký hiệu `hex/255` và hàm hỗ trợ `h()`

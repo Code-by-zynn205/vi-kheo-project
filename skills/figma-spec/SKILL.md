@@ -1,22 +1,24 @@
 ---
 name: figma-spec
-description: "This skill is required to create, read, edit, review, or comment on Figma specs. You must read it when working on a PRD, brief, RFC or any kind of document in either a standalone Figma spec or a Figma spec embedded in a Figma Design or Figjam file."
+description: "Skill này là bắt buộc để tạo, đọc, chỉnh sửa, rà soát hoặc bình luận trên các Figma spec. Bạn phải đọc skill này khi làm việc trên một PRD, brief, RFC hoặc bất kỳ loại tài liệu nào trong một Figma spec độc lập hay một Figma spec nhúng trong file Figma Design hoặc FigJam."
 disable-model-invocation: false
 ---
 
-# Work with a Figma spec
+# Làm việc với Figma spec
 
-Check that `figma.spec` is defined in your first `use_figma` script; it exists only when the file’s plan has Specs enabled. If it is undefined, explain that Specs is not enabled for this file’s plan and stop the workflow. To create a new standalone Figma spec file, call `whoami` to choose a destination plan, then call `create_new_file` with `editorType: "figspec"` and that plan's `key` as `planKey`. If it reports that Figma Specs is not available on that plan, offer the user's other plans or stop.
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [figma/mcp-server-guide](https://github.com/figma/mcp-server-guide/blob/main/skills/figma-spec/SKILL.md) (Figma chính thức).
 
-A native Figma spec is GitHub-Flavored Markdown (GFM) under a `SPEC_BLOCK` node. A standalone Figma spec is just one spec; a FigJam or Design file can contain several embedded specs.
+Kiểm tra xem `figma.spec` có được định nghĩa trong script `use_figma` đầu tiên của bạn hay không; thuộc tính này chỉ tồn tại khi gói dịch vụ (plan) của file có bật tính năng Specs. Nếu nó là `undefined`, hãy giải thích rằng Specs chưa được bật cho gói của file này và dừng quy trình. Để tạo một file Figma spec độc lập mới, gọi `whoami` để chọn gói đích, sau đó gọi `create_new_file` với `editorType: "figspec"` và `key` của gói đó làm `planKey`. Nếu hệ thống báo Figma Specs không khả dụng trên gói đó, hãy gợi ý các gói khác của người dùng hoặc dừng lại.
 
-## Discover and choose the Figma spec
+Một Figma spec gốc là GitHub-Flavored Markdown (GFM) nằm dưới một node `SPEC_BLOCK`. Một file Figma spec độc lập chỉ là một spec duy nhất; một file FigJam hoặc Design có thể chứa nhiều spec nhúng bên trong.
 
-Resolve a supplied URL `node-id` when present with `figma.getNodeByIdAsync` and require `type === "SPEC_BLOCK"` plus `specBlockType === "DOCUMENT"`. Otherwise, search the current page with `findAllWithCriteria({ types: ['SPEC_BLOCK'] })`, filtering for `specBlockType === "DOCUMENT"` (and examine content with `figma.spec.getContent` if needed) until you find your target. If it's not on the current page, load other pages one at a time with `page.loadAsync()` and repeat your query, stopping once the target is resolved.
+## Khám phá và chọn Figma spec
 
-Pass the resolved root ID to every content call. Omit `specNodeId` only when the file is known to contain exactly one Figma spec; omission throws otherwise. Never edit ordinary canvas text nodes as a fallback.
+Phân giải tham số `node-id` từ URL được cung cấp khi có mặt bằng `figma.getNodeByIdAsync` và yêu cầu `type === "SPEC_BLOCK"` kèm `specBlockType === "DOCUMENT"`. Nếu không có, tìm kiếm trên trang hiện tại bằng `findAllWithCriteria({ types: ['SPEC_BLOCK'] })`, lọc theo `specBlockType === "DOCUMENT"` (và kiểm tra nội dung bằng `figma.spec.getContent` nếu cần) cho đến khi tìm thấy mục tiêu. Nếu không nằm trên trang hiện tại, nạp lần lượt từng trang khác bằng `page.loadAsync()` và lặp lại truy vấn, dừng lại ngay khi xác định được mục tiêu.
 
-## Create a Figma spec on a canvas
+Truyền root ID đã phân giải vào mọi lệnh gọi nội dung. Chỉ bỏ qua `specNodeId` khi biết chắc chắn file chứa đúng một Figma spec duy nhất; nếu không việc bỏ qua sẽ ném lỗi. Tuyệt đối không chỉnh sửa các text node thông thường trên canvas làm phương án thay thế.
+
+## Tạo Figma spec trên canvas
 
 ```js
 // Creates an embedded Figma spec on a Design or FigJam canvas (not a standalone Figma spec file).
@@ -34,9 +36,9 @@ if (!after.markdown.includes('A paragraph.')) {
 }
 ```
 
-Always pass a non-empty `title` and a `content` string (`''` is allowed). `title` names the root; include any desired `# H1` in `content`.
+Luôn truyền `title` không rỗng và một chuỗi `content` (cho phép `''`). `title` đặt tên cho root; đưa bất kỳ tiêu đề `# H1` nào mong muốn vào bên trong `content`.
 
-## Content methods
+## Các phương thức thao tác nội dung
 
 ```js
 // READ — returns specNodeId, markdown, title, etc.
@@ -66,36 +68,36 @@ if (!after.markdown.includes('Edited first paragraph.')) {
 }
 ```
 
-- Use **`getContent`** with the same `specNodeId` before edits and to verify writes; DON'T rely on screenshots.
-- Default to multiplayer-safe, surgical **`editContent`**.
-- Use destructive **`setContent`** only for an empty first draft or an explicit whole-document replacement.
+- Dùng **`getContent`** với cùng `specNodeId` trước khi sửa và để xác minh các lần ghi; KHÔNG dựa vào screenshot.
+- Mặc định dùng **`editContent`** có tính chọn lọc và an toàn cho cộng tác nhiều người (multiplayer-safe).
+- Chỉ dùng **`setContent`** mang tính ghi đè toàn bộ cho bản nháp đầu tiên còn trống hoặc khi có yêu cầu thay thế toàn bộ tài liệu một cách tường minh.
 
-## Critical rules
+## Quy tắc bắt buộc
 
-1. **`editContent` requires exactly one match.** Zero or multiple `oldText` matches fail without changes. Add surrounding context to make it unique.
-2. **Pass Markdown as plain strings.** Never encode it with `Buffer`/base64 or decode it with `atob()`. Base64 is only for image data URLs inside Markdown.
-3. **Keep Markdown and traversal separate.** `figma.spec.*` handles content; node traversal exposes only document roots and embedded-canvas branches.
-4. **Preserve comment markers.** Keep overlapping `[comment:<uuid>]…[/comment:<uuid>]` pairs unchanged around the same text, or the thread may detach or disappear. When in doubt copy the marked span exactly and edit around it.
-5. **Use portable references.** Shared Figma specs must use links such as GitHub permalinks, never machine-local paths or `localhost` URLs.
+1. **`editContent` yêu cầu khớp chính xác một lần duy nhất.** Không khớp hoặc khớp nhiều lần `oldText` đều thất bại mà không áp dụng thay đổi nào. Hãy thêm ngữ cảnh xung quanh để làm đoạn khớp trở nên duy nhất.
+2. **Truyền Markdown dưới dạng chuỗi thuần (plain strings).** Tuyệt đối không mã hóa bằng `Buffer`/base64 hoặc giải mã bằng `atob()`. Base64 chỉ dùng cho image data URL bên trong Markdown.
+3. **Tách biệt Markdown và thao tác duyệt node.** `figma.spec.*` xử lý nội dung; duyệt node chỉ phơi bày các document root và các nhánh embedded-canvas.
+4. **Bảo toàn các marker bình luận.** Giữ nguyên vẹn các cặp `[comment:<uuid>]…[/comment:<uuid>]` chồng chéo quanh cùng một đoạn văn bản, nếu không luồng bình luận có thể bị tách rời hoặc biến mất. Khi phân vân, hãy sao chép chính xác đoạn được đánh dấu và chỉ chỉnh sửa xung quanh nó.
+5. **Dùng các tham chiếu di động (portable references).** Các Figma spec được chia sẻ phải dùng các liên kết như GitHub permalink, tuyệt đối không dùng đường dẫn cục bộ trên máy hoặc URL `localhost`.
 
-## Style
+## Định dạng (Style)
 
-- Keep the title block first and formatted as H1, even when its text is empty. Never remove it or insert blocks before it.
-- Prefer bold text in table header row.
-- Use `<ins>` for underline, including combined formatting: `<ins>**bold and underlined**</ins>`. Do not use `<u>`, which only works in HTML imports.
+- Giữ khối tiêu đề ở vị trí đầu tiên và định dạng là H1, ngay cả khi văn bản của nó đang trống. Không bao giờ xóa nó hoặc chèn các khối khác lên trước nó.
+- Ưu tiên dùng chữ in đậm ở hàng tiêu đề bảng.
+- Dùng `<ins>` cho gạch chân, bao gồm cả định dạng kết hợp: `<ins>**bold and underlined**</ins>`. Không dùng `<u>`, thẻ này chỉ hoạt động khi import HTML.
 
-## Images
+## Hình ảnh
 
-Images use GFM image syntax inside `setContent` or `editContent`:
+Hình ảnh sử dụng cú pháp ảnh GFM bên trong `setContent` hoặc `editContent`:
 
-- `![alt](data:image/png;base64,...)` embeds bytes that are decoded and uploaded.
-- `![alt](https://host/img.png)` is fetched server-side; disallowed hosts are rejected.
+- `![alt](data:image/png;base64,...)` nhúng dữ liệu byte được giải mã và tải lên.
+- `![alt](https://host/img.png)` được tải về từ phía server; các host không được phép sẽ bị từ chối.
 
-`getContent` emits image URLs as `https://<host>/spec/<fileKey>/image/<sha>?w=<width>&h=<height>`.
+`getContent` trả về URL hình ảnh ở dạng `https://<host>/spec/<fileKey>/image/<sha>?w=<width>&h=<height>`.
 
-## Comments
+## Bình luận (Comments)
 
-Use `figma.spec.comments.*` for anchored threads. Prefer comments over leaving silent edits when you're unsure of a change.
+Dùng `figma.spec.comments.*` cho các luồng bình luận gắn neo (anchored threads). Ưu tiên tạo bình luận thay vì âm thầm sửa đổi khi bạn chưa chắc chắn về một thay đổi.
 
 ```js
 const comment = await figma.spec.comments.create({
@@ -109,5 +111,5 @@ const { root, replies, hasMore } = await figma.spec.comments.getThread({ uuid: c
 await figma.spec.comments.reply({ uuid: comment.uuid, message: 'A reply.' })
 ```
 
-- `anchorText` must match exactly once in the rendered Figma spec. Use a longer `contextText` containing it to disambiguate repeated text.
-- `getThread` and `reply` require the root comment UUID surfaced by a `[comment:<uuid>]` marker; never pass a reply UUID to `reply`.
+- `anchorText` phải khớp chính xác một lần duy nhất trong bản Figma spec đã kết xuất. Dùng một `contextText` dài hơn chứa nó để phân biệt khi văn bản bị lặp lại.
+- `getThread` và `reply` yêu cầu root comment UUID hiển thị qua marker `[comment:<uuid>]`; tuyệt đối không truyền UUID của một câu trả lời (reply) vào `reply`.

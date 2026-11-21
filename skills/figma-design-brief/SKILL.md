@@ -1,28 +1,28 @@
 ---
 name: figma-design-brief
-description: "Write a structured design brief for a Figma design task from a product requirement or feature request. Use when asked to write a design brief, create a design spec for Figma, turn a PRD into design requirements, or brief a designer on what to build in Figma. Produces a brief with goals, scope, user flows, components needed, constraints, and success criteria."
+description: "Viết bản tóm tắt yêu cầu thiết kế (design brief) có cấu trúc cho một tác vụ thiết kế Figma từ yêu cầu sản phẩm hoặc yêu cầu tính năng. Sử dụng khi được yêu cầu viết design brief, tạo đặc tả thiết kế cho Figma, chuyển đổi PRD thành yêu cầu thiết kế, hoặc giao đề bài cho designer về những gì cần dựng trong Figma. Tạo ra bản brief đầy đủ mục tiêu, phạm vi, luồng người dùng, các component cần dùng, ràng buộc và tiêu chí thành công."
 ---
 
-# Figma Design Brief Skill
+# Skill: Viết Design Brief cho Figma (Figma Design Brief)
 
-Converts a product requirement or feature request into a structured design brief — everything a designer needs to open Figma and start building confidently.
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [mohitagw15856/pm-claude-skills](https://github.com/mohitagw15856/pm-claude-skills/blob/main/skills/figma-design-brief/SKILL.md) (mohitagw15856).
 
-> **Not quite this?** Use `figma-design-qa` when the design already exists and you are checking it against the spec.
+Chuyển đổi yêu cầu sản phẩm hoặc yêu cầu tính năng thành một bản tóm tắt yêu cầu thiết kế (design brief) có cấu trúc — mọi thứ một designer cần để mở Figma lên và tự tin bắt tay vào dựng thiết kế.
 
-## Required Inputs
+> **Không hẳn là việc này?** Hãy dùng `figma-design-qa` khi thiết kế đã có sẵn và bạn cần kiểm tra đối chiếu với đặc tả.
 
-- **Feature or requirement** (paste PRD snippet, ticket, or describe the feature)
-- **User goal** (what is the user trying to accomplish?)
-- **Platform** (iOS / Android / Web / Responsive / All)
-- **Existing components available** (optional)
-- **Timeline** (when does design need to be ready?)
+## Đầu vào Bắt buộc
+
+- **Tính năng hoặc yêu cầu** (dán đoạn PRD, ticket hoặc mô tả tính năng)
+- **Mục tiêu người dùng** (người dùng đang cố hoàn thành việc gì?)
+- **Nền tảng** (iOS / Android / Web / Responsive / Tất cả)
+- **Các component hiện có sẵn** (tùy chọn)
+- **Mốc thời gian** (khi nào thiết kế cần hoàn tất?)
 
 
-## Programmatic Helper
+## Công cụ Hỗ trợ Tự động (Programmatic Helper)
 
-Contrast ratios cannot be eyeballed. The AA line sits at 4.5:1, and `#777777`
-on white is 4.478 (fails) while `#767676` is 4.54 (passes) — no amount of
-looking at a screenshot separates those. Compute them:
+Độ tương phản (contrast ratio) không thể ước lượng bằng mắt thường. Ngưỡng chuẩn AA nằm ở mức 4.5:1, và màu `#777777` trên nền trắng đạt 4.478 (không đạt) trong khi `#767676` đạt 4.54 (đạt) — nhìn ảnh chụp màn hình không thể nào phân biệt được hai mức này. Hãy tính toán chính xác bằng lệnh:
 
 ```bash
 npx --yes notugly fix "#8ab4f8" "#ffffff"     # ratio, APCA, and the nearest passing colour
@@ -30,75 +30,70 @@ npx --yes notugly onepager <url> --out review.html   # every pairing, printable
 npx --yes notugly vision                      # which colours merge for colour-blind viewers
 ```
 
-`notugly fix` returns the ratio, the APCA lightness contrast, and the closest
-colour to the one already chosen that passes — same hue, same chroma. Paste
-those numbers into the tables below rather than estimating them.
+Lệnh `notugly fix` trả về tỷ lệ tương phản, độ tương phản sáng APCA và màu gần nhất với màu đã chọn mà đạt chuẩn — giữ nguyên sắc độ (hue) và độ bão hòa (chroma). Hãy dán các con số đó vào các bảng bên dưới thay vì tự ước lượng.
 
-Deterministic, zero dependencies, and **no model call** — so it costs nothing to
-run and gives the same answer every time.
+Công cụ mang tính tất định, không có dependency ngoài và **không gọi model AI** — do đó không tốn chi phí khi chạy và luôn cho ra cùng một kết quả mỗi lần.
 
-If the brief specifies colours, state the measured ratio for each intended
-text/background pairing. A brief that specifies an unreachable pairing wastes a
-design cycle before anybody notices.
+Nếu bản brief có chỉ định màu sắc, hãy ghi rõ tỷ lệ đo được cho từng cặp màu chữ/nền dự kiến. Một bản brief chỉ định cặp màu không đạt chuẩn sẽ làm lãng phí cả một chu kỳ thiết kế trước khi có người phát hiện ra.
 
-## Output Structure
+## Cấu trúc Đầu ra
 
-### 1. Brief Header
-Feature, PM, Designer, Platform, Design due, Dev handoff dates.
+### 1. Thông tin Chung (Brief Header)
+Tính năng, PM, Designer, Nền tảng, Hạn hoàn thành thiết kế, Ngày bàn giao dev (Dev handoff).
 
-### 2. What We Are Designing and Why
-- **The goal:** [One sentence — user problem being solved]
-- **Context:** [2-3 sentences. Why now? What triggers this?]
-- **Success looks like:** [Specific observable outcome]
+### 2. Chúng ta Đang Thiết kế Gì và Tại sao
+- **Mục tiêu (The goal):** [Một câu — bài toán của người dùng đang được giải quyết]
+- **Bối cảnh (Context):** [2-3 câu. Tại sao là lúc này? Yếu tố nào kích hoạt nhu cầu?]
+- **Dấu hiệu thành công (Success looks like):** [Kết quả cụ thể có thể quan sát/đo lường được]
 
-### 3. User Flows to Design
+### 3. Các Luồng Người dùng Cần Thiết kế (User Flows to Design)
 
-**Flow N: [Flow name]**
-- Entry point: [Where user starts]
-- Steps: [Numbered key steps]
-- Exit point: [Where flow ends]
-- Edge cases: [empty state, error state, loading state]
+**Luồng N: [Tên luồng]**
+- Điểm vào (Entry point): [Nơi người dùng bắt đầu]
+- Các bước: [Các bước chính được đánh số]
+- Điểm thoát (Exit point): [Nơi luồng kết thúc]
+- Trường hợp biên (Edge cases): [trạng thái trống - empty state, trạng thái lỗi - error state, trạng thái đang tải - loading state]
 
-### 4. Screens Required
+### 4. Các Màn hình Bắt buộc (Screens Required)
 
-| Screen | New / Update | Notes |
+| Màn hình | Mới / Cập nhật | Ghi chú |
 |---|---|---|
-| [Screen] | New | [Key requirement] |
+| [Màn hình] | Mới (New) | [Yêu cầu trọng tâm] |
 
-### 5. Components Needed
+### 5. Các Component Cần Dùng (Components Needed)
 
-| Component | In library? | Action |
+| Component | Có trong thư viện? | Hành động |
 |---|---|---|
-| [Component] | Yes/No/Needs variant | Use/Create/Extend |
+| [Component] | Có/Không/Cần thêm biến thể (Yes/No/Needs variant) | Dùng sẵn/Tạo mới/Mở rộng (Use/Create/Extend) |
 
-### 6. Constraints and Requirements
-- Must haves: [Non-negotiable constraints]
-- Must avoid: [Design patterns to not use]
-- Accessibility: [WCAG level, touch target sizes]
+### 6. Ràng buộc và Yêu cầu (Constraints and Requirements)
+- Bắt buộc phải có (Must haves): [Các ràng buộc không thể thương lượng]
+- Bắt buộc phải tránh (Must avoid): [Các mẫu thiết kế không được sử dụng]
+- Khả năng tiếp cận (Accessibility): [Cấp độ WCAG, kích thước vùng chạm (touch target)]
 
-### 7. Open Questions
-- [ ] [Question — with owner]
+### 7. Câu hỏi Mở (Open Questions)
+- [ ] [Câu hỏi — kèm người chịu trách nhiệm (owner)]
 
-## Quality Checks
-- [ ] Goal is outcome-focused (not "design the feature")
-- [ ] All flows include edge cases
-- [ ] Components table identifies create vs reuse
-- [ ] Constraints include accessibility requirements
-- [ ] Open questions have owners
+## Kiểm tra Chất lượng (Quality Checks)
+- [ ] Mục tiêu tập trung vào kết quả đầu ra (outcome-focused), không phải kiểu "thiết kế tính năng X"
+- [ ] Mọi luồng đều bao gồm trường hợp biên
+- [ ] Bảng component phân biệt rõ tạo mới và tái sử dụng
+- [ ] Các ràng buộc bao gồm yêu cầu về khả năng tiếp cận
+- [ ] Các câu hỏi mở đều có người chịu trách nhiệm
 
-## Anti-Patterns
+## Các Lỗi Cần Tránh (Anti-Patterns)
 
-- [ ] Do not write a design brief that describes the solution — the brief must describe the problem and constraints, not the design answer
-- [ ] Do not skip the success criteria — designers need to know what "done" looks like before starting
-- [ ] Do not omit existing components to reuse — briefs that ignore the design system lead to inconsistent implementations
-- [ ] Do not leave open questions unresolved — escalate them before design work starts, not during it
-- [ ] Do not confuse requirements with design instructions — the brief defines what, not how
+- [ ] Không viết design brief mô tả sẵn giải pháp — bản brief phải mô tả bài toán và các ràng buộc, không phải đáp án thiết kế
+- [ ] Không bỏ qua tiêu chí thành công — designer cần biết trạng thái "hoàn thành" trông như thế nào trước khi bắt đầu
+- [ ] Không bỏ sót các component sẵn có để tái sử dụng — các brief phớt lờ design system dẫn đến triển khai thiếu nhất quán
+- [ ] Không để các câu hỏi mở chưa được giải quyết — hãy đưa lên xử lý trước khi bắt đầu thiết kế, đừng để trong lúc làm
+- [ ] Không nhầm lẫn giữa yêu cầu sản phẩm và chỉ dẫn thiết kế — bản brief định nghĩa *cái gì* (what), không phải *làm thế nào* (how)
 
-## Example Trigger Phrases
+## Ví dụ Câu lệnh Kích hoạt (Trigger Phrases)
 - "Write a design brief for [feature]"
 - "Turn this PRD into a Figma design brief"
 - "Brief the designer on what to build for [requirement]"
 - "Create a design spec for [feature] for Figma"
 - "What does the designer need to know to design [feature]?"
 
-Run this skill in your browser: https://mohitagw15856.github.io/pm-claude-skills/skill/figma-design-brief.html
+Chạy skill này trực tiếp trên trình duyệt: https://mohitagw15856.github.io/pm-claude-skills/skill/figma-design-brief.html

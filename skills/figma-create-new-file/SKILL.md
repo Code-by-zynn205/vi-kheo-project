@@ -1,31 +1,33 @@
 ---
 name: figma-create-new-file
-description: "Always use this skill when the user wants to create a new Figma Design, FigJam, or Slides file. You MUST invoke this skill BEFORE every `create_new_file` tool call."
+description: "Luôn sử dụng skill này khi người dùng muốn tạo một file Figma Design, FigJam, hoặc Slides mới. Bạn BẮT BUỘC phải gọi skill này TRƯỚC mỗi lần gọi công cụ `create_new_file`."
 disable-model-invocation: false
 ---
 
-# Create a new file in Figma
+# Tạo file mới trong Figma
 
-Steps to create a new Figma Design, FigJam, or Slides file using the `create_new_file` MCP tool.
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [figma/mcp-server-guide](https://github.com/figma/mcp-server-guide/blob/main/skills/figma-create-new-file/SKILL.md) (Figma chính thức).
 
-## Step 1: Resolve the `planKey` and `editorType`
+Các bước tạo file Figma Design, FigJam, hoặc Slides mới bằng công cụ MCP `create_new_file`.
 
-Use the `planKey` the user provided or selected for this task. Otherwise, call `whoami` and inspect the returned plans.
+## Bước 1: Xác định `planKey` và `editorType`
 
-- No plans: inform the user that file creation cannot proceed.
-- One plan: use its `key` as `planKey`.
-- Multiple plans: show the available plans, ask the user to select one and then use that plan's `key` as `planKey`.
+Sử dụng `planKey` mà người dùng đã cung cấp hoặc chọn cho tác vụ này. Nếu chưa có, hãy gọi `whoami` và kiểm tra các plan được trả về.
 
-Infer `editorType` from the requested file type by choosing from the tool's advertised input enum. If unclear, ask the user to specify the file type.
+- Không có plan nào: thông báo cho người dùng rằng không thể tiếp tục tạo file.
+- Một plan: sử dụng `key` của plan đó làm `planKey`.
+- Nhiều plan: hiển thị các plan khả dụng, yêu cầu người dùng chọn một plan rồi sử dụng `key` của plan đó làm `planKey`.
 
-## Step 2: Call create_new_file
+Suy luận `editorType` từ loại file được yêu cầu bằng cách chọn từ enum đầu vào được công cụ công bố. Nếu chưa rõ ràng, hãy hỏi người dùng để chỉ định rõ loại file.
 
-Call the `create_new_file` tool with all three required arguments:
+## Bước 2: Gọi `create_new_file`
 
-- `fileName`: Required. Choose a concise name if the user does not provide one.
-- `planKey`: Required. Use the `planKey` resolved in Step 1.
-- `editorType`: Required. Use the `editorType` selected in Step 1.
-- `projectId`: Optional. Set it to create the file in a specific project.
+Gọi công cụ `create_new_file` với đầy đủ cả ba tham số bắt buộc:
+
+- `fileName`: Bắt buộc. Chọn một tên ngắn gọn nếu người dùng không cung cấp.
+- `planKey`: Bắt buộc. Sử dụng `planKey` đã xác định ở Bước 1.
+- `editorType`: Bắt buộc. Sử dụng `editorType` đã chọn ở Bước 1.
+- `projectId`: Tùy chọn. Thiết lập tham số này để tạo file trong một project cụ thể.
 
 ```json
 {
@@ -35,8 +37,8 @@ Call the `create_new_file` tool with all three required arguments:
 }
 ```
 
-- Use the `file_key` from the `create_new_file` tool response for subsequent tool calls like `use_figma`.
+- Sử dụng `file_key` từ phản hồi của công cụ `create_new_file` cho các lần gọi công cụ tiếp theo như `use_figma`.
 
-## Step 3: (Slides only) Handle the empty grid
+## Bước 3: (Chỉ dành cho Slides) Xử lý grid trống
 
-A new Slides file contains no slides: `figma.getSlideGrid()` returns `[]`. Before reading properties such as theme tokens from a slide, call `figma.createSlide()` or handle the empty case. The first `createSlide()` call automatically creates row 0 and inserts the slide.
+Một file Slides mới không chứa slide nào: `figma.getSlideGrid()` trả về `[]`. Trước khi đọc các thuộc tính như theme token từ một slide, hãy gọi `figma.createSlide()` hoặc xử lý trường hợp trống. Lần gọi `createSlide()` đầu tiên sẽ tự động tạo hàng 0 và chèn slide vào.

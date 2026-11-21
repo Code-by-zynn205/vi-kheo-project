@@ -1,29 +1,29 @@
 ---
 name: figma-design-qa
-description: "Runs a pre-handoff QA checklist on a Figma design before it goes to engineering. Use when asked to QA a Figma design, do a pre-handoff check, or validate a Figma file is ready to build. Produces a structured QA report covering file hygiene, component usage, accessibility, and handoff readiness with explicit pass/fail status per item."
+description: "Chạy danh sách kiểm tra QA trước khi bàn giao (pre-handoff QA checklist) trên một thiết kế Figma trước khi chuyển sang đội ngũ kỹ sư. Sử dụng khi được yêu cầu QA thiết kế Figma, kiểm tra trước bàn giao hoặc xác thực file Figma đã sẵn sàng để lập trình. Tạo ra báo cáo QA có cấu trúc bao gồm vệ sinh file (file hygiene), sử dụng component, khả năng tiếp cận (accessibility) và mức độ sẵn sàng bàn giao với trạng thái đạt/không đạt (pass/fail) rõ ràng cho từng hạng mục."
 ---
 
-# Figma Design QA Skill
+# Skill: Kiểm thử Chất lượng Thiết kế Figma (Figma Design QA)
 
-Runs a systematic pre-handoff QA check on a Figma design — catching issues that cause engineering back-and-forth before they become expensive.
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [mohitagw15856/pm-claude-skills](https://github.com/mohitagw15856/pm-claude-skills/blob/main/skills/figma-design-qa/SKILL.md) (mohitagw15856).
 
-> **Not quite this?** Use `figma-design-brief` when the design does not exist yet and needs a brief; use `figma-design-review` when you want a holistic design review rather than a check against the spec; use `figma-design-critique-pm` when you are judging product outcomes rather than implementation fidelity.
+Chạy quy trình kiểm tra QA có hệ thống trước khi bàn giao trên một thiết kế Figma — phát hiện sớm các lỗi gây trao đổi qua lại giữa thiết kế và kỹ sư trước khi chúng trở nên tốn kém.
 
-## Required Inputs
+> **Không hẳn là việc này?** Hãy dùng `figma-design-brief` khi thiết kế chưa tồn tại và cần viết đề bài; dùng `figma-design-review` khi bạn muốn đánh giá thiết kế tổng thể thay vì đối chiếu chặt chẽ với đặc tả; dùng `figma-design-critique-pm` khi bạn đang đánh giá kết quả sản phẩm thay vì độ chuẩn xác khi triển khai.
 
-Work from what is given. If any of these is missing, still produce the complete output: fill each gap with a reasonable assumption marked *(assumed, confirm)* and list those assumptions at the end. Ask a question first only when the core subject itself is missing (there is nothing to write about).
-- **Feature or screen being QA-d** (describe what has been designed)
-- **Platform** (iOS / Android / Web)
-- **Design system** (custom / Material / HIG / None)
-- **Handoff tool** (Figma Inspect / Zeplin / Storybook / Direct link)
-- **QA depth** (quick 15 min / standard 30 min / thorough 60 min)
+## Đầu vào Bắt buộc
+
+Làm việc dựa trên thông tin được cung cấp. Nếu thiếu bất kỳ mục nào dưới đây, vẫn phải xuất ra kết quả hoàn chỉnh: điền vào từng khoảng trống bằng một giả định hợp lý có đánh dấu *(giả định, cần xác nhận)* và liệt kê các giả định đó ở cuối báo cáo. Chỉ hỏi lại trước khi làm nếu thiếu chính đối tượng cốt lõi (không có gì để viết).
+- **Tính năng hoặc màn hình đang được QA** (mô tả những gì đã thiết kế)
+- **Nền tảng** (iOS / Android / Web)
+- **Design system** (tùy chỉnh / Material / HIG / Không có)
+- **Công cụ bàn giao** (Figma Inspect / Zeplin / Storybook / Liên kết trực tiếp)
+- **Độ sâu QA** (nhanh 15 phút / tiêu chuẩn 30 phút / kỹ lưỡng 60 phút)
 
 
-## Programmatic Helper
+## Công cụ Hỗ trợ Tự động (Programmatic Helper)
 
-Contrast ratios cannot be eyeballed. The AA line sits at 4.5:1, and `#777777`
-on white is 4.478 (fails) while `#767676` is 4.54 (passes) — no amount of
-looking at a screenshot separates those. Compute them:
+Độ tương phản (contrast ratio) không thể ước lượng bằng mắt thường. Ngưỡng chuẩn AA nằm ở mức 4.5:1, và màu `#777777` trên nền trắng đạt 4.478 (không đạt) trong khi `#767676` đạt 4.54 (đạt) — nhìn ảnh chụp màn hình không thể nào phân biệt được hai mức này. Hãy tính toán chính xác bằng lệnh:
 
 ```bash
 npx --yes notugly fix "#8ab4f8" "#ffffff"     # ratio, APCA, and the nearest passing colour
@@ -31,95 +31,90 @@ npx --yes notugly onepager <url> --out review.html   # every pairing, printable
 npx --yes notugly vision                      # which colours merge for colour-blind viewers
 ```
 
-`notugly fix` returns the ratio, the APCA lightness contrast, and the closest
-colour to the one already chosen that passes — same hue, same chroma. Paste
-those numbers into the tables below rather than estimating them.
+Lệnh `notugly fix` trả về tỷ lệ tương phản, độ tương phản sáng APCA và màu gần nhất với màu đã chọn mà đạt chuẩn — giữ nguyên sắc độ (hue) và độ bão hòa (chroma). Hãy dán các con số đó vào các bảng bên dưới thay vì tự ước lượng.
 
-Deterministic, zero dependencies, and **no model call** — so it costs nothing to
-run and gives the same answer every time.
+Công cụ mang tính tất định, không có dependency ngoài và **không gọi model AI** — do đó không tốn chi phí khi chạy và luôn cho ra cùng một kết quả mỗi lần.
 
-QA is a pass/fail activity, so every contrast row needs a number and a verdict.
-For a deployed build, `npx notugly check <url>` **exits non-zero** on a failure,
-which makes it usable directly in CI rather than only by hand.
+QA là hoạt động xác định đạt/không đạt (pass/fail), nên mỗi dòng kiểm tra tương phản đều cần có con số cụ thể và kết luận. Đối với bản dựng đã deploy, `npx notugly check <url>` sẽ **trả về mã thoát khác 0 (exits non-zero)** khi có lỗi, giúp tích hợp trực tiếp vào CI thay vì chỉ kiểm tra thủ công.
 
-## Output Structure
+## Cấu trúc Đầu ra
 
-QA Report: [Feature] | [Date] | [Platform]
-**Overall status:** Ready / Minor fixes needed / Not ready
+Báo cáo QA: [Tính năng] | [Ngày] | [Nền tảng]
+**Trạng thái tổng thể:** Sẵn sàng / Cần sửa nhỏ / Chưa sẵn sàng (Ready / Minor fixes needed / Not ready)
 
-### Section 1: File Hygiene
-- All layers named semantically (no "Rectangle 12")
-- No unused/hidden layers in final frames
-- Components from library (not detached copies)
-- All text uses text styles (not manual font settings)
-- All colours use styles or variables (not hex overrides)
-- Frames named to match screen map
-- No leftover prototype wires to wrong frames
+### Phần 1: Vệ sinh File (File Hygiene)
+- Mọi layer được đặt tên có ngữ nghĩa (không có "Rectangle 12")
+- Không còn các layer thừa/bị ẩn trong các frame cuối cùng
+- Component lấy từ thư viện (không phải bản sao bị tách rời - detached copies)
+- Toàn bộ văn bản sử dụng text styles (không chỉnh phông chữ thủ công)
+- Toàn bộ màu sắc sử dụng styles hoặc variables (không ghi đè mã hex thủ công)
+- Tên các frame khớp với bản đồ màn hình (screen map)
+- Không còn dây nối prototype thừa trỏ nhầm frame
 
-### Section 2: Component Usage
-- All buttons use library component
-- All inputs use library component
-- All icons from approved icon library
-- No custom components that should be in library
-- Variants used correctly (right size, state, type)
+### Phần 2: Sử dụng Component (Component Usage)
+- Mọi nút bấm (buttons) đều sử dụng component từ thư viện
+- Mọi ô nhập liệu (inputs) đều sử dụng component từ thư viện
+- Mọi biểu tượng (icons) đều lấy từ thư viện icon đã phê duyệt
+- Không có component tự chế nào đáng lẽ phải nằm trong thư viện
+- Sử dụng đúng biến thể (đúng kích thước, trạng thái, loại)
 
-### Section 3: Content and Copy
-- No placeholder text (Lorem ipsum) in final designs
-- All copy reviewed and approved
-- Realistic content used (not "User Name")
-- Long text edge cases tested
-- Error messages are human-readable
-- Empty states have copy and CTA
+### Phần 3: Nội dung và Văn bản (Content and Copy)
+- Không còn chữ giữ chỗ (Lorem ipsum) trong thiết kế cuối cùng
+- Toàn bộ nội dung chữ đã được rà soát và phê duyệt
+- Sử dụng dữ liệu thực tế (không dùng kiểu "User Name")
+- Đã kiểm thử các trường hợp biên với văn bản dài
+- Thông báo lỗi dễ hiểu với người dùng
+- Trạng thái trống (empty states) có đầy đủ câu chữ và nút kêu gọi hành động (CTA)
 
-### Section 4: States and Coverage
-- Default, Loading, Empty, Error, Success states
-- Interactive elements have hover/active (web)
-- Disabled states designed where applicable
+### Phần 4: Trạng thái và Độ phủ (States and Coverage)
+- Đủ các trạng thái Default, Loading, Empty, Error, Success
+- Các phần tử tương tác có trạng thái hover/active (trên web)
+- Đã thiết kế trạng thái disabled ở những nơi áp dụng
 
-### Section 5: Accessibility
-- All text meets WCAG AA contrast (4.5:1 body, 3:1 large)
-- UI components meet 3:1 contrast against background
-- Touch targets minimum 44x44pt iOS / 48x48dp Android
-- Focus states for keyboard/switch navigation (web)
-- Information not conveyed by colour alone
-- Icons have text labels or accessible names annotated
+### Phần 5: Khả năng Tiếp cận (Accessibility)
+- Toàn bộ chữ đạt độ tương phản WCAG AA (4.5:1 cho chữ thường, 3:1 cho chữ lớn)
+- Các thành phần giao diện (UI components) đạt độ tương phản 3:1 so với nền
+- Vùng chạm tối thiểu 44x44pt trên iOS / 48x48dp trên Android
+- Có trạng thái focus cho điều hướng bàn phím/switch (trên web)
+- Thông tin không chỉ được truyền tải duy nhất qua màu sắc
+- Các icon có nhãn văn bản hoặc đã được chú thích tên tiếp cận (accessible names)
 
-### Section 6: Handoff Readiness
-- Dev annotations on non-obvious interactions
-- Spacing uses Auto Layout (not absolute positioning)
-- Images/assets exported at correct resolutions
-- Design matches approved requirements
-- Link to prototype included
+### Phần 6: Mức độ Sẵn sàng Bàn giao (Handoff Readiness)
+- Đã có chú thích cho dev ở các tương tác không hiển nhiên
+- Khoảng cách sử dụng Auto Layout (không dùng định vị tuyệt đối)
+- Hình ảnh/tài nguyên (assets) được xuất đúng độ phân giải
+- Thiết kế khớp với các yêu cầu đã được phê duyệt
+- Đã đính kèm liên kết tới prototype
 
-### Issues Found
-For each fail:
-**[Issue] — Blocking / Fix before handoff / Fix in next iteration**
-- What: [Specific layer/screen/element]
-- Fix: [Exact action needed]
-- Owner: [Designer/PM/Both]
+### Các Vấn đề Phát hiện (Issues Found)
+Với mỗi mục không đạt (fail):
+**[Vấn đề] — Chặn bàn giao / Sửa trước khi bàn giao / Sửa ở vòng sau (Blocking / Fix before handoff / Fix in next iteration)**
+- Chi tiết: [Layer/màn hình/phần tử cụ thể]
+- Cách sửa: [Hành động chính xác cần thực hiện]
+- Người phụ trách: [Designer/PM/Cả hai]
 
-### Handoff Decision
-Status, signed off by, date.
+### Quyết định Bàn giao (Handoff Decision)
+Trạng thái, người ký duyệt, ngày duyệt.
 
-## Quality Checks
-- [ ] All 6 sections completed
-- [ ] Every fail has a specific description and fix action
-- [ ] Blocking issues separated from minor ones
-- [ ] Handoff decision is explicit
+## Kiểm tra Chất lượng (Quality Checks)
+- [ ] Đã hoàn tất cả 6 phần
+- [ ] Mỗi lỗi không đạt đều có mô tả cụ thể và hành động khắc phục
+- [ ] Tách bạch rõ các lỗi chặn bàn giao (blocking) khỏi các lỗi nhỏ
+- [ ] Quyết định bàn giao được nêu rõ ràng, dứt khoát
 
-## Anti-Patterns
+## Các Lỗi Cần Tránh (Anti-Patterns)
 
-- [ ] Do not produce a partial QA — every checklist category must be evaluated, not just the ones that are obviously problematic
-- [ ] Do not leave the handoff decision ambiguous — the output must explicitly state pass, pass with conditions, or fail
-- [ ] Do not skip accessibility checks — colour contrast, tap target size, and screen reader labels are required, not optional
-- [ ] Do not report issues without specifying which screen or component they appear on
-- [ ] Do not approve a design if any component is detached from the library without a documented reason
+- [ ] Không tạo báo cáo QA nửa vời — mọi danh mục kiểm tra đều phải được đánh giá, không chỉ đánh giá những chỗ nhìn thấy lỗi rõ rệt
+- [ ] Không đưa ra quyết định bàn giao mơ hồ — kết quả phải nêu rõ đạt (pass), đạt có điều kiện (pass with conditions) hoặc không đạt (fail)
+- [ ] Không bỏ qua kiểm tra khả năng tiếp cận — độ tương phản màu, kích thước vùng chạm và nhãn trình đọc màn hình là bắt buộc, không phải tùy chọn
+- [ ] Không báo cáo lỗi mà không chỉ rõ chúng xuất hiện ở màn hình hoặc component nào
+- [ ] Không phê duyệt thiết kế nếu có bất kỳ component nào bị tách khỏi thư viện (detached) mà không có lý do được ghi nhận bằng văn bản
 
-## Example Trigger Phrases
+## Ví dụ Câu lệnh Kích hoạt (Trigger Phrases)
 - "QA this Figma design before handoff"
 - "Run a pre-handoff check on [feature] design"
 - "Is this Figma design ready for engineering?"
 - "Do a design QA on [screen/feature]"
 - "What needs fixing before we hand this off?"
 
-Run this skill in your browser: https://mohitagw15856.github.io/pm-claude-skills/skill/figma-design-qa.html
+Chạy skill này trực tiếp trên trình duyệt: https://mohitagw15856.github.io/pm-claude-skills/skill/figma-design-qa.html

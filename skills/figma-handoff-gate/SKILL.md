@@ -1,46 +1,47 @@
 ---
 name: figma-handoff-gate
-description: "Audit a Figma handoff for action/state completeness, readable annotations, recipient use and valid proof. Read-only review and already authorized correction remain distinct; no fixed review-role ritual."
+description: "Kiểm toán bàn giao (handoff) Figma về mức độ đầy đủ hành động/trạng thái, chú thích dễ đọc, khả năng sử dụng cho người nhận và bằng chứng hợp lệ. Rà soát chỉ đọc và sửa lỗi đã được phê duyệt vẫn tách bạch; không áp đặt nghi thức đóng vai rà soát cố định."
 license: MIT
 compatibility: >-
-  Read-only until a fix is approved. Detector snippets are Plugin API JavaScript written for
-  figma_execute (figma-console-mcp, Desktop Bridge plugin in Figma Desktop). The official Figma
-  MCP server's use_figma also runs Plugin API JavaScript, but this gate was not validated there.
-  Reads the figma-canon skill; approved fixes go through figma-preflight.
+  Chỉ đọc cho tới khi bản sửa được phê duyệt. Các đoạn mã phát hiện được viết bằng Plugin API JavaScript
+  cho figma_execute (figma-console-mcp, plugin Desktop Bridge trong Figma Desktop). use_figma của
+  official Figma MCP server cũng chạy Plugin API JavaScript, nhưng cổng kiểm tra này chưa được kiểm chứng
+  trên đó. Đọc skill figma-canon; các bản sửa đã phê duyệt phải đi qua figma-preflight.
 metadata:
   author: Thiago Xikota
   version: "1.2.0"
 ---
 
-# Figma handoff readiness
+# Mức độ sẵn sàng bàn giao Figma (Figma handoff readiness)
 
-Audit the affected handoff against concrete developer/recipient needs. This is
-read-only unless correction is already authorized. Apply that authorization
-within scope without asking again per finding; a new product/DS decision or
-external send needs its own authorization.
+> **Nguồn gốc & chuẩn hóa:** Việt hóa từ [thiagoxikota/figma-maxxing](https://github.com/thiagoxikota/figma-maxxing/blob/main/skills/figma-handoff-gate/SKILL.md) (Thiago Xikota).
 
-Use the project's handoff/locale/sample-data rules first. Technical criteria are
-in [handoff-checks.md](references/handoff-checks.md): spacing and label clearance,
-caption sizing/contrast/density, honest screen counts, component states,
-localization, typographic conventions, state/actor/inverse-action completeness,
-process-free delivered canvas and proof at the scale of use. Load the sections
-needed for the handoff; a full release audit covers all applicable criteria.
+Kiểm toán phần bàn giao bị ảnh hưởng theo đúng nhu cầu cụ thể của lập trình viên/người nhận.
+Quá trình này ở chế độ chỉ đọc trừ khi việc chỉnh sửa đã được cấp quyền sẵn. Áp dụng
+quyền hạn đó trong đúng phạm vi mà không hỏi lại theo từng phát hiện; một quyết định mới
+về sản phẩm/DS hoặc thao tác gửi ra bên ngoài cần có sự cho phép riêng.
 
-A screen's actions need designed outcomes: destinations, help/info, inverse
-pairs, affected actor, destructive confirmation and after-state. Explicitly
-partial/out-of-scope work is reported as such, never declared a complete flow.
-Prototype reachability and starting point must support a "clickable" claim.
-Overview captures do not prove a tiny icon or text detail.
+Ưu tiên sử dụng quy tắc bàn giao/ngôn ngữ địa phương/dữ liệu mẫu của dự án trước tiên. Các tiêu chí
+kỹ thuật nằm trong [handoff-checks.md](references/handoff-checks.md): khoảng cách và độ thoáng nhãn,
+kích thước/tương phản/mật độ chú thích, đếm màn hình trung thực, trạng thái component, bản địa hóa,
+quy ước trình bày chữ, độ đầy đủ của trạng thái/tác nhân/hành động nghịch đảo, canvas bàn giao sạch
+dấu vết quy trình và bằng chứng ở đúng tỷ lệ sử dụng. Chỉ tải các mục cần thiết cho đợt bàn giao;
+một đợt kiểm toán phát hành đầy đủ sẽ bao phủ toàn bộ tiêu chí áp dụng.
 
-Craft/precision evidence from `figma-slop-check` can be reused; no mandatory
-separate pass, four-role stamp, fixed order or external reviewer is needed for
-every change. Inspect the actual artifact and recipient path, not a written
-simulation of what a model thinks might happen. Refresh checks invalidated by
-a later edit, rather than restarting unrelated gates.
+Mọi hành động trên một màn hình đều cần có kết quả được thiết kế rõ: đích đến, trợ giúp/thông tin,
+cặp nghịch đảo (inverse pairs), tác nhân bị ảnh hưởng, xác nhận hành động phá hủy và trạng thái sau khi thực hiện.
+Phần việc chưa hoàn thiện hoặc ngoài phạm vi được nêu rõ ràng phải báo cáo đúng như vậy, tuyệt đối không
+tuyên bố là một luồng hoàn chỉnh. Khả năng đi tới trong prototype và điểm bắt đầu phải đủ chứng minh
+cho tuyên bố "clickable" (bấm chạy được). Ảnh chụp toàn cảnh không chứng minh được chi tiết một biểu tượng nhỏ hay chữ nhỏ.
 
-Report blockers separately from nonblocking warnings, with target and evidence.
-A warning alone does not invent a release block; a missing required outcome or
-unverified critical state cannot be disguised as PASS. Reviewer output does
-not authorize edits/replies. Approved fixes use preflight/lock, property
-read-back and appropriate visual proof. Keep process logs/review packages
-private, not on the delivered canvas; runtime memory is separately governed.
+Có thể tái sử dụng bằng chứng về độ chỉn chu/chính xác từ `figma-slop-check`; không bắt buộc phải chạy
+một lượt tách biệt, đóng dấu bốn vai trò, tuân theo thứ tự cố định hay có người rà soát ngoài cho mọi thay đổi.
+Kiểm tra trực tiếp tạo tác thực tế và luồng của người nhận, không dựa trên một bản mô phỏng viết tay về việc
+model nghĩ điều gì có thể xảy ra. Chỉ chạy lại các kiểm tra bị mất hiệu lực bởi một chỉnh sửa sau đó,
+thay vì khởi động lại các cổng không liên quan.
+
+Báo cáo riêng các điểm chặn (blockers) với các cảnh báo không chặn (nonblocking warnings), kèm mục tiêu và bằng chứng.
+Một cảnh báo đơn lẻ không tự biến thành điểm chặn phát hành; một kết quả bắt buộc bị thiếu hoặc một trạng thái
+trọng yếu chưa được kiểm chứng không thể ngụy trang thành PASS. Kết quả từ người rà soát không tự cấp quyền sửa/trả lời.
+Các bản sửa đã phê duyệt phải dùng preflight/lock, đọc lại thuộc tính và kèm bằng chứng trực quan phù hợp.
+Giữ nhật ký quy trình/gói rà soát ở nơi riêng tư, không đặt trên canvas bàn giao; bộ nhớ runtime được quản lý theo quy chế riêng.
