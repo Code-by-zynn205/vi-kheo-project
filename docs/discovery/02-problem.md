@@ -1,27 +1,51 @@
-# 02. Problem Statement & Bằng chứng Nghiên cứu
+# 02. Problem Statement & Bằng chứng
 
-## 1. Tuyên bố vấn đề (Problem Statement)
-> **Sinh viên đại học (18–22 tuổi) sống xa nhà hoặc ở trọ, lần đầu tự quản lý khoản tiền cố định hằng tháng, thường xuyên không kiểm soát được dòng tiền đã chi đi đâu và ngại sử dụng các ứng dụng ghi chép rườm rà — dẫn đến tình trạng "cháy túi" trước cuối tháng, phải vay mượn bạn bè và chịu áp lực tâm lý ảnh hưởng trực tiếp đến việc học.**
+> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Trạng thái:** Xong (còn mục Cần bổ sung) · **Phụ trách:** Dương Văn Hoan (PO), Nguyễn Thị Thương, Nguyễn Tuấn Kiệt · **Cập nhật:** 14/11/2026
 
-## 2. Phân tích 3 lớp của vấn đề
-- **Đối tượng chịu tác động (Who):** Sinh viên 18–22 tuổi đang học đại học (khảo sát thực tế tại Đà Nẵng / VKU và sinh viên sống xa nhà), nhận trợ cấp từ gia đình hoặc lương làm thêm theo tháng.
-- **Bối cảnh & Nguyên nhân gốc rễ (Context & Root Cause):**
-  - Khoản chi của sinh viên diễn ra lắt nhắt nhiều lần trong ngày (ăn sáng, gửi xe, cà phê, tài liệu, chuyển khoản QR) với giá trị nhỏ nhưng cộng dồn lớn.
-  - Sinh viên thiếu kỹ năng lập kế hoạch ngân sách theo ngày/tháng.
-  - Các ứng dụng quản lý tài chính hiện nay quá nhiều tính năng phức tạp, thao tác nhập một khoản chi mất nhiều bước và chứa quảng cáo khiến sinh viên bỏ cuộc chỉ sau vài ngày.
-- **Hậu quả (Consequences):** Hết tiền vào tuần thứ 3 hoặc tuần thứ 4 trong tháng, phải ăn uống kham khổ, vay mượn bạn bè hoặc xin thêm gia đình, gây căng thẳng kéo dài.
+## 1. Problem Statement
 
-## 3. Bằng chứng từ Nghiên cứu Thứ cấp (Secondary Research)
-Theo nghiên cứu của **Nguyễn Thị Hoài Lê (2023)** (*"Kiến thức tài chính của sinh viên Việt Nam: Thực trạng và các vấn đề đặt ra"*, Tạp chí Khoa học & Đào tạo Ngân hàng, số 254) khảo sát trên **4.140 sinh viên** tại các trường đại học trên cả nước:
-- Điểm trung bình phần kiến thức tài chính căn bản chỉ đạt **3,63 / 8 điểm**.
-- **Lập kế hoạch tài chính cá nhân** là nội dung có tỷ lệ trả lời đúng thấp nhất trong toàn bộ 11 câu hỏi khảo sát: chỉ **26,6%** sinh viên trả lời đúng.
-- Có tới **33,2%** sinh viên chọn phương án *"Tôi không biết"* ở câu hỏi về lập kế hoạch tài chính cá nhân.
-- **Kết luận rút ra:** Sinh viên không thiếu công cụ tính toán phức tạp, mà đang thiếu một công cụ trực quan giúp **lập kế hoạch và giới hạn mức chi tiêu hằng ngày**.
+> **Sinh viên đại học 18–22 tuổi sống xa nhà, lần đầu tự quản lý một khoản tiền cố định mỗi tháng, thường không biết tiền đã đi đâu và bỏ cuộc với các ứng dụng ghi chép vì thao tác rườm rà – dẫn đến hết tiền trước cuối tháng, phải vay mượn và căng thẳng ảnh hưởng việc học.**
 
-## 4. Bằng chứng từ Khảo sát Thực tế của Nhóm (`n = 50` sinh viên)
-Nhóm đã triển khai khảo sát trực tuyến qua Google Form thu về **50 phản hồi hợp lệ** từ sinh viên đại học (chủ yếu năm 1 – năm 3, mức chi tiêu phổ biến từ 2–5 triệu đồng/tháng):
-- **68% (34/50 sinh viên)** xác nhận đã từng rơi vào tình trạng **hết tiền trước cuối tháng** (thường xuyên hoặc thỉnh thoảng).
-- **Chỉ 24% (12/50 sinh viên)** hiện đang duy trì thói quen ghi chép chi tiêu hằng ngày; 76% còn lại không ghi chép hoặc chỉ ước lượng trong đầu.
-- **58% (29/50 sinh viên)** cho biết đã **từng tải app quản lý chi tiêu nhưng sau đó xóa hoặc bỏ dở**.
-- **Lý do bỏ app đứng #1 (chiếm 64% người từng bỏ app):** *"Ngại nhập liệu mất thời gian / Hay quên ghi vì thao tác rườm rà"*, xếp thứ hai là *"Giao diện rối, nhiều tính năng không dùng tới và có quảng cáo"* (42%).
-- **Thời gian nhập liệu kỳ vọng:** **82% sinh viên** mong muốn việc ghi lại một khoản chi chỉ mất **dưới 10 giây** và cần một con số rõ ràng cho biết *hôm nay còn được tiêu bao nhiêu*.
+Phần "hết tiền trước cuối tháng" đã có số liệu khảo sát. Phần "vay mượn, căng thẳng ảnh hưởng việc học" vẫn là **giả thuyết**, đang kiểm chứng qua phỏng vấn.
+
+## 2. Phân tích vấn đề
+
+| Thành phần | Nội dung | Nguồn |
+| :--- | :--- | :--- |
+| **Ai** | Sinh viên 18–22 tuổi, ở trọ/KTX/xa nhà, nhận tiền gia đình hoặc lương làm thêm theo tháng (mẫu khảo sát chủ yếu SV năm 1–3, chi 2–5 triệu/tháng) | `[SƠ CẤP]` S1 |
+| **Bối cảnh** | Chi nhiều khoản nhỏ trong ngày (ăn sáng, gửi xe, cà phê, tài liệu), trả bằng cả tiền mặt và quét QR → khó nhớ tổng | `[NHẬN ĐỊNH]` – chờ phỏng vấn xác nhận |
+| **Nguyên nhân 1** | Thiếu kỹ năng lập kế hoạch chi tiêu | `[THỨ CẤP]` T1 |
+| **Nguyên nhân 2** | Các app hiện có nhiều bước nhập, nhiều tính năng, có quảng cáo → bỏ sau vài ngày | `[SƠ CẤP]` S1 (lý do bỏ app) · `[THỨ CẤP]` T3 |
+| **Hậu quả 1** | Hết tiền trước cuối tháng | `[SƠ CẤP]` S1 – 34/50 |
+| **Hậu quả 2** | Vay bạn bè, xin thêm gia đình, căng thẳng ảnh hưởng việc học | `[NHẬN ĐỊNH]` N5 – chờ phỏng vấn xác nhận |
+
+*Khi có biên bản phỏng vấn (`PV-xx`) hoặc câu khảo sát tương ứng, đổi nhãn `[NHẬN ĐỊNH]` thành `[SƠ CẤP]` kèm mã nguồn.*
+
+## 3. Bằng chứng thứ cấp – nhóm tìm kiếm `[THỨ CẤP]`
+
+Nguồn: Nguyễn Thị Hoài Lê (2023), *Kiến thức tài chính của sinh viên Việt Nam: Thực trạng và các vấn đề đặt ra*, Tạp chí Khoa học & Đào tạo Ngân hàng, số 254, tháng 7/2023 – DOI [10.59276/TCKHDT.2023.07.2528](https://doi.org/10.59276/TCKHDT.2023.07.2528). Khảo sát online 4.140 SV trên cả nước năm 2021, 11 câu hỏi.
+
+| Số liệu | Ý nghĩa với Ví Khéo |
+| :--- | :--- |
+| Điểm kiến thức tài chính căn bản trung bình **3,63/8** | Kiến thức tài chính của SV ở mức thấp |
+| Câu lập kế hoạch tài chính cá nhân chỉ **26,6%** trả lời đúng – thấp nhất trong 11 câu | Lập kế hoạch chi tiêu là điểm yếu rõ nhất |
+| **33,2%** chọn "Tôi không biết" ở chính câu đó – cao nhất | Nhiều SV không biết bắt đầu lập kế hoạch từ đâu |
+
+**Giới hạn:** bài báo đo *kiến thức*, không đo *thói quen ghi chép*. Đây là lý do nhóm tự khảo sát (mục 4).
+
+## 4. Bằng chứng sơ cấp – nhóm tự thu thập `[SƠ CẤP]`
+
+Khảo sát Google Form, **50 phản hồi hợp lệ** (chi tiết: [00-research-log.md](00-research-log.md)).
+
+| Chỉ số | Kết quả |
+| :--- | :--- |
+| Từng hết tiền trước cuối tháng | **34/50 (68%)** |
+| Đang ghi chép chi tiêu hằng ngày | **12/50 (24%)** |
+| Từng tải app quản lý chi tiêu rồi xoá/bỏ | **29/50 (58%)** |
+| Lý do bỏ app #1: ngại nhập, thao tác rườm rà | **~64%** người từng bỏ app – *cần kiểm lại mẫu số* |
+| Lý do bỏ app #2: giao diện rối, nhiều tính năng, quảng cáo | **~42%** người từng bỏ app – *cần kiểm lại mẫu số* |
+| Muốn ghi một khoản chi trong dưới 10 giây | **41/50 (82%)** |
+
+## 5. Kết luận
+
+Sinh viên **không thiếu app**, mà thiếu một cách **đủ nhanh để duy trì ghi chép** và **một con số đơn giản để biết hôm nay tiêu bao nhiêu là vừa**. Đây vẫn là giả thuyết đang được kiểm chứng (A3, A4 trong [05-vision.md](05-vision.md)).
