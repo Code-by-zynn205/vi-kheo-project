@@ -73,6 +73,8 @@ Gợi ý nào muốn dùng → sửa skill này qua Pull Request (cặp UI/UX du
   --color-success-text:   #047857;
   --color-warning-text:   #B45309;
   --color-danger-text:    #DC2626;
+  --color-warning-light:  #FFFBEB; /* Nền khung cảnh báo (thêm 21/11) */
+  --color-scrim:          #111827; /* Lớp phủ sau hộp thoại, độ mờ 45% (thêm 21/11) */
   --color-bg-page:        #F9FAFB;
   --color-bg-card:        #FFFFFF;
   --color-text-primary:   #111827;
