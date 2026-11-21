@@ -4,6 +4,7 @@
 
 - **User Story:** US06
 - **Sprint:** 3
+- **Figma:** Cần bổ sung – link frame `EditTransactionSheet`
 - **Prototype:** Chưa có
 - **Mở từ:** bấm một `TransactionItem` trên `HomeScreen` hoặc `HistoryScreen`
 

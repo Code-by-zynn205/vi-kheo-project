@@ -4,6 +4,7 @@
 
 - **User Story:** US01 (danh sách hôm nay), US03 (`DailyAllowanceCard`), lối vào US05, US06, US08
 - **Sprint:** 1 khung · 2 hoàn thiện
+- **Figma:** Cần bổ sung – link frame `HomeScreen`
 - **Prototype:** `docs/design/prototype/home.html` (dùng để test giả định A3)
 - **Mở từ:** mở app; tab `Trang chủ`
 

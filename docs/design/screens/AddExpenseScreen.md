@@ -4,6 +4,7 @@
 
 - **User Story:** US01 (ghi khoản chi), US07 (ghi khoản thu – Sprint 2)
 - **Sprint:** 1 (chế độ Chi) · 2 (chế độ Thu)
+- **Figma:** Cần bổ sung – link frame `AddExpenseScreen`
 - **Prototype:** Chưa có
 - **Mở từ:** nút `+ Ghi khoản chi` trên `HomeScreen`, `EmptyState` của Home, bấm thông báo nhắc 21:00 (US05)
 

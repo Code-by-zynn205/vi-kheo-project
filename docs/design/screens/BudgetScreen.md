@@ -4,6 +4,7 @@
 
 - **User Story:** US02
 - **Sprint:** 2
+- **Figma:** Cần bổ sung – link frame `BudgetScreen`
 - **Prototype:** Chưa có
 - **Mở từ:** tab `Ngân sách`; nút "Đặt ngân sách tháng" trên `HomeScreen`
 

@@ -1,9 +1,14 @@
 # Thiết kế (giai đoạn 2 – Design System & Prototype)
 
-Nhóm không dùng Figma. Thiết kế gồm 3 phần:
+Thiết kế làm trên **Figma**; repo giữ token và đặc tả để AI agent đọc (AGENTS.md quy tắc 6, `design-system` mục 4.4 – 4.6).
+
+**File Figma của nhóm:** [Ví Khéo](https://www.figma.com/design/r3QiOYkP7orX9dNyDEDmvl/V%C3%AD-Kh%C3%A9o) – file key `r3QiOYkP7orX9dNyDEDmvl`. Link frame từng màn hình ghi ở dòng "Figma" trong đặc tả. 4 frame hiện có là bản demo.
+
+**Kế hoạch dựng file Figma hoàn chỉnh** (cấu trúc trang, Variables, component, 40 frame, prototype, lịch): [figma-plan.md](figma-plan.md).
 
 | Phần | Vị trí | Skill |
 | :--- | :--- | :--- |
+| Bố cục, hình ảnh, prototype bấm thử | File Figma: trang `00 Tokens`, `01 Components`, `02 Screens`, `03 Prototype` | `design-system` |
 | Token, component, nguyên tắc | `.agents/skills/design-system/SKILL.md` | `design-system` |
 | Đặc tả từng màn hình | `screens/<ScreenName>.md` (mẫu `.agents/skills/design-system/templates/screen-spec.md`) | `design-system` |
 | Prototype HTML để test với sinh viên | `prototype/<english-name>.html` | `design-system` (gợi ý thêm từ `frontend-design`) |

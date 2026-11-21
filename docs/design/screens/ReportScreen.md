@@ -4,6 +4,7 @@
 
 - **User Story:** US04
 - **Sprint:** 3
+- **Figma:** Cần bổ sung – link frame `ReportScreen`
 - **Prototype:** Chưa có
 - **Mở từ:** tab `Báo cáo`
 

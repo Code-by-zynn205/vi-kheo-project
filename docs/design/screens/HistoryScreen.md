@@ -4,6 +4,7 @@
 
 - **User Story:** US08 (nếu kịp)
 - **Sprint:** 3 – nếu kịp
+- **Figma:** Cần bổ sung – link frame `HistoryScreen`
 - **Prototype:** Chưa có
 - **Mở từ:** liên kết "Xem các ngày trước" trên `HomeScreen`
 

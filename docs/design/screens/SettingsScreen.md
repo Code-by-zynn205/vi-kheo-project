@@ -4,6 +4,7 @@
 
 - **User Story:** US05 (nhắc ghi chép)
 - **Sprint:** 3
+- **Figma:** Cần bổ sung – link frame `SettingsScreen`
 - **Prototype:** Chưa có
 - **Mở từ:** icon cài đặt trên `HomeScreen`; lời mời bật nhắc sau lần lưu khoản thứ 3 (mục 3)
 
