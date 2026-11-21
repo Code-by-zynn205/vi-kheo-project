@@ -125,3 +125,29 @@ Muốn dùng → cặp UI/UX sửa đặc tả qua Pull Request (AGENTS.md quy t
 | 4 | AI đối chiếu lại frame mới với đặc tả, cập nhật file này | AI + người review | 3 |
 
 **Lưu ý giới hạn:** tài khoản Figma đang kết nối là ghế View gói Starter – khoảng **20 lần đọc/tháng** qua kết nối AI. Chỉ nhờ AI đối chiếu sau khi vẽ xong từng màn hình.
+
+---
+
+## 6. Lệch giữa bản Demo UI (AI dựng 21/11) và đặc tả
+
+Trang `Demo UI` dựng theo đặc tả, nhưng có vài chỗ AI tự chọn. Cặp UI/UX chọn giữ (sửa đặc tả) hoặc bỏ (sửa Figma) – AGENTS.md quy tắc 6.
+
+| # | Màn / khung | Figma (Demo UI) | Đặc tả | Đề xuất |
+| :-: | :--- | :--- | :--- | :--- |
+| A1 | `HomeScreen / SAFE` | Có dòng phụ "Bạn vẫn trong hạn mức hôm nay" (ý từ bản demo cũ, mục 4.2) | `SAFE` không có dòng phụ | Giữ – thêm vào đặc tả mục 2 |
+| A2 | `HomeScreen / Saved` (trang Prototype) | Snackbar "Đã lưu khoản chi 35.000đ" | "Đã lưu" | Chọn một câu |
+| A3 | `EditTransactionSheet / Default` | Không vẽ bàn phím số (thiếu chỗ trong 800px), có dòng ghi chú "Bàn phím số hiện khi chạm vào số tiền" | Có `NumericKeypad` | Sửa đặc tả: bàn phím hiện khi chạm ô số tiền |
+| A4 | `BudgetScreen / FirstTime` | Ô số tiền hiện chữ mờ "Nhập số tiền" | Ô trống | Giữ – thêm vào đặc tả mục 4 |
+| A5 | `SettingsScreen / PermissionExplain` | Hộp thoại "Bật nhắc ghi chép?" với nút "Bật nhắc" / "Để sau" | Câu giải thích rồi tới hộp quyền của hệ điều hành; chưa có chữ nút | Thêm 2 chữ nút vào đặc tả mục 4 |
+| A6 | Mọi màn | Có thanh trạng thái "9:41" ở trên cùng | Không quy định | Giữ (chỉ để trình bày) |
+| A7 | Token | Thêm `color/warning-light` (#FFFBEB – nền khung cảnh báo), `color/scrim` (#111827 – lớp phủ hộp thoại, mờ 45%) | Đã thêm vào `design-system` mục 4.2 ngày 21/11 | Cặp UI/UX duyệt qua Pull Request |
+| A8 | Khung chuẩn | 360 × 800 | `figma-plan.md` – trả lời D1 | Xong |
+| A9 | `SettingsScreen / ReminderOn` | Thêm mục "Khác": Thông tin dùng thử, Quyền riêng tư, Giới thiệu, Xoá toàn bộ dữ liệu (đợt 1) | Đặc tả mục 1 chưa có | Thêm vào đặc tả `SettingsScreen.md` |
+| A10 | 8 màn mới đợt 1 | `SplashScreen`, `OnboardingScreen` (3), `OnboardingBudgetScreen`, `AboutScreen`, `PrivacyScreen`, `TrialInfoScreen`, `DeleteAllDataScreen`, `NotificationMock` | **Chưa có đặc tả `.md`** | Chủ nhóm màn (Vy – M0, M7) viết đặc tả từ mẫu `screen-spec.md` |
+| A11 | Component `DailyAllowanceCard`, `TransactionItem` (đợt 2) | Dòng chữ dài giờ xuống dòng (thẻ số tiền) hoặc cắt "…" sau 1 dòng (tên, mô tả giao dịch) | Đặc tả chưa nói cách xử lý chữ dài | Thêm vào `design-system` mục 4.3 |
+| A12 | 32 khung R2 (đợt 2) | Chưa có đặc tả `.md` cho `WalletListScreen`, `WalletFormScreen`, `WalletDetailScreen`, `TransferSheet`, `ReconcileSheet`, `SplitCategoriesSheet`, `RecurringListScreen`, `RecurringFormScreen`, `ConfirmRecurringSheet`, `CategoryBudgetScreen`, `CategoryBudgetSheet`, `ReportCategoryDetailScreen` | Thiết kế trước, **chưa có User Story** | Chỉ viết đặc tả khi PO nâng US09, US13, US14 vào Backlog |
+| A13 | 42 khung R2 (đợt 3) | Mục tiêu, vay nợ, chia tiền nhóm, danh mục tự tạo, nhãn, chuỗi ngày, sao lưu – thiết kế theo BR-40 – BR-93, BR-124, BR-125, BR-128 | Chưa có User Story (US10 – US12, US15, US16) | Chỉ viết đặc tả khi PO nâng các US này vào Backlog |
+| A14 | `DebtCard`, `GoalCard`, `BalanceRow` | Phân biệt "Mình nợ" / "Nợ mình" bằng nút chọn ở đầu màn và màu số dư; vay nợ không đổi hạn mức ngày (BR-72, BR-73) | Chưa có đặc tả | Cặp dữ liệu xác nhận cách hiển thị đúng quy tắc |
+| A15 | 26 khung R3 (đợt 4) | M16: đăng nhập không mật khẩu (Google, Apple, mã qua email), trạng thái đồng bộ, xung đột giữ bản máy chủ ghi nhận sau cùng, thiết bị, sổ chung, xoá tài khoản; M17: trang quản trị web theo BR-110 – BR-116, BR-130 | Chưa có User Story chi tiết (US17, US18 đang `Won't`) | Chỉ viết đặc tả khi PO nâng US17, US18; cặp dữ liệu xác nhận cách giải xung đột đồng bộ |
+| A16 | `DeleteAccountScreen`, `AdminDataRequests` | Thời hạn xoá hẳn dữ liệu ghi "Cần kiểm chứng (Q14)" | Chưa có căn cứ pháp lý | PO và giảng viên chốt Q14 rồi sửa chữ trên khung |
+| A17 | Số liệu trên `AdminDashboard`, `AdminUserList` | Số trên trang quản trị là minh hoạ, có nhãn "Số liệu minh hoạ, không phải số liệu thật" | — | Không dùng các số này trong báo cáo hay slide |

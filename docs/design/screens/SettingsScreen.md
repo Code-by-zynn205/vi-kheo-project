@@ -4,8 +4,8 @@
 
 - **User Story:** US05 (nhắc ghi chép)
 - **Sprint:** 3
-- **Figma:** Cần bổ sung – link frame `SettingsScreen`
-- **Prototype:** Chưa có
+- **Figma:** [trang Demo UI](https://www.figma.com/design/r3QiOYkP7orX9dNyDEDmvl/V%C3%AD-Kh%C3%A9o?node-id=108-322) – `SettingsScreen / ReminderOn`, `SettingsScreen / BlockedByPhone`; trạng thái khác ở hàng `SettingsScreen – states` · đối chiếu lần cuối 21/11/2026 (bản AI dựng, chờ cặp UI/UX duyệt)
+- **Prototype:** [trang Prototype](https://www.figma.com/design/r3QiOYkP7orX9dNyDEDmvl/V%C3%AD-Kh%C3%A9o?node-id=112-2259) (Figma)
 - **Mở từ:** icon cài đặt trên `HomeScreen`; lời mời bật nhắc sau lần lưu khoản thứ 3 (mục 3)
 
 > Số liệu trong file là dữ liệu minh hoạ để dựng giao diện, không phải số liệu thật.

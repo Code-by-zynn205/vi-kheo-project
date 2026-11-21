@@ -4,8 +4,8 @@
 
 - **User Story:** US01 (ghi khoản chi), US07 (ghi khoản thu – Sprint 2)
 - **Sprint:** 1 (chế độ Chi) · 2 (chế độ Thu)
-- **Figma:** Cần bổ sung – link frame `AddExpenseScreen`
-- **Prototype:** Chưa có
+- **Figma:** [trang Demo UI](https://www.figma.com/design/r3QiOYkP7orX9dNyDEDmvl/V%C3%AD-Kh%C3%A9o?node-id=106-88) – `AddExpenseScreen / Default` (đang nhập); trạng thái khác ở hàng `AddExpenseScreen – states` · đối chiếu lần cuối 21/11/2026 (bản AI dựng, chờ cặp UI/UX duyệt)
+- **Prototype:** [trang Prototype](https://www.figma.com/design/r3QiOYkP7orX9dNyDEDmvl/V%C3%AD-Kh%C3%A9o?node-id=112-2259) (Figma)
 - **Mở từ:** nút `+ Ghi khoản chi` trên `HomeScreen`, `EmptyState` của Home, bấm thông báo nhắc 21:00 (US05)
 
 > Số liệu trong file là dữ liệu minh hoạ để dựng giao diện, không phải số liệu thật.

@@ -112,6 +112,8 @@ Tên component tiếng Anh, trùng `design-system` mục 4.3. Mỗi component d�
 
 ## 5. Danh sách frame cần vẽ
 
+> **Thay thế ngày 21/11/2026:** danh sách 40 khung dưới đây là bản MVP đã dựng xong. Danh sách đầy đủ 161 khung (R1 – R3), đợt dựng và phân công: [`screen-inventory.md`](screen-inventory.md).
+
 Tên frame: `<ScreenName> / <Trạng thái>`. Mỗi dòng dưới là một frame; nội dung lấy từ mục 2 "Trạng thái" của đặc tả tương ứng.
 
 | Màn hình (đặc tả) | Frame (trạng thái) | Số frame | Sprint cần | Ưu tiên |
@@ -148,6 +150,9 @@ Tên frame: `<ScreenName> / <Trạng thái>`. Mỗi dòng dưới là một fram
 ---
 
 ## 7. Lịch làm
+
+> **Tình trạng 21/11/2026:** F1 – F9 đã làm bằng AI theo yêu cầu của nhóm: trang `00 Cover`, `Demo UI` (token, 13 component, 40 khung), `Prototype` (27 điểm bấm, 3 luồng); 3 trang cũ đổi tên `_Archive / …`. Khác kế hoạch: token, component, màn hình nằm chung trang `Demo UI` thay vì tách `01 Tokens`, `02 Components`, `03 Screens`. **Còn lại:** cặp UI/UX duyệt từng màn (bước F5 cho mọi màn), PO chốt D2 – D8 và Q1 – Q16, rồi sửa Figma/đặc tả theo quyết định.
+
 
 Bám `docs/plans/00-master-plan.md`. Hạn là đề xuất, SM chốt ở Sprint Planning.
 

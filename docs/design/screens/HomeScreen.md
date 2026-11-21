@@ -4,8 +4,8 @@
 
 - **User Story:** US01 (danh sách hôm nay), US03 (`DailyAllowanceCard`), lối vào US05, US06, US08
 - **Sprint:** 1 khung · 2 hoàn thiện
-- **Figma:** Cần bổ sung – link frame `HomeScreen`
-- **Prototype:** `docs/design/prototype/home.html` (dùng để test giả định A3)
+- **Figma:** [trang Demo UI](https://www.figma.com/design/r3QiOYkP7orX9dNyDEDmvl/V%C3%AD-Kh%C3%A9o?node-id=106-13) – `HomeScreen / SAFE`; trạng thái khác ở hàng `HomeScreen – states` và `HomeScreen / Deleted`, `HomeScreen / InviteReminder` · đối chiếu lần cuối 21/11/2026 (bản AI dựng, chờ cặp UI/UX duyệt)
+- **Prototype:** [trang Prototype](https://www.figma.com/design/r3QiOYkP7orX9dNyDEDmvl/V%C3%AD-Kh%C3%A9o?node-id=112-2259) (Figma) · `docs/design/prototype/home.html` (HTML, chỉ HomeScreen)
 - **Mở từ:** mở app; tab `Trang chủ`
 
 > Số liệu trong file là dữ liệu minh hoạ để dựng giao diện, không phải số liệu thật.

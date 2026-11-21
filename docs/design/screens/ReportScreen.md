@@ -4,8 +4,8 @@
 
 - **User Story:** US04
 - **Sprint:** 3
-- **Figma:** Cần bổ sung – link frame `ReportScreen`
-- **Prototype:** Chưa có
+- **Figma:** [trang Demo UI](https://www.figma.com/design/r3QiOYkP7orX9dNyDEDmvl/V%C3%AD-Kh%C3%A9o?node-id=106-220) – `ReportScreen / Month`; trạng thái khác ở hàng `ReportScreen – states` · đối chiếu lần cuối 21/11/2026 (bản AI dựng, chờ cặp UI/UX duyệt)
+- **Prototype:** [trang Prototype](https://www.figma.com/design/r3QiOYkP7orX9dNyDEDmvl/V%C3%AD-Kh%C3%A9o?node-id=112-2259) (Figma)
 - **Mở từ:** tab `Báo cáo`
 
 > Số liệu trong file là dữ liệu minh hoạ để dựng giao diện, không phải số liệu thật.
