@@ -1,30 +1,61 @@
-# 03. Chân dung Người dùng Mục tiêu (User Personas)
+# 03. Persona – Chân dung Người dùng
 
-Dựa trên dữ liệu tổng hợp từ khảo sát 50 sinh viên và các buổi phỏng vấn nhanh 1-1, nhóm xây dựng 02 chân dung người dùng đại diện cho tệp khách hàng cốt lõi của **Ví Khéo**:
+> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Trạng thái:** Đang làm (chờ thay trích dẫn thật) · **Phụ trách:** Nguyễn Thị Thương, Nguyễn Tuấn Kiệt · **Cập nhật:** 14/11/2026
 
----
+Persona là **nhân vật đại diện** do nhóm xây dựng từ khảo sát (n = 50) và các buổi phỏng vấn, **không phải một người cụ thể**. Khi ra quyết định tính năng, cả nhóm hỏi: *"Persona Minh có cần cái này không?"*
 
-## Persona 1 (Chính): Nguyễn Hoàng Minh – Sinh viên ở trọ tự lập
-- **Độ tuổi / Năm học:** 20 tuổi – Sinh viên năm 2 ngành Công nghệ thông tin.
-- **Hoàn cảnh sống:** Ở trọ cùng bạn tại Đà Nẵng, nhận trợ cấp gia đình 2,5 triệu/tháng + lương làm thêm cuối tuần khoảng 1,2 triệu/tháng (Tổng: ~3,7 triệu/tháng).
-- **Trích dẫn tiêu biểu:** *"Mình từng tải app quản lý chi tiêu về dùng được 3 hôm là xóa, vì mỗi lần mua ly trà sữa hay gửi xe 5 nghìn mà mở app lên bấm mấy bước mới lưu được thì lười lắm, với lại toàn hiện quảng cáo."*
-- **Mục tiêu (Goals):**
-  - Cân đối được tiền sinh hoạt để không bị âm tiền vào tuần cuối tháng.
-  - Để dành được 300.000đ – 500.000đ mỗi tháng phòng khi ốm đau hoặc hư xe.
-- **Điểm đau (Pain Points):**
-  - Chi tiêu lặt vặt nhiều bằng cả tiền mặt và quét mã QR nên cuối tháng không nhớ tiền đi đâu.
-  - Ngại thao tác nhập liệu rườm rà, nhiều trường thông tin không cần thiết.
-  - Không biết hôm nay mình tiêu như vậy là đã lố ngân sách tháng hay chưa.
-- **Thói quen công nghệ:** Dùng smartphone liên tục; thích ứng dụng mở lên là dùng ngay, không cần đăng ký tài khoản phức tạp.
+*Hai persona trùng tên với thành viên nhóm (Bình Minh, Nhật Vy) – trong mọi tài liệu luôn viết "Persona Minh", "Persona Vy".*
+
+| | Persona Minh (chính) | Persona Vy (phụ) |
+| :--- | :--- | :--- |
+| **Họ tên** | Nguyễn Hoàng Minh | Trần Thảo Vy |
+| **Tuổi / năm học** | 20 – SV năm 2 ngành CNTT | 18 – SV năm 1 |
+| **Nơi ở** | Ở trọ cùng bạn tại Đà Nẵng | Ký túc xá |
+| **Thu nhập/tháng** | Gia đình 2,5 tr + làm thêm cuối tuần ~1,2 tr (≈ 3,7 tr) | Gia đình 2,5 tr, chưa làm thêm |
+| **Đại diện cho** | Nhóm SV từng bỏ app chi tiêu – 29/50 (58%) trong khảo sát | SV năm nhất mới tự quản lý tiền |
 
 ---
 
-## Persona 2 (Phụ): Trần Thảo Vy – Sinh viên năm nhất ở Ký túc xá
-- **Độ tuổi / Năm học:** 18 tuổi – Sinh viên năm 1.
-- **Hoàn cảnh sống:** Ở Ký túc xá, chưa đi làm thêm, phụ thuộc hoàn toàn vào khoản chu cấp 2,5 triệu/tháng từ bố mẹ gửi đầu tháng.
-- **Trích dẫn tiêu biểu:** *"Đầu tháng mới nhận tiền mình hay mua sắm đồ dùng với đi ăn với bạn bè hơi quá tay, đến ngày 20 nhìn lại ví mới giật mình vì chỉ còn vài trăm nghìn."*
-- **Mục tiêu (Goals):**
-  - Biết rõ mỗi ngày mình chỉ nên tiêu tối đa bao nhiêu tiền để đủ sống đến ngày nhận tiền tiếp theo.
-- **Điểm đau (Pain Points):**
-  - Chưa có kinh nghiệm chia nhỏ ngân sách tháng thành hạn mức ngày.
-  - Các biểu đồ tài chính trên app hiện nay quá khó hiểu, không giúp ích cho việc quyết định có nên mua món đồ ngay lúc đó hay không.
+## Persona Minh (chính) – sinh viên ở trọ tự lập
+
+**Trích dẫn** – *Cần bổ sung: thay bằng câu nói thật, ghi mã biên bản:*
+> "Mình từng tải app quản lý chi tiêu về dùng được 3 hôm là xoá, vì mỗi lần mua ly trà sữa hay gửi xe 5 nghìn mà mở app lên bấm mấy bước mới lưu được thì lười lắm, với lại toàn hiện quảng cáo." – (PV-__)
+
+**Mục tiêu**
+- G1. Đủ tiền tiêu đến cuối tháng, không âm tiền tuần cuối.
+- G2. Để dành 300.000 – 500.000đ/tháng phòng ốm đau, hư xe.
+
+**Điểm đau**
+
+| Mã | Điểm đau | Nguồn |
+| :--- | :--- | :--- |
+| P1 | Chi lặt vặt nhiều khoản, cuối tháng không nhớ tiền đi đâu | S1: 38/50 (76%) không ghi chép hằng ngày · PV |
+| P2 | Ngại nhập liệu nhiều bước, bị quảng cáo làm phiền → bỏ app | S1: lý do bỏ app #1, #2 |
+| P3 | Không biết hôm nay tiêu vậy là lố ngân sách hay chưa | PV |
+
+**Thói quen công nghệ:** dùng điện thoại cả ngày, thích app mở lên dùng ngay, không muốn đăng ký tài khoản. *(Trả tiền bằng cả tiền mặt và QR – chờ phỏng vấn xác nhận.)*
+
+---
+
+## Persona Vy (phụ) – sinh viên năm nhất ở ký túc xá
+
+**Trích dẫn** – *Cần bổ sung: thay bằng câu nói thật, ghi mã biên bản:*
+> "Đầu tháng mới nhận tiền mình hay mua sắm với đi ăn với bạn bè hơi quá tay, đến ngày 20 nhìn lại ví mới giật mình vì chỉ còn vài trăm nghìn." – (PV-__)
+
+**Mục tiêu**
+- G3. Biết mỗi ngày nên tiêu tối đa bao nhiêu để đủ sống đến lần nhận tiền sau.
+
+**Điểm đau**
+
+| Mã | Điểm đau | Nguồn |
+| :--- | :--- | :--- |
+| P4 | Chưa biết chia ngân sách tháng thành hạn mức ngày | T1: 26,6% đúng câu lập kế hoạch · PV |
+| P5 | Biểu đồ tài chính trong app khó hiểu, không giúp quyết định "có nên mua món này không" | PV · `[NHẬN ĐỊNH]` N2 |
+| P6 | Tiêu nhiều đầu tháng, hụt tiền trước cuối tháng | S1: 34/50 (68%) từng hết tiền · PV |
+
+---
+
+## Việc cần làm để hoàn tất (cuối Sprint 0 → Sprint 1)
+- [ ] Thay 2 trích dẫn bằng câu nói thật từ biên bản `docs/evidence/interviews/PV-xx.md`, ghi mã PV
+- [ ] Cột "Nguồn" ghi `PV` → đổi thành mã cụ thể (`PV-01`, `PV-02`…)
+- [ ] Nếu phỏng vấn cho thấy điểm đau mới hoặc điểm đau nào không đúng → sửa bảng và báo PO

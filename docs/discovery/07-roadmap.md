@@ -1,32 +1,57 @@
-# 07. Lộ trình Triển khai 4 Tuần & Definition of Done
+# 07. Lộ trình & Definition of Done
 
-## 1. Lộ trình 4 Sprint (1 tuần / Sprint)
+> **Giai đoạn:** GĐ1 – Discovery (Sprint 0), cập nhật mỗi Sprint · **Trạng thái:** Xong · **Phụ trách:** Trần Ninh Nhật Tân (SM), Dương Văn Hoan (PO) · **Cập nhật:** 14/11/2026
 
-### Sprint 0: Research & Discovery (Hiện tại – Hoàn tất trước 16/11/2026)
-- **Mục tiêu:** Chốt vấn đề, chân dung người dùng, tầm nhìn sản phẩm, Product Backlog và bộ Skill AI (`product-discovery` & `design-system`).
-- **Đầu ra:**
-  - Hoàn thành khảo sát 50 sinh viên trên Google Form và tổng hợp dữ liệu thật.
-  - Hoàn thiện bộ 7 tài liệu `.md` trong `docs/discovery/` và 2 file `SKILL.md` trong `skills/`.
-  - Kiểm thử nhanh luồng màn hình với 5 sinh viên.
+## 1. Lộ trình
 
-### Sprint 1: Lõi Ghi chép Chi tiêu (16/11 – 22/11/2026)
-- **Mục tiêu:** Xây dựng chức năng ghi nhận giao dịch siêu tốc và lưu trữ dữ liệu cục bộ trên thiết bị.
-- **User Story:** `US01` (Màn hình `HomeScreen` khung cơ bản + `AddExpenseScreen` + 6 danh mục sinh viên + Lưu dữ liệu Local Storage/SQLite).
+| Giai đoạn | Sprint | Thời gian | Sprint Goal | User Story | Trạng thái |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| GĐ1 – Discovery | **Sprint 0** | 07/11 – 14/11 | Chốt vấn đề, persona, Backlog, bộ Skill AI | — | Xong |
+| GĐ2 – Xây dựng MVP | **Sprint 1** | 15/11 – 23/11 | SV ghi được khoản chi trong < 5 giây, dữ liệu lưu trên máy | US01 | Đang làm |
+| | **Sprint 2** | 24/11 – 03/12 | SV biết hôm nay còn được tiêu bao nhiêu; có bản build cho SV dùng thử | US02, US03, US07 | Chưa làm |
+| | **Sprint 3** | 04/12 – 12/12 | SV xem được tiền đi đâu, được nhắc ghi chép; chạy buổi dùng thử 7 ngày | US04, US05, US06 | Chưa làm |
+| GĐ3 – Kiểm chứng & Demo | trong Sprint 3 | 04/12 – 13/12 | Dùng thử 7 ngày (04/12 – 10/12), đo A4, demo MVP, báo cáo tổng kết | — | Chưa làm |
 
-### Sprint 2: Quản lý Ngân sách & Hạn mức Ngày (23/11 – 29/11/2026)
-- **Mục tiêu:** Hoàn thiện thuật toán tính số tiền còn được tiêu hôm nay và cảnh báo trực quan.
-- **User Stories:** `US02` (Màn hình `BudgetScreen` đặt ngân sách tháng) + `US03` (Thẻ `DailyAllowanceCard` tính toán tự động trên màn hình chính).
+*Sprint 1 dài 9 ngày, Sprint 2 dài 10 ngày, Sprint 3 dài 9 ngày (không đúng 7 ngày) do bám theo lịch báo cáo với giảng viên. Nếu lịch giảng viên thay đổi, SM dời ngày cho khớp.*
 
-### Sprint 3: Báo cáo, Nhắc nhở & Kiểm thử Thực tế (30/11 – 06/12/2026)
-- **Mục tiêu:** Hoàn thiện biểu đồ thống kê, tính năng nhắc nhở và cho sinh viên dùng thử thực tế trước ngày chốt MVP (13/12/2026).
-- **User Stories:** `US04` (Màn hình `ReportScreen` biểu đồ tròn theo danh mục) + `US05` (Nhắc nhở buổi tối & Sửa/xóa giao dịch).
-- **Hoạt động kiểm chứng:** Demo và cho **5–20 sinh viên thật** dùng thử, thu thập phản hồi để chuẩn bị báo cáo tổng kết môn học.
+### Chi tiết từng Sprint
 
----
+**Sprint 0 – Discovery (07/11 – 14/11)** – Xong
+Khảo sát 50 SV · phỏng vấn (đang tiếp tục) · 8 tài liệu `docs/discovery` · 6 Skill AI · slide báo cáo. Báo cáo: [sprint-0-review.md](../sprints/sprint-0-review.md).
 
-## 2. Tiêu chuẩn Hoàn thành (Definition of Done – DoD)
-Một thẻ công việc / User Story chỉ được coi là hoàn thành (`Done`) khi đáp ứng đủ 4 tiêu chí sau:
-1. **Đúng chuẩn Design System:** Giao diện sinh ra khớp với bảng màu, font chữ và component quy định trong `skills/design-system/SKILL.md`.
-2. **Code sạch & Có Review:** Mã nguồn được đẩy lên GitHub và được ít nhất 1 thành viên khác trong cặp/nhóm review, không lỗi biên dịch.
-3. **Chạy thực tế:** Tính năng chạy ổn định trên thiết bị di động / trình giả lập và vượt qua các tiêu chí chấp nhận (Acceptance Criteria).
-4. **Cập nhật quản lý:** Đã tích hoàn thành đầy đủ checklist và chuyển trạng thái trên bảng Trello của nhóm.
+**Sprint 1 – Ghi chi tiêu (15/11 – 23/11)**
+- Chốt công nghệ ([frontend-ui](../../.agents/skills/frontend-ui/SKILL.md) mục 4.1), dựng dự án, token màu/chữ.
+- US01: `HomeScreen` khung + `AddExpenseScreen` + 6 danh mục + lưu trên máy.
+- Test giả định A3 với 5 SV bằng bản HTML `HomeScreen`.
+- Hoàn tất phỏng vấn, thay trích dẫn thật vào Persona.
+
+**Sprint 2 – Ngân sách (24/11 – 03/12)**
+- US02 `BudgetScreen` · US03 `DailyAllowanceCard` có công thức và màu · US07 khoản thu.
+- Unit test đủ bảng test case của `budget-logic`.
+- **Trước 03/12:** đóng gói bản build dùng thử (US01, US02, US03, US07), tuyển 20 SV (tối thiểu 5), hướng dẫn cài đặt.
+
+**Sprint 3 – Báo cáo & demo (04/12 – 12/12)**
+- **04/12:** phát bản build Sprint 2 cho SV, bắt đầu 7 ngày dùng thử (đến 10/12).
+- US04 `ReportScreen` · US05 nhắc 21:00 · US06 sửa/xoá. Xong tính năng nào thì cập nhật cho người dùng thử, ghi lại ngày cập nhật.
+- 11/12 – 12/12: tổng hợp kết quả A4, chuẩn bị demo và báo cáo tổng kết.
+
+## 2. Lịch sự kiện Scrum mỗi Sprint
+
+| Sự kiện | Khi nào | Thời lượng |
+| :--- | :--- | :--- |
+| Sprint Planning | Ngày đầu Sprint | ~1 giờ |
+| Daily Scrum | Mỗi ngày | 15 phút |
+| Sprint Review (demo cho PO) | Ngày cuối Sprint | ~45 phút |
+| Sprint Retrospective | Sau Review | ~30 phút |
+
+## 3. Definition of Done
+
+Một User Story chỉ được coi là **Done** khi đủ cả 5 điều:
+
+1. **Đạt tiêu chí chấp nhận** – mọi AC trong [06-journey-features.md](06-journey-features.md) mục 5 đều qua.
+2. **Chạy trên điện thoại thật** – không chỉ trên trình giả lập.
+3. **Đúng design system** – màu, chữ, component theo [design-system](../../.agents/skills/design-system/SKILL.md).
+4. **Code đã review** – qua Pull Request, ít nhất 1 người ở cặp khác duyệt; phần tính tiền có unit test.
+5. **Trello cập nhật** – thẻ đã sang cột Done.
+
+*Slide Canva trang 17 đang ghi 4 điều (thiếu "đúng design system" và unit test) – cần sửa cho khớp.*
