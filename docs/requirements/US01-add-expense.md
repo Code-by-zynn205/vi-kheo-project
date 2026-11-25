@@ -86,7 +86,7 @@ Truy vấn chính: giao dịch hôm nay chưa xoá, mới nhất trước (`data
 - Thẻ "Hôm nay còn được tiêu" (`DailyAllowanceCard`) và thanh ngân sách – US03 (trạng thái `NO_BUDGET` – US02).
 - Chế độ `Thu` của `AddExpenseScreen` – US07.
 - Màn hướng dẫn lần đầu (`OnboardingScreen`) – US03; ở US01, Splash luôn sang Home.
-- Tab "Ngân sách" (US02), "Báo cáo" (US04), icon cài đặt (US19), sửa/xoá khoản (US06), "Xem các ngày trước" (US08) – **chưa hiện** cho tới khi story đó xong.
+- Tab "Ngân sách" (US02), "Báo cáo" (US04), icon cài đặt (US19), sửa/xoá khoản (US06), "Xem các ngày trước" (US08) – **chưa hiện** cho tới khi story đó xong. Công tắc `Chi | Thu` ẩn cho tới US07.
 - Chọn ngày (BR-11, Q7), chụp hoá đơn, nhập giọng nói, chọn ví.
 
 ## 7. Skill áp dụng khi code
@@ -102,8 +102,8 @@ Truy vấn chính: giao dịch hôm nay chưa xoá, mới nhất trước (`data
 
 | # | Câu hỏi | Người trả lời | Trả lời |
 | :-: | :--- | :--- | :--- |
-| 1 | Thanh điều hướng dưới khi tab "Ngân sách", "Báo cáo" chưa làm: **ẩn tab** cho tới khi story xong (đề xuất) hay hiện tab mờ? | Cặp UI/UX | chưa có |
-| 2 | Đặc tả `AddExpenseScreen`, `HomeScreen`, `SplashScreen` đang "chờ cặp UI/UX duyệt" – PRD chép theo bản hiện tại | Cặp UI/UX | chưa có |
+| 1 | Thanh điều hướng dưới khi tab "Ngân sách", "Báo cáo" chưa làm: **ẩn tab** cho tới khi story xong (đề xuất) hay hiện tab mờ? | Cặp UI/UX | Ẩn tab – chốt 26/11/2026 (`HomeScreen.md` dòng "Dựng theo story") |
+| 2 | Đặc tả `AddExpenseScreen`, `HomeScreen`, `SplashScreen` đang "chờ cặp UI/UX duyệt" – PRD chép theo bản hiện tại | Cặp UI/UX | Xong – chốt 26/11/2026 |
 | 3 | Giá trị `type` lưu là `EXPENSE` (theo `data-analysis.md` mục 7) – sửa `budget-logic` 4.1 đang viết `'expense'` (`technical-design.md` mục 3) | Cặp dữ liệu | chưa có |
 
 ## 9. Lịch sử thay đổi

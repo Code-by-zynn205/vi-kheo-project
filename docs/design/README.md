@@ -23,12 +23,16 @@ Thiết kế làm trên **Figma**; repo giữ token và đặc tả để AI age
 
 | Màn hình | User Story | Sprint | Trạng thái |
 | :--- | :--- | :--- | :--- |
-| [HomeScreen](screens/HomeScreen.md) | US01, US03 | 1 – 2 | Đang làm – chờ UI/UX duyệt |
-| [AddExpenseScreen](screens/AddExpenseScreen.md) | US01, US07 | 1 – 2 | Đang làm – chờ UI/UX duyệt |
-| [BudgetScreen](screens/BudgetScreen.md) | US02 | 2 | Đang làm – chờ UI/UX duyệt, PO Q2, Q3 |
+| [SplashScreen](screens/SplashScreen.md) | US01 | 2 | Xong (26/11) |
+| [HomeScreen](screens/HomeScreen.md) | US01, US02, US03 | 2 | Xong (26/11) |
+| [AddExpenseScreen](screens/AddExpenseScreen.md) | US01, US07 | 2 | Xong (26/11) |
+| [OnboardingScreen](screens/OnboardingScreen.md) | US03 | 2 | Xong (26/11) |
+| [OnboardingBudgetScreen](screens/OnboardingBudgetScreen.md) | US02 | 2 | Xong (26/11) |
+| [BudgetScreen](screens/BudgetScreen.md) | US02 | 2 | Xong (26/11) – Q2, Q3 theo đề xuất |
+| [TrialInfoScreen](screens/TrialInfoScreen.md) | US19 | 2 | Xong (26/11) |
 | [ReportScreen](screens/ReportScreen.md) | US04 | 3 | Đang làm – chờ UI/UX duyệt |
 | [EditTransactionSheet](screens/EditTransactionSheet.md) | US06 | 3 | Đang làm – chờ UI/UX duyệt, PO Q6, Q7, Q15 |
-| [SettingsScreen](screens/SettingsScreen.md) | US05 | 3 | Đang làm – chờ UI/UX duyệt, PO Q5, Q8 |
+| [SettingsScreen](screens/SettingsScreen.md) | US19 (khung), US05, US20 | 2 – 3 | Khung Xong (26/11); nhắc nhở chờ PO Q5, Q8 |
 | [HistoryScreen](screens/HistoryScreen.md) | US08 | 3 – nếu kịp | Đang làm – chờ UI/UX duyệt |
 
 | Prototype | Dùng để | Trạng thái |

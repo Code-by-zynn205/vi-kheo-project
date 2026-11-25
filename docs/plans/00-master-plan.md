@@ -47,6 +47,34 @@ Mỗi bước có skill và file đầu ra – bảng này cũng là câu trả 
 | 5 | Code + Pull Request | `frontend-ui`, `budget-logic`, `test-driven-development`, `requesting-code-review` | Code trong `src/`, PR | Bước 4 |
 | 6 | Done | `verification-before-completion`, `scrum-sprint` | Mọi AC Đạt trên điện thoại thật, thẻ Trello Done | DoD `07-roadmap.md` |
 
+## 2a. Hàng đợi code cho AI agent
+
+**Agent code luôn làm theo bảng này, từ trên xuống, mỗi lần một dòng.** Số US là mã cố định, đặt theo lúc tạo story trong Backlog – **không phải thứ tự làm** (US07 tạo ngày 14/11, US19 ngày 26/11). Thứ tự dưới đây theo phụ thuộc dữ liệu (mục 5).
+
+**Quy tắc cho agent:**
+1. Lấy **dòng đầu tiên có Trạng thái khác `Done`**. Không nhảy cóc, không làm 2 dòng cùng lúc.
+2. Kiểm **mọi cổng** của dòng đó bằng cách mở đúng file ghi trong cột. Thiếu một cổng → **dừng**, báo cổng nào thiếu và ai phụ trách; không code, không tự sửa cổng.
+3. Đủ cổng → đọc các file ở cột "Đọc trước", tạo nhánh ở cột "Nhánh", làm `brainstorming` → `writing-plans` → `executing-plans` theo `AGENTS.md` mục 3 → `verify-change` → mở Pull Request.
+4. Đổi Trạng thái của dòng: `Đang làm` khi bắt đầu, `Chờ review` khi mở PR, `Done` khi merge và đạt Definition of Done (`07-roadmap.md` mục 3).
+
+**Cổng chung của mọi dòng:** ADR-01, ADR-02 `Đã chấp nhận` · `docs/architecture/technical-design.md` có · dòng trước đó `Done` hoặc ít nhất các story ở cột "Phụ thuộc" đã `Done`.
+
+| # | Story | Phụ thuộc | Cổng riêng (phải đạt) | Đọc trước | Nhánh | Trạng thái |
+| :-: | :--- | :--- | :--- | :--- | :--- | :--- |
+| 1 | US01 Ghi khoản chi – **task đầu: dựng khung dự án** (`technical-design.md` mục 4) | — | PRD `US01-add-expense.md` `Đã duyệt` · `AddExpenseScreen`, `HomeScreen`, `SplashScreen` `Xong` | PRD US01 · 3 đặc tả · `technical-design.md` · `budget-logic` 4.1, 4.4 · `design-system` 4.2, 4.3 | `feature/US01-add-expense` | Chưa làm |
+| 2 | US02 Ngân sách tháng | US01 | PRD `US02-monthly-budget.md` `Đã duyệt` · `BudgetScreen`, `OnboardingBudgetScreen` `Xong` | PRD US02 · 2 đặc tả · `budget-logic` 4.1, 4.2 | `feature/US02-monthly-budget` | Chưa làm |
+| 3 | US03 Hôm nay còn được tiêu | US01, US02 | PRD `US03-daily-allowance.md` `Đã duyệt` · `HomeScreen`, `OnboardingScreen` `Xong` · kết quả A3 đã ghi | PRD US03 · 2 đặc tả · `budget-logic` 4.2, 4.4 (TDD) | `feature/US03-daily-allowance` | Chưa làm |
+| 4 | US19 Thông tin dùng thử | US01 | US19 có trong Backlog (PO duyệt) · PRD `US19-trial-info.md` `Đã duyệt` · `TrialInfoScreen`, `SettingsScreen` (khung) `Xong` | PRD US19 · 2 đặc tả | `feature/US19-trial-info` | Chưa làm |
+| 5 | US07 Ghi khoản thu – **cắt nếu 01/12 dòng 1 – 3 chưa Done** | US01, US03 | PRD `US07-add-income.md` `Đã duyệt` · `AddExpenseScreen` `Xong` | PRD US07 · đặc tả · `budget-logic` 4.2 (TC7) | `feature/US07-add-income` | Chưa làm |
+| — | **Bản dùng thử 03/12** (ADR-03): build APK, thử cài đè giữ dữ liệu | Dòng 1 – 4 | ADR-03 `Đã chấp nhận` | ADR-03 · `technical-design.md` mục 4, 5 | — | Chưa làm |
+| 6 | US05 Nhắc ghi chép 21:00 | US01 | ADR-04 `Đã chấp nhận` · PRD US05 `Đã duyệt` · `SettingsScreen` (nhắc nhở) `Xong` | PRD US05 · đặc tả · ADR-04 | `feature/US05-evening-reminder` | Chưa có PRD |
+| 7 | US06 Sửa / xoá giao dịch | US01, US03 | PRD US06 `Đã duyệt` · `EditTransactionSheet` `Xong` | PRD US06 · đặc tả · `budget-logic` 4.1, 4.4 (TC16) | `feature/US06-edit-delete-transaction` | Chưa có PRD |
+| 8 | US04 Báo cáo theo danh mục | US01 | PRD US04 `Đã duyệt` · `ReportScreen` `Xong` · `DonutChart` trong `design-system` 4.3 | PRD US04 · đặc tả · `budget-logic` 4.3 | `feature/US04-category-report` | Chưa có PRD |
+| 9 | US20 Quyền riêng tư, xoá dữ liệu – nếu kịp | US01, US19 | US20 có trong Backlog (PO duyệt) · PRD US20 `Đã duyệt` · `PrivacyScreen`, `AboutScreen`, `DeleteAllDataScreen` `Xong` | PRD US20 · 3 đặc tả | `feature/US20-privacy-data` | Chưa có PRD |
+| 10 | US08 Xem lịch sử theo ngày – nếu kịp | US01 | PRD US08 `Đã duyệt` · `HistoryScreen` `Xong` | PRD US08 · đặc tả | `feature/US08-daily-history` | Chưa có PRD |
+
+Hai người có thể chạy song song hai dòng **không phụ thuộc nhau** (ví dụ dòng 2 và dòng 4 cùng chỉ cần US01) – mỗi người một nhánh, ghi tên vào cột Trạng thái.
+
 ---
 
 ## 3. Sprint 2 (24/11 – 03/12): ghi chi, ngân sách, con số hôm nay – bản dùng thử
@@ -177,6 +205,15 @@ Dùng skill product-requirements mục 4.3. Viết PRD cho US<xx> từ docs/disc
 docs/requirements/data-analysis.md (dòng US<xx> mục 11, BR mục 8, ERR mục 12, EC mục 14)
 và docs/design/screens/<ScreenName>.md. Trạng thái "Chờ duyệt". Thêm dòng vào docs/requirements/README.md.
 Điều gì chưa rõ thì ghi vào mục "Câu hỏi mở", không tự đoán.
+```
+
+**Bước 4–6 – Code story kế tiếp (dùng lại cho mọi story)**
+```
+Dùng skill frontend-ui. Mở docs/plans/00-master-plan.md mục 2a, lấy dòng đầu tiên có Trạng thái khác "Done".
+Kiểm từng cổng của dòng đó bằng cách mở đúng file; thiếu cổng nào thì DỪNG và báo, không code.
+Đủ cổng: tạo nhánh ở cột "Nhánh", đọc các file ở cột "Đọc trước", làm brainstorming → writing-plans
+(phần đầu plan và Global Constraints theo AGENTS.md mục 3) → executing-plans → verify-change, rồi mở Pull Request.
+Cập nhật cột Trạng thái của dòng đó và cột "Plan" trong docs/requirements/README.md.
 ```
 
 **Bước 4 – Spec và plan (chưa code)**

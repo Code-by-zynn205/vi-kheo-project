@@ -78,7 +78,7 @@ Persona Minh có tiền làm thêm và tiền nhà gửi không cố định. N�
 | # | Câu hỏi | Người trả lời | Trả lời |
 | :-: | :--- | :--- | :--- |
 | 1 | Q1 – khoản thu cộng vào tháng theo ngày ghi (PRD theo đề xuất A) | PO | chưa có |
-| 2 | Tiêu đề mục "Chi tiêu hôm nay" khi có cả khoản thu – giữ nguyên (đề xuất) | Cặp UI/UX | chưa có |
+| 2 | Tiêu đề mục "Chi tiêu hôm nay" khi có cả khoản thu – giữ nguyên (đề xuất) | Cặp UI/UX | Giữ nguyên – chốt 26/11/2026 |
 
 ## 9. Lịch sử thay đổi
 

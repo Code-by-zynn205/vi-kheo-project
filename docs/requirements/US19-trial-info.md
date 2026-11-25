@@ -44,7 +44,7 @@ Giả định A4: "≥ 50% người dùng thử còn ghi ít nhất 1 khoản v�
 | AC2 | `firstOpenDate` = 04/12/2026; có giao dịch ngày 04, 05, 06, 08, 10/12; hôm nay 10/12 | Mở "Thông tin dùng thử" | "Bạn đã dùng Ví Khéo 7 ngày"; "5/7 ngày"; "có ghi ít nhất 1 khoản" | Unit test + điện thoại | BR-126 |
 | AC3 | Như AC2 | Xem hàng 7 chấm | 7 ngày 04 – 10/12: chấm `--color-success` cho 04, 05, 06, 08, 10; `--color-border` cho 07, 09; nhãn thứ T2 … CN dưới mỗi chấm | Điện thoại | `TrialInfoScreen.md` mục 1 |
 | AC4 | Như AC2 | Xem thẻ nhãn – giá trị | "Ngày bắt đầu" 04/12/2026 · "Ngày thứ 7" 10/12/2026 · "Ngày thứ 7 có ghi" Có | Unit test + điện thoại | A4 |
-| AC5 | Mới dùng 3 ngày | Xem "Ngày thứ 7 có ghi" | Hiện "Chưa tới" (đề xuất – câu hỏi mở 2) | Điện thoại | `TrialInfoScreen.md` mục 2 |
+| AC5 | Mới dùng 3 ngày | Xem "Ngày thứ 7 có ghi" | Hiện "Chưa tới" | Điện thoại | `TrialInfoScreen.md` mục 2 |
 | AC6 | Ngày 08/12 chỉ có 1 khoản và khoản đó đã xoá | Tính `x` | Ngày 08/12 không được đếm | Unit test | BR-91 |
 | AC7 | Bất kỳ | Xem màn | Không hiện số tiền, danh mục, ghi chú; có ghi chú "Màn này không hiện số tiền. Khi nhóm hỏi, bạn chỉ cần chụp màn hình này gửi lại."; không có nút gửi, app không gọi mạng | Điện thoại | BR-126 · `TrialInfoScreen.md` mục 5 |
 | AC8 | Ở `TrialInfoScreen` | Bấm quay lại | Về `SettingsScreen` | Điện thoại | `TrialInfoScreen.md` mục 3 |
@@ -88,9 +88,9 @@ Giả định A4: "≥ 50% người dùng thử còn ghi ít nhất 1 khoản v�
 | # | Câu hỏi | Người trả lời | Trả lời |
 | :-: | :--- | :--- | :--- |
 | 1 | PO duyệt US19 vào Backlog và Q4 (đo A4 bằng chụp màn hình) | PO | chưa có |
-| 2 | Chữ "Ngày thứ 7 có ghi" khi chưa tới ngày 7: "Chưa tới" (đề xuất) – đặc tả đang `Cần bổ sung` | Cặp UI/UX | chưa có |
-| 3 | Chấm của ngày trước `firstOpenDate` (khi dùng < 7 ngày): hiện như "không ghi" (đề xuất) hay ẩn? | Cặp UI/UX | chưa có |
-| 4 | `SettingsScreen` dựng khung ở US19 (Sprint 2), US05 thêm mục "Nhắc nhở" (Sprint 3) – cặp UI/UX đồng ý thứ tự này? | Cặp UI/UX | chưa có |
+| 2 | Chữ "Ngày thứ 7 có ghi" khi chưa tới ngày 7: "Chưa tới" (đề xuất) – đặc tả đang `Cần bổ sung` | Cặp UI/UX | "Chưa tới" – chốt 26/11/2026 (`TrialInfoScreen.md`) |
+| 3 | Chấm của ngày trước `firstOpenDate` (khi dùng < 7 ngày): hiện như "không ghi" (đề xuất) hay ẩn? | Cặp UI/UX | Như "không ghi" (`--color-border`) – chốt 26/11/2026 |
+| 4 | `SettingsScreen` dựng khung ở US19 (Sprint 2), US05 thêm mục "Nhắc nhở" (Sprint 3) – cặp UI/UX đồng ý thứ tự này? | Cặp UI/UX | Đồng ý – chốt 26/11/2026 (`SettingsScreen.md`) |
 
 ## 9. Lịch sử thay đổi
 
