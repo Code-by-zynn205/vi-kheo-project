@@ -11,9 +11,9 @@ File này là nơi duy nhất ghi công nghệ, cấu trúc thư mục và lện
 | Nền tảng app | React Native qua Expo, TypeScript – chỉ Android trong MVP | Expo SDK 58 (React Native 0.88, n1); phiên bản TypeScript theo mẫu `create-expo-app` của SDK 58 – ghi số cụ thể khi dựng khung | ADR-01 |
 | Lưu dữ liệu | SQLite trên máy qua `expo-sqlite` | Theo SDK 58, cài bằng `npx expo install expo-sqlite` | ADR-02 |
 | Unit test | Jest với preset `jest-expo` | Jest 30 (SDK 58 trở lên bắt buộc Jest 30, n4) | ADR-01 (B5) |
-| Thông báo 21:00 (US05) | `expo-notifications` – thông báo cục bộ, không push | Theo SDK 58 | **Chờ ADR-04** (K6) |
+| Thông báo 21:00 (US05) | `expo-notifications` – thông báo cục bộ, lịch cuộn 7 ngày bằng trigger `DATE` | Theo SDK 58 (tài liệu v58) | ADR-04 (Đề xuất) |
 | Phát hành bản dùng thử | EAS Build, profile `preview`, file APK | — | ADR-03 (Đề xuất) |
-| Điều hướng giữa màn hình | Chưa chốt – mẫu mặc định của `create-expo-app` có Expo Router: Cần kiểm chứng khi dựng khung | — | Chốt trong Pull Request dựng khung (US01) |
+| Điều hướng giữa màn hình | Expo Router – có sẵn trong mẫu mặc định SDK 55+, thư mục `src/app` | Theo mẫu SDK 58 – ghi số khi dựng khung | Spec US01 phần A2 (26/11/2026) |
 
 Khi code: chạy thử trên **Expo Go** (Android) – `expo-sqlite` và thông báo cục bộ đều có sẵn trong Expo Go (ADR-01 n1, n4). Bản cho người dùng thử: APK theo ADR-03.
 
@@ -23,11 +23,15 @@ App nằm ở **gốc repo** (cạnh `docs/`, `scripts/`). Mã nguồn trong `sr
 
 ```
 src/
+├── app/            route Expo Router – mỗi file chỉ export màn hình từ src/screens (spec US01 phần A3)
+├── hooks/          nối màn hình với storage: useToday, useTodayTransactions …
+├── types.ts        kiểu dữ liệu theo budget-logic 4.1, enum theo data-analysis.md mục 7
 ├── theme/          token từ design-system mục 4.2 (colors.ts, typography.ts, spacing.ts)
 ├── components/     component từ design-system mục 4.3 – <ComponentName>.tsx
 ├── screens/        <ScreenName>.tsx – HomeScreen, AddExpenseScreen, BudgetScreen, ...
 ├── logic/          hàm thuần của budget-logic (dailyAllowance.ts, reportByCategory.ts, ...)
 ├── storage/        lớp lưu trữ SQLite: db.ts (mở DB), migrations.ts, transactions.ts, budgets.ts, settings.ts
+├── reminder/       hẹn / huỷ thông báo nhắc 21:00 (ADR-04) – gọi expo-notifications, không tính toán
 └── utils/          formatMoney ('35.000đ'), ngày tháng
 __tests__/          <tên>-test.ts – unit test (preset jest-expo nhận đuôi -test.ts, n4)
 ```
@@ -92,8 +96,11 @@ Chạy từ thư mục gốc repo, trên Windows (PowerShell hoặc Git Bash).
 | `expo`, `react`, `react-native`, `typescript` | Nền tảng | ADR-01 |
 | `expo-sqlite` | Lưu dữ liệu | ADR-02 |
 | `jest`, `jest-expo`, `@types/jest` | Unit test | ADR-01 (B5) |
-| `expo-notifications` | Nhắc 21:00 (US05) | Chờ ADR-04 |
-| Thư viện điều hướng, sinh UUID | Chưa chốt | Pull Request dựng khung (US01), ghi lại vào bảng này |
+| `expo-notifications` | Nhắc 21:00 (US05) | ADR-04 (Đề xuất) |
+| `expo-router` | Điều hướng | Spec US01 phần A2 |
+| `expo-crypto` | `Crypto.randomUUID()` cho `id`, `installId` | Spec US01 phần A4 |
+| `sql.js` (chỉ `devDependencies`) | Chạy SQL thật trong unit test lớp `storage` | Spec US01 phần A2 – Cần kiểm chứng ở Task 1 plan US01 |
+| `react-native-svg` | Vẽ `DonutChart` (US04) | Spec US04 – thêm khi làm US04 |
 
 ## 7. Lịch sử thay đổi
 

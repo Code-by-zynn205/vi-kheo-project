@@ -218,6 +218,7 @@ Quy ước chung cho mọi thực thể được lưu (từ R1):
 | `reminderTime` | `HH:mm` | `21:00` (R1 không cho đổi) | R1 |
 | `weekStartsOn` | enum `MONDAY` | `MONDAY` (báo cáo "Tuần này") | R1 |
 | `onboardingDoneAt` | Thời điểm | Rỗng | R1 |
+| `reminderInviteShownAt` | Thời điểm | Rỗng – lời mời bật nhắc sau khoản thứ 3 chỉ hiện 1 lần (**Đề xuất**, Q5; thêm 26/11/2026) | R1 |
 | `defaultWalletId` | Mã ví | Ví đầu tiên | R2 |
 | `budgetMode` | enum `BudgetMode` | `DAILY_ALLOWANCE` | R2 |
 
@@ -740,7 +741,7 @@ Chữ thông báo là đề xuất; câu chính thức do cặp UI/UX chốt tro
 | Q16 | Nhắc 21:00 chính xác tới đâu? | PO | PRD US05 | Khoảng 21:00 – 22:00 (giới hạn Android) |
 | Q17 | `OUT_OF_BUDGET`: ô "Hôm nay còn được tiêu" hiện số nào? (công thức cho số âm, TC5 ghi 0) | PO | PRD US03 | Hiện `0đ`; dòng phụ "Đã vượt ngân sách tháng <số tiền>", số tiền = −(Quỹ còn lại đầu ngày) + Tổng chi hôm nay |
 | Q18 | Hạn mức hôm nay = 0 mà hôm nay đã chi > 0: `WARNING` (quy tắc hiện tại "Hạn mức = 0 thì tỷ lệ = 1") hay `OVER`? | PO | PRD US03, `budget-logic` 4.2 | `OVER` khi đã chi > 0; chưa chi thì `WARNING`; thêm TC17 |
-| Q19 | Thanh "Ngân sách tháng đã dùng x%": làm tròn xuống (BR-01) hay theo ví dụ 53% trong `HomeScreen.md` (1.577.000 ÷ 3.000.000 = 52,57%)? Mẫu số có cộng tổng thu tháng (BR-21) không? | PO + cặp UI/UX | PRD US03 | Làm tròn xuống (52%); mẫu số = ngân sách + tổng thu tháng, khớp công thức Quỹ ở `budget-logic` 4.2; trên 100% hiện đúng số %, thanh đầy |
+| Q19 | Thanh "Ngân sách tháng đã dùng x%": làm tròn xuống (BR-01) hay theo ví dụ 53% trong `HomeScreen.md` (1.577.000 ÷ 3.000.000 = 52,57%)? Mẫu số có cộng tổng thu tháng (BR-21) không? | PO + cặp UI/UX | PRD US03 | Làm tròn gần nhất (53%, như báo cáo – BR-01 chỉ áp cho tiền); mẫu số = ngân sách + tổng thu tháng, khớp công thức Quỹ ở `budget-logic` 4.2; trên 100% hiện đúng số %, thanh đầy |
 | Q14 | Thời hạn xoá hẳn dữ liệu khi người dùng yêu cầu; căn cứ pháp lý về dữ liệu cá nhân tại Việt Nam | PO + giảng viên | R3 | `Cần kiểm chứng` – chưa đọc văn bản pháp luật |
 
 ---

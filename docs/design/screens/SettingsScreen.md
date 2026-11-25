@@ -1,6 +1,6 @@
 # Màn hình `SettingsScreen`
 
-> **Giai đoạn:** 2 – Design System & Prototype · **Skill:** design-system (mục 4.4a) · **Trạng thái:** Phần khung (US19): Xong – Nguyễn Diên Tiến chốt 26/11/2026 · Phần nhắc nhở (US05): Đang làm – chờ PO trả lời Q5, Q8 · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Cập nhật:** 26/11/2026
+> **Giai đoạn:** 2 – Design System & Prototype · **Skill:** design-system (mục 4.4a) · **Trạng thái:** Xong – Nguyễn Diên Tiến chốt thay nhóm 26/11/2026; phần nhắc nhở theo đề xuất Q5, Q8, Q16 – PO duyệt cùng PRD US05; cách hẹn nhắc: ADR-04 · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Cập nhật:** 26/11/2026
 
 - **User Story:** US19 (khung, Sprint 2) · US05 (mục "Nhắc nhở", Sprint 3) · US20 (3 dòng còn lại của mục "Khác", Sprint 3 nếu kịp)
 - **Dựng theo story (chốt 26/11/2026):** US19 dựng thanh trên "Cài đặt", mục "Về dữ liệu", mục "Khác" chỉ có dòng "Thông tin dùng thử", dòng phiên bản app. US05 thêm mục 1.2 – 1.4. US20 thêm "Quyền riêng tư", "Giới thiệu", "Xoá toàn bộ dữ liệu"

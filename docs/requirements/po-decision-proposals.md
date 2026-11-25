@@ -21,7 +21,7 @@ Mã câu hỏi theo `docs/requirements/data-analysis.md` mục 13; Q15, Q16 là 
 | Q16 | Nhắc 21:00 chính xác tới đâu? | Khoảng 21:00 – 22:00 | | |
 | Q17 | `OUT_OF_BUDGET` có hiện số tiền đã vượt không? (đặc tả hiện có: `0đ` + "Đã dùng hết ngân sách tháng") | Có: "Đã vượt ngân sách tháng <số tiền>" | | |
 | Q18 | Hạn mức = 0 mà đã chi: `WARNING` hay `OVER`? | `OVER` khi đã chi > 0; thêm TC17 | | |
-| Q19 | Thanh "đã dùng x%": làm tròn thế nào, mẫu số có cộng khoản thu không? | Làm tròn xuống; mẫu số = ngân sách + tổng thu tháng | | |
+| Q19 | Thanh "đã dùng x%": làm tròn thế nào, mẫu số có cộng khoản thu không? | Làm tròn gần nhất (như báo cáo); mẫu số = ngân sách + tổng thu tháng | | |
 
 ---
 
@@ -151,10 +151,12 @@ Ví dụ trong `HomeScreen.md`: 1.577.000đ / 3.000.000đ ghi **53%**, nhưng 1.
 
 | Phương án | Mô tả |
 | :--- | :--- |
-| **A (đề xuất)** | Làm tròn xuống (52%); mẫu số = ngân sách + tổng thu tháng; trên 100% hiện đúng số %, thanh đầy, chữ `--color-danger-text` |
-| B | Giữ như đặc tả: mẫu số chỉ là ngân sách; làm tròn tới số gần nhất (ngoại lệ của BR-01, chỉ cho phần trăm) |
+| **A (đề xuất, sửa 26/11)** | Phần trăm làm tròn **tới số nguyên gần nhất** (53%) – giống `ReportScreen.md` và `budget-logic` 4.3; BR-01 chỉ áp cho tiền. Mẫu số = ngân sách + tổng thu tháng; trên 100% hiện đúng số %, thanh đầy, chữ `--color-danger-text` |
+| B | Mẫu số chỉ là ngân sách (như US03 AC6 cũ); làm tròn gần nhất |
 
-**Ảnh hưởng:** US03 AC6; ví dụ trong `HomeScreen.md` sửa thành 52% (cặp UI/UX); không đổi công thức hạn mức ngày.
+**Sửa 26/11/2026:** bản đầu của câu này đề xuất làm tròn xuống (52%). Đối chiếu `ReportScreen.md` (4,95% → 5%) cho thấy app sẽ có hai cách làm tròn phần trăm; đổi đề xuất sang làm tròn gần nhất cho mọi phần trăm.
+
+**Ảnh hưởng:** US03 AC6 (PRD US03 AC9); ví dụ 53% trong `HomeScreen.md` giữ nguyên; `budget-logic` 4.3 ghi rõ cách làm tròn phần trăm; không đổi công thức hạn mức ngày.
 
 ---
 

@@ -18,7 +18,7 @@
    - Nhãn "Hôm nay còn được tiêu" (14px).
    - Số Hero `86.000đ` (36px/700) – ví dụ ngày 20/11, ngân sách 3.000.000đ, đã chi trước hôm nay 1.530.000đ, hôm nay 47.000đ → hạn mức 133.000đ, còn 86.000đ, màu theo trạng thái (mục 2).
    - Dòng phụ theo trạng thái (mục 2), 12px.
-   - `ProgressBar` + chữ "Ngân sách tháng đã dùng 52% (1.577.000đ / 3.000.000đ)" – phần trăm làm tròn xuống, mẫu số = ngân sách + tổng thu tháng (Q19 đề xuất, PO duyệt cùng PRD US03); trên 100% hiện đúng số %, thanh đầy.
+   - `ProgressBar` + chữ "Ngân sách tháng đã dùng 53% (1.577.000đ / 3.000.000đ)" – phần trăm làm tròn tới số nguyên gần nhất như `ReportScreen` và `budget-logic` 4.3; mẫu số = ngân sách + tổng thu tháng (Q19 đề xuất, PO duyệt cùng PRD US03); trên 100% hiện đúng số %, thanh đầy.
 3. **Mục "Chi tiêu hôm nay"** – tiêu đề mục (16px/600) + tổng bên phải "−47.000đ"; danh sách `TransactionItem`, mới nhất trên cùng: Tài liệu −12.000đ · Gửi xe −5.000đ · Cơm trưa −30.000đ.
 4. **Liên kết** "Xem các ngày trước" (chữ `--color-primary`, vùng bấm 48px) → `HistoryScreen` (US08 – chỉ hiện khi US08 đã làm).
 5. **Thanh điều hướng dưới** – `Trang chủ` · `Ngân sách` · `Báo cáo`; nút nổi `+ Ghi khoản chi` màu `--color-primary`, nằm giữa phía trên thanh điều hướng → `AddExpenseScreen`.

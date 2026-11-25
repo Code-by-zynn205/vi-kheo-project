@@ -46,7 +46,7 @@ Truy vấn chính: tổng thu tháng, chi đến hôm qua, chi hôm nay (`data-a
 | AC6 | Quỹ còn lại đầu ngày ≤ 0 (TC5) | Xem thẻ | `OUT_OF_BUDGET`: số `0đ` màu `--color-danger-text`, dòng phụ "Đã dùng hết ngân sách tháng" (Q17 có thể thêm số tiền vượt) | Điện thoại | 06 AC3 · TC5 · Q17 |
 | AC7 | Đang mở app lúc 23:59 | Sang 00:00 rồi quay lại app | Hạn mức tính lại cho ngày mới; khoản ghi lúc 23:59 thuộc hôm trước | Điện thoại (đổi giờ máy) + unit test | 06 AC4 · EC-02 · EC-07 |
 | AC8 | Tháng 28, 30, 31 ngày | Tính số ngày còn lại | Đúng (TC9 tháng 2/2027, TC8 ngày cuối tháng) | Unit test | 06 AC5 · EC-08 |
-| AC9 | Tháng có ngân sách | Xem thanh dưới số | "Ngân sách tháng đã dùng x% (<đã dùng> / <ngân sách>)"; ví dụ 1.577.000đ / 3.000.000đ → "52%" (làm tròn xuống, mẫu số = ngân sách + tổng thu tháng – Q19 đề xuất, đặc tả chốt 26/11) | Unit test + điện thoại | 06 AC6 · Q19 |
+| AC9 | Tháng có ngân sách | Xem thanh dưới số | "Ngân sách tháng đã dùng x% (<đã dùng> / <ngân sách>)"; ví dụ 1.577.000đ / 3.000.000đ → "53%" (làm tròn tới số nguyên gần nhất, mẫu số = ngân sách + tổng thu tháng – Q19 đề xuất, đặc tả chốt 26/11) | Unit test + điện thoại | 06 AC6 · Q19 |
 | AC10 | Có một khoản đã xoá mềm (`deletedAt` có giá trị) | Tính số | Khoản đó không được tính | Unit test | 06 AC7 · BR-91 |
 | AC11 | `onboardingDoneAt` rỗng | Mở app | Splash → `OnboardingScreen` trang 1; vuốt / "Tiếp tục" qua 3 trang; trang 3 nút "Bắt đầu" → `OnboardingBudgetScreen` | Điện thoại | BR-120 · `OnboardingScreen.md` |
 | AC12 | Đang ở bất kỳ trang onboarding nào | Bấm "Bỏ qua" | Ghi `onboardingDoneAt`; sang Home `NO_BUDGET`; lần mở sau không hiện onboarding nữa | Điện thoại | BR-120 · BR-121 |

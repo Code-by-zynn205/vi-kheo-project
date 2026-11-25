@@ -30,9 +30,9 @@ Thiết kế làm trên **Figma**; repo giữ token và đặc tả để AI age
 | [OnboardingBudgetScreen](screens/OnboardingBudgetScreen.md) | US02 | 2 | Xong (26/11) |
 | [BudgetScreen](screens/BudgetScreen.md) | US02 | 2 | Xong (26/11) – Q2, Q3 theo đề xuất |
 | [TrialInfoScreen](screens/TrialInfoScreen.md) | US19 | 2 | Xong (26/11) |
-| [ReportScreen](screens/ReportScreen.md) | US04 | 3 | Đang làm – chờ UI/UX duyệt |
-| [EditTransactionSheet](screens/EditTransactionSheet.md) | US06 | 3 | Đang làm – chờ UI/UX duyệt, PO Q6, Q7, Q15 |
-| [SettingsScreen](screens/SettingsScreen.md) | US19 (khung), US05, US20 | 2 – 3 | Khung Xong (26/11); nhắc nhở chờ PO Q5, Q8 |
+| [ReportScreen](screens/ReportScreen.md) | US04 | 3 | Xong (26/11) |
+| [EditTransactionSheet](screens/EditTransactionSheet.md) | US06 | 3 | Xong (26/11) – Q7, Q15 theo đề xuất |
+| [SettingsScreen](screens/SettingsScreen.md) | US19 (khung), US05, US20 | 2 – 3 | Xong (26/11) – nhắc nhở theo đề xuất Q5, Q8, Q16 |
 | [HistoryScreen](screens/HistoryScreen.md) | US08 | 3 – nếu kịp | Đang làm – chờ UI/UX duyệt |
 
 | Prototype | Dùng để | Trạng thái |
