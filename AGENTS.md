@@ -41,6 +41,8 @@ Mỗi skill của nhóm có thư mục `templates/` chứa mẫu file đầu ra.
 
 Đầu mỗi phiên, đọc skill `using-superpowers`. Ghi `superpowers:<tên>` nghĩa là skill `<tên>` trong thư mục skill ở trên.
 
+**Mỗi prompt:** quét danh sách skill, mở đầu câu trả lời bằng một dòng `Skill: <tên> – <vì sao>` (hoặc `Skill: không cần – <vì sao>`), rồi nạp skill đó trước khi làm. Người dùng chỉ cần nói việc + đối tượng ("viết ADR nền tảng app", "viết PRD US01"); chọn skill, đọc đầu vào, kiểm cổng giai đoạn là việc của AI. Claude Code được nhắc tự động bằng hook `UserPromptSubmit` trong `.claude/settings.json` (`scripts/hooks/skill-check-reminder.sh`).
+
 | Khi | Skill |
 | :--- | :--- |
 | Bắt đầu code một User Story đã có PRD | `brainstorming` → `writing-plans` |
@@ -51,6 +53,17 @@ Mỗi skill của nhóm có thư mục `templates/` chứa mẫu file đầu ra.
 | Trước khi mở / khi nhận review Pull Request | `requesting-code-review` / `receiving-code-review` |
 | Xong nhánh | `finishing-a-development-branch` |
 | Viết hoặc sửa skill của nhóm | `writing-skills` |
+
+**Skill cách làm việc** (mọi giai đoạn, không chỉ khi code – nguồn và trạng thái nháp: `third_party/README.md` mục 2a):
+
+| Khi | Skill |
+| :--- | :--- |
+| Yêu cầu dài, nhiều ý, mơ hồ hoặc gõ vội | `restate-intent` – nhắc lại, chờ xác nhận rồi mới làm |
+| Cần biết một User Story / màn hình đang ở đâu, đụng gì | `feature-map` |
+| Giải thích luồng, trạng thái, so sánh phương án | `show-me` |
+| Đánh giá ý tưởng, chọn A hay B, trước thay đổi lớn | `assess-idea` |
+| Sửa lỗi (sau `systematic-debugging`) | `fix-root-cause` – chặn tái diễn bằng test / script |
+| Trước khi báo "xong", commit, mở PR | `verify-change` (cùng `verification-before-completion`) |
 
 Thứ tự ưu tiên: **file này** → **skill của nhóm** (làm cái gì: nội dung, màu, công thức, AC) → **skill superpowers** (làm thế nào) → **skill hỗ trợ** (`frontend-design`, `ui-ux-pro-max` chỉ để gợi ý, không ghi đè `design-system`).
 
