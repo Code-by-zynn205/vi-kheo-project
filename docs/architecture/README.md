@@ -13,5 +13,8 @@ Tạo bằng skill `tech-decision`. Chưa có ADR nền tảng `Đã chấp nh�
 
 | ADR | Câu hỏi | Trạng thái | Ngày |
 | :--- | :--- | :--- | :--- |
-| ADR-01 | App chạy trên nền tảng nào? | Chưa làm | — |
-| ADR-02 | Lưu dữ liệu trên máy bằng cách nào? | Chưa làm | — |
+| [ADR-01](ADR-01-app-platform.md) | App chạy trên nền tảng nào? – React Native (Expo) + TypeScript, Android trước | Đã chấp nhận | 26/11/2026 |
+| [ADR-02](ADR-02-local-storage.md) | Lưu dữ liệu trên máy bằng cách nào? – SQLite qua `expo-sqlite`, đám mây để R3 | Đã chấp nhận | 26/11/2026 |
+| [ADR-03](ADR-03-trial-distribution.md) | Phát hành bản dùng thử bằng cách nào? – đề xuất EAS Build ra APK, một khoá ký do EAS giữ | Đề xuất – chờ Developers duyệt | 26/11/2026 |
+
+Thiết kế kỹ thuật: [technical-design.md](technical-design.md) – Đang làm.

@@ -47,6 +47,8 @@ interface Transaction {
   note?: string;           // tối đa 100 ký tự
   date: string;            // 'YYYY-MM-DD' theo giờ máy (Asia/Ho_Chi_Minh)
   createdAt: string;       // ISO 8601, dùng để sắp xếp
+  updatedAt: string;       // ISO 8601, bằng createdAt khi tạo (data-analysis.md mục 4)
+  deletedAt: string | null; // xoá mềm (Q6, ADR-02); null = đang dùng; mọi con số bỏ qua bản ghi đã xoá (BR-91)
 }
 
 interface MonthlyBudget {
@@ -55,16 +57,19 @@ interface MonthlyBudget {
 }
 ```
 
-**Lưu trữ:** cục bộ trên máy (offline, không đăng nhập), qua 1 lớp `storage` để đổi được nền tảng:
+**Lưu trữ:** cục bộ trên máy (offline, không đăng nhập) bằng SQLite qua `expo-sqlite` (ADR-02). Mọi truy cập đi qua 1 lớp `storage` **bất đồng bộ** để đổi được cách lưu mà không sửa màn hình và logic. Bảng, cột, chỉ mục, migration: `docs/architecture/technical-design.md` mục 3.
 
 ```ts
-saveTransaction(t: Transaction): void
-updateTransaction(t: Transaction): void       // Sprint 3
-deleteTransaction(id: string): void           // Sprint 3
-listTransactions(fromDate: string, toDate: string): Transaction[]
-getBudget(month: string): MonthlyBudget | null
-setBudget(b: MonthlyBudget): void
+saveTransaction(t: Transaction): Promise<void>
+updateTransaction(t: Transaction): Promise<void>      // Sprint 3
+deleteTransaction(id: string): Promise<void>          // Sprint 3 – xoá mềm: đặt deletedAt
+restoreTransaction(id: string): Promise<void>         // Sprint 3 – Hoàn tác (BR-90): xoá deletedAt
+listTransactions(fromDate: string, toDate: string): Promise<Transaction[]> // chỉ bản ghi deletedAt = null
+getBudget(month: string): Promise<MonthlyBudget | null>
+setBudget(b: MonthlyBudget): Promise<void>
 ```
+
+Hàm tính tiền ở mục 4.2, 4.3 vẫn là **hàm thuần đồng bộ**: nhận danh sách giao dịch đã đọc từ `storage`, không tự gọi `storage`.
 
 ### 4.2 Công thức "Hôm nay còn được tiêu" `[Sprint 2 – US03]`
 
@@ -117,7 +122,7 @@ Tháng 11/2026 có 30 ngày, tháng 2/2027 có 28 ngày.
 | 8 | 3.000.000 | 0 | 30/11 | 2.950.000 | 0 | 50.000 | 50.000 | SAFE |
 | 9 | 2.800.000 | 0 | 01/02/2027 | 0 | 0 | 100.000 | 100.000 | SAFE |
 | 10 | *(chưa đặt)* | 0 | 01/12 | 0 | 0 | — | — | NO_BUDGET |
-| 11 | 3.000.000 | 0 | 01/11 | 2.990.000 *(nhập ngân sách muộn)* | 0 | 0 *(333 làm tròn xuống)* | 0 | WARNING |
+| 11 | 3.000.000 | 0 | 02/11 | 2.990.000 *(chi ngày 01/11, đặt ngân sách muộn)* | 0 | 0 *(10.000 ÷ 29 = 344, làm tròn xuống)* | 0 | WARNING |
 
 Test nhập liệu và sửa/xoá:
 
@@ -142,7 +147,7 @@ Test nhập liệu và sửa/xoá:
 - Tiền là số nguyên VND (`number` nguyên); không dùng số thực, không làm tròn lên. Hạn mức ngày làm tròn xuống tới 1.000đ.
 - Công thức và mã trạng thái đúng nguyên văn `budget-logic` mục 4.2; không lưu số dư, luôn tính lại từ giao dịch.
 - Code tính tiền nằm trong `src/logic/`, là hàm thuần (không đọc ngày giờ hệ thống bên trong – nhận `today` làm tham số), không gọi giao diện.
-- Lưu trữ chỉ qua lớp `src/storage/`; chạy offline, không gọi mạng.
+- Lưu trữ chỉ qua lớp `src/storage/` (SQLite, `expo-sqlite`, ADR-02), mọi hàm trả `Promise`; chạy offline, không gọi mạng.
 - Test case lấy đúng số liệu từ `budget-logic` mục 4.4, ghi mã `TC<số>` trong tên test.
 
 **Task bắt buộc:**

@@ -36,7 +36,7 @@ description: Quy trình lập trình giao diện Ví Khéo theo từng User Stor
 
 Công nghệ do skill `tech-decision` quyết định (ADR trong `docs/architecture/`). Lệnh chạy app, chạy unit test, build và cấu trúc thư mục cụ thể ghi ở `docs/architecture/technical-design.md`.
 
-**Đã chốt:** Cần bổ sung – ghi `<công nghệ> (ADR-01)` khi ADR-01 được chấp nhận.
+**Đã chốt:** React Native (Expo) + TypeScript, chỉ Android trong MVP (ADR-01) · lưu dữ liệu bằng SQLite qua `expo-sqlite` (ADR-02). Phiên bản, lệnh, thư mục: `docs/architecture/technical-design.md`.
 
 ### 4.2 Cấu trúc thư mục
 
