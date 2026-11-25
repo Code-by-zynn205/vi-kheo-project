@@ -23,17 +23,25 @@ Dự án đi theo 5 giai đoạn trong bảng đánh giá của giảng viên. M
 | # | Giai đoạn | Skill của nhóm | Skill hỗ trợ | Đầu ra (file .md) |
 | :-: | :--- | :--- | :--- | :--- |
 | 1 | Research & Discovery | `user-research`, `product-discovery` | — | `docs/discovery/`, `docs/evidence/` |
-| 2 | Design System & Prototype | `design-system` | `frontend-design`, `ui-ux-pro-max` | Frame Figma + `docs/design/screens/<ScreenName>.md`, prototype Figma hoặc `docs/design/prototype/*.html` |
-| 3 | Product Requirements (PRD, User Story) | `product-requirements` | — | `docs/requirements/USxx-<english-slug>.md` |
+| 2 | Design System & Prototype | `design-system` | `frontend-design`, `ui-ux-pro-max` | `docs/design/screen-inventory.md`, `figma-plan.md`, `figma-gap-report.md`, frame Figma + `docs/design/screens/<ScreenName>.md`, prototype Figma hoặc `docs/design/prototype/*.html` |
+| 3 | Product Requirements (phân tích dữ liệu, PRD, User Story) | `product-requirements` | — | `docs/requirements/data-analysis.md` (nguồn để tách và viết User Story), `po-decision-proposals.md`, `docs/requirements/USxx-<english-slug>.md` |
 | 4 | Vibe Code | `tech-decision` (một lần, trước US đầu tiên), `frontend-ui`, `budget-logic` | superpowers (mục 3) | `docs/architecture/ADR-xx-*.md`, `docs/architecture/technical-design.md`, `docs/plans/specs/…-design.md`, `docs/plans/…md`, code trong `src/` |
-| 5 | Present full product | `demo-present` | — | `docs/present/` |
-| — | Xuyên suốt mỗi Sprint | `scrum-sprint` | — | `docs/sprints/sprint-N-*.md` |
+| 5 | Present full product | `demo-present` | — | `docs/present/` (gồm `skill-usage-map.md`) |
+| — | Xuyên suốt mỗi Sprint | `scrum-sprint` | — | `docs/plans/00-master-plan.md` (Sprint chia theo User Story), `docs/sprints/sprint-N-*.md` |
 
 Mỗi skill của nhóm có thư mục `templates/` chứa mẫu file đầu ra. **AI phải tạo file từ mẫu, không tự nghĩ ra định dạng.**
+
+**Truy vết skill** (để trả lời "việc này dùng skill nào"):
+
+- Dòng trạng thái của mọi file đầu ra ghi `**Skill:** <tên skill> (mục <x>)` – mẫu đã có sẵn. `bash scripts/sync-skills.sh --check` báo lỗi nếu thiếu.
+- Thân commit ghi một dòng `Skill: <tên skill>[, <tên skill>]` (xem `CONTRIBUTING.md`).
+- Bản đồ skill → file → commit: `docs/present/skill-usage-map.md`.
 
 ## 3. Skill superpowers – cách làm việc khi code
 
 Đầu mỗi phiên, đọc skill `using-superpowers`. Ghi `superpowers:<tên>` nghĩa là skill `<tên>` trong thư mục skill ở trên.
+
+**Mỗi prompt:** quét danh sách skill, mở đầu câu trả lời bằng một dòng `Skill: <tên> – <vì sao>` (hoặc `Skill: không cần – <vì sao>`), rồi nạp skill đó trước khi làm. Người dùng chỉ cần nói việc + đối tượng ("viết ADR nền tảng app", "viết PRD US01"); chọn skill, đọc đầu vào, kiểm cổng giai đoạn là việc của AI. Claude Code được nhắc tự động bằng hook `UserPromptSubmit` trong `.claude/settings.json` (`scripts/hooks/skill-check-reminder.sh`).
 
 | Khi | Skill |
 | :--- | :--- |
@@ -45,6 +53,17 @@ Mỗi skill của nhóm có thư mục `templates/` chứa mẫu file đầu ra.
 | Trước khi mở / khi nhận review Pull Request | `requesting-code-review` / `receiving-code-review` |
 | Xong nhánh | `finishing-a-development-branch` |
 | Viết hoặc sửa skill của nhóm | `writing-skills` |
+
+**Skill cách làm việc** (mọi giai đoạn, không chỉ khi code – nguồn và trạng thái nháp: `third_party/README.md` mục 2a):
+
+| Khi | Skill |
+| :--- | :--- |
+| Yêu cầu dài, nhiều ý, mơ hồ hoặc gõ vội | `restate-intent` – nhắc lại, chờ xác nhận rồi mới làm |
+| Cần biết một User Story / màn hình đang ở đâu, đụng gì | `feature-map` |
+| Giải thích luồng, trạng thái, so sánh phương án | `show-me` |
+| Đánh giá ý tưởng, chọn A hay B, trước thay đổi lớn | `assess-idea` |
+| Sửa lỗi (sau `systematic-debugging`) | `fix-root-cause` – chặn tái diễn bằng test / script |
+| Trước khi báo "xong", commit, mở PR | `verify-change` (cùng `verification-before-completion`) |
 
 Thứ tự ưu tiên: **file này** → **skill của nhóm** (làm cái gì: nội dung, màu, công thức, AC) → **skill superpowers** (làm thế nào) → **skill hỗ trợ** (`frontend-design`, `ui-ux-pro-max` chỉ để gợi ý, không ghi đè `design-system`).
 

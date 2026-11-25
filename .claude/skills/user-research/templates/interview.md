@@ -1,6 +1,6 @@
 # PV-<xx> – Phỏng vấn ngày <dd/mm/yyyy>
 
-> **Giai đoạn:** 1 – Research & Discovery · **Trạng thái:** Đang làm · **Phụ trách:** <người phỏng vấn> · **Cập nhật:** <dd/mm/yyyy>
+> **Giai đoạn:** 1 – Research & Discovery · **Skill:** user-research (mục 4) · **Trạng thái:** Đang làm · **Phụ trách:** <người phỏng vấn> · **Cập nhật:** <dd/mm/yyyy>
 
 ## 1. Người được phỏng vấn
 

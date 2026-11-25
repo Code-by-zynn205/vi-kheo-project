@@ -1,6 +1,6 @@
 # Kế hoạch thiết kế trên Figma
 
-> **Giai đoạn:** 2 – Design System & Prototype · **Trạng thái:** Đề xuất – chờ cặp UI/UX duyệt · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Review:** Lê Thị Phát, Nguyễn Đức Minh Nghĩa · **Cập nhật:** 21/11/2026
+> **Giai đoạn:** 2 – Design System & Prototype · **Skill:** design-system (mục 4.4) · **Trạng thái:** Đề xuất – chờ cặp UI/UX duyệt · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Review:** Lê Thị Phát, Nguyễn Đức Minh Nghĩa · **Cập nhật:** 21/11/2026
 
 File Figma: [Ví Khéo](https://www.figma.com/design/r3QiOYkP7orX9dNyDEDmvl/V%C3%AD-Kh%C3%A9o). 4 frame hiện có (`01_NganSachThang`, `02_HomNay`, `03_GhiKhoanChi`, `04_BaoCaoDanhMuc`) là **bản demo** – giữ lại làm tham khảo, không dùng làm thiết kế chính thức.
 

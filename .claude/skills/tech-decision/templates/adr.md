@@ -1,6 +1,6 @@
 # ADR-<xx>: <câu hỏi cần quyết định, ngắn>
 
-> **Giai đoạn:** 4 – Vibe Code (chuẩn bị) · **Trạng thái:** Đề xuất | Đã chấp nhận | Đã thay thế bởi ADR-<yy> · **Phụ trách:** <tên> · **Cập nhật:** <dd/mm/yyyy>
+> **Giai đoạn:** 4 – Vibe Code (chuẩn bị) · **Skill:** tech-decision (mục 4.1) · **Trạng thái:** Đề xuất | Đã chấp nhận | Đã thay thế bởi ADR-<yy> · **Phụ trách:** <tên> · **Cập nhật:** <dd/mm/yyyy>
 
 | Mục | Giá trị |
 | :--- | :--- |

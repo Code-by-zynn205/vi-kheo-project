@@ -1,6 +1,6 @@
 # Kịch bản demo – Ví Khéo
 
-> **Giai đoạn:** 5 – Present full product · **Trạng thái:** Đang làm · **Phụ trách:** <tên> · **Cập nhật:** <dd/mm/yyyy>
+> **Giai đoạn:** 5 – Present full product · **Skill:** demo-present (mục 4) · **Trạng thái:** Đang làm · **Phụ trách:** <tên> · **Cập nhật:** <dd/mm/yyyy>
 
 - **Bản demo:** commit `<mã>` / bản build `<tên>` · **Thiết bị:** <điện thoại>
 - **Người cầm máy:** <tên> · **Người thuyết minh:** <tên>

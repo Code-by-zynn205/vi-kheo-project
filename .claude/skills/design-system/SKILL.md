@@ -45,6 +45,7 @@ Gợi ý nào muốn dùng → sửa skill này qua Pull Request (cặp UI/UX du
 
 - `docs/discovery/03-personas.md` – Persona Minh, Persona Vy (dùng một tay, ngại thao tác nhiều)
 - `docs/discovery/06-journey-features.md` – User Story trong Sprint
+- `docs/requirements/data-analysis.md` – thực thể, enum, mã lỗi (`ERR_…`), trường hợp biên (`EC-xx`), quy tắc (`BR-xx`): mỗi cái cần một trạng thái màn hình thể hiện (mẫu do `product-requirements` mục 4.1 sinh ra)
 - `docs/design/screens/` – đặc tả màn hình hiện có
 - File Figma của nhóm (link ở `docs/design/README.md`) – frame các màn hình, Variables, component
 
@@ -170,6 +171,7 @@ Trạng thái màu của `DailyAllowanceCard` (điều kiện tính ở `budget-
 
 ### 4.4 Thiết kế trên Figma (làm trước khi viết đặc tả)
 
+0. **Lập danh mục màn hình** `docs/design/screen-inventory.md` từ `templates/screen-inventory.md`: đi qua `data-analysis.md` (thực thể, BR, EC, mã lỗi) và Backlog, mỗi thứ cần ít nhất một khung; ghi User Story của từng nhóm màn. Kế hoạch dựng file Figma ghi ở `docs/design/figma-plan.md` (mẫu `templates/figma-plan.md`).
 1. **Cấu trúc file Figma** (một file cho cả nhóm):
 
    | Trang Figma | Nội dung |
@@ -181,7 +183,7 @@ Trạng thái màu của `DailyAllowanceCard` (điều kiện tính ở `budget-
    | `04 Prototype` | Luồng bấm thử để test với sinh viên và demo |
    | `_Archive` | Bản demo, bản cũ – không sửa, không xoá |
 
-   Chi tiết (Variables, danh sách 40 frame, lịch): `docs/design/figma-plan.md`.
+   Chi tiết (Variables, danh sách frame, lịch): `docs/design/figma-plan.md`.
 
 2. **Đặt tên frame tiếng Anh**, trùng tên đặc tả: `HomeScreen / SAFE`, `HomeScreen / NO_BUDGET`, `AddExpenseScreen / Error`.
 3. **Chỉ dùng Variables và component của file**, không tô màu tay, không gõ cỡ chữ tay.
@@ -217,15 +219,20 @@ Chọn một trong hai, ghi link vào đặc tả màn hình:
 | Bố cục, trạng thái một màn hình | Frame trên Figma **và** đặc tả `.md` (mục 1, 2) |
 | Chữ hiển thị | Đặc tả `.md` mục 4 **và** chữ trên frame |
 
+Khi đối chiếu cả file Figma với đặc tả (AI đọc Figma hoặc người review), ghi kết quả vào `docs/design/figma-gap-report.md` theo `templates/figma-gap-report.md`: mỗi chỗ lệch có đề xuất và người chốt, không tự chọn bên.
+
 Đặc tả ghi ngày đối chiếu Figma gần nhất ở dòng "Figma". Code luôn lấy chữ từ đặc tả, lấy token từ `src/theme/` (chép từ mục 4.2), lấy bố cục từ frame Figma.
 
 ## 5. Đầu ra
 
 | File | Mẫu | Duyệt |
 | :--- | :--- | :--- |
+| `docs/design/screen-inventory.md` (danh mục màn hình, phân công) | `templates/screen-inventory.md` | PO + cặp UI/UX |
+| `docs/design/figma-plan.md` (kế hoạch dựng Figma) | `templates/figma-plan.md` | Cặp UI/UX |
 | `docs/design/screens/<ScreenName>.md` | `templates/screen-spec.md` | Cặp UI/UX + 1 người cặp giao diện |
 | Frame Figma `<ScreenName> / <Trạng thái>` (link trong đặc tả) | — | Cặp UI/UX |
 | Prototype Figma hoặc `docs/design/prototype/<english-name>.html` | — | Cặp UI/UX |
+| `docs/design/figma-gap-report.md` (đối chiếu Figma ↔ đặc tả) | `templates/figma-gap-report.md` | Cặp UI/UX, PO cho câu cần chốt |
 | Nhận xét review giao diện trong Pull Request | `templates/ui-review.md` | — |
 
 ## 6. Khi viết plan
@@ -258,6 +265,8 @@ Chọn một trong hai, ghi link vào đặc tả màn hình:
 ## 8. Checklist tự kiểm
 
 - [ ] Đặc tả màn hình đủ các trạng thái (có dữ liệu, trống, lỗi), mỗi trạng thái có frame Figma
+- [ ] Mỗi mã lỗi `ERR_…` và trường hợp biên `EC-xx` R1 của `data-analysis.md` có trạng thái màn hình trong `screen-inventory.md`
+- [ ] Dòng đầu file có `**Skill:** design-system (mục …)`
 - [ ] Đặc tả và frame Figma khớp nhau; Variables Figma khớp mục 4.2
 - [ ] Màu, cỡ chữ, bo góc đúng token
 - [ ] Ghi một khoản chi ≤ 3 thao tác, < 5 giây

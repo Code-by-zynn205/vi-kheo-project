@@ -1,6 +1,6 @@
 # Màn hình `HomeScreen`
 
-> **Giai đoạn:** 2 – Design System & Prototype · **Trạng thái:** Đang làm – chờ cặp UI/UX duyệt · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Cập nhật:** 20/11/2026
+> **Giai đoạn:** 2 – Design System & Prototype · **Skill:** design-system (mục 4.4a) · **Trạng thái:** Đang làm – chờ cặp UI/UX duyệt · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Cập nhật:** 20/11/2026
 
 - **User Story:** US01 (danh sách hôm nay), US03 (`DailyAllowanceCard`), lối vào US05, US06, US08
 - **Sprint:** 1 khung · 2 hoàn thiện

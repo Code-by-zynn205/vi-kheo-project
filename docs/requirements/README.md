@@ -1,6 +1,6 @@
 # Danh sách PRD
 
-> **Giai đoạn:** 3 – Product Requirements · **Phụ trách:** PA (Cần bổ sung tên) · **Cập nhật:** 20/11/2026
+> **Giai đoạn:** 3 – Product Requirements · **Skill:** product-requirements (mục 5) · **Phụ trách:** PA (Cần bổ sung tên) · **Cập nhật:** 20/11/2026
 
 **Đọc trước khi viết PRD:** [po-decision-proposals.md](po-decision-proposals.md) – đề xuất trả lời các câu hỏi đang chặn; [data-analysis.md](data-analysis.md) – thực thể, ràng buộc, ma trận đọc/ghi theo User Story, quy tắc nghiệp vụ, trường hợp biên.
 

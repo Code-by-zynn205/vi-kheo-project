@@ -53,7 +53,15 @@ for name in $team_skills; do
   done
 done
 
-# 3. Tên file, thư mục trong repo phải là tiếng Anh (chỉ ký tự ASCII) – AGENTS.md quy tắc 4
+# 3. Truy vết skill: mẫu và file tài liệu có dòng trạng thái thì phải ghi **Skill:** (AGENTS.md mục 2)
+#    Chỉ xét 6 dòng đầu – dòng trạng thái luôn nằm ngay dưới tiêu đề.
+for f in .agents/skills/*/templates/*.md $(git ls-files --cached --others --exclude-standard -- 'docs/*.md' 'docs/**/*.md'); do
+  [ -f "$f" ] || continue
+  head -6 "$f" | grep -qE '^> .*\*\*(Giai đoạn|Trạng thái):\*\*' || continue
+  head -6 "$f" | grep -qF '**Skill:**' || fail "$f: dòng trạng thái thiếu '**Skill:** <tên skill> (mục <x>)'"
+done
+
+# 4. Tên file, thư mục trong repo phải là tiếng Anh (chỉ ký tự ASCII) – AGENTS.md quy tắc 4
 while IFS= read -r path; do
   fail "tên file không phải tiếng Anh/ASCII: $path"
 done < <(git -c core.quotepath=off ls-files --cached --others --exclude-standard | LC_ALL=C grep '[^ -~]' || true)
@@ -66,7 +74,7 @@ echo "Kiểm tra xong: $(ls -d .agents/skills/*/ | wc -l) skill, không có lỗ
 
 [ "${1:-}" = "--check" ] && exit 0
 
-# 3. Chép sang .claude/skills
+# 5. Chép sang .claude/skills
 rm -rf .claude/skills
 mkdir -p .claude
 cp -r .agents/skills .claude/skills

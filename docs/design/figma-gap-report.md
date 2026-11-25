@@ -1,6 +1,6 @@
 # Đối chiếu Figma với đặc tả màn hình
 
-> **Giai đoạn:** 2 – Design System & Prototype · **Trạng thái:** Đang làm – chờ cặp UI/UX và PO xử lý mục 2 · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Người đọc Figma:** AI (Claude Code, kết nối Figma bản web, chỉ đọc) · **Cập nhật:** 21/11/2026
+> **Giai đoạn:** 2 – Design System & Prototype · **Skill:** design-system (mục 4.6) · **Trạng thái:** Đang làm – chờ cặp UI/UX và PO xử lý mục 2 · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Người đọc Figma:** AI (Claude Code, kết nối Figma bản web, chỉ đọc) · **Cập nhật:** 21/11/2026
 
 ## 0. Nguồn
 

@@ -1,6 +1,6 @@
 # 07. Lộ trình & Definition of Done
 
-> **Giai đoạn:** GĐ1 – Discovery (Sprint 0), cập nhật mỗi Sprint · **Trạng thái:** Xong · **Phụ trách:** Trần Ninh Nhật Tân (SM), Dương Văn Hoan (PO) · **Cập nhật:** 14/11/2026
+> **Giai đoạn:** GĐ1 – Discovery (Sprint 0), cập nhật mỗi Sprint · **Skill:** product-discovery (mục 4) · **Trạng thái:** Xong · **Phụ trách:** Trần Ninh Nhật Tân (SM), Dương Văn Hoan (PO) · **Cập nhật:** 14/11/2026
 
 ## 1. Lộ trình
 

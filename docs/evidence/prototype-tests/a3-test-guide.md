@@ -1,6 +1,6 @@
 # Hướng dẫn test giả định A3 – con số "Hôm nay còn được tiêu"
 
-> **Giai đoạn:** 2 – Design System & Prototype · **Trạng thái:** Chưa làm – chờ chạy với 5 sinh viên · **Phụ trách:** Nguyễn Thị Thương, Nguyễn Tuấn Kiệt · **Cập nhật:** 20/11/2026
+> **Giai đoạn:** 2 – Design System & Prototype · **Skill:** user-research (mục 4) · **Trạng thái:** Chưa làm – chờ chạy với 5 sinh viên · **Phụ trách:** Nguyễn Thị Thương, Nguyễn Tuấn Kiệt · **Cập nhật:** 20/11/2026
 
 **Giả định A3** (`docs/discovery/05-vision.md`): con số "Hôm nay còn được tiêu" dễ hiểu hơn biểu đồ. **Đạt khi ≥ 4/5 sinh viên hiểu đúng trong 5 giây.**
 

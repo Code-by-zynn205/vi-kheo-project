@@ -1,6 +1,6 @@
 # 00. Nhật ký Nghiên cứu & Nguồn Dữ liệu
 
-> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Trạng thái:** Xong (còn mục Cần bổ sung) · **Phụ trách:** Nguyễn Thị Thương, Nguyễn Tuấn Kiệt · **Cập nhật:** 14/11/2026
+> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Skill:** user-research (mục 4) · **Trạng thái:** Xong (còn mục Cần bổ sung) · **Phụ trách:** Nguyễn Thị Thương, Nguyễn Tuấn Kiệt · **Cập nhật:** 14/11/2026
 
 File này trả lời câu hỏi: **nhóm đã nghiên cứu những gì, và mỗi con số lấy từ đâu.** Mọi con số dùng trong các file `01 → 07` phải có ở đây trước.
 

@@ -1,6 +1,6 @@
 # Danh mục màn hình và kế hoạch thiết kế lại
 
-> **Giai đoạn:** 2 – Design System & Prototype · **Trạng thái:** Đề xuất – chờ PO và cặp UI/UX duyệt · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng (điều phối), cả nhóm (mục 5) · **Cập nhật:** 21/11/2026
+> **Giai đoạn:** 2 – Design System & Prototype · **Skill:** design-system (mục 4.4) · **Trạng thái:** Đề xuất – chờ PO và cặp UI/UX duyệt · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng (điều phối), cả nhóm (mục 5) · **Cập nhật:** 21/11/2026
 
 ## 0. Vì sao phải làm lại
 

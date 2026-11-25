@@ -1,6 +1,6 @@
 # Đề xuất trả lời các câu hỏi đang chặn Backlog
 
-> **Giai đoạn:** 3 – Product Requirements · **Trạng thái:** Chờ duyệt – PO điền cột "Quyết định" · **Phụ trách:** PA, cặp dữ liệu · **Duyệt:** Dương Văn Hoan (PO); Q6 do kiến trúc sư · **Cập nhật:** 20/11/2026
+> **Giai đoạn:** 3 – Product Requirements · **Skill:** product-requirements (mục 4.2) · **Trạng thái:** Chờ duyệt – PO điền cột "Quyết định" · **Phụ trách:** PA, cặp dữ liệu · **Duyệt:** Dương Văn Hoan (PO); Q6 do kiến trúc sư · **Cập nhật:** 20/11/2026
 
 File này gom các câu hỏi đang chặn US02, US05, US06, US07 (`docs/discovery/06-journey-features.md` mục 6), mỗi câu có phương án, đề xuất, lý do có nguồn và ảnh hưởng. **Đây là đề xuất, chưa phải quyết định.** PO ghi quyết định vào bảng mục 0; sau đó PA cập nhật AC và PRD.
 

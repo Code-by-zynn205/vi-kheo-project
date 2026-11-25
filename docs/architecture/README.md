@@ -1,6 +1,6 @@
 # Kiến trúc và quyết định công nghệ (giai đoạn 4 – chuẩn bị)
 
-> **Giai đoạn:** 4 – Vibe Code (chuẩn bị) · **Phụ trách:** Lê Thị Phát, Nguyễn Đức Minh Nghĩa, Nguyễn Thị Bình Minh, Nguyễn Diên Tiến · **Cập nhật:** 20/11/2026
+> **Giai đoạn:** 4 – Vibe Code (chuẩn bị) · **Skill:** tech-decision (mục 5) · **Phụ trách:** Lê Thị Phát, Nguyễn Đức Minh Nghĩa, Nguyễn Thị Bình Minh, Nguyễn Diên Tiến · **Cập nhật:** 20/11/2026
 
 Tạo bằng skill `tech-decision`. Chưa có ADR nền tảng `Đã chấp nhận` và `technical-design.md` thì chưa viết plan code (AGENTS.md, quy tắc 1).
 

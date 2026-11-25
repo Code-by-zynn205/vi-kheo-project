@@ -1,6 +1,6 @@
 # 01. Project Intake & Cơ cấu Nhóm Scrum
 
-> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Trạng thái:** Xong · **Phụ trách:** Dương Văn Hoan (PO), Trần Ninh Nhật Tân (SM) · **Cập nhật:** 14/11/2026
+> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Skill:** product-discovery (mục 4) · **Trạng thái:** Xong · **Phụ trách:** Dương Văn Hoan (PO), Trần Ninh Nhật Tân (SM) · **Cập nhật:** 14/11/2026
 
 ## 1. Thông tin chung
 

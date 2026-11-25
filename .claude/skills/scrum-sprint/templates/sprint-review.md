@@ -1,6 +1,6 @@
 # Sprint <N> Review – <tên> (<dd/mm> – <dd/mm/yyyy>)
 
-> **Giai đoạn:** <...> · **Trạng thái:** Xong · **Phụ trách:** Trần Ninh Nhật Tân (SM) · **Cập nhật:** <dd/mm/yyyy>
+> **Giai đoạn:** <...> · **Skill:** scrum-sprint (mục 4.2) · **Trạng thái:** Xong · **Phụ trách:** Trần Ninh Nhật Tân (SM) · **Cập nhật:** <dd/mm/yyyy>
 
 **Sprint Goal:** <một câu> → <Đạt / Chưa đạt>
 
@@ -16,20 +16,28 @@
 | :--- | :--- | :--- | :--- | :--- |
 | <tên> | <...> | <...> | <commit / PR / file> | <Xong / Cần bổ sung> |
 
-## 3. Chưa xong / chuyển Sprint sau
+## 3. Skill đã dùng
+
+<!-- Lấy từ dòng **Skill:** của các file làm trong Sprint và dòng "Skill:" trong commit (git log --grep "Skill:"). Đây là bảng trả lời câu hỏi "dùng skill nào". -->
+
+| Skill | Việc / User Story | File đầu ra | Agent | Người làm |
+| :--- | :--- | :--- | :--- | :--- |
+| <product-requirements> | <PRD US01> | <đường dẫn> | <Claude Code / Codex / Antigravity> | <tên> |
+
+## 4. Chưa xong / chuyển Sprint sau
 
 - <...>
 
-## 4. Số liệu
+## 5. Số liệu
 
 - Story Point cam kết / hoàn thành: <x> / <y>
 
-## 5. Retrospective
+## 6. Retrospective
 
 | Giữ | Bỏ | Hành động (người phụ trách, hạn) |
 | :--- | :--- | :--- |
 | <...> | <...> | <...> |
 
-## 6. Câu hỏi xin ý kiến giảng viên
+## 7. Câu hỏi xin ý kiến giảng viên
 
 1. <...>

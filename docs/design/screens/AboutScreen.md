@@ -1,6 +1,6 @@
 # Màn hình `AboutScreen`
 
-> **Giai đoạn:** 2 – Design System & Prototype · **Trạng thái:** Đang làm – chờ cặp UI/UX duyệt · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Cập nhật:** 21/11/2026
+> **Giai đoạn:** 2 – Design System & Prototype · **Skill:** design-system (mục 4.4a) · **Trạng thái:** Đang làm – chờ cặp UI/UX duyệt · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Cập nhật:** 21/11/2026
 
 - **User Story:** Chưa có User Story – màn thông tin, đề xuất PO duyệt cùng `SettingsScreen` (US05)
 - **Sprint:** 3 (Cần bổ sung – SM chốt)
