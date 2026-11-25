@@ -1,9 +1,10 @@
 # Màn hình `SettingsScreen`
 
-> **Giai đoạn:** 2 – Design System & Prototype · **Skill:** design-system (mục 4.4a) · **Trạng thái:** Đang làm – chờ cặp UI/UX duyệt và PO trả lời Q5, Q8 · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Cập nhật:** 20/11/2026
+> **Giai đoạn:** 2 – Design System & Prototype · **Skill:** design-system (mục 4.4a) · **Trạng thái:** Xong – Nguyễn Diên Tiến chốt thay nhóm 26/11/2026; phần nhắc nhở theo đề xuất Q5, Q8, Q16 – PO duyệt cùng PRD US05; cách hẹn nhắc: ADR-04 · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Cập nhật:** 26/11/2026
 
-- **User Story:** US05 (nhắc ghi chép)
-- **Sprint:** 3
+- **User Story:** US19 (khung, Sprint 2) · US05 (mục "Nhắc nhở", Sprint 3) · US20 (3 dòng còn lại của mục "Khác", Sprint 3 nếu kịp)
+- **Dựng theo story (chốt 26/11/2026):** US19 dựng thanh trên "Cài đặt", mục "Về dữ liệu", mục "Khác" chỉ có dòng "Thông tin dùng thử", dòng phiên bản app. US05 thêm mục 1.2 – 1.4. US20 thêm "Quyền riêng tư", "Giới thiệu", "Xoá toàn bộ dữ liệu"
+- **Sprint:** 2 (khung) · 3
 - **Figma:** [trang Demo UI](https://www.figma.com/design/r3QiOYkP7orX9dNyDEDmvl/V%C3%AD-Kh%C3%A9o?node-id=108-322) – `SettingsScreen / ReminderOn`, `SettingsScreen / BlockedByPhone`; trạng thái khác ở hàng `SettingsScreen – states` · đối chiếu lần cuối 21/11/2026 (bản AI dựng, chờ cặp UI/UX duyệt)
 - **Prototype:** [trang Prototype](https://www.figma.com/design/r3QiOYkP7orX9dNyDEDmvl/V%C3%AD-Kh%C3%A9o?node-id=112-2259) (Figma)
 - **Mở từ:** icon cài đặt trên `HomeScreen`; lời mời bật nhắc sau lần lưu khoản thứ 3 (mục 3)

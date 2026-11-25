@@ -1,6 +1,6 @@
 # 06. Customer Journey, HMW, Generate Features & Product Backlog
 
-> **Giai đoạn:** GĐ1 – Discovery (Sprint 0), PO cập nhật Backlog đầu mỗi Sprint · **Skill:** product-discovery (mục 4) · **Trạng thái:** Đang làm – đã làm rõ Backlog 20/11, chờ PO duyệt mục 3.1, 4.2 và câu hỏi Q1–Q8 · **Phụ trách:** Dương Văn Hoan (PO) + cả nhóm · **Cập nhật:** 20/11/2026
+> **Giai đoạn:** GĐ1 – Discovery (Sprint 0), PO cập nhật Backlog đầu mỗi Sprint · **Skill:** product-discovery (mục 4) · **Trạng thái:** Đang làm – đã làm rõ Backlog 20/11, chờ PO duyệt mục 3.1, 4.2 và câu hỏi Q1–Q8 · **Phụ trách:** Dương Văn Hoan (PO) + cả nhóm · **Cập nhật:** 26/11/2026
 
 Chuỗi trong file này: **Hành trình → Điểm đau → HMW → Generate Features → MoSCoW → User Story + tiêu chí chấp nhận.**
 
@@ -64,6 +64,8 @@ Nguồn: [`docs/requirements/data-analysis.md`](../requirements/data-analysis.md
 | F21 | Hạn mức chi theo từng danh mục | P1 · N-a | Won't (MVP) | Làm mất "một con số" của HMW2; đối thủ đã có | US14 |
 | F22 | Tài khoản và đồng bộ nhiều thiết bị | — | Won't | Cần đăng nhập, máy chủ – ngoài phạm vi MVP | US17 |
 | F23 | Trang quản trị (thống kê gộp, góp ý, thông báo) | Mô hình vận hành sau MVP (`05-vision.md` mục 2) | Won't | Phụ thuộc F22 | US18 |
+| F24 | Màn "Thông tin dùng thử": số ngày đã dùng, số ngày có ghi chép, không hiện số tiền | A4 (`05-vision.md`) · Q4 | Must (đề xuất 26/11) | Công cụ đo A4 trong tuần dùng thử 04/12 – 10/12 | US19 |
+| F25 | Quyền riêng tư, giới thiệu app, xoá toàn bộ dữ liệu | EC-10 · BR-129 | Could (đề xuất 26/11) | Màn hình đã có đặc tả; không thuộc HMW chính | US20 |
 
 **PO cần chốt thêm:** đổi tên F15 thành "Đầu tư, chứng khoán, vay ngân hàng/tín dụng" để không trùng với F19 (vay mượn bạn bè).
 
@@ -91,12 +93,18 @@ Nguồn: [`docs/requirements/data-analysis.md`](../requirements/data-analysis.md
 | **US05** | Là sinh viên, tôi muốn được nhắc ghi chép mỗi tối, để không quên khoản nào. | HMW3 | Should | 2 | **3** | 3 |
 | **US06** | Là sinh viên, tôi muốn sửa hoặc xoá khoản đã ghi, để sửa khi nhập nhầm. | HMW1 | Should | 2 | **3** | 3 |
 | **US08** | Là sinh viên, tôi muốn xem lại các khoản chi của những ngày trước, để đối chiếu khi cần. | P1 · N-a | Should | 2 | 2 | Nếu kịp |
+| **US19** | Là người dùng thử, tôi muốn xem mình đã dùng app bao nhiêu ngày và bao nhiêu ngày có ghi chép, để gửi kết quả cho nhóm mà không lộ số tiền. *(đề xuất 26/11 – chờ PO duyệt)* | A4 · Q4 · BR-126 | **Must** (đề xuất – thiếu thì không đo được A4 trong tuần dùng thử) | — | 1 | 2 |
+| **US20** | Là sinh viên, tôi muốn biết dữ liệu của mình được lưu ở đâu và xoá được toàn bộ khi cần, để yên tâm dùng app. *(đề xuất 26/11 – chờ PO duyệt)* | EC-10 · BR-129 | Could | — | 2 | 3 – nếu kịp |
 
 **Lý do đề xuất đổi điểm:**
 - US05: thêm xin quyền thông báo, xử lý khi người dùng từ chối, bỏ nhắc nếu hôm nay đã ghi (Q8), giờ nhắc trên Android có thể lệch vài phút.
 - US06: thêm Hoàn tác sau khi xoá (BR-90), khoá đổi ngày và loại (BR-11), mọi con số phải cập nhật lại.
 
 **Tổng theo Sprint (theo SP đề xuất):** Sprint 1 = 3 SP (kèm dựng dự án) · Sprint 2 = 6 SP · Sprint 3 = 11 SP · Nếu kịp = 2 SP. Tổng MVP = 22 SP.
+
+**Đề xuất 26/11/2026 (chờ PO duyệt, chi tiết `docs/plans/00-master-plan.md`):** Sprint 1 không có code nên US01 chuyển sang Sprint 2. Sprint 2 = 10 SP (US01, US02, US03, US07, US19) · Sprint 3 = 11 SP cam kết (US05, US06, US04) + 4 SP nếu kịp (US20, US08). Tổng = 25 SP.
+
+**Gắn màn hình chưa có User Story (đề xuất 26/11/2026, chờ PO):** `SplashScreen` → US01 · `OnboardingScreen` → US03 · `TrialInfoScreen` → US19 · `PrivacyScreen`, `AboutScreen`, `DeleteAllDataScreen` → US20.
 
 ### 4.2 Backlog sau MVP – **đề xuất, chờ PO duyệt**
 

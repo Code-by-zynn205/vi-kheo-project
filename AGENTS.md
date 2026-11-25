@@ -45,6 +45,7 @@ Mỗi skill của nhóm có thư mục `templates/` chứa mẫu file đầu ra.
 
 | Khi | Skill |
 | :--- | :--- |
+| Bắt đầu code: chọn story nào | Dòng đầu tiên chưa `Done` trong `docs/plans/00-master-plan.md` mục 2a (hàng đợi code) – kiểm cổng trước, thiếu thì dừng |
 | Bắt đầu code một User Story đã có PRD | `brainstorming` → `writing-plans` |
 | Làm theo plan | `executing-plans` (mặc định) hoặc `subagent-driven-development` |
 | Viết code tính tiền, logic | `test-driven-development` |

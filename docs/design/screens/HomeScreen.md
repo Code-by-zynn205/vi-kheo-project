@@ -1,9 +1,10 @@
 # Màn hình `HomeScreen`
 
-> **Giai đoạn:** 2 – Design System & Prototype · **Skill:** design-system (mục 4.4a) · **Trạng thái:** Đang làm – chờ cặp UI/UX duyệt · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Cập nhật:** 20/11/2026
+> **Giai đoạn:** 2 – Design System & Prototype · **Skill:** design-system (mục 4.4a) · **Trạng thái:** Xong – Nguyễn Diên Tiến chốt thay nhóm 26/11/2026; cặp UI/UX soát lại khi cập nhật Figma (`figma-gap-report.md` A18 – A21) · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Cập nhật:** 26/11/2026
 
 - **User Story:** US01 (danh sách hôm nay), US03 (`DailyAllowanceCard`), lối vào US05, US06, US08
-- **Sprint:** 1 khung · 2 hoàn thiện
+- **Sprint:** 2 – US01 (thanh trên, "Chi tiêu hôm nay", nút nổi) · US03 (`DailyAllowanceCard`, thanh ngân sách) · US02 (trạng thái `NO_BUDGET`)
+- **Dựng theo story (chốt 26/11/2026):** mỗi lối vào chỉ hiện khi story của nó xong – tab `Ngân sách` từ US02, icon cài đặt từ US19, tab `Báo cáo` từ US04, "Xem các ngày trước" từ US08. Bản dùng thử 03/12: tab `Trang chủ`, `Ngân sách`, icon cài đặt
 - **Figma:** [trang Demo UI](https://www.figma.com/design/r3QiOYkP7orX9dNyDEDmvl/V%C3%AD-Kh%C3%A9o?node-id=106-13) – `HomeScreen / SAFE`; trạng thái khác ở hàng `HomeScreen – states` và `HomeScreen / Deleted`, `HomeScreen / InviteReminder` · đối chiếu lần cuối 21/11/2026 (bản AI dựng, chờ cặp UI/UX duyệt)
 - **Prototype:** [trang Prototype](https://www.figma.com/design/r3QiOYkP7orX9dNyDEDmvl/V%C3%AD-Kh%C3%A9o?node-id=112-2259) (Figma) · `docs/design/prototype/home.html` (HTML, chỉ HomeScreen)
 - **Mở từ:** mở app; tab `Trang chủ`
@@ -17,7 +18,7 @@
    - Nhãn "Hôm nay còn được tiêu" (14px).
    - Số Hero `86.000đ` (36px/700) – ví dụ ngày 20/11, ngân sách 3.000.000đ, đã chi trước hôm nay 1.530.000đ, hôm nay 47.000đ → hạn mức 133.000đ, còn 86.000đ, màu theo trạng thái (mục 2).
    - Dòng phụ theo trạng thái (mục 2), 12px.
-   - `ProgressBar` + chữ "Ngân sách tháng đã dùng 53% (1.577.000đ / 3.000.000đ)".
+   - `ProgressBar` + chữ "Ngân sách tháng đã dùng 53% (1.577.000đ / 3.000.000đ)" – phần trăm làm tròn tới số nguyên gần nhất như `ReportScreen` và `budget-logic` 4.3; mẫu số = ngân sách + tổng thu tháng (Q19 đề xuất, PO duyệt cùng PRD US03); trên 100% hiện đúng số %, thanh đầy.
 3. **Mục "Chi tiêu hôm nay"** – tiêu đề mục (16px/600) + tổng bên phải "−47.000đ"; danh sách `TransactionItem`, mới nhất trên cùng: Tài liệu −12.000đ · Gửi xe −5.000đ · Cơm trưa −30.000đ.
 4. **Liên kết** "Xem các ngày trước" (chữ `--color-primary`, vùng bấm 48px) → `HistoryScreen` (US08 – chỉ hiện khi US08 đã làm).
 5. **Thanh điều hướng dưới** – `Trang chủ` · `Ngân sách` · `Báo cáo`; nút nổi `+ Ghi khoản chi` màu `--color-primary`, nằm giữa phía trên thanh điều hướng → `AddExpenseScreen`.

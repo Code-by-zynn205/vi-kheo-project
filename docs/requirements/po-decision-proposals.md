@@ -1,6 +1,6 @@
 # Đề xuất trả lời các câu hỏi đang chặn Backlog
 
-> **Giai đoạn:** 3 – Product Requirements · **Skill:** product-requirements (mục 4.2) · **Trạng thái:** Chờ duyệt – PO điền cột "Quyết định" · **Phụ trách:** PA, cặp dữ liệu · **Duyệt:** Dương Văn Hoan (PO); Q6 do kiến trúc sư · **Cập nhật:** 20/11/2026
+> **Giai đoạn:** 3 – Product Requirements · **Skill:** product-requirements (mục 4.2) · **Trạng thái:** Chờ duyệt – PO điền cột "Quyết định" · **Phụ trách:** PA, cặp dữ liệu · **Duyệt:** Dương Văn Hoan (PO); Q6 do kiến trúc sư · **Cập nhật:** 26/11/2026
 
 File này gom các câu hỏi đang chặn US02, US05, US06, US07 (`docs/discovery/06-journey-features.md` mục 6), mỗi câu có phương án, đề xuất, lý do có nguồn và ảnh hưởng. **Đây là đề xuất, chưa phải quyết định.** PO ghi quyết định vào bảng mục 0; sau đó PA cập nhật AC và PRD.
 
@@ -14,11 +14,14 @@ Mã câu hỏi theo `docs/requirements/data-analysis.md` mục 13; Q15, Q16 là 
 | Q2 | Tháng mới có gợi ý ngân sách tháng trước? | Có, phải bấm xác nhận | | |
 | Q3 | Giới hạn ngân sách tháng? | 1 – 99.999.999đ | | |
 | Q5 | Nhắc nhở mặc định bật hay tắt? | Tắt; mời bật sau lần lưu thứ 3 | | |
-| Q6 | Xoá là xoá hẳn hay xoá mềm? (kiến trúc sư) | Xoá mềm (`deletedAt`) | | |
+| Q6 | Xoá là xoá hẳn hay xoá mềm? (kiến trúc sư) | Xoá mềm (`deletedAt`) | Xoá mềm – kiến trúc sư chốt trong ADR-02 | 26/11/2026 |
 | Q7 | Sửa giao dịch có đổi được ngày? | Không | | |
 | Q8 | Bỏ nhắc nếu hôm nay đã ghi? | Có | | |
 | Q15 | Xoá: hộp xác nhận hay nút Hoàn tác? | Hoàn tác 8 giây, bỏ hộp xác nhận | | |
 | Q16 | Nhắc 21:00 chính xác tới đâu? | Khoảng 21:00 – 22:00 | | |
+| Q17 | `OUT_OF_BUDGET` có hiện số tiền đã vượt không? (đặc tả hiện có: `0đ` + "Đã dùng hết ngân sách tháng") | Có: "Đã vượt ngân sách tháng <số tiền>" | | |
+| Q18 | Hạn mức = 0 mà đã chi: `WARNING` hay `OVER`? | `OVER` khi đã chi > 0; thêm TC17 | | |
+| Q19 | Thanh "đã dùng x%": làm tròn thế nào, mẫu số có cộng khoản thu không? | Làm tròn gần nhất (như báo cáo); mẫu số = ngân sách + tổng thu tháng | | |
 
 ---
 
@@ -114,7 +117,46 @@ Sửa/xoá là thao tác thường ngày với người ghi nhiều khoản nh�
 | **A (đề xuất)** | Dùng nhắc không chính xác; AC ghi "khoảng 21:00, có thể muộn tới khoảng 22:00" |
 | B | Xin quyền báo thức chính xác – thêm một hộp xin quyền nữa, không phải chức năng chính, dễ bị từ chối |
 
-**Ảnh hưởng:** US05 AC2 đã sửa câu "có thể lệch vài phút" (sai) thành "có thể muộn tới khoảng 1 giờ". Hành vi trên iPhone: `Cần kiểm chứng` (trang hướng dẫn của Apple không đọc được bằng công cụ).
+**Ảnh hưởng:** US05 AC2 đã sửa câu "có thể lệch vài phút" (sai) thành "có thể muộn tới khoảng 1 giờ". Hành vi trên iPhone: `Cần kiểm chứng` (trang hướng dẫn của Apple không đọc được bằng công cụ). MVP chỉ làm Android (ADR-01, 26/11/2026) nên câu này chưa cần.
+
+## Q17. `OUT_OF_BUDGET` hiện số nào ở "Hôm nay còn được tiêu"? (câu mới, 26/11/2026)
+
+`budget-logic` 4.2 không nói khi Quỹ còn lại đầu ngày ≤ 0 thì hiện gì: TC5 ghi "Còn được tiêu 0", nhưng công thức không có hạn mức để trừ. Nếu hôm nay chi thêm, người dùng cũng không thấy mình đã vượt thêm bao nhiêu.
+
+**Đính chính 26/11/2026:** đặc tả `HomeScreen.md` mục 2 **đã có** cách hiển thị: số Hero `0đ` màu `--color-danger-text`, dòng phụ "Đã dùng hết ngân sách tháng". Câu hỏi còn lại chỉ là **có thêm số tiền đã vượt hay không**. PRD US03 dùng đúng chữ trong đặc tả cho tới khi PO và cặp UI/UX chọn A.
+
+| Phương án | Mô tả | Ưu | Nhược |
+| :--- | :--- | :--- | :--- |
+| **A (đề xuất)** | Số lớn hiện `0đ`; dòng phụ "Đã vượt ngân sách tháng <số tiền>", số tiền = −(Quỹ còn lại đầu ngày) + Tổng chi hôm nay | Số lớn không âm, dễ hiểu; người dùng vẫn biết đã vượt bao nhiêu và thấy số tăng khi tiêu thêm | Thêm một chuỗi chữ cho trạng thái này |
+| B | Số lớn hiện số âm (vd. `−100.000đ`) | Không thêm chữ | Trùng cách hiện với `OVER` của một ngày, dễ hiểu nhầm là chỉ vượt hôm nay |
+
+**Ví dụ (TC5):** ngân sách 3.000.000đ, ngày 25/11, đã chi 3.100.000đ trước hôm nay → Quỹ còn lại đầu ngày = −100.000đ → hiện `0đ`, "Đã vượt ngân sách tháng 100.000đ". Chi thêm 30.000đ trong ngày → "Đã vượt ngân sách tháng 130.000đ".
+**Ảnh hưởng:** `budget-logic` 4.2 thêm một dòng; TC5 ghi rõ số vượt; `HomeScreen.md` trạng thái `OUT_OF_BUDGET` dùng đúng chuỗi chữ; US03 AC3.
+
+## Q18. Hạn mức hôm nay = 0 mà đã chi: `WARNING` hay `OVER`? (câu mới, 26/11/2026)
+
+Quy tắc hiện tại trong `budget-logic` 4.2: "Hạn mức = 0 thì tỷ lệ = 1" → luôn ra `WARNING`. Khi hạn mức 0 mà hôm nay đã chi 20.000đ, "còn được tiêu" là −20.000đ nhưng màu vẫn là cảnh báo vàng, không phải "Đã vượt".
+
+| Phương án | Mô tả |
+| :--- | :--- |
+| **A (đề xuất)** | Hạn mức = 0 và chưa chi hôm nay → `WARNING`; đã chi > 0 → `OVER` ("Đã vượt <số tiền>") |
+| B | Giữ nguyên: luôn `WARNING` |
+
+**TC17 đề xuất** (thêm vào `budget-logic` 4.4 khi PO duyệt): ngân sách 3.000.000đ, thu 0, ngày 02/11, chi trước hôm nay 2.990.000đ, chi hôm nay 20.000đ → Hạn mức hôm nay 0 (10.000 ÷ 29 = 344, làm tròn xuống) → Còn được tiêu −20.000đ → `OVER`, "Đã vượt 20.000đ".
+**Ảnh hưởng:** đổi quy tắc trạng thái trong `budget-logic` 4.2 (PO duyệt – `budget-logic` quy tắc 1); thêm TC17; US03 AC1 đổi "qua TC1–TC11" thành "qua TC1–TC11, TC17".
+
+## Q19. Thanh "Ngân sách tháng đã dùng x%" tính thế nào? (câu mới, 26/11/2026)
+
+Ví dụ trong `HomeScreen.md`: 1.577.000đ / 3.000.000đ ghi **53%**, nhưng 1.577.000 ÷ 3.000.000 = 52,57% – ví dụ đang làm tròn lên, trái BR-01 ("mọi phép chia làm tròn xuống"). Ngoài ra US03 AC6 chia cho ngân sách tháng, trong khi Quỹ tháng (`budget-logic` 4.2) gồm cả khoản thu: người có khoản thu lớn có thể thấy thanh vượt 100% dù vẫn còn tiền.
+
+| Phương án | Mô tả |
+| :--- | :--- |
+| **A (đề xuất, sửa 26/11)** | Phần trăm làm tròn **tới số nguyên gần nhất** (53%) – giống `ReportScreen.md` và `budget-logic` 4.3; BR-01 chỉ áp cho tiền. Mẫu số = ngân sách + tổng thu tháng; trên 100% hiện đúng số %, thanh đầy, chữ `--color-danger-text` |
+| B | Mẫu số chỉ là ngân sách (như US03 AC6 cũ); làm tròn gần nhất |
+
+**Sửa 26/11/2026:** bản đầu của câu này đề xuất làm tròn xuống (52%). Đối chiếu `ReportScreen.md` (4,95% → 5%) cho thấy app sẽ có hai cách làm tròn phần trăm; đổi đề xuất sang làm tròn gần nhất cho mọi phần trăm.
+
+**Ảnh hưởng:** US03 AC6 (PRD US03 AC9); ví dụ 53% trong `HomeScreen.md` giữ nguyên; `budget-logic` 4.3 ghi rõ cách làm tròn phần trăm; không đổi công thức hạn mức ngày.
 
 ---
 

@@ -1,9 +1,9 @@
 # Màn hình `OnboardingScreen`
 
-> **Giai đoạn:** 2 – Design System & Prototype · **Skill:** design-system (mục 4.4a) · **Trạng thái:** Đang làm – chờ cặp UI/UX duyệt · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Cập nhật:** 21/11/2026
+> **Giai đoạn:** 2 – Design System & Prototype · **Skill:** design-system (mục 4.4a) · **Trạng thái:** Xong – Nguyễn Diên Tiến chốt thay nhóm 26/11/2026; cặp UI/UX soát lại khi cập nhật Figma (`figma-gap-report.md` A18 – A21) · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Cập nhật:** 26/11/2026
 
-- **User Story:** Chưa có User Story riêng – đề xuất PO gắn vào US03 (hiểu con số "Hôm nay còn được tiêu")
-- **Sprint:** 1 (Cần bổ sung – SM chốt)
+- **User Story:** US03 (chốt 26/11/2026, `06-journey-features.md`)
+- **Sprint:** 2
 - **Figma:** [trang Demo UI](https://www.figma.com/design/r3QiOYkP7orX9dNyDEDmvl/V%C3%AD-Kh%C3%A9o?node-id=116-1383) – `OnboardingScreen / FastEntry`, `/ DailyNumber`, `/ PrivacyOnDevice` ở hàng `Onboarding – states` · đối chiếu lần cuối 21/11/2026 (bản AI dựng, chờ cặp UI/UX duyệt)
 - **Prototype:** Chưa có – nối ở trang [Prototype](https://www.figma.com/design/r3QiOYkP7orX9dNyDEDmvl/V%C3%AD-Kh%C3%A9o?node-id=112-2259) khi mở rộng lên 18 luồng (`screen-inventory.md` mục 4)
 - **Mở từ:** `SplashScreen` khi `onboardingDoneAt` rỗng (BR-120)

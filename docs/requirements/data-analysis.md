@@ -1,6 +1,6 @@
 # Phân tích và thiết kế dữ liệu – Ví Khéo
 
-> **Giai đoạn:** 3 – Product Requirements · **Skill:** product-requirements (mục 4.1) · **Trạng thái:** Đang làm – chờ PO chốt mục 13 · **Phụ trách:** Nguyễn Thị Bình Minh, Nguyễn Diên Tiến (cặp dữ liệu), PA · **Duyệt:** Dương Văn Hoan (PO) · **Cập nhật:** 20/11/2026
+> **Giai đoạn:** 3 – Product Requirements · **Skill:** product-requirements (mục 4.1) · **Trạng thái:** Đang làm – chờ PO chốt mục 13 · **Phụ trách:** Nguyễn Thị Bình Minh, Nguyễn Diên Tiến (cặp dữ liệu), PA · **Duyệt:** Dương Văn Hoan (PO) · **Cập nhật:** 26/11/2026
 
 ## Mục lục
 
@@ -218,6 +218,7 @@ Quy ước chung cho mọi thực thể được lưu (từ R1):
 | `reminderTime` | `HH:mm` | `21:00` (R1 không cho đổi) | R1 |
 | `weekStartsOn` | enum `MONDAY` | `MONDAY` (báo cáo "Tuần này") | R1 |
 | `onboardingDoneAt` | Thời điểm | Rỗng | R1 |
+| `reminderInviteShownAt` | Thời điểm | Rỗng – lời mời bật nhắc sau khoản thứ 3 chỉ hiện 1 lần (**Đề xuất**, Q5; thêm 26/11/2026) | R1 |
 | `defaultWalletId` | Mã ví | Ví đầu tiên | R2 |
 | `budgetMode` | enum `BudgetMode` | `DAILY_ALLOWANCE` | R2 |
 
@@ -738,6 +739,9 @@ Chữ thông báo là đề xuất; câu chính thức do cặp UI/UX chốt tro
 | Q13 | Trang quản trị cần những chức năng nào trước? | PO | R3 | Thống kê gộp, góp ý, thông báo |
 | Q15 | Xoá: hộp xác nhận hay Hoàn tác? | PO | PRD US06 | Hoàn tác 8 giây, bỏ hộp xác nhận |
 | Q16 | Nhắc 21:00 chính xác tới đâu? | PO | PRD US05 | Khoảng 21:00 – 22:00 (giới hạn Android) |
+| Q17 | `OUT_OF_BUDGET`: ô "Hôm nay còn được tiêu" hiện số nào? (công thức cho số âm, TC5 ghi 0) | PO | PRD US03 | Hiện `0đ`; dòng phụ "Đã vượt ngân sách tháng <số tiền>", số tiền = −(Quỹ còn lại đầu ngày) + Tổng chi hôm nay |
+| Q18 | Hạn mức hôm nay = 0 mà hôm nay đã chi > 0: `WARNING` (quy tắc hiện tại "Hạn mức = 0 thì tỷ lệ = 1") hay `OVER`? | PO | PRD US03, `budget-logic` 4.2 | `OVER` khi đã chi > 0; chưa chi thì `WARNING`; thêm TC17 |
+| Q19 | Thanh "Ngân sách tháng đã dùng x%": làm tròn xuống (BR-01) hay theo ví dụ 53% trong `HomeScreen.md` (1.577.000 ÷ 3.000.000 = 52,57%)? Mẫu số có cộng tổng thu tháng (BR-21) không? | PO + cặp UI/UX | PRD US03 | Làm tròn gần nhất (53%, như báo cáo – BR-01 chỉ áp cho tiền); mẫu số = ngân sách + tổng thu tháng, khớp công thức Quỹ ở `budget-logic` 4.2; trên 100% hiện đúng số %, thanh đầy |
 | Q14 | Thời hạn xoá hẳn dữ liệu khi người dùng yêu cầu; căn cứ pháp lý về dữ liệu cá nhân tại Việt Nam | PO + giảng viên | R3 | `Cần kiểm chứng` – chưa đọc văn bản pháp luật |
 
 ---
@@ -820,10 +824,11 @@ Chữ thông báo là đề xuất; câu chính thức do cặp UI/UX chốt tro
 
 | Tài liệu | Cần làm | Ai | Khi nào |
 | :--- | :--- | :--- | :--- |
-| `budget-logic` mục 4.1 | Thêm trường chung (`updatedAt`, `deletedAt`), `Settings`, `AppMeta`, enum viết hoa theo mục 7 | Cặp dữ liệu (Pull Request sửa skill) | Sau khi PO duyệt mục 4 |
+| `budget-logic` mục 4.1 | Thêm trường chung (`updatedAt`, `deletedAt`), `Settings`, `AppMeta`, enum viết hoa theo mục 7 | Cặp dữ liệu (Pull Request sửa skill) | **Một phần 26/11**: đã thêm `updatedAt`, `deletedAt`, `storage` trả Promise (ADR-02); còn enum viết hoa, `MonthlyBudget.source`, `Settings`, `AppMeta` (`technical-design.md` mục 3) |
 | `budget-logic` mục 4.2, 4.4 | Chỉ khi PO duyệt Q9: thêm công thức 10.2 và test case mới | Cặp dữ liệu | R2 |
 | `06-journey-features.md` | AC US01 (giới hạn số tiền, ghi chú), US05 (Q8), US06 (Q7, Hoàn tác); thêm ý tưởng F16+ cho các tính năng "Mới" ở mục 16 để PO xét MoSCoW | PO, PA | **Đã làm 20/11** – chờ PO duyệt (06 mục 3.1, 4, 5, 6) |
 | PRD US01–US08 | Mục "Dữ liệu" dẫn tới mục 4, 11; trường hợp biên lấy từ mục 14; mã lỗi từ mục 12 | PA | Khi viết PRD |
-| ADR-02 (lưu trữ) | Tiêu chí: ràng buộc duy nhất, ghi nhiều bản ghi nguyên tử, truy vấn theo khoảng ngày (mục 11); đường lên R3 (mục 6, 8.11) | Kiến trúc sư | Song song |
+| ADR-02 (lưu trữ) | Tiêu chí: ràng buộc duy nhất, ghi nhiều bản ghi nguyên tử, truy vấn theo khoảng ngày (mục 11); đường lên R3 (mục 6, 8.11) | Kiến trúc sư | **Xong 26/11** – SQLite qua `expo-sqlite`, xoá mềm (Q6) |
+| `budget-logic` mục 4.2, 4.4 (R1) | TC11 sửa ngày 01/11 → 02/11 (**đã làm 26/11**); Q17, Q18: thêm dòng hiển thị `OUT_OF_BUDGET`, quy tắc `OVER` khi hạn mức 0, TC17 | Cặp dữ liệu | Sau khi PO duyệt Q17, Q18 |
 | `00-research-log.md` | Thêm nguồn R-01 → R-05 vào mục nghiên cứu thứ cấp | Cặp nghiên cứu | Khi duyệt file này |
 | Phỏng vấn | Thêm câu hỏi kiểm chứng: có vay mượn bạn bè không, trả bằng tiền mặt hay QR, có khoản cố định hằng tháng nào | Cặp nghiên cứu | Sprint 1–2 |

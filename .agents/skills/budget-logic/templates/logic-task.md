@@ -7,7 +7,7 @@
 
 **Files:**
 - Tạo/Sửa: `src/logic/<file-name>.<ts|js>`
-- Test: `src/logic/<file-name>.test.<ts|js>`
+- Test: theo `docs/architecture/technical-design.md` mục 2 (hiện tại `__tests__/<file-name>-test.ts`)
 
 - [ ] **Bước 1: Viết test fail**
 
@@ -22,7 +22,7 @@ test('TC<a> – <mô tả ngắn>', () => {
 
 - [ ] **Bước 2: Chạy test, thấy fail**
 
-Chạy: `<lệnh test> <file-name>.test`
+Chạy: `<lệnh test> <file-name>` (lệnh ở `technical-design.md` mục 4)
 Mong đợi: FAIL vì `<hàm>` chưa có.
 
 - [ ] **Bước 3: Viết code tối thiểu cho test pass**
@@ -31,7 +31,7 @@ Mong đợi: FAIL vì `<hàm>` chưa có.
 
 - [ ] **Bước 4: Chạy test, thấy pass**
 
-Chạy: `<lệnh test> <file-name>.test`
+Chạy: `<lệnh test> <file-name>` (lệnh ở `technical-design.md` mục 4)
 Mong đợi: PASS cả TC<a>, TC<b>, TC<c>.
 
 - [ ] **Bước 5: Commit**

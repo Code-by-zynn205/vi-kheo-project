@@ -1,6 +1,6 @@
 # Kế hoạch tổng thể – Sprint theo User Story
 
-> **Giai đoạn:** 1 → 5 · **Skill:** scrum-sprint (mục 4.1) · **Trạng thái:** Đề xuất – chờ Sprint Planning thống nhất · **Phụ trách:** Trần Ninh Nhật Tân (SM), Dương Văn Hoan (PO) · **Cập nhật:** 23/11/2026
+> **Giai đoạn:** 1 → 5 · **Skill:** scrum-sprint (mục 4.1) · **Trạng thái:** Đề xuất – chờ Sprint Planning thống nhất · **Phụ trách:** Trần Ninh Nhật Tân (SM), Dương Văn Hoan (PO) · **Cập nhật:** 26/11/2026
 
 File này trả lời 3 câu hỏi: **Sprint nào làm User Story nào, mỗi story đang ở bước nào, và ra lệnh cho AI thế nào**. **Đơn vị chia Sprint là User Story** (`scrum-sprint` mục 4.1): mỗi story đi hết chuỗi *Dữ liệu → Đặc tả màn hình → PRD → Spec + plan → Code + PR → Done*. Việc không thuộc story nào (khảo sát, ADR, báo cáo) là **việc hỗ trợ** và phải ghi nó mở khoá story nào.
 
@@ -19,6 +19,19 @@ Ngày, người phụ trách lấy từ `docs/discovery/07-roadmap.md` và `docs
 
 **Kết luận Sprint 1:** US01 đã xong bước Dữ liệu, đang ở bước Đặc tả màn hình; **chưa code được** (rủi ro R1 cũ đã xảy ra). Code US01 thành việc đầu tiên của Sprint 2.
 
+### Cập nhật ngày 26/11/2026
+
+| Việc | Kết quả | File |
+| :--- | :--- | :--- |
+| Nền tảng, lưu trữ | **React Native (Expo) + TypeScript, chỉ Android** · **SQLite trên máy** (`expo-sqlite`); Firebase / Supabase để R3 | ADR-01, ADR-02 `Đã chấp nhận` |
+| Phát hành bản dùng thử | EAS Build ra APK, một khoá ký do EAS giữ | ADR-03 `Đề xuất` |
+| Thiết kế kỹ thuật | Bản đầu: ngăn xếp, thư mục, bảng SQLite, lệnh | `technical-design.md` `Đang làm` |
+| Rà logic nghiệp vụ R1 | TC11 sai ngày (đã sửa 01/11 → 02/11); 2 câu mới cho PO: **Q17** (`OUT_OF_BUDGET` hiện số nào), **Q18** (hạn mức 0 mà đã chi → `OVER`, thêm TC17) | `budget-logic` 4.4, `po-decision-proposals.md` |
+| Story mới (chờ PO duyệt) | **US19** Thông tin dùng thử (đo A4, Sprint 2, 1 SP) · **US20** Quyền riêng tư và xoá dữ liệu (Sprint 3 nếu kịp, 2 SP); gắn 6 màn hình chưa có story | `06-journey-features.md` mục 4.1 |
+| Skill | `budget-logic` 4.1 (`storage` trả Promise, xoá mềm), `tech-decision` 4.2 (A1 = Android), `frontend-ui` 4.1 (Đã chốt) | `.agents/skills/` |
+
+**Còn chặn PRD Sprint 2:** PO chốt Q1, Q2, Q3, Q17, Q18, Q19 và duyệt US19 · cặp UI/UX duyệt đặc tả `HomeScreen`, `AddExpenseScreen`, `BudgetScreen`, `OnboardingBudgetScreen`, `SplashScreen`, `OnboardingScreen`, `TrialInfoScreen` · SM hỏi nhanh năng lực Developer (B1 của ADR-01).
+
 ---
 
 ## 2. Chuỗi việc của một User Story
@@ -34,6 +47,34 @@ Mỗi bước có skill và file đầu ra – bảng này cũng là câu trả 
 | 5 | Code + Pull Request | `frontend-ui`, `budget-logic`, `test-driven-development`, `requesting-code-review` | Code trong `src/`, PR | Bước 4 |
 | 6 | Done | `verification-before-completion`, `scrum-sprint` | Mọi AC Đạt trên điện thoại thật, thẻ Trello Done | DoD `07-roadmap.md` |
 
+## 2a. Hàng đợi code cho AI agent
+
+**Agent code luôn làm theo bảng này, từ trên xuống, mỗi lần một dòng.** Số US là mã cố định, đặt theo lúc tạo story trong Backlog – **không phải thứ tự làm** (US07 tạo ngày 14/11, US19 ngày 26/11). Thứ tự dưới đây theo phụ thuộc dữ liệu (mục 5).
+
+**Quy tắc cho agent:**
+1. Lấy **dòng đầu tiên có Trạng thái khác `Done`**. Không nhảy cóc, không làm 2 dòng cùng lúc.
+2. Kiểm **mọi cổng** của dòng đó bằng cách mở đúng file ghi trong cột. Thiếu một cổng → **dừng**, báo cổng nào thiếu và ai phụ trách; không code, không tự sửa cổng.
+3. Đủ cổng → đọc các file ở cột "Đọc trước", tạo nhánh ở cột "Nhánh". **Story đã có plan** (cột "Plan" trong `docs/requirements/README.md`) → đọc spec + plan, soát lại theo PRD đã duyệt (PRD đổi sau ngày plan thì sửa plan trước), rồi `executing-plans`. Chưa có plan → `brainstorming` → `writing-plans` theo `AGENTS.md` mục 3. Xong → `verify-change` → mở Pull Request.
+4. Đổi Trạng thái của dòng: `Đang làm` khi bắt đầu, `Chờ review` khi mở PR, `Done` khi merge và đạt Definition of Done (`07-roadmap.md` mục 3).
+
+**Cổng chung của mọi dòng:** ADR-01, ADR-02 `Đã chấp nhận` · `docs/architecture/technical-design.md` có · dòng trước đó `Done` hoặc ít nhất các story ở cột "Phụ thuộc" đã `Done`.
+
+| # | Story | Phụ thuộc | Cổng riêng (phải đạt) | Đọc trước | Nhánh | Trạng thái |
+| :-: | :--- | :--- | :--- | :--- | :--- | :--- |
+| 1 | US01 Ghi khoản chi – **task đầu: dựng khung dự án** (`technical-design.md` mục 4) | — | PRD `US01-add-expense.md` `Đã duyệt` · `AddExpenseScreen`, `HomeScreen`, `SplashScreen` `Xong` | PRD US01 · 3 đặc tả · `technical-design.md` · `budget-logic` 4.1, 4.4 · `design-system` 4.2, 4.3 | `feature/US01-add-expense` | Chưa làm |
+| 2 | US02 Ngân sách tháng | US01 | PRD `US02-monthly-budget.md` `Đã duyệt` · `BudgetScreen`, `OnboardingBudgetScreen` `Xong` | PRD US02 · 2 đặc tả · `budget-logic` 4.1, 4.2 | `feature/US02-monthly-budget` | Chưa làm |
+| 3 | US03 Hôm nay còn được tiêu | US01, US02 | PRD `US03-daily-allowance.md` `Đã duyệt` · `HomeScreen`, `OnboardingScreen` `Xong` · kết quả A3 đã ghi | PRD US03 · 2 đặc tả · `budget-logic` 4.2, 4.4 (TDD) | `feature/US03-daily-allowance` | Chưa làm |
+| 4 | US19 Thông tin dùng thử | US01 | US19 có trong Backlog (PO duyệt) · PRD `US19-trial-info.md` `Đã duyệt` · `TrialInfoScreen`, `SettingsScreen` (khung) `Xong` | PRD US19 · 2 đặc tả | `feature/US19-trial-info` | Chưa làm |
+| 5 | US07 Ghi khoản thu – **cắt nếu 01/12 dòng 1 – 3 chưa Done** | US01, US03 | PRD `US07-add-income.md` `Đã duyệt` · `AddExpenseScreen` `Xong` | PRD US07 · đặc tả · `budget-logic` 4.2 (TC7) | `feature/US07-add-income` | Chưa làm |
+| — | **Bản dùng thử 03/12** (ADR-03): build APK, thử cài đè giữ dữ liệu | Dòng 1 – 4 | ADR-03 `Đã chấp nhận` | ADR-03 · `technical-design.md` mục 4, 5 | — | Chưa làm |
+| 6 | US05 Nhắc ghi chép 21:00 | US01 | ADR-04 `Đã chấp nhận` · PRD US05 `Đã duyệt` · `SettingsScreen` (nhắc nhở) `Xong` | PRD US05 · đặc tả · ADR-04 | `feature/US05-evening-reminder` | Chưa làm – PRD `US05-evening-reminder.md` Chờ duyệt |
+| 7 | US06 Sửa / xoá giao dịch | US01, US03 | PRD US06 `Đã duyệt` · `EditTransactionSheet` `Xong` | PRD US06 · đặc tả · `budget-logic` 4.1, 4.4 (TC16) | `feature/US06-edit-delete-transaction` | Chưa làm – PRD `US06-edit-delete-transaction.md` Chờ duyệt |
+| 8 | US04 Báo cáo theo danh mục | US01 | PRD US04 `Đã duyệt` · `ReportScreen` `Xong` · `DonutChart` trong `design-system` 4.3 | PRD US04 · đặc tả · `budget-logic` 4.3 | `feature/US04-category-report` | Chưa làm – PRD `US04-category-report.md` Chờ duyệt |
+| 9 | US20 Quyền riêng tư, xoá dữ liệu – nếu kịp | US01, US19 | US20 có trong Backlog (PO duyệt) · PRD US20 `Đã duyệt` · `PrivacyScreen`, `AboutScreen`, `DeleteAllDataScreen` `Xong` | PRD US20 · 3 đặc tả | `feature/US20-privacy-data` | Chưa có PRD |
+| 10 | US08 Xem lịch sử theo ngày – nếu kịp | US01 | PRD US08 `Đã duyệt` · `HistoryScreen` `Xong` | PRD US08 · đặc tả | `feature/US08-daily-history` | Chưa có PRD |
+
+Hai người có thể chạy song song hai dòng **không phụ thuộc nhau** (ví dụ dòng 2 và dòng 4 cùng chỉ cần US01) – mỗi người một nhánh, ghi tên vào cột Trạng thái.
+
 ---
 
 ## 3. Sprint 2 (24/11 – 03/12): ghi chi, ngân sách, con số hôm nay – bản dùng thử
@@ -44,12 +85,15 @@ Mỗi bước có skill và file đầu ra – bảng này cũng là câu trả 
 
 | Story | SP | Dữ liệu | Đặc tả màn hình | PRD duyệt | Spec + plan | Code + PR | Người code · review |
 | :--- | :-: | :--- | :--- | :--- | :--- | :--- | :--- |
-| **US01** Ghi khoản chi | 3 | Xong | `HomeScreen`, `AddExpenseScreen` – 24/11 | 25/11 | 26/11 | 28/11 | Phát, Nghĩa (giao diện); Bình Minh, Tiến (lưu trữ) · Vy, Hưng |
-| **US02** Ngân sách tháng | 2 | Xong | `BudgetScreen` – 24/11 (sau Q2, Q3) | 26/11 | 27/11 | 30/11 | Nghĩa · Phát |
-| **US03** Hôm nay còn được tiêu | 3 | Xong | `HomeScreen` – 24/11; sửa theo A3 – 25/11 | 26/11 | 27/11 | 01/12 | Bình Minh, Tiến (công thức, TDD) · Nghĩa |
-| **US07** Ghi khoản thu | 1 | Xong | `AddExpenseScreen` chế độ Thu – 24/11 (sau Q1) | 26/11 | 27/11 | 01/12 | Phát · Hưng |
+| **US01** Ghi khoản chi (kèm dựng khung dự án, `SplashScreen`) | 3 | Xong | `HomeScreen`, `AddExpenseScreen`, `SplashScreen` – 27/11 | 27/11 | 28/11 | 30/11 | Phát, Nghĩa (giao diện); Bình Minh, Tiến (lưu trữ) · Vy, Hưng |
+| **US02** Ngân sách tháng | 2 | Xong | `BudgetScreen`, `OnboardingBudgetScreen` – 27/11 (sau Q2, Q3) | 28/11 | 28/11 | 01/12 | Nghĩa · Phát |
+| **US03** Hôm nay còn được tiêu (kèm `OnboardingScreen`) | 3 | Xong | `HomeScreen`, `OnboardingScreen` – 27/11 (sau A3) | 28/11 (sau Q1, Q17, Q18) | 29/11 | 01/12 | Bình Minh, Tiến (công thức, TDD) · Nghĩa |
+| **US19** Thông tin dùng thử *(chờ PO duyệt)* | 1 | Cần bổ sung (E05 `firstOpenDate`, BR-126) | `TrialInfoScreen` – 27/11 | 28/11 | 29/11 | 02/12 | Thương, Kiệt (cùng 1 người cặp giao diện) · Hưng |
+| **US07** Ghi khoản thu | 1 | Xong | `AddExpenseScreen` chế độ Thu – 27/11 (sau Q1) | 28/11 | 29/11 | 02/12 | Phát · Hưng |
 
-**Story Point cam kết:** 9. Bản dùng thử (B1) đóng gói 03/12 từ 4 story này.
+**Story Point cam kết:** 10. Bản dùng thử (B1) đóng gói 03/12.
+
+**Đường cắt (01/12):** bản dùng thử **bắt buộc** có US01, US02, US03, US19 – thiếu ghi chép hoặc thiếu màn đo thì tuần dùng thử không đo được A4. Ngày 01/12 US01 – US03 chưa xong thì **cắt US07** sang đầu Sprint 3, phát kèm bản cập nhật.
 
 **Chuẩn bị cho Sprint 3 (chỉ tài liệu, không code):**
 
@@ -59,19 +103,20 @@ Mỗi bước có skill và file đầu ra – bảng này cũng là câu trả 
 | **US06** Sửa/xoá giao dịch | `EditTransactionSheet` – 01/12 (sau Q6, Q7, Q15) | 03/12 |
 | **US05** Nhắc 21:00 | `SettingsScreen` – 01/12 (sau Q5, Q8, Q16, ADR-04) | 03/12 |
 | **US08** Xem lịch sử (nếu kịp) | `HistoryScreen` – 03/12 | 04/12 |
+| **US20** Quyền riêng tư, xoá dữ liệu (nếu kịp, chờ PO duyệt) | `PrivacyScreen`, `AboutScreen`, `DeleteAllDataScreen` – 03/12 | 04/12 |
 
 ### 3.2 Việc hỗ trợ (mở khoá User Story)
 
 | Mã | Việc | Skill | Đầu ra | Mở khoá | Phụ trách | Hạn |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| P1 | PO điền cột "Quyết định" Q1 – Q16 và D2, D4, D7, D8; cập nhật `data-analysis.md` mục 8, 13 | `product-requirements` (4.2) | `po-decision-proposals.md`, `data-analysis.md`, `06-journey-features.md` | US02, US03, US07 bước 3; US05, US06 bước 2 | Hoan (PO), PA | 24/11 |
+| P1 | PO điền cột "Quyết định" Q1 – Q19 (Q6 đã chốt ở ADR-02) và D2, D4, D7, D8; duyệt US19, US20; cập nhật `data-analysis.md` mục 8, 13 | `product-requirements` (4.2), `product-discovery` | `po-decision-proposals.md`, `data-analysis.md`, `06-journey-features.md` | US02, US03, US07, US19 bước 3; US05, US06 bước 2 | Hoan (PO), PA | **27/11** (trễ từ 24/11) |
 | S1 | Cặp UI/UX duyệt đặc tả, đặt `Xong` | `design-system` (4.4a) | `docs/design/screens/*.md` | Bước 3 của US01, US02, US03, US07 | Vy, Hưng | 24/11 |
 | S3 | Test A3 với 5 SV bằng `home.html` / prototype Figma | `user-research` | `docs/evidence/prototype-tests/A3-<yyyy-mm-dd>.md`, `05-vision.md` (A3) | US03 bước 3 | Thương, Kiệt | 25/11 |
-| K1 – K4 | Hỏi năng lực 8 Developer → ADR-01 nền tảng → ADR-02 lưu trữ (tiêu chí từ `data-analysis.md` mục 11) → `technical-design.md` | `tech-decision` | `docs/architecture/ADR-01-app-platform.md`, `ADR-02-local-storage.md`, `technical-design.md` | Bước 4 của **mọi** story | Phát, Nghĩa, Bình Minh, Tiến | 25/11 |
+| K1 – K4 | Hỏi năng lực 8 Developer → ADR-01 nền tảng → ADR-02 lưu trữ (tiêu chí từ `data-analysis.md` mục 11) → `technical-design.md` | `tech-decision` | `docs/architecture/ADR-01-app-platform.md`, `ADR-02-local-storage.md`, `technical-design.md` | Bước 4 của **mọi** story | Phát, Nghĩa, Bình Minh, Tiến | ADR-01, ADR-02 **Xong 26/11**; `technical-design.md` bản đầu 26/11, duyệt 27/11; K1 (hỏi nhanh) **chưa làm** |
 | D1, D2 | Đưa file khảo sát lên repo, đếm lại 2 tỷ lệ | `user-research` | `docs/evidence/survey/`, `00-research-log.md` | Mục "Bối cảnh" của PRD | Thương, Kiệt | 26/11 |
-| K5 | Chọn cách phát hành bản dùng thử | `tech-decision` | `ADR-03-trial-distribution.md` | B1, D5 | Phát, Nghĩa | 27/11 |
-| K6 | Chọn cách làm thông báo 21:00 | `tech-decision` | `ADR-04-reminder-notifications.md` | US05 bước 2 | Phát, Nghĩa | 01/12 |
-| D5 | Tuyển 20 SV (tối thiểu 5), hướng dẫn cài | `user-research` | `docs/evidence/trial/recruitment.md` (không ghi tên, SĐT) | Dùng thử 04/12 | Thương, Kiệt | 01/12 |
+| K5 | Chọn cách phát hành bản dùng thử | `tech-decision` | `ADR-03-trial-distribution.md` (`Đề xuất` 26/11: EAS Build APK) | B1, D5 | Phát, Nghĩa | Duyệt 27/11; build và thử cài đè trước 01/12 |
+| K6 | Chọn cách làm thông báo 21:00 | `tech-decision` | `ADR-04-reminder-notifications.md` (`Đề xuất` 26/11: lịch cuộn 7 ngày) | US05 bước 2 | Phát, Nghĩa | Duyệt trước 01/12; đo giờ nhắc trên 2 máy trước 04/12 |
+| D5 | Tuyển 20 SV **dùng Android** (tối thiểu 5), hướng dẫn cài APK 3 bước (`technical-design.md` mục 5) | `user-research` | `docs/evidence/trial/recruitment.md` (không ghi tên, SĐT) | Dùng thử 04/12 | Thương, Kiệt | 01/12 |
 | B1 | Đóng gói bản dùng thử | `frontend-ui` | Bản build + mục 5 `technical-design.md` | Dùng thử 04/12 | Phát, Nghĩa | 03/12 |
 | T1 | Sprint 1 Review, Sprint 2 Planning | `scrum-sprint` (4.2) | `docs/sprints/sprint-1-review.md`, `sprint-2-planning.md` | — | Tân (SM) | 24/11 |
 
@@ -85,12 +130,13 @@ Mỗi bước có skill và file đầu ra – bảng này cũng là câu trả 
 
 | Story | SP | Dữ liệu | Đặc tả màn hình | PRD duyệt | Spec + plan | Code + PR | Người code · review |
 | :--- | :-: | :--- | :--- | :--- | :--- | :--- | :--- |
-| **US04** Báo cáo theo danh mục | 5 | Xong | Sprint 2 | Sprint 2 (03/12) | 04/12 | 08/12 | Phát, Nghĩa · Vy, Hưng |
-| **US06** Sửa/xoá giao dịch | 3 | Xong (chờ Q6, Q7, Q15) | Sprint 2 | Sprint 2 (03/12) | 04/12 | 08/12 | Bình Minh, Tiến · Nghĩa |
-| **US05** Nhắc 21:00 | 3 | Xong (chờ Q5, Q8, Q16) | Sprint 2 | Sprint 2 (03/12) | 05/12 | 09/12 | Phát, Nghĩa · Bình Minh |
+| **US05** Nhắc 21:00 | 3 | Xong (chờ Q5, Q8, Q16; ADR-04) | Sprint 2 | Sprint 2 (03/12) | 04/12 | 06/12 | Phát, Nghĩa · Bình Minh |
+| **US06** Sửa/xoá giao dịch | 3 | Xong (Q6 đã chốt; chờ Q7, Q15) | Sprint 2 | Sprint 2 (03/12) | 04/12 | 07/12 | Bình Minh, Tiến · Nghĩa |
+| **US04** Báo cáo theo danh mục | 5 | Xong | Sprint 2 | Sprint 2 (03/12) | 05/12 | 09/12 | Phát, Nghĩa · Vy, Hưng |
+| **US20** Quyền riêng tư, xoá dữ liệu (nếu kịp, chờ PO duyệt) | 2 | Xong (BR-129) | 03/12 | 04/12 | 06/12 | 10/12 | Thương, Kiệt · Vy |
 | **US08** Xem lịch sử (nếu kịp) | 2 | Xong | 03/12 | 04/12 | 05/12 | 10/12 | Tiến · Phát |
 
-**Story Point cam kết:** 11 (13 nếu làm US08). PO có thể đẩy US05 lên trước US04 nếu muốn nhắc nhở có tác dụng trong tuần dùng thử (`05-vision.md`, ghi chú A4).
+**Story Point cam kết:** 11 (15 nếu làm US20, US08). **Thứ tự đề xuất 26/11:** US05 trước để nhắc nhở có tác dụng ngay trong tuần dùng thử (`05-vision.md`, A4), rồi US06 (người dùng thử cần sửa khoản nhập nhầm), rồi US04. 11/12 – 12/12 dành cho demo, không nhận story mới.
 
 ### 4.2 Việc hỗ trợ
 
@@ -110,12 +156,14 @@ Mỗi bước có skill và file đầu ra – bảng này cũng là câu trả 
 | 1 | US01 Ghi khoản chi | 2 | ADR-01, ADR-02 | Tạo `Transaction` (E01) và lớp lưu trữ mà mọi story sau dùng (`data-analysis.md` mục 11: US01 là story đầu tiên **tạo** E01; US07 tạo E01 loại `INCOME` trên cùng lớp lưu trữ) |
 | 2 | US02 Ngân sách tháng | 2 | US01 | Tạo E02; không có ngân sách thì không tính được hạn mức ngày |
 | 3 | US03 Hôm nay còn được tiêu | 2 | US01, US02, A3 | Chỉ **đọc** E01 + E02; cách hiển thị phụ thuộc kết quả A3 |
+| 3a | US19 Thông tin dùng thử *(đề xuất 26/11)* | 2 | US01 | Đọc E05 `firstOpenDate` và E01; phải có trong bản dùng thử để đo A4 |
 | 4 | US07 Ghi khoản thu | 2 | US01, US03 | Dùng lại màn hình nhập của US01, cộng vào công thức của US03 (BR-21) |
 | — | Bản dùng thử | 2 (03/12) | US01, US02, US03, US07 | Dùng thử 7 ngày phải bắt đầu 04/12 |
-| 5 | US04 Báo cáo theo danh mục | 3 | US01, `DonutChart` | Must – xếp trước 2 story Should |
-| 6 | US06 Sửa/xoá giao dịch | 3 | US01, US03 (TC16) | Should; sửa/xoá đổi E01 nên phải có US03 để kiểm hạn mức tính lại (EC-04) |
-| 7 | US05 Nhắc 21:00 | 3 | ADR-04 | Should, ghi E04 (cài đặt) và chỉ đọc E01 để biết hôm nay đã ghi chưa – ít phụ thuộc story khác |
-| 8 | US08 Xem lịch sử | 3 – nếu kịp | US01 | Should, chỉ đọc E01, E03 |
+| 5 | US05 Nhắc 21:00 | 3 | ADR-04 | Should; **đổi lên trước 26/11** để nhắc có tác dụng trong tuần dùng thử (A4); ghi E04, chỉ đọc E01 – ít phụ thuộc story khác |
+| 6 | US06 Sửa/xoá giao dịch | 3 | US01, US03 (TC16) | Should; người dùng thử cần sửa khoản nhập nhầm; phải có US03 để kiểm hạn mức tính lại (EC-04) |
+| 7 | US04 Báo cáo theo danh mục | 3 | US01, `DonutChart` | Must nhưng không ảnh hưởng A4 – làm sau 2 story dùng trong tuần dùng thử |
+| 8 | US20 Quyền riêng tư, xoá dữ liệu *(đề xuất 26/11)* | 3 – nếu kịp | US01 | Could; xoá toàn bộ cần transaction (BR-129, ADR-02) |
+| 9 | US08 Xem lịch sử | 3 – nếu kịp | US01 | Should, chỉ đọc E01, E03 |
 
 ---
 
@@ -123,11 +171,12 @@ Mỗi bước có skill và file đầu ra – bảng này cũng là câu trả 
 
 | Mã | Rủi ro | Dấu hiệu | Cách xử lý (PO/SM quyết) |
 | :--- | :--- | :--- | :--- |
-| R1 | ADR-01, ADR-02 trễ → không story nào vào được bước 4 | 25/11 chưa có ADR `Đã chấp nhận` | Họp 30 phút với 4 Developer chốt ngay; ADR ghi `Đề xuất` vẫn cho viết spec, plan chỉ duyệt khi ADR chấp nhận |
+| R1 | ADR-01, ADR-02 trễ → không story nào vào được bước 4 | 25/11 chưa có ADR `Đã chấp nhận` | **Đã xảy ra, đã xử lý 26/11**: ADR-01, ADR-02 chấp nhận; còn `technical-design.md` duyệt 27/11 |
 | R2 | PO chưa chốt Q1 – Q16 → PRD US02, US03, US07 trễ | 24/11 cột "Quyết định" còn trống | PRD viết trước với phương án đề xuất, ghi vào "Câu hỏi mở"; PO duyệt PRD là duyệt luôn câu trả lời |
 | R3 | Không tìm lại được file khảo sát gốc | D1 trễ | Ghi `Cần bổ sung` cạnh 6 con số khảo sát; không dùng 2 tỷ lệ chưa kiểm lại trong PRD và slide |
 | R4 | A3 không đạt (< 4/5 hiểu) | Kết quả S3 | Sửa nhãn/cách hiển thị trong `HomeScreen.md` trước khi viết PRD US03 |
-| R5 | Bản dùng thử trễ 03/12 | US03 chưa xong ngày 01/12 | Phát bản có US01 + US02 trước, cập nhật sau; ghi ngày cập nhật |
+| R5 | Bản dùng thử trễ 03/12 | US03 chưa xong ngày 01/12 | Theo đường cắt mục 3.1: giữ US01, US02, US03, US19, cắt US07; ghi ngày cập nhật |
+| R6 | Cập nhật bản dùng thử làm mất dữ liệu người dùng thử | Bản build khác khoá ký, hoặc đổi bảng SQLite không có migration | Một tài khoản Expo, một khoá ký (ADR-03); thử cài đè trước mỗi lần phát; mỗi thay đổi bảng có migration (`technical-design.md` mục 3) |
 
 ---
 
@@ -156,6 +205,16 @@ Dùng skill product-requirements mục 4.3. Viết PRD cho US<xx> từ docs/disc
 docs/requirements/data-analysis.md (dòng US<xx> mục 11, BR mục 8, ERR mục 12, EC mục 14)
 và docs/design/screens/<ScreenName>.md. Trạng thái "Chờ duyệt". Thêm dòng vào docs/requirements/README.md.
 Điều gì chưa rõ thì ghi vào mục "Câu hỏi mở", không tự đoán.
+```
+
+**Bước 4–6 – Code story kế tiếp (dùng lại cho mọi story)**
+```
+Dùng skill frontend-ui. Mở docs/plans/00-master-plan.md mục 2a, lấy dòng đầu tiên có Trạng thái khác "Done".
+Kiểm từng cổng của dòng đó bằng cách mở đúng file; thiếu cổng nào thì DỪNG và báo, không code.
+Đủ cổng: tạo nhánh ở cột "Nhánh", đọc các file ở cột "Đọc trước". Đã có plan trong docs/plans/ (cột "Plan" của
+docs/requirements/README.md) → soát plan với PRD đã duyệt rồi executing-plans; chưa có → brainstorming → writing-plans
+(phần đầu plan và Global Constraints theo AGENTS.md mục 3) → executing-plans. Xong → verify-change, mở Pull Request.
+Cập nhật cột Trạng thái của dòng đó và cột "Plan" trong docs/requirements/README.md.
 ```
 
 **Bước 4 – Spec và plan (chưa code)**
