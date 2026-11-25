@@ -1,6 +1,6 @@
 # 04. Thị trường & Đối thủ
 
-> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Trạng thái:** Xong (cần bổ sung ảnh chụp bằng chứng) · **Phụ trách:** Dương Văn Hoan (PO) **[+ người thu thập số liệu]** · **Cập nhật:** 14/11/2026
+> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Skill:** product-discovery (mục 4) · **Trạng thái:** Xong (cần bổ sung ảnh chụp bằng chứng) · **Phụ trách:** Dương Văn Hoan (PO) **[+ người thu thập số liệu]** · **Cập nhật:** 14/11/2026
 
 ## 1. So sánh các giải pháp hiện có
 

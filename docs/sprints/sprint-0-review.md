@@ -1,7 +1,7 @@
 # Sprint 0 – Research & Discovery (07/11 – 14/11/2026)
 
 > **Sprint Goal:** Hiểu rõ vấn đề và người dùng bằng dữ liệu thật, chốt Product Backlog và bộ Skill AI để bắt đầu Sprint 1.
-> **Trạng thái:** Xong (còn mục Cần bổ sung, chuyển sang Sprint 1) · **Người viết báo cáo:** Trần Ninh Nhật Tân (SM) · **Cập nhật:** 14/11/2026
+> **Skill:** scrum-sprint (mục 4.2) · **Trạng thái:** Xong (còn mục Cần bổ sung, chuyển sang Sprint 1) · **Người viết báo cáo:** Trần Ninh Nhật Tân (SM) · **Cập nhật:** 14/11/2026
 
 ## 1. Tuần này nhóm làm được gì
 

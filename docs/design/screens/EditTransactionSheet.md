@@ -1,6 +1,6 @@
 # Màn hình `EditTransactionSheet`
 
-> **Giai đoạn:** 2 – Design System & Prototype · **Trạng thái:** Đang làm – chờ cặp UI/UX duyệt và PO trả lời Q6, Q7, Q15 · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Cập nhật:** 20/11/2026
+> **Giai đoạn:** 2 – Design System & Prototype · **Skill:** design-system (mục 4.4a) · **Trạng thái:** Đang làm – chờ cặp UI/UX duyệt và PO trả lời Q6, Q7, Q15 · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Cập nhật:** 20/11/2026
 
 - **User Story:** US06
 - **Sprint:** 3

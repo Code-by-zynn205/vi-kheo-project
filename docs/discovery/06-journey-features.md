@@ -1,6 +1,6 @@
 # 06. Customer Journey, HMW, Generate Features & Product Backlog
 
-> **Giai đoạn:** GĐ1 – Discovery (Sprint 0), PO cập nhật Backlog đầu mỗi Sprint · **Trạng thái:** Đang làm – đã làm rõ Backlog 20/11, chờ PO duyệt mục 3.1, 4.2 và câu hỏi Q1–Q8 · **Phụ trách:** Dương Văn Hoan (PO) + cả nhóm · **Cập nhật:** 20/11/2026
+> **Giai đoạn:** GĐ1 – Discovery (Sprint 0), PO cập nhật Backlog đầu mỗi Sprint · **Skill:** product-discovery (mục 4) · **Trạng thái:** Đang làm – đã làm rõ Backlog 20/11, chờ PO duyệt mục 3.1, 4.2 và câu hỏi Q1–Q8 · **Phụ trách:** Dương Văn Hoan (PO) + cả nhóm · **Cập nhật:** 20/11/2026
 
 Chuỗi trong file này: **Hành trình → Điểm đau → HMW → Generate Features → MoSCoW → User Story + tiêu chí chấp nhận.**
 

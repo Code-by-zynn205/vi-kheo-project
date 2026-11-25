@@ -1,6 +1,6 @@
 # 02. Problem Statement & Bằng chứng
 
-> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Trạng thái:** Xong (còn mục Cần bổ sung) · **Phụ trách:** Dương Văn Hoan (PO), Nguyễn Thị Thương, Nguyễn Tuấn Kiệt · **Cập nhật:** 14/11/2026
+> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Skill:** product-discovery (mục 4) · **Trạng thái:** Xong (còn mục Cần bổ sung) · **Phụ trách:** Dương Văn Hoan (PO), Nguyễn Thị Thương, Nguyễn Tuấn Kiệt · **Cập nhật:** 14/11/2026
 
 ## 1. Problem Statement
 

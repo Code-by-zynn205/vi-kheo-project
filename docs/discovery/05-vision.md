@@ -1,6 +1,6 @@
 # 05. Product Vision Board & Giả định cần Kiểm chứng
 
-> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Trạng thái:** Xong · **Phụ trách:** Dương Văn Hoan (PO) · **Cập nhật:** 14/11/2026
+> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Skill:** product-discovery (mục 4) · **Trạng thái:** Xong · **Phụ trách:** Dương Văn Hoan (PO) · **Cập nhật:** 14/11/2026
 
 ## 1. Product Vision Board (khung Roman Pichler)
 

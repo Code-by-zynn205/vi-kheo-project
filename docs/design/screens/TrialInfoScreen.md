@@ -1,6 +1,6 @@
 # Màn hình `TrialInfoScreen`
 
-> **Giai đoạn:** 2 – Design System & Prototype · **Trạng thái:** Đang làm – chờ cặp UI/UX duyệt · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Cập nhật:** 21/11/2026
+> **Giai đoạn:** 2 – Design System & Prototype · **Skill:** design-system (mục 4.4a) · **Trạng thái:** Đang làm – chờ cặp UI/UX duyệt · **Phụ trách:** Lê Thị Nhật Vy, Phạm Viết Hưng · **Cập nhật:** 21/11/2026
 
 - **User Story:** Không có User Story – công cụ đo giả định A4 trong buổi dùng thử (Q4, BR-126)
 - **Sprint:** 3 – trước buổi dùng thử 04/12/2026

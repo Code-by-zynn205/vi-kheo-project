@@ -1,6 +1,6 @@
 # 03. Persona – Chân dung Người dùng
 
-> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Trạng thái:** Đang làm (chờ thay trích dẫn thật) · **Phụ trách:** Nguyễn Thị Thương, Nguyễn Tuấn Kiệt · **Cập nhật:** 14/11/2026
+> **Giai đoạn:** GĐ1 – Discovery (Sprint 0) · **Skill:** product-discovery (mục 4) · **Trạng thái:** Đang làm (chờ thay trích dẫn thật) · **Phụ trách:** Nguyễn Thị Thương, Nguyễn Tuấn Kiệt · **Cập nhật:** 14/11/2026
 
 Persona là **nhân vật đại diện** do nhóm xây dựng từ khảo sát (n = 50) và các buổi phỏng vấn, **không phải một người cụ thể**. Khi ra quyết định tính năng, cả nhóm hỏi: *"Persona Minh có cần cái này không?"*
 

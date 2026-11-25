@@ -1,6 +1,6 @@
 # Phân tích và thiết kế dữ liệu – Ví Khéo
 
-> **Giai đoạn:** 3 – Product Requirements · **Trạng thái:** Đang làm – chờ PO chốt mục 13 · **Phụ trách:** Nguyễn Thị Bình Minh, Nguyễn Diên Tiến (cặp dữ liệu), PA · **Duyệt:** Dương Văn Hoan (PO) · **Cập nhật:** 20/11/2026
+> **Giai đoạn:** 3 – Product Requirements · **Skill:** product-requirements (mục 4.1) · **Trạng thái:** Đang làm – chờ PO chốt mục 13 · **Phụ trách:** Nguyễn Thị Bình Minh, Nguyễn Diên Tiến (cặp dữ liệu), PA · **Duyệt:** Dương Văn Hoan (PO) · **Cập nhật:** 20/11/2026
 
 ## Mục lục
 
