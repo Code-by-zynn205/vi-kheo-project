@@ -37,7 +37,7 @@ description: Chọn công nghệ và viết tài liệu thiết kế kỹ thuậ
 ### 4.1 Viết một ADR (Architecture Decision Record)
 
 1. **Nêu câu hỏi cần quyết định** trong 1 câu, ví dụ "App chạy trên nền tảng nào?". Mỗi ADR chỉ một câu hỏi.
-2. **Liệt kê 2–4 phương án** thật sự khả thi. Không đưa phương án chỉ để làm nền. Với ADR-01 (nền tảng app), nhóm đã nêu sẵn 3 ứng viên ở Sprint 0 – đây là `[NHẬN ĐỊNH]`, phải kiểm chứng ở bước 5:
+2. **Liệt kê 2–4 phương án** thật sự khả thi. Không đưa phương án chỉ để làm nền. Với ADR-01 (nền tảng app), nhóm đã nêu sẵn 3 ứng viên ở Sprint 0 – đây là `[NHẬN ĐỊNH]`, phải kiểm chứng ở bước 5 (đã quyết: React Native (Expo), ADR-01 ngày 26/11/2026):
 
    | Ứng viên | Nhóm kỳ vọng được | Nhóm lo ngại |
    | :--- | :--- | :--- |
@@ -58,7 +58,7 @@ description: Chọn công nghệ và viết tài liệu thiết kế kỹ thuậ
 
 | Mã | Tiêu chí | Vì sao |
 | :--- | :--- | :--- |
-| A1 | Chạy trên điện thoại thật của sinh viên, cả Android và iPhone | Definition of Done: chạy trên điện thoại thật |
+| A1 | Chạy trên điện thoại thật của sinh viên. **MVP: Android** (nhóm chốt 26/11/2026, ADR-01); iPhone xét lại sau MVP | Definition of Done: chạy trên điện thoại thật; cài app lên iPhone người khác cần Apple Developer Program trả phí (ADR-01 mục 4) |
 | A2 | Lưu dữ liệu trên máy, dùng được khi tắt mạng, không cần đăng nhập | Phạm vi MVP, `budget-logic` mục 4.1 |
 | A3 | Có bản cho ≥ 5 sinh viên dùng thử trước 03/12 mà không cần lên App Store / Google Play | Lịch dùng thử 7 ngày 04/12 – 10/12 |
 | A4 | Miễn phí cho nhóm (công cụ, dịch vụ, tài khoản) | Dự án môn học |
