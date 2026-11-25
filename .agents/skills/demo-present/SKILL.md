@@ -1,6 +1,6 @@
 ---
 name: demo-present
-description: Chuẩn bị trình bày sản phẩm hoàn chỉnh của Ví Khéo cuối kỳ – kịch bản demo trên điện thoại thật, đối chiếu kết quả với giả định và mục tiêu, dàn ý slide Canva, báo cáo tổng kết. Dùng khi chuẩn bị buổi demo MVP, viết báo cáo tổng kết, làm dàn ý slide báo cáo với giảng viên, hoặc tổng hợp kết quả dùng thử 7 ngày.
+description: Chuẩn bị trình bày sản phẩm hoàn chỉnh của Ví Khéo cuối kỳ – kịch bản demo trên điện thoại thật, đối chiếu kết quả với giả định và mục tiêu, dàn ý slide Canva, báo cáo tổng kết. Dùng khi chuẩn bị buổi demo MVP, viết báo cáo tổng kết, làm dàn ý slide báo cáo với giảng viên, lập bản đồ skill nào làm ra file nào, hoặc tổng hợp kết quả dùng thử 7 ngày.
 ---
 
 # Skill: Present Full Product – Ví Khéo
@@ -16,7 +16,7 @@ description: Chuẩn bị trình bày sản phẩm hoàn chỉnh của Ví Khéo
 
 ## 2. Khi nào dùng / không dùng
 
-**Dùng khi:** chuẩn bị buổi demo cuối kỳ · viết báo cáo tổng kết · làm dàn ý slide · tổng hợp kết quả dùng thử.
+**Dùng khi:** chuẩn bị buổi demo cuối kỳ · giảng viên hỏi nhóm dùng skill nào cho việc gì · viết báo cáo tổng kết · làm dàn ý slide · tổng hợp kết quả dùng thử.
 
 **Không dùng khi:** báo cáo hằng Sprint (→ `scrum-sprint`) · xử lý số liệu dùng thử thô (→ `user-research`, rồi quay lại đây).
 
@@ -35,7 +35,8 @@ description: Chuẩn bị trình bày sản phẩm hoàn chỉnh của Ví Khéo
 3. **Chuẩn bị dữ liệu demo:** một bộ giao dịch mẫu cố định (ghi trong kịch bản), không dùng dữ liệu cá nhân của ai.
 4. **Đối chiếu kết quả** từ `templates/final-report.md`: giả định A1–A4 đạt/chưa đạt, mục tiêu dự án, số liệu có nhãn nguồn.
 5. **Dàn ý slide Canva:** mỗi slide 1 ý, theo thứ tự 5 giai đoạn (Discovery → Design → Requirements → Code → Kết quả). Số trên slide phải khớp báo cáo tổng kết.
-6. **Phương án dự phòng:** quay video màn hình demo trước 1 ngày phòng khi điện thoại hoặc mạng lỗi.
+6. **Bản đồ skill** `docs/present/skill-usage-map.md` từ `templates/skill-usage-map.md`: mỗi file đầu ra → skill (mục) → mẫu → commit/PR, lấy từ dòng `**Skill:**` của file và `git log --grep "Skill:"`. Cập nhật cuối mỗi Sprint; mở trang này khi giảng viên hỏi "dùng skill nào".
+7. **Phương án dự phòng:** quay video màn hình demo trước 1 ngày phòng khi điện thoại hoặc mạng lỗi.
 
 ## 5. Đầu ra
 
@@ -43,6 +44,7 @@ description: Chuẩn bị trình bày sản phẩm hoàn chỉnh của Ví Khéo
 | :--- | :--- | :--- |
 | `docs/present/demo-script.md` | `templates/demo-script.md` | PO |
 | `docs/present/final-report.md` | `templates/final-report.md` | PO |
+| `docs/present/skill-usage-map.md` | `templates/skill-usage-map.md` | PO |
 | Slide Canva (link ghi trong `final-report.md`) | dàn ý trong `final-report.md` mục 6 | PO |
 
 ## 6. Khi viết plan

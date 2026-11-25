@@ -1,6 +1,6 @@
 # <số>. <Tên tài liệu>
 
-> **Giai đoạn:** 1 – Research & Discovery · **Trạng thái:** Đang làm · **Phụ trách:** <tên> · **Cập nhật:** <dd/mm/yyyy>
+> **Giai đoạn:** 1 – Research & Discovery · **Skill:** product-discovery (mục 4) · **Trạng thái:** Đang làm · **Phụ trách:** <tên> · **Cập nhật:** <dd/mm/yyyy>
 
 ## 1. <Mục chính>
 

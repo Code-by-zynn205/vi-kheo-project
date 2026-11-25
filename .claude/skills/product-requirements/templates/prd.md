@@ -1,6 +1,6 @@
 # PRD – US<xx>: <tên ngắn>
 
-> **Giai đoạn:** 3 – Product Requirements · **Trạng thái:** Nháp | Chờ duyệt | Đã duyệt · **Phụ trách:** <PA> · **Duyệt:** <PO, ngày> · **Cập nhật:** <dd/mm/yyyy>
+> **Giai đoạn:** 3 – Product Requirements · **Skill:** product-requirements (mục 4.3) · **Trạng thái:** Nháp | Chờ duyệt | Đã duyệt · **Phụ trách:** <PA> · **Duyệt:** <PO, ngày> · **Cập nhật:** <dd/mm/yyyy>
 
 | Mục | Giá trị |
 | :--- | :--- |
@@ -9,6 +9,7 @@
 | Ưu tiên · Story Point · Sprint | <Must> · <3> · <Sprint x> |
 | Màn hình | `docs/design/screens/<ScreenName>.md` |
 | Phụ thuộc | <US khác phải xong trước, hoặc "Không"> |
+| Dữ liệu | `docs/requirements/data-analysis.md` – mục 11 dòng US<xx>; BR <...>; EC <...> |
 
 ## 1. Bối cảnh
 
@@ -23,20 +24,22 @@
 
 ## 3. Dữ liệu
 
-<!-- Trường dữ liệu được đọc/ghi, dẫn tới budget-logic mục 4.1. Không định nghĩa kiểu dữ liệu mới ở đây. -->
+<!-- Chép dòng của story từ data-analysis.md mục 11 (C tạo · R đọc · U sửa · D xoá). Dẫn mã thực thể, không định nghĩa trường mới ở đây. -->
 
-| Dữ liệu | Đọc / Ghi | Theo |
-| :--- | :--- | :--- |
-| `Transaction` | Ghi | `budget-logic` mục 4.1 |
+| Thực thể | Đọc / Ghi | Trường dùng | Theo |
+| :--- | :--- | :--- | :--- |
+| E01 `Transaction` | C R | <...> | `data-analysis.md` mục 4 · `budget-logic` mục 4.1 |
+
+**Quy tắc nghiệp vụ áp dụng:** BR-<xx>, BR-<yy> (`data-analysis.md` mục 8)
 
 ## 4. Tiêu chí chấp nhận (AC)
 
-<!-- Given/When/Then. Mỗi AC đo được. Có AC cho trạng thái trống, lỗi, giới hạn. -->
+<!-- Given/When/Then. Mỗi AC đo được. Có AC cho trạng thái trống, lỗi, giới hạn. Cột Nguồn: AC gốc trong 06, hoặc BR-xx / ERR_… / EC-xx trong data-analysis.md. -->
 
-| Mã | Cho trước (Given) | Khi (When) | Thì (Then) | Kiểm bằng |
-| :--- | :--- | :--- | :--- | :--- |
-| AC1 | <...> | <...> | <...> | <Unit test / Điện thoại> |
-| AC2 | <...> | <...> | <...> | |
+| Mã | Cho trước (Given) | Khi (When) | Thì (Then) | Kiểm bằng | Nguồn |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| AC1 | <...> | <...> | <...> | <Unit test / Điện thoại> | <06 AC1 / BR-xx / EC-xx> |
+| AC2 | <...> | <...> | <...> | | |
 
 ## 5. Test case
 

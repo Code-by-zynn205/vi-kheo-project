@@ -50,9 +50,10 @@ Mục này được chép **nguyên văn** vào phần *Global Constraints* củ
 - Dòng thứ hai là dòng trạng thái:
 
 ```markdown
-> **Giai đoạn:** <số – tên> · **Trạng thái:** Chưa làm | Đang làm | Xong | Cần bổ sung · **Phụ trách:** <tên> · **Cập nhật:** <dd/mm/yyyy>
+> **Giai đoạn:** <số – tên> · **Skill:** <tên skill> (mục <x>) · **Trạng thái:** Chưa làm | Đang làm | Xong | Cần bổ sung · **Phụ trách:** <tên> · **Cập nhật:** <dd/mm/yyyy>
 ```
 
+- `**Skill:**` ghi skill và mục trong `SKILL.md` đã sinh ra file – đây là bằng chứng "việc này dùng skill nào". Script `sync-skills.sh` báo lỗi nếu mẫu hoặc file trong `docs/` có dòng trạng thái mà thiếu `**Skill:**`.
 - Mỗi mục có 1 dòng hướng dẫn trong `<!-- ... -->` để AI biết cần điền gì; xoá dòng này khi điền xong.
 
 ## 5. Danh sách skill hiện có
@@ -62,7 +63,7 @@ Mục này được chép **nguyên văn** vào phần *Global Constraints* củ
 | 1 | Research & Discovery | `user-research` | Nguyễn Thị Thương, Nguyễn Tuấn Kiệt | Dương Văn Hoan (PO) |
 | 1 | Research & Discovery | `product-discovery` | Dương Văn Hoan (PO) | Trần Ninh Nhật Tân (SM) |
 | 2 | Design System & Prototype | `design-system` | Lê Thị Nhật Vy, Phạm Viết Hưng | Lê Thị Phát, Nguyễn Đức Minh Nghĩa |
-| 3 | Product Requirements | `product-requirements` | PA (Product Analyst) – `Cần bổ sung` tên | Dương Văn Hoan (PO) |
+| 3 | Product Requirements | `product-requirements` | PA (Product Analyst) – `Cần bổ sung` tên; phân tích dữ liệu: Nguyễn Thị Bình Minh, Nguyễn Diên Tiến | Dương Văn Hoan (PO) |
 | 4 | Vibe Code (chuẩn bị) | `tech-decision` | Lê Thị Phát, Nguyễn Đức Minh Nghĩa, Nguyễn Thị Bình Minh, Nguyễn Diên Tiến | 8 Developers tại Sprint Planning, SM ghi nhận |
 | 4 | Vibe Code | `frontend-ui` | Lê Thị Phát, Nguyễn Đức Minh Nghĩa | Lê Thị Nhật Vy, Phạm Viết Hưng |
 | 4 | Vibe Code | `budget-logic` | Nguyễn Thị Bình Minh, Nguyễn Diên Tiến | Nguyễn Đức Minh Nghĩa |

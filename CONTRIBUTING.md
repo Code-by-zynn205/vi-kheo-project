@@ -25,6 +25,17 @@ feat(US01): màn hình AddExpenseScreen với bàn phím số
 fix(budget-logic): làm tròn xuống 1.000đ cho hạn mức ngày
 ```
 
+Thân commit ghi skill đã dùng (một dòng, để `git log --grep "Skill:"` tìm được) và agent nếu có dùng AI:
+
+```
+docs(US01): PRD ghi khoản chi
+
+- Viết AC từ BR-10, BR-11, EC-09, EC-11 của data-analysis.md
+
+Skill: product-requirements
+Agent: Claude Code
+```
+
 ## 3. Pull Request
 
 1. Tiêu đề ghi rõ User Story hoặc tài liệu liên quan.

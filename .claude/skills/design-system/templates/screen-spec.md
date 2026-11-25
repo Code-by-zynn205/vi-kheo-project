@@ -1,6 +1,6 @@
 # Màn hình `<ScreenName>`
 
-> **Giai đoạn:** 2 – Design System & Prototype · **Trạng thái:** Đang làm · **Phụ trách:** <tên> · **Cập nhật:** <dd/mm/yyyy>
+> **Giai đoạn:** 2 – Design System & Prototype · **Skill:** design-system (mục 4.4a) · **Trạng thái:** Đang làm · **Phụ trách:** <tên> · **Cập nhật:** <dd/mm/yyyy>
 
 - **User Story:** <US01, US07>
 - **Sprint:** <số>

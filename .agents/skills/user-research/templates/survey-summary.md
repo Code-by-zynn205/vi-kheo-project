@@ -1,6 +1,6 @@
 # Kết quả khảo sát – <tên đợt khảo sát>
 
-> **Giai đoạn:** 1 – Research & Discovery · **Trạng thái:** Đang làm · **Phụ trách:** <tên> · **Cập nhật:** <dd/mm/yyyy>
+> **Giai đoạn:** 1 – Research & Discovery · **Skill:** user-research (mục 4) · **Trạng thái:** Đang làm · **Phụ trách:** <tên> · **Cập nhật:** <dd/mm/yyyy>
 
 ## 1. Thông tin chung
 

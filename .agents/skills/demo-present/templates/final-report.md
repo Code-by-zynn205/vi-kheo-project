@@ -1,6 +1,6 @@
 # Báo cáo tổng kết – Ví Khéo
 
-> **Giai đoạn:** 5 – Present full product · **Trạng thái:** Đang làm · **Phụ trách:** <tên> · **Cập nhật:** <dd/mm/yyyy>
+> **Giai đoạn:** 5 – Present full product · **Skill:** demo-present (mục 4) · **Trạng thái:** Đang làm · **Phụ trách:** <tên> · **Cập nhật:** <dd/mm/yyyy>
 
 ## 1. Sản phẩm trong một câu
 

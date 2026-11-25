@@ -1,6 +1,6 @@
 # Thiết kế kỹ thuật – Ví Khéo
 
-> **Giai đoạn:** 4 – Vibe Code (chuẩn bị) · **Trạng thái:** Đang làm · **Phụ trách:** <tên> · **Cập nhật:** <dd/mm/yyyy>
+> **Giai đoạn:** 4 – Vibe Code (chuẩn bị) · **Skill:** tech-decision (mục 4.3) · **Trạng thái:** Đang làm · **Phụ trách:** <tên> · **Cập nhật:** <dd/mm/yyyy>
 
 File này là nơi duy nhất ghi công nghệ, cấu trúc thư mục và lệnh của dự án. `writing-plans` lấy mục 1 làm **Tech Stack**, mục 2 làm đường dẫn file, mục 4 làm lệnh kiểm tra.
 

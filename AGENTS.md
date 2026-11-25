@@ -23,13 +23,19 @@ Dự án đi theo 5 giai đoạn trong bảng đánh giá của giảng viên. M
 | # | Giai đoạn | Skill của nhóm | Skill hỗ trợ | Đầu ra (file .md) |
 | :-: | :--- | :--- | :--- | :--- |
 | 1 | Research & Discovery | `user-research`, `product-discovery` | — | `docs/discovery/`, `docs/evidence/` |
-| 2 | Design System & Prototype | `design-system` | `frontend-design`, `ui-ux-pro-max` | Frame Figma + `docs/design/screens/<ScreenName>.md`, prototype Figma hoặc `docs/design/prototype/*.html` |
-| 3 | Product Requirements (PRD, User Story) | `product-requirements` | — | `docs/requirements/USxx-<english-slug>.md` |
+| 2 | Design System & Prototype | `design-system` | `frontend-design`, `ui-ux-pro-max` | `docs/design/screen-inventory.md`, `figma-plan.md`, `figma-gap-report.md`, frame Figma + `docs/design/screens/<ScreenName>.md`, prototype Figma hoặc `docs/design/prototype/*.html` |
+| 3 | Product Requirements (phân tích dữ liệu, PRD, User Story) | `product-requirements` | — | `docs/requirements/data-analysis.md` (nguồn để tách và viết User Story), `po-decision-proposals.md`, `docs/requirements/USxx-<english-slug>.md` |
 | 4 | Vibe Code | `tech-decision` (một lần, trước US đầu tiên), `frontend-ui`, `budget-logic` | superpowers (mục 3) | `docs/architecture/ADR-xx-*.md`, `docs/architecture/technical-design.md`, `docs/plans/specs/…-design.md`, `docs/plans/…md`, code trong `src/` |
-| 5 | Present full product | `demo-present` | — | `docs/present/` |
-| — | Xuyên suốt mỗi Sprint | `scrum-sprint` | — | `docs/sprints/sprint-N-*.md` |
+| 5 | Present full product | `demo-present` | — | `docs/present/` (gồm `skill-usage-map.md`) |
+| — | Xuyên suốt mỗi Sprint | `scrum-sprint` | — | `docs/plans/00-master-plan.md` (Sprint chia theo User Story), `docs/sprints/sprint-N-*.md` |
 
 Mỗi skill của nhóm có thư mục `templates/` chứa mẫu file đầu ra. **AI phải tạo file từ mẫu, không tự nghĩ ra định dạng.**
+
+**Truy vết skill** (để trả lời "việc này dùng skill nào"):
+
+- Dòng trạng thái của mọi file đầu ra ghi `**Skill:** <tên skill> (mục <x>)` – mẫu đã có sẵn. `bash scripts/sync-skills.sh --check` báo lỗi nếu thiếu.
+- Thân commit ghi một dòng `Skill: <tên skill>[, <tên skill>]` (xem `CONTRIBUTING.md`).
+- Bản đồ skill → file → commit: `docs/present/skill-usage-map.md`.
 
 ## 3. Skill superpowers – cách làm việc khi code
 
