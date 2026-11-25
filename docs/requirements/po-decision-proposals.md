@@ -19,8 +19,9 @@ Mã câu hỏi theo `docs/requirements/data-analysis.md` mục 13; Q15, Q16 là 
 | Q8 | Bỏ nhắc nếu hôm nay đã ghi? | Có | | |
 | Q15 | Xoá: hộp xác nhận hay nút Hoàn tác? | Hoàn tác 8 giây, bỏ hộp xác nhận | | |
 | Q16 | Nhắc 21:00 chính xác tới đâu? | Khoảng 21:00 – 22:00 | | |
-| Q17 | `OUT_OF_BUDGET` hiện số nào ở "Hôm nay còn được tiêu"? | `0đ` + "Đã vượt ngân sách tháng <số tiền>" | | |
+| Q17 | `OUT_OF_BUDGET` có hiện số tiền đã vượt không? (đặc tả hiện có: `0đ` + "Đã dùng hết ngân sách tháng") | Có: "Đã vượt ngân sách tháng <số tiền>" | | |
 | Q18 | Hạn mức = 0 mà đã chi: `WARNING` hay `OVER`? | `OVER` khi đã chi > 0; thêm TC17 | | |
+| Q19 | Thanh "đã dùng x%": làm tròn thế nào, mẫu số có cộng khoản thu không? | Làm tròn xuống; mẫu số = ngân sách + tổng thu tháng | | |
 
 ---
 
@@ -122,6 +123,8 @@ Sửa/xoá là thao tác thường ngày với người ghi nhiều khoản nh�
 
 `budget-logic` 4.2 không nói khi Quỹ còn lại đầu ngày ≤ 0 thì hiện gì: TC5 ghi "Còn được tiêu 0", nhưng công thức không có hạn mức để trừ. Nếu hôm nay chi thêm, người dùng cũng không thấy mình đã vượt thêm bao nhiêu.
 
+**Đính chính 26/11/2026:** đặc tả `HomeScreen.md` mục 2 **đã có** cách hiển thị: số Hero `0đ` màu `--color-danger-text`, dòng phụ "Đã dùng hết ngân sách tháng". Câu hỏi còn lại chỉ là **có thêm số tiền đã vượt hay không**. PRD US03 dùng đúng chữ trong đặc tả cho tới khi PO và cặp UI/UX chọn A.
+
 | Phương án | Mô tả | Ưu | Nhược |
 | :--- | :--- | :--- | :--- |
 | **A (đề xuất)** | Số lớn hiện `0đ`; dòng phụ "Đã vượt ngân sách tháng <số tiền>", số tiền = −(Quỹ còn lại đầu ngày) + Tổng chi hôm nay | Số lớn không âm, dễ hiểu; người dùng vẫn biết đã vượt bao nhiêu và thấy số tăng khi tiêu thêm | Thêm một chuỗi chữ cho trạng thái này |
@@ -141,6 +144,17 @@ Quy tắc hiện tại trong `budget-logic` 4.2: "Hạn mức = 0 thì tỷ lệ
 
 **TC17 đề xuất** (thêm vào `budget-logic` 4.4 khi PO duyệt): ngân sách 3.000.000đ, thu 0, ngày 02/11, chi trước hôm nay 2.990.000đ, chi hôm nay 20.000đ → Hạn mức hôm nay 0 (10.000 ÷ 29 = 344, làm tròn xuống) → Còn được tiêu −20.000đ → `OVER`, "Đã vượt 20.000đ".
 **Ảnh hưởng:** đổi quy tắc trạng thái trong `budget-logic` 4.2 (PO duyệt – `budget-logic` quy tắc 1); thêm TC17; US03 AC1 đổi "qua TC1–TC11" thành "qua TC1–TC11, TC17".
+
+## Q19. Thanh "Ngân sách tháng đã dùng x%" tính thế nào? (câu mới, 26/11/2026)
+
+Ví dụ trong `HomeScreen.md`: 1.577.000đ / 3.000.000đ ghi **53%**, nhưng 1.577.000 ÷ 3.000.000 = 52,57% – ví dụ đang làm tròn lên, trái BR-01 ("mọi phép chia làm tròn xuống"). Ngoài ra US03 AC6 chia cho ngân sách tháng, trong khi Quỹ tháng (`budget-logic` 4.2) gồm cả khoản thu: người có khoản thu lớn có thể thấy thanh vượt 100% dù vẫn còn tiền.
+
+| Phương án | Mô tả |
+| :--- | :--- |
+| **A (đề xuất)** | Làm tròn xuống (52%); mẫu số = ngân sách + tổng thu tháng; trên 100% hiện đúng số %, thanh đầy, chữ `--color-danger-text` |
+| B | Giữ như đặc tả: mẫu số chỉ là ngân sách; làm tròn tới số gần nhất (ngoại lệ của BR-01, chỉ cho phần trăm) |
+
+**Ảnh hưởng:** US03 AC6; ví dụ trong `HomeScreen.md` sửa thành 52% (cặp UI/UX); không đổi công thức hạn mức ngày.
 
 ---
 

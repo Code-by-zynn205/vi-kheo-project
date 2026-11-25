@@ -17,7 +17,9 @@ Sprint 2 (24/11 – 03/12) phải ra bản dùng thử có US01, US02, US03, US0
 
 ## 2. Năng lực của nhóm
 
-Nhóm chưa hỏi nhanh 8 Developer (việc K1 của `00-master-plan.md`); tỷ lệ sinh viên dùng Android / iPhone chưa có trong `00-research-log.md`.
+Nhóm chưa hỏi nhanh từng Developer theo từng công nghệ (việc K1 của `00-master-plan.md`); tỷ lệ sinh viên dùng Android / iPhone chưa có trong `00-research-log.md`.
+
+**Cập nhật 26/11/2026:** Nguyễn Diên Tiến xác nhận cả 8 Developer đều code tốt `[SƠ CẤP – lời thành viên, chưa tách theo công nghệ]`. B1 vì vậy **như nhau giữa các phương án** và không đổi thứ hạng ở mục 5; bảng dưới vẫn để `Cần bổ sung` cho tới khi có số theo từng công nghệ.
 
 | Công nghệ | Số Developer đã từng làm | Nguồn |
 | :--- | :-: | :--- |

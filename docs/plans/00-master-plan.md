@@ -30,7 +30,7 @@ Ngày, người phụ trách lấy từ `docs/discovery/07-roadmap.md` và `docs
 | Story mới (chờ PO duyệt) | **US19** Thông tin dùng thử (đo A4, Sprint 2, 1 SP) · **US20** Quyền riêng tư và xoá dữ liệu (Sprint 3 nếu kịp, 2 SP); gắn 6 màn hình chưa có story | `06-journey-features.md` mục 4.1 |
 | Skill | `budget-logic` 4.1 (`storage` trả Promise, xoá mềm), `tech-decision` 4.2 (A1 = Android), `frontend-ui` 4.1 (Đã chốt) | `.agents/skills/` |
 
-**Còn chặn PRD Sprint 2:** PO chốt Q1, Q2, Q3, Q17, Q18 và duyệt US19 · cặp UI/UX duyệt đặc tả `HomeScreen`, `AddExpenseScreen`, `BudgetScreen`, `OnboardingBudgetScreen`, `SplashScreen`, `OnboardingScreen`, `TrialInfoScreen` · SM hỏi nhanh năng lực Developer (B1 của ADR-01).
+**Còn chặn PRD Sprint 2:** PO chốt Q1, Q2, Q3, Q17, Q18, Q19 và duyệt US19 · cặp UI/UX duyệt đặc tả `HomeScreen`, `AddExpenseScreen`, `BudgetScreen`, `OnboardingBudgetScreen`, `SplashScreen`, `OnboardingScreen`, `TrialInfoScreen` · SM hỏi nhanh năng lực Developer (B1 của ADR-01).
 
 ---
 
@@ -81,7 +81,7 @@ Mỗi bước có skill và file đầu ra – bảng này cũng là câu trả 
 
 | Mã | Việc | Skill | Đầu ra | Mở khoá | Phụ trách | Hạn |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| P1 | PO điền cột "Quyết định" Q1 – Q18 (Q6 đã chốt ở ADR-02) và D2, D4, D7, D8; duyệt US19, US20; cập nhật `data-analysis.md` mục 8, 13 | `product-requirements` (4.2), `product-discovery` | `po-decision-proposals.md`, `data-analysis.md`, `06-journey-features.md` | US02, US03, US07, US19 bước 3; US05, US06 bước 2 | Hoan (PO), PA | **27/11** (trễ từ 24/11) |
+| P1 | PO điền cột "Quyết định" Q1 – Q19 (Q6 đã chốt ở ADR-02) và D2, D4, D7, D8; duyệt US19, US20; cập nhật `data-analysis.md` mục 8, 13 | `product-requirements` (4.2), `product-discovery` | `po-decision-proposals.md`, `data-analysis.md`, `06-journey-features.md` | US02, US03, US07, US19 bước 3; US05, US06 bước 2 | Hoan (PO), PA | **27/11** (trễ từ 24/11) |
 | S1 | Cặp UI/UX duyệt đặc tả, đặt `Xong` | `design-system` (4.4a) | `docs/design/screens/*.md` | Bước 3 của US01, US02, US03, US07 | Vy, Hưng | 24/11 |
 | S3 | Test A3 với 5 SV bằng `home.html` / prototype Figma | `user-research` | `docs/evidence/prototype-tests/A3-<yyyy-mm-dd>.md`, `05-vision.md` (A3) | US03 bước 3 | Thương, Kiệt | 25/11 |
 | K1 – K4 | Hỏi năng lực 8 Developer → ADR-01 nền tảng → ADR-02 lưu trữ (tiêu chí từ `data-analysis.md` mục 11) → `technical-design.md` | `tech-decision` | `docs/architecture/ADR-01-app-platform.md`, `ADR-02-local-storage.md`, `technical-design.md` | Bước 4 của **mọi** story | Phát, Nghĩa, Bình Minh, Tiến | ADR-01, ADR-02 **Xong 26/11**; `technical-design.md` bản đầu 26/11, duyệt 27/11; K1 (hỏi nhanh) **chưa làm** |
