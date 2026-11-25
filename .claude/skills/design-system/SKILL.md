@@ -112,7 +112,7 @@ Font: `'Inter', 'Roboto', sans-serif` (đủ dấu tiếng Việt). Lề trang 1
 | :--- | :--- | :--- |
 | `DailyAllowanceCard` | Nhãn "Hôm nay còn được tiêu" + số Hero + thanh % ngân sách tháng. Màu theo trạng thái (bảng dưới). | Home |
 | `QuickCategoryChip` | Lưới 3 × 2: Ăn uống · Di chuyển · Nhà trọ & Điện nước · Học tập & Tài liệu · Mua sắm & Sinh hoạt · Khác. | AddExpense |
-| `TransactionItem` | Icon danh mục · ghi chú + giờ · số tiền. Bấm giữ để sửa/xoá (Sprint 3). | Home, lịch sử |
+| `TransactionItem` | Icon danh mục · ghi chú + giờ · số tiền. **Bấm** để mở `EditTransactionSheet` (US06) – khớp `HomeScreen.md` mục 3 (đổi từ "bấm giữ" ngày 26/11/2026). | Home, lịch sử |
 | `NumericKeypad` | Phím 0–9, `000`, xoá lùi; mỗi phím cao ≥ 48px. | AddExpense, Budget |
 | `ProgressBar` | Thanh % ngân sách tháng đã dùng. | Home, Budget |
 | `EmptyState` | 1 câu hướng dẫn + 1 nút hành động. | Mọi màn hình |

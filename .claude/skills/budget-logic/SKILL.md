@@ -105,6 +105,8 @@ tỷ lệ > 1                                → OVER   (hiển thị "Đã vư�
 
 - Chỉ tính `expense`. Lọc `Tuần này` (thứ Hai → Chủ nhật) hoặc `Tháng này`.
 - Trả về tổng chi và mỗi danh mục `{categoryId, tổng tiền, phần trăm làm tròn số nguyên}`, giảm dần, bỏ danh mục bằng 0.
+- Phần trăm làm tròn **tới số nguyên gần nhất** (0,5 làm tròn lên); tổng các phần trăm được lệch 100% ±1. Quy tắc làm tròn xuống (BR-01) chỉ áp cho **tiền**.
+- Bỏ khoản thu và khoản đã xoá (`deletedAt` có giá trị).
 
 ### 4.4 Bộ test case bắt buộc
 
@@ -133,6 +135,14 @@ Test nhập liệu và sửa/xoá:
 | 14 | Không chọn danh mục | Lưu với `an_uong` (mặc định) |
 | 15 | Ghi chú 150 ký tự | Chặn ở 100 ký tự |
 | 16 | Xoá một khoản chi hôm qua 50.000đ (ngày 16/11, TC3) | Hạn mức hôm nay = làm tròn xuống (1.250.000 ÷ 15) = 83.000 |
+
+Test thống kê theo danh mục (mục 4.3) *(thêm 26/11/2026)*:
+
+| TC | Khoảng lọc | Giao dịch | Kết quả mong đợi |
+| :-: | :--- | :--- | :--- |
+| 18 | Tháng 11/2026 | Chi: Ăn uống 757.000 · Nhà trọ & Điện nước 505.000 · Di chuyển 142.000 · Học tập & Tài liệu 95.000 · Mua sắm & Sinh hoạt 78.000; thu 1.200.000 | Tổng chi 1.577.000; Ăn uống 48% · Nhà trọ 32% · Di chuyển 9% · Học tập 6% · Mua sắm 5% (4,95% làm tròn gần nhất); không có hàng Khác; khoản thu không tính |
+| 19 | Tuần này, hôm nay Thứ Năm 19/11/2026 (tuần 16/11 – 22/11) | Chi 15/11 Ăn uống 50.000 (tuần trước) · 16/11 Ăn uống 30.000 · 17/11 Mua sắm 40.000 **đã xoá** · 18/11 Di chuyển 20.000 · thu 19/11 500.000 | Tổng chi 50.000; Ăn uống 60% · Di chuyển 40% |
+| 20 | Tuần này | Chỉ có khoản thu | Không có danh mục nào → trạng thái trống |
 
 ## 5. Đầu ra
 
