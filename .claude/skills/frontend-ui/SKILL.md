@@ -26,7 +26,7 @@ description: Quy trình lập trình giao diện Ví Khéo theo từng User Stor
 
 1. `docs/requirements/USxx-*.md` – PRD **đã duyệt**: AC, test case, ngoài phạm vi, skill áp dụng
 2. `docs/architecture/technical-design.md` – công nghệ, đường dẫn file, lệnh chạy/test/build
-3. `docs/design/screens/*.md` – đặc tả màn hình trong PRD
+3. `docs/design/screens/*.md` – đặc tả màn hình trong PRD, kèm frame Figma ghi trong đặc tả (đọc qua kết nối Figma nếu có)
 4. `.agents/skills/design-system/SKILL.md` mục 4.2, 4.3 – token, component
 5. `.agents/skills/budget-logic/SKILL.md` mục 4 – kiểu dữ liệu và hàm cần gọi
 

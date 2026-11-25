@@ -4,7 +4,8 @@
 
 - **User Story:** <US01, US07>
 - **Sprint:** <số>
-- **Prototype:** `docs/design/prototype/<english-name>.html` <hoặc "Chưa có">
+- **Figma:** <link frame `<ScreenName>`> · đối chiếu lần cuối <dd/mm/yyyy> <hoặc "Chưa có">
+- **Prototype:** <link prototype Figma hoặc `docs/design/prototype/<english-name>.html`> <hoặc "Chưa có">
 - **Mở từ:** <màn hình / nút nào dẫn tới đây>
 
 > Số liệu trong file là dữ liệu minh hoạ để dựng giao diện, không phải số liệu thật.

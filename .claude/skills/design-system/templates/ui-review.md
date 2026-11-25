@@ -5,7 +5,7 @@ Người review: <tên> · Thiết bị: <tên điện thoại, rộng ...px> ·
 | # | Hạng mục | Kết quả | Ghi chú |
 | :-: | :--- | :-: | :--- |
 | 1 | Màu, cỡ chữ, bo góc đúng token (không viết cứng) | <Đạt / Chưa đạt> | |
-| 2 | Bố cục khớp `docs/design/screens/<ScreenName>.md` | | |
+| 2 | Bố cục khớp frame Figma `<ScreenName>` và `docs/design/screens/<ScreenName>.md` | | |
 | 3 | Chữ trên màn hình đúng nguyên văn đặc tả, tiếng Việt có dấu | | |
 | 4 | Vùng bấm ≥ 48 × 48 px | | |
 | 5 | Rộng 360px không vỡ, không cuộn ngang | | |

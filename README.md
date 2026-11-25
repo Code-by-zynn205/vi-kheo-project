@@ -71,7 +71,7 @@ brainstorming trước, rồi writing-plans.
 | Tài liệu, skill AI, mã nguồn   | GitHub (repo này)                                                                   |
 | AI agent                           | Codex · Antigravity · Claude Code                                                  |
 | Khảo sát                         | Google Form + Google Sheets                                                          |
-| Thiết kế giao diện              | Không dùng Figma – đặc tả `.md` + prototype HTML từ skill `design-system` |
+| Thiết kế giao diện              | **Figma** (bố cục, prototype) + token và đặc tả `.md` trong repo cho AI đọc – skill `design-system` |
 | Slide báo cáo                    | Canva                                                                                |
 
 ## 5. Quy ước

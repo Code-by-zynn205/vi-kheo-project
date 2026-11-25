@@ -535,6 +535,25 @@ Mã: BR-0x tiền và thời gian · BR-1x giao dịch · BR-2x ngân sách · B
 | `config.manage`, `admin.manage` | Có | — | — | — |
 | `metric.view` | Có | — | — | Có |
 
+
+### 8.13 Quy tắc bổ sung khi lập danh mục màn hình (đề xuất 21/11/2026)
+
+Nguồn: `docs/design/screen-inventory.md` mục 3. Trạng thái **Đề xuất** – PO duyệt cùng danh mục màn hình.
+
+| Mã | Quy tắc | Lớp |
+| :--- | :--- | :-: |
+| BR-120 | Onboarding chỉ hiện khi `onboardingDoneAt` rỗng; xong hoặc bỏ qua đều ghi `onboardingDoneAt` | R1 |
+| BR-121 | Bỏ qua bước đặt ngân sách → Home trạng thái `NO_BUDGET`; không chặn ghi chi | R1 |
+| BR-122 | Nhắc khoản định kỳ trước `remindDaysBefore` ngày, lúc 20:00 – tách khỏi nhắc ghi chép 21:00 | R2 |
+| BR-123 | Nhắc nợ đến hạn trước 1 ngày; quá hạn nhắc lại tối đa 1 lần mỗi 3 ngày | R2 |
+| BR-124 | Đạt mục tiêu tiết kiệm: chúc mừng 1 lần; rút xuống rồi đạt lại trong 30 ngày thì không chúc mừng lại | R2 |
+| BR-125 | Chuỗi ngày ghi chép tính tới hôm qua nếu hôm nay chưa ghi – không mất chuỗi trước 00:00 | R2 |
+| BR-126 | Màn "Thông tin dùng thử" chỉ hiện `firstOpenDate` và số ngày có ghi chép / số ngày đã dùng, không hiện số tiền (đo A4, Q4) | R1 |
+| BR-127 | Thông báo: tối đa 1 lần/ngày mỗi loại, tổng tối đa 3 thông báo/ngày | R1 |
+| BR-128 | File xuất đặt tên `vi-kheo-YYYYMMDD.csv` / `.json`, không chứa thông tin định danh | R2 |
+| BR-129 | Xoá toàn bộ dữ liệu: phải gõ đúng chữ `XOÁ` mới bật nút – thao tác nguy hiểm, không hoàn tác | R1 |
+| BR-130 | Bảng điều khiển quản trị: DAU = số thiết bị có ≥ 1 giao dịch trong ngày; giữ chân ngày 7 = % thiết bị còn ghi vào ngày thứ 7; chỉ hiện nhóm ≥ 10 thiết bị (BR-115) | R3 |
+
 ---
 
 ## 9. Vòng đời trạng thái

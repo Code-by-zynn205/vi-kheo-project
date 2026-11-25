@@ -23,7 +23,7 @@ Dự án đi theo 5 giai đoạn trong bảng đánh giá của giảng viên. M
 | # | Giai đoạn | Skill của nhóm | Skill hỗ trợ | Đầu ra (file .md) |
 | :-: | :--- | :--- | :--- | :--- |
 | 1 | Research & Discovery | `user-research`, `product-discovery` | — | `docs/discovery/`, `docs/evidence/` |
-| 2 | Design System & Prototype | `design-system` | `frontend-design`, `ui-ux-pro-max` | `docs/design/screens/<ScreenName>.md`, `docs/design/prototype/*.html` |
+| 2 | Design System & Prototype | `design-system` | `frontend-design`, `ui-ux-pro-max` | Frame Figma + `docs/design/screens/<ScreenName>.md`, prototype Figma hoặc `docs/design/prototype/*.html` |
 | 3 | Product Requirements (PRD, User Story) | `product-requirements` | — | `docs/requirements/USxx-<english-slug>.md` |
 | 4 | Vibe Code | `tech-decision` (một lần, trước US đầu tiên), `frontend-ui`, `budget-logic` | superpowers (mục 3) | `docs/architecture/ADR-xx-*.md`, `docs/architecture/technical-design.md`, `docs/plans/specs/…-design.md`, `docs/plans/…md`, code trong `src/` |
 | 5 | Present full product | `demo-present` | — | `docs/present/` |
@@ -72,7 +72,7 @@ Thứ tự ưu tiên: **file này** → **skill của nhóm** (làm cái gì: n�
 3. **Giữ phạm vi MVP.** Không thêm liên kết ngân hàng, OCR/AI, đầu tư, đăng nhập. Tính năng mới phải có User Story do PO duyệt.
 4. **Tên file, thư mục, nhánh luôn bằng tiếng Anh**, không dấu: chữ thường nối `-` (`US01-add-expense.md`, `ADR-01-app-platform.md`, `00-master-plan.md`); màn hình và component dùng PascalCase (`HomeScreen.md`). **Nội dung tài liệu và giao diện viết tiếng Việt có dấu.** Trạng thái ghi bằng chữ (`Xong` / `Đang làm` / `Chưa làm` / `Cần bổ sung`), không dùng emoji. Không dùng LaTeX – dùng `≥`, `→`.
 5. **Tiền là số nguyên VND**, hiển thị `35.000đ`. Công thức và test case theo `budget-logic`.
-6. **Không dùng Figma.** Thiết kế = đặc tả màn hình `.md` + prototype HTML sinh từ `design-system`.
+6. **Thiết kế trên Figma, nhưng repo vẫn là nguồn cho AI.** Bố cục, hình ảnh: frame Figma. Token: `design-system` mục 4.2 (Variables Figma chép đúng giá trị). Chữ hiển thị, trạng thái, thao tác: đặc tả `docs/design/screens/<ScreenName>.md`, có link frame Figma. Figma và đặc tả lệch nhau → báo cặp UI/UX, không tự chọn. AI chỉ đọc Figma; không sửa file Figma nếu không được yêu cầu rõ.
 
 ### Giao diện
 

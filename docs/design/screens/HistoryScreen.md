@@ -4,7 +4,8 @@
 
 - **User Story:** US08 (nếu kịp)
 - **Sprint:** 3 – nếu kịp
-- **Prototype:** Chưa có
+- **Figma:** [trang Demo UI](https://www.figma.com/design/r3QiOYkP7orX9dNyDEDmvl/V%C3%AD-Kh%C3%A9o?node-id=108-370) – `HistoryScreen / WithData`; trạng thái khác ở hàng `HistoryScreen – states` · đối chiếu lần cuối 21/11/2026 (bản AI dựng, chờ cặp UI/UX duyệt)
+- **Prototype:** [trang Prototype](https://www.figma.com/design/r3QiOYkP7orX9dNyDEDmvl/V%C3%AD-Kh%C3%A9o?node-id=112-2259) (Figma)
 - **Mở từ:** liên kết "Xem các ngày trước" trên `HomeScreen`
 
 > Số liệu trong file là dữ liệu minh hoạ để dựng giao diện, không phải số liệu thật.

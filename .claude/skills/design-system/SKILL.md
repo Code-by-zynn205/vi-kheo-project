@@ -1,6 +1,6 @@
 ---
 name: design-system
-description: Hệ thống thiết kế của Ví Khéo – nguyên tắc, design token (màu, chữ, khoảng cách), component, quy trình viết đặc tả màn hình và làm prototype HTML (không dùng Figma). Dùng khi tạo hoặc sửa màn hình, component, màu sắc; khi viết đặc tả màn hình trong docs/design/screens; khi làm prototype HTML để test với sinh viên; khi review giao diện trước khi merge.
+description: Hệ thống thiết kế của Ví Khéo – nguyên tắc, design token (màu, chữ, khoảng cách), component, quy trình thiết kế màn hình trên Figma, viết đặc tả màn hình và làm prototype. Dùng khi tạo hoặc sửa màn hình, component, màu sắc; khi thiết kế hoặc đọc file Figma; khi viết đặc tả màn hình trong docs/design/screens; khi làm prototype HTML để test với sinh viên; khi review giao diện trước khi merge.
 ---
 
 # Skill: Design System & Prototype – Ví Khéo
@@ -16,7 +16,15 @@ description: Hệ thống thiết kế của Ví Khéo – nguyên tắc, design
 - **Phụ trách chính:** Lê Thị Nhật Vy, Phạm Viết Hưng
 - **Review:** Lê Thị Phát, Nguyễn Đức Minh Nghĩa (người code giao diện)
 
-> Nhóm **không dùng Figma**. Thiết kế gồm: skill này (token, component) + đặc tả màn hình `docs/design/screens/*.md` + prototype HTML `docs/design/prototype/*.html`.
+> **Thiết kế gồm 3 phần, mỗi phần là nguồn chuẩn của một thứ** (cập nhật 21/11/2026 – nhóm dùng Figma):
+>
+> | Nguồn | Là nguồn chuẩn của | Ở đâu |
+> | :--- | :--- | :--- |
+> | Skill này mục 4.2, 4.3 | Giá trị token (màu, cỡ chữ, khoảng cách), danh sách component | Repo |
+> | File Figma | Bố cục, hình ảnh từng màn hình và từng trạng thái, prototype bấm thử | Figma (link ghi ở `docs/design/README.md`) |
+> | Đặc tả `docs/design/screens/<ScreenName>.md` | Chữ hiển thị nguyên văn, trạng thái, thao tác, ngoài phạm vi – thứ AI đọc khi viết PRD và code | Repo |
+>
+> Hai bên lệch nhau → không tự chọn bên nào, báo cặp UI/UX sửa cho khớp (mục 4.6).
 
 ## 2. Khi nào dùng / không dùng
 
@@ -38,6 +46,7 @@ Gợi ý nào muốn dùng → sửa skill này qua Pull Request (cặp UI/UX du
 - `docs/discovery/03-personas.md` – Persona Minh, Persona Vy (dùng một tay, ngại thao tác nhiều)
 - `docs/discovery/06-journey-features.md` – User Story trong Sprint
 - `docs/design/screens/` – đặc tả màn hình hiện có
+- File Figma của nhóm (link ở `docs/design/README.md`) – frame các màn hình, Variables, component
 
 ## 4. Quy trình và nội dung
 
@@ -64,6 +73,8 @@ Gợi ý nào muốn dùng → sửa skill này qua Pull Request (cặp UI/UX du
   --color-success-text:   #047857;
   --color-warning-text:   #B45309;
   --color-danger-text:    #DC2626;
+  --color-warning-light:  #FFFBEB; /* Nền khung cảnh báo (thêm 21/11) */
+  --color-scrim:          #111827; /* Lớp phủ sau hộp thoại, độ mờ 45% (thêm 21/11) */
   --color-bg-page:        #F9FAFB;
   --color-bg-card:        #FFFFFF;
   --color-text-primary:   #111827;
@@ -109,6 +120,43 @@ Font: `'Inter', 'Roboto', sans-serif` (đủ dấu tiếng Việt). Lề trang 1
 | `DonutChart` | Biểu đồ tròn rỗng giữa; mỗi danh mục một màu `--color-cat-*`; tổng chi ở tâm (cỡ tiêu đề mục); luôn đi kèm danh sách tên + % + số tiền bên dưới. *(Thêm 20/11)* | Report |
 | `DateNavigator` | Hàng `‹  Thứ Năm, 19/11  ›`: mũi tên lùi/tiến 1 ngày, bấm vào chữ để mở lịch chọn ngày; không tiến quá hôm nay. *(Thêm 20/11)* | History |
 | `ToggleRow` | Một hàng cài đặt: nhãn + dòng mô tả + công tắc; bấm cả hàng là bật/tắt; cao ≥ 56px. *(Thêm 20/11)* | Settings |
+| `Button` | Biến thể: primary (nền `--color-primary`, chữ trắng, cao 48, rộng 100%) · secondary · text · danger-text; trạng thái default / pressed / disabled. *(Thêm 21/11 – chờ cặp UI/UX duyệt)* | Mọi màn hình |
+| `TopBar` | title · back-title · sheet (tiêu đề + nút X); vùng bấm nút 48 × 48. *(Thêm 21/11)* | Mọi màn hình |
+| `TabBar` + `Fab` | 3 tab Trang chủ · Ngân sách · Báo cáo; nút nổi "+ Ghi khoản chi". *(Thêm 21/11)* | Home, Budget, Report |
+| `SegmentedControl` | 2 lựa chọn: Chi/Thu, Tuần này/Tháng này. *(Thêm 21/11)* | AddExpense, Report |
+| `AmountInput` | Ô số tiền cỡ Hero; expense / income; empty / filled / error. *(Thêm 21/11)* | AddExpense, Budget, Edit |
+| `NoteInput` | Ô ghi chú một dòng; bộ đếm "x/100" hiện từ 80 ký tự. *(Thêm 21/11)* | AddExpense, Edit |
+| `BottomSheet` | Khung nền màn nhập, sửa; vuốt xuống để đóng. *(Thêm 21/11)* | AddExpense, Edit |
+| `Icon` | Bộ icon nét 2px, 24 × 24: 6 danh mục + settings, back, close, plus, chevron trái/phải, backspace. Không emoji. *(Thêm 21/11)* | Mọi màn hình |
+
+Component thêm khi dựng 161 khung (21/11/2026, bản AI dựng trên Figma, **chờ cặp UI/UX duyệt**). Danh sách khung dùng chúng: `docs/design/screen-inventory.md`.
+
+| Component | Mô tả | Dùng ở | Lớp |
+| :--- | :--- | :--- | :-: |
+| `TextField` | Nhãn + ô nhập + dòng gợi ý; trạng thái default / focus (viền `--color-primary`) / error (viền và chữ gợi ý `--color-danger-text`). Ô cao ≥ 48px | Mọi form | R1 |
+| `ListRow` | Một hàng danh sách: nhãn + chevron phải; cả hàng là vùng bấm, cao ≥ 48px | Settings, danh sách chọn | R1 |
+| `ProgressDots` | Chấm chỉ bước onboarding; chấm hiện tại màu `--color-primary` | Onboarding | R1 |
+| `CalendarSheet` | Sheet lịch tháng để chọn ngày; ngày tương lai bị mờ, không chọn được | History, ghi chi ngày khác | R1 |
+| `NotificationCard` | Mô phỏng thông báo hệ điều hành: tên app + tiêu đề + nội dung | Nhắc ghi chép 21:00 | R1 |
+| `Badge` | Nhãn nhỏ góc trên phải khung: "Sau MVP", "R3 · Sau MVP" – chỉ dùng trên Figma để phân lớp, **không** đưa vào app | Khung R2, R3 | — |
+| `WalletIcon`, `WalletCard`, `WalletTypeChip` | Icon, thẻ số dư và chip chọn loại ví (tiền mặt, ngân hàng, ví điện tử); chip cao theo nội dung, chữ xuống dòng | Ví & chuyển tiền | R2 |
+| `RecurringItem` | Khoản định kỳ: tên + chu kỳ + ngày tới hạn + số tiền; tên và dòng phụ cắt "…" sau 1 dòng | Định kỳ | R2 |
+| `CategoryBudgetRow` | Danh mục + thanh % hạn mức danh mục + số còn lại; màu theo trạng thái như `DailyAllowanceCard` | Hạn mức danh mục | R2 |
+| `AmountSplitRow` | Một phần khi chia một khoản ra nhiều danh mục hoặc nhiều người: tên + ô số tiền | Ghi chi nâng cao, chia tiền | R2 |
+| `FrequencyPicker` | Chọn chu kỳ: hằng ngày / hằng tuần / hằng tháng | Định kỳ | R2 |
+| `StatusChip` | Chip trạng thái chữ + nền nhạt (đang chạy, đạt, quá hạn…); không dùng màu làm tín hiệu duy nhất | Mục tiêu, vay nợ | R2 |
+| `MemberAvatar` | Vòng tròn chữ cái đầu tên; xếp chồng tối đa 2, lệch −12px | Chia tiền nhóm, sổ chung | R2, R3 |
+| `GoalCard` | Tên mục tiêu + thanh tiến độ + số đã góp / mục tiêu + hạn | Mục tiêu tiết kiệm | R2 |
+| `DebtCard` | Người + "Mình nợ" / "Nợ mình" + số còn lại + hạn; không làm đổi hạn mức ngày (BR-72, BR-73) | Vay mượn | R2 |
+| `BalanceRow` | Số dư giữa 2 người trong nhóm, kèm nút "Thanh toán" cao 48px | Chia tiền nhóm | R2 |
+| `TagChip` | Nhãn tự đặt dạng `#tên`, bấm để lọc | Nhãn | R2 |
+| `StreakCard` | Số ngày ghi chép liên tiếp, tính tới hôm qua nếu hôm nay chưa ghi (BR-125) | Chuỗi ngày | R2 |
+| `AdminNavItem` | Mục điều hướng trang quản trị: icon 20px + nhãn, cao 44px; `state=default` / `active` (nền `--color-primary-light`, chữ và nét icon `--color-primary`); icon đổi bằng `AdminIcon/*` | Trang quản trị web | R3 |
+| `AdminSidebar` | Thanh bên rộng 256px: logo, 9 `AdminNavItem` (Tổng quan, Người dùng, Góp ý, Thông báo, Danh mục hệ thống, Cấu hình app, Yêu cầu dữ liệu, Nhật ký kiểm toán, Phân quyền), ô quản trị viên đang đăng nhập ở đáy | Trang quản trị web | R3 |
+| `AdminTopBar` | Thanh trên cao 72px: tiêu đề + đường dẫn; nhãn "R3 · Sau MVP", nút tìm kiếm và thông báo 48 × 48 | Trang quản trị web | R3 |
+| `MetricCard` | Thẻ chỉ số gộp: nhãn + số + dòng ghi chú. Chỉ hiện chỉ số của nhóm ≥ 10 thiết bị (BR-115, BR-130); số trên Figma là minh hoạ | Bảng điều khiển quản trị | R3 |
+
+Bảng dữ liệu trang quản trị (`DataTable`) hiện dựng bằng auto layout trong từng khung, chưa tách component: hàng cao 52px, cột cố định, chữ cắt "…" sau 1 dòng, cột trạng thái dùng chip chữ + nền nhạt. Tách thành component khi PO nâng US18.
 
 Trạng thái màu của `DailyAllowanceCard` (điều kiện tính ở `budget-logic` mục 4.2):
 
@@ -120,7 +168,28 @@ Trạng thái màu của `DailyAllowanceCard` (điều kiện tính ở `budget-
 | Hết ngân sách tháng | `OUT_OF_BUDGET` | `--color-danger-text` | "Đã dùng hết ngân sách tháng" |
 | Chưa đặt ngân sách | `NO_BUDGET` | — | Nút "Đặt ngân sách tháng" |
 
-### 4.4 Viết đặc tả màn hình
+### 4.4 Thiết kế trên Figma (làm trước khi viết đặc tả)
+
+1. **Cấu trúc file Figma** (một file cho cả nhóm):
+
+   | Trang Figma | Nội dung |
+   | :--- | :--- |
+   | `00 Cover` | Tên dự án, link repo, bảng trạng thái các màn hình |
+   | `01 Tokens` | Figma Variables, Text styles – **giá trị chép đúng mục 4.2** |
+   | `02 Components` | Component ở mục 4.3, đặt đúng tên, đủ biến thể |
+   | `03 Screens` | Mỗi màn hình một Section, mỗi trạng thái một frame, khung 360 × 800 |
+   | `04 Prototype` | Luồng bấm thử để test với sinh viên và demo |
+   | `_Archive` | Bản demo, bản cũ – không sửa, không xoá |
+
+   Chi tiết (Variables, danh sách 40 frame, lịch): `docs/design/figma-plan.md`.
+
+2. **Đặt tên frame tiếng Anh**, trùng tên đặc tả: `HomeScreen / SAFE`, `HomeScreen / NO_BUDGET`, `AddExpenseScreen / Error`.
+3. **Chỉ dùng Variables và component của file**, không tô màu tay, không gõ cỡ chữ tay.
+4. **Thứ tự làm một màn hình:** màn đã có đặc tả → vẽ frame theo đặc tả; màn mới → vẽ frame rồi viết đặc tả. Sau đó ghi link frame ở dòng "Figma" của đặc tả → cặp UI/UX duyệt cả hai → đặt trạng thái `Xong` → PA viết PRD.
+5. **Khi AI có kết nối Figma:** AI được đọc frame để viết nháp đặc tả, đối chiếu đặc tả với Figma, hoặc so code với Figma. **AI không sửa file Figma** nếu người dùng không yêu cầu rõ.
+6. **Không có kết nối Figma:** chụp frame (PNG) dán vào Pull Request để review.
+
+### 4.4a Viết đặc tả màn hình
 
 1. Mỗi màn hình một file `docs/design/screens/<ScreenName>.md` từ mẫu `templates/screen-spec.md`.
 2. Liệt kê bố cục từ trên xuống, chỉ dùng component ở mục 4.3. Cần component mới → thêm vào mục 4.3 trước.
@@ -128,18 +197,35 @@ Trạng thái màu của `DailyAllowanceCard` (điều kiện tính ở `budget-
 4. Số liệu trong đặc tả là dữ liệu minh hoạ, ghi rõ điều này.
 5. Đặt trạng thái `Xong` khi cặp UI/UX đồng ý → PA dùng file này để viết PRD.
 
-### 4.5 Làm prototype HTML
+### 4.5 Làm prototype
+
+Chọn một trong hai, ghi link vào đặc tả màn hình:
+
+- **Prototype Figma** (trang `04 Prototype`) – mặc định khi test bố cục, luồng bấm.
+- **Prototype HTML** – khi cần chạy được không cần tài khoản Figma hoặc cần tính số thật. Yêu cầu:
 
 1. Một file HTML tĩnh `docs/design/prototype/<english-name>.html`, nhúng sẵn token ở mục 4.2, chạy được khi mở trực tiếp trên điện thoại.
 2. Rộng 360px không vỡ, không cần mạng (không tải font/thư viện ngoài; thiếu Inter thì dùng Roboto/sans-serif của máy).
 3. Ghi đường dẫn prototype vào đặc tả màn hình. Kết quả test với SV ghi bằng skill `user-research`.
+
+### 4.6 Giữ Figma, token và đặc tả khớp nhau
+
+| Thay đổi | Phải sửa cùng lúc |
+| :--- | :--- |
+| Giá trị token | Skill này mục 4.2 (Pull Request) **và** Variables trên Figma – cùng ngày |
+| Component mới | Skill này mục 4.3 **và** trang `01 Components` |
+| Bố cục, trạng thái một màn hình | Frame trên Figma **và** đặc tả `.md` (mục 1, 2) |
+| Chữ hiển thị | Đặc tả `.md` mục 4 **và** chữ trên frame |
+
+Đặc tả ghi ngày đối chiếu Figma gần nhất ở dòng "Figma". Code luôn lấy chữ từ đặc tả, lấy token từ `src/theme/` (chép từ mục 4.2), lấy bố cục từ frame Figma.
 
 ## 5. Đầu ra
 
 | File | Mẫu | Duyệt |
 | :--- | :--- | :--- |
 | `docs/design/screens/<ScreenName>.md` | `templates/screen-spec.md` | Cặp UI/UX + 1 người cặp giao diện |
-| `docs/design/prototype/<english-name>.html` | — | Cặp UI/UX |
+| Frame Figma `<ScreenName> / <Trạng thái>` (link trong đặc tả) | — | Cặp UI/UX |
+| Prototype Figma hoặc `docs/design/prototype/<english-name>.html` | — | Cặp UI/UX |
 | Nhận xét review giao diện trong Pull Request | `templates/ui-review.md` | — |
 
 ## 6. Khi viết plan
@@ -151,6 +237,7 @@ Trạng thái màu của `DailyAllowanceCard` (điều kiện tính ở `budget-
 - Tiền hiển thị qua hàm `formatMoney` dạng `35.000đ`; chi `−`, thu `+`.
 - Mọi chữ trên giao diện bằng tiếng Việt có dấu, không emoji.
 - Mỗi màn hình có trạng thái trống (`EmptyState`) và trạng thái lỗi.
+- Bố cục theo frame Figma ghi trong đặc tả; chữ hiển thị theo đặc tả `.md` mục 4. Hai bên lệch → dừng, hỏi cặp UI/UX.
 
 **Task bắt buộc:**
 - Task cuối của plan giao diện: soát theo `templates/ui-review.md`, chụp ảnh trên điện thoại thật gắn vào Pull Request.
@@ -165,10 +252,13 @@ Trạng thái màu của `DailyAllowanceCard` (điều kiện tính ở `budget-
 3. Không đặt biểu đồ trên `HomeScreen`.
 4. Gợi ý từ `frontend-design`, `ui-ux-pro-max` không được dùng thẳng vào code khi chưa sửa skill này.
 5. Mọi chữ trên giao diện bằng tiếng Việt có dấu; mọi vùng bấm ≥ 48 × 48 px.
+6. Trên Figma chỉ dùng Variables và component của file; không tô màu, gõ cỡ chữ tay.
+7. AI chỉ đọc file Figma; không sửa Figma khi người dùng chưa yêu cầu rõ.
 
 ## 8. Checklist tự kiểm
 
-- [ ] Đặc tả màn hình đủ các trạng thái (có dữ liệu, trống, lỗi)
+- [ ] Đặc tả màn hình đủ các trạng thái (có dữ liệu, trống, lỗi), mỗi trạng thái có frame Figma
+- [ ] Đặc tả và frame Figma khớp nhau; Variables Figma khớp mục 4.2
 - [ ] Màu, cỡ chữ, bo góc đúng token
 - [ ] Ghi một khoản chi ≤ 3 thao tác, < 5 giây
 - [ ] Chạy trên điện thoại thật, rộng 360px không vỡ

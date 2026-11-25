@@ -84,7 +84,7 @@ Ba nhánh chạy song song: **dữ liệu** (D, P) · **công nghệ** (K) · **
 | K2 | Chọn nền tảng app | `tech-decision` | K1 | `docs/architecture/ADR-01-app-platform.md` | Phát, Nghĩa, Bình Minh, Tiến | 22/11 |
 | K3 | Chọn cách lưu dữ liệu trên máy | `tech-decision` | K2 | `docs/architecture/ADR-02-local-storage.md` | Bình Minh, Tiến | 22/11 |
 | K4 | Viết thiết kế kỹ thuật | `tech-decision` | K2, K3 | `docs/architecture/technical-design.md` | Phát, Nghĩa, Bình Minh, Tiến | 23/11 |
-| S1 | Hoàn thiện đặc tả `HomeScreen`, `AddExpenseScreen` (điền chữ còn thiếu) → `Xong` | `design-system` | — | `docs/design/screens/HomeScreen.md`, `AddExpenseScreen.md` | Vy, Hưng | 21/11 |
+| S1 | Dựng file Figma (trang, Variables, component) và vẽ frame `HomeScreen`, `AddExpenseScreen` theo đặc tả; ghi link frame vào đặc tả → `Xong` | `design-system` | — | Frame Figma + `docs/design/screens/HomeScreen.md`, `AddExpenseScreen.md` (theo `docs/design/figma-plan.md` bước F1 – F5) | Vy, Hưng | 23/11 |
 | S2 | Làm prototype màn hình chính | `design-system` | S1 | `docs/design/prototype/home.html` | Vy, Hưng | 22/11 |
 | S3 | Test A3 với 5 SV | `user-research` | S2 | `docs/evidence/prototype-tests/A3-<yyyy-mm-dd>.md`, `05-vision.md` (A3) | Thương, Kiệt | 23/11 (muộn nhất 25/11) |
 | R1 | Viết PRD US01 | `product-requirements` | S1 (G1 cho mục Bối cảnh) | `docs/requirements/US01-add-expense.md` | PA | 22/11 |
