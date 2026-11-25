@@ -54,7 +54,7 @@ Mỗi bước có skill và file đầu ra – bảng này cũng là câu trả 
 **Quy tắc cho agent:**
 1. Lấy **dòng đầu tiên có Trạng thái khác `Done`**. Không nhảy cóc, không làm 2 dòng cùng lúc.
 2. Kiểm **mọi cổng** của dòng đó bằng cách mở đúng file ghi trong cột. Thiếu một cổng → **dừng**, báo cổng nào thiếu và ai phụ trách; không code, không tự sửa cổng.
-3. Đủ cổng → đọc các file ở cột "Đọc trước", tạo nhánh ở cột "Nhánh", làm `brainstorming` → `writing-plans` → `executing-plans` theo `AGENTS.md` mục 3 → `verify-change` → mở Pull Request.
+3. Đủ cổng → đọc các file ở cột "Đọc trước", tạo nhánh ở cột "Nhánh". **Story đã có plan** (cột "Plan" trong `docs/requirements/README.md`) → đọc spec + plan, soát lại theo PRD đã duyệt (PRD đổi sau ngày plan thì sửa plan trước), rồi `executing-plans`. Chưa có plan → `brainstorming` → `writing-plans` theo `AGENTS.md` mục 3. Xong → `verify-change` → mở Pull Request.
 4. Đổi Trạng thái của dòng: `Đang làm` khi bắt đầu, `Chờ review` khi mở PR, `Done` khi merge và đạt Definition of Done (`07-roadmap.md` mục 3).
 
 **Cổng chung của mọi dòng:** ADR-01, ADR-02 `Đã chấp nhận` · `docs/architecture/technical-design.md` có · dòng trước đó `Done` hoặc ít nhất các story ở cột "Phụ thuộc" đã `Done`.
@@ -67,9 +67,9 @@ Mỗi bước có skill và file đầu ra – bảng này cũng là câu trả 
 | 4 | US19 Thông tin dùng thử | US01 | US19 có trong Backlog (PO duyệt) · PRD `US19-trial-info.md` `Đã duyệt` · `TrialInfoScreen`, `SettingsScreen` (khung) `Xong` | PRD US19 · 2 đặc tả | `feature/US19-trial-info` | Chưa làm |
 | 5 | US07 Ghi khoản thu – **cắt nếu 01/12 dòng 1 – 3 chưa Done** | US01, US03 | PRD `US07-add-income.md` `Đã duyệt` · `AddExpenseScreen` `Xong` | PRD US07 · đặc tả · `budget-logic` 4.2 (TC7) | `feature/US07-add-income` | Chưa làm |
 | — | **Bản dùng thử 03/12** (ADR-03): build APK, thử cài đè giữ dữ liệu | Dòng 1 – 4 | ADR-03 `Đã chấp nhận` | ADR-03 · `technical-design.md` mục 4, 5 | — | Chưa làm |
-| 6 | US05 Nhắc ghi chép 21:00 | US01 | ADR-04 `Đã chấp nhận` · PRD US05 `Đã duyệt` · `SettingsScreen` (nhắc nhở) `Xong` | PRD US05 · đặc tả · ADR-04 | `feature/US05-evening-reminder` | Chưa có PRD |
-| 7 | US06 Sửa / xoá giao dịch | US01, US03 | PRD US06 `Đã duyệt` · `EditTransactionSheet` `Xong` | PRD US06 · đặc tả · `budget-logic` 4.1, 4.4 (TC16) | `feature/US06-edit-delete-transaction` | Chưa có PRD |
-| 8 | US04 Báo cáo theo danh mục | US01 | PRD US04 `Đã duyệt` · `ReportScreen` `Xong` · `DonutChart` trong `design-system` 4.3 | PRD US04 · đặc tả · `budget-logic` 4.3 | `feature/US04-category-report` | Chưa có PRD |
+| 6 | US05 Nhắc ghi chép 21:00 | US01 | ADR-04 `Đã chấp nhận` · PRD US05 `Đã duyệt` · `SettingsScreen` (nhắc nhở) `Xong` | PRD US05 · đặc tả · ADR-04 | `feature/US05-evening-reminder` | Chưa làm – PRD `US05-evening-reminder.md` Chờ duyệt |
+| 7 | US06 Sửa / xoá giao dịch | US01, US03 | PRD US06 `Đã duyệt` · `EditTransactionSheet` `Xong` | PRD US06 · đặc tả · `budget-logic` 4.1, 4.4 (TC16) | `feature/US06-edit-delete-transaction` | Chưa làm – PRD `US06-edit-delete-transaction.md` Chờ duyệt |
+| 8 | US04 Báo cáo theo danh mục | US01 | PRD US04 `Đã duyệt` · `ReportScreen` `Xong` · `DonutChart` trong `design-system` 4.3 | PRD US04 · đặc tả · `budget-logic` 4.3 | `feature/US04-category-report` | Chưa làm – PRD `US04-category-report.md` Chờ duyệt |
 | 9 | US20 Quyền riêng tư, xoá dữ liệu – nếu kịp | US01, US19 | US20 có trong Backlog (PO duyệt) · PRD US20 `Đã duyệt` · `PrivacyScreen`, `AboutScreen`, `DeleteAllDataScreen` `Xong` | PRD US20 · 3 đặc tả | `feature/US20-privacy-data` | Chưa có PRD |
 | 10 | US08 Xem lịch sử theo ngày – nếu kịp | US01 | PRD US08 `Đã duyệt` · `HistoryScreen` `Xong` | PRD US08 · đặc tả | `feature/US08-daily-history` | Chưa có PRD |
 
@@ -115,7 +115,7 @@ Hai người có thể chạy song song hai dòng **không phụ thuộc nhau** 
 | K1 – K4 | Hỏi năng lực 8 Developer → ADR-01 nền tảng → ADR-02 lưu trữ (tiêu chí từ `data-analysis.md` mục 11) → `technical-design.md` | `tech-decision` | `docs/architecture/ADR-01-app-platform.md`, `ADR-02-local-storage.md`, `technical-design.md` | Bước 4 của **mọi** story | Phát, Nghĩa, Bình Minh, Tiến | ADR-01, ADR-02 **Xong 26/11**; `technical-design.md` bản đầu 26/11, duyệt 27/11; K1 (hỏi nhanh) **chưa làm** |
 | D1, D2 | Đưa file khảo sát lên repo, đếm lại 2 tỷ lệ | `user-research` | `docs/evidence/survey/`, `00-research-log.md` | Mục "Bối cảnh" của PRD | Thương, Kiệt | 26/11 |
 | K5 | Chọn cách phát hành bản dùng thử | `tech-decision` | `ADR-03-trial-distribution.md` (`Đề xuất` 26/11: EAS Build APK) | B1, D5 | Phát, Nghĩa | Duyệt 27/11; build và thử cài đè trước 01/12 |
-| K6 | Chọn cách làm thông báo 21:00 | `tech-decision` | `ADR-04-reminder-notifications.md` | US05 bước 2 | Phát, Nghĩa | 01/12 |
+| K6 | Chọn cách làm thông báo 21:00 | `tech-decision` | `ADR-04-reminder-notifications.md` (`Đề xuất` 26/11: lịch cuộn 7 ngày) | US05 bước 2 | Phát, Nghĩa | Duyệt trước 01/12; đo giờ nhắc trên 2 máy trước 04/12 |
 | D5 | Tuyển 20 SV **dùng Android** (tối thiểu 5), hướng dẫn cài APK 3 bước (`technical-design.md` mục 5) | `user-research` | `docs/evidence/trial/recruitment.md` (không ghi tên, SĐT) | Dùng thử 04/12 | Thương, Kiệt | 01/12 |
 | B1 | Đóng gói bản dùng thử | `frontend-ui` | Bản build + mục 5 `technical-design.md` | Dùng thử 04/12 | Phát, Nghĩa | 03/12 |
 | T1 | Sprint 1 Review, Sprint 2 Planning | `scrum-sprint` (4.2) | `docs/sprints/sprint-1-review.md`, `sprint-2-planning.md` | — | Tân (SM) | 24/11 |
@@ -211,8 +211,9 @@ và docs/design/screens/<ScreenName>.md. Trạng thái "Chờ duyệt". Thêm d�
 ```
 Dùng skill frontend-ui. Mở docs/plans/00-master-plan.md mục 2a, lấy dòng đầu tiên có Trạng thái khác "Done".
 Kiểm từng cổng của dòng đó bằng cách mở đúng file; thiếu cổng nào thì DỪNG và báo, không code.
-Đủ cổng: tạo nhánh ở cột "Nhánh", đọc các file ở cột "Đọc trước", làm brainstorming → writing-plans
-(phần đầu plan và Global Constraints theo AGENTS.md mục 3) → executing-plans → verify-change, rồi mở Pull Request.
+Đủ cổng: tạo nhánh ở cột "Nhánh", đọc các file ở cột "Đọc trước". Đã có plan trong docs/plans/ (cột "Plan" của
+docs/requirements/README.md) → soát plan với PRD đã duyệt rồi executing-plans; chưa có → brainstorming → writing-plans
+(phần đầu plan và Global Constraints theo AGENTS.md mục 3) → executing-plans. Xong → verify-change, mở Pull Request.
 Cập nhật cột Trạng thái của dòng đó và cột "Plan" trong docs/requirements/README.md.
 ```
 
