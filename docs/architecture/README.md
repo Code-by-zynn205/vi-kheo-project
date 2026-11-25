@@ -13,5 +13,5 @@ Tạo bằng skill `tech-decision`. Chưa có ADR nền tảng `Đã chấp nh�
 
 | ADR | Câu hỏi | Trạng thái | Ngày |
 | :--- | :--- | :--- | :--- |
-| ADR-01 | App chạy trên nền tảng nào? | Chưa làm | — |
-| ADR-02 | Lưu dữ liệu trên máy bằng cách nào? | Chưa làm | — |
+| [ADR-01](ADR-01-app-platform.md) | App chạy trên nền tảng nào? – đề xuất PWA (React + TypeScript + Vite) | Đề xuất – chờ hỏi nhanh B1 và Developers duyệt | 26/11/2026 |
+| [ADR-02](ADR-02-local-storage.md) | Lưu dữ liệu trên máy bằng cách nào? – đề xuất IndexedDB qua Dexie | Đề xuất – chờ Developers duyệt | 26/11/2026 |
